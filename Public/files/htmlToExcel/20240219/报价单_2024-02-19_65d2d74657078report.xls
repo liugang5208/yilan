@@ -1,0 +1,118 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml" 
+     xmlns:o="urn:schemas-microsoft-com:office:office"
+     xmlns:x="urn:schemas-microsoft-com:office:excel"
+     xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name></x:Name><x:WorksheetOptions><x:Selected/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><!DOCTYPE html>
+<html lang="en">
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office"
+    xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        table#hrdftrtbl {
+            margin: 0in 0in 0in 900in;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body class="layui-anim layui-anim-fadein">
+    <!-- <img src='http://app.elccc.cn/Public/uploads/ads/6056dcca873bf.png' alt="My Image"> -->
+    <table width="100%" border="1" align="center" cellspacing="0" cellpadding="0" id="list-table" class="layui-table">
+
+        <thead>
+
+            <tr class="f12">
+                <!--<th colspan="7" style="height:50px; background-image: url(http://app.elccc.cn/Public/assets/images/1.png); background-size: cover;"></th>-->
+                <th colspan="7" style="height:30px;"> </th>
+                <!--<th colspan="7" style="height:30px;"><img src='http://app.elccc.cn/Public/assets/images/3.jpg' alt="My Image"></th>-->
+            </tr>
+            <tr class="f12">
+                <th colspan="7">产品报价单</th>
+            </tr>
+            <tr class="f12">
+                <th colspan="4" class="text-left" style="text-align: left;">报价单位：成都金川电缆集团有限公司</th>
+                <th colspan="3" class="text-left" style="text-align: left;">报价日期：2023-11-23</th>
+            </tr>
+            <tr class="f12">
+                <th colspan="4" class="text-left" style="text-align: left;">询价单位：</th>
+                <th colspan="3" class="text-left" style="text-align: left;">报价单编号：</th>
+            </tr>
+            <tr class="f12">
+                <th colspan="7" class="text-left" style="text-align: left;">项目名称：</th>
+            </tr>
+
+            <tr class="f12">
+                <th width="50" class="text-center">序号</th>
+                <th class="text-center" width="150" >产品名称</th>
+                <th class="text-center" width="100">计量单位</th>
+                <th class="text-center" width="100">数量</th>
+                <th class="text-center" width="100">单位（元）</th>
+                <th class="text-center" width="100">合计（元）</th>
+                <th class="text-center" width="100">报价备注项</th>
+                <!-- <th class="text-center" width="100" class="text-left">2222</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            
+            <tr id="" class=""><td class="text-center">1</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZCN-YJY<br>产品规格:3×185+2×95</td><td class="text-center">米</td><td class="text-center">416</td><td class="text-center">442.18</td><td class="text-center">197042.56</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">2</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZCN-YJY<br>产品规格:3×150+2×70</td><td class="text-center">米</td><td class="text-center">30</td><td class="text-center">350.52</td><td class="text-center">11264.40</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">3</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZCN-YJY<br>产品规格:3×95+1×50</td><td class="text-center">米</td><td class="text-center">139</td><td class="text-center">208.32</td><td class="text-center">31017.85</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">4</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZCN-YJY<br>产品规格:3×70+2×35</td><td class="text-center">米</td><td class="text-center">350</td><td class="text-center">170.82</td><td class="text-center">64043.00</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">5</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZCN-YJY<br>产品规格:3×35+2×16</td><td class="text-center">米</td><td class="text-center">161</td><td class="text-center">87.59</td><td class="text-center">15106.63</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">6</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZCN-YJY<br>产品规格:3×25+2×16</td><td class="text-center">米</td><td class="text-center">275</td><td class="text-center">69.06</td><td class="text-center">20344.50</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">7</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZCN-YJY<br>产品规格:4×185+1×95</td><td class="text-center">米</td><td class="text-center">61</td><td class="text-center">497.99</td><td class="text-center">32540.45</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">8</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZCN-YJY<br>产品规格:4×150+1×70</td><td class="text-center">米</td><td class="text-center">53</td><td class="text-center">396.77</td><td class="text-center">22526.06</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">9</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZCN-YJY<br>产品规格:4×120+1×70</td><td class="text-center">米</td><td class="text-center">64</td><td class="text-center">338.79</td><td class="text-center">23226.24</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">10</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZCN-YJY<br>产品规格:4×95+1×50</td><td class="text-center">米</td><td class="text-center">910</td><td class="text-center">265.23</td><td class="text-center">258540.10</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">11</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZCN-YJY<br>产品规格:4×35+1×16</td><td class="text-center">米</td><td class="text-center">566</td><td class="text-center">96.98</td><td class="text-center">58796.08</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">12</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZCN-YJY<br>产品规格:4×25+1×16</td><td class="text-center">米</td><td class="text-center">508</td><td class="text-center">74.08</td><td class="text-center">40309.80</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">13</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZCN-YJY<br>产品规格:5×16</td><td class="text-center">米</td><td class="text-center">524</td><td class="text-center">52.74</td><td class="text-center">29606.00</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">14</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZCN-YJY<br>产品规格:5×10</td><td class="text-center">米</td><td class="text-center">50</td><td class="text-center">33.85</td><td class="text-center">1813.00</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">15</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZCN-YJY<br>产品规格:5×6.0</td><td class="text-center">米</td><td class="text-center">1069</td><td class="text-center">20.71</td><td class="text-center">23710.42</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">16</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZCN-YJY<br>产品规格:5×4.0</td><td class="text-center">米</td><td class="text-center">13795</td><td class="text-center">14.41</td><td class="text-center">212994.80</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">17</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZCN-YJY<br>产品规格:5×2.5</td><td class="text-center">米</td><td class="text-center">2134</td><td class="text-center">9.73</td><td class="text-center">22236.28</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">18</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZC-YJY<br>产品规格:3×2.5</td><td class="text-center">米</td><td class="text-center">2179</td><td class="text-center">5.25</td><td class="text-center">12245.98</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">19</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZC-YJY<br>产品规格:3×25+2×16</td><td class="text-center">米</td><td class="text-center">442</td><td class="text-center">66.66</td><td class="text-center">31563.22</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">20</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZC-YJY<br>产品规格:4×150+1×70</td><td class="text-center">米</td><td class="text-center">189</td><td class="text-center">391.66</td><td class="text-center">79294.95</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">21</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZC-YJY<br>产品规格:4×120+1×70</td><td class="text-center">米</td><td class="text-center">96</td><td class="text-center">334.06</td><td class="text-center">34353.60</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">22</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZC-YJY<br>产品规格:4×95+1×50</td><td class="text-center">米</td><td class="text-center">163</td><td class="text-center">260.95</td><td class="text-center">45563.39</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">23</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZC-YJY<br>产品规格:4×70+1×35</td><td class="text-center">米</td><td class="text-center">95</td><td class="text-center">189.00</td><td class="text-center">19233.70</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">24</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZC-YJY<br>产品规格:4×50+1×25</td><td class="text-center">米</td><td class="text-center">32</td><td class="text-center">130.70</td><td class="text-center">4480.32</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">25</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZC-YJY<br>产品规格:4×35+1×16</td><td class="text-center">米</td><td class="text-center">38</td><td class="text-center">94.17</td><td class="text-center">3833.06</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">26</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZC-YJY<br>产品规格:4×25+1×16</td><td class="text-center">米</td><td class="text-center">188</td><td class="text-center">71.59</td><td class="text-center">14417.72</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">27</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZC-YJY<br>产品规格:4×2.5</td><td class="text-center">米</td><td class="text-center">39</td><td class="text-center">7.04</td><td class="text-center">294.06</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">28</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZC-YJY<br>产品规格:5×16</td><td class="text-center">米</td><td class="text-center">3411</td><td class="text-center">50.63</td><td class="text-center">184978.53</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">29</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZC-YJY<br>产品规格:5×16</td><td class="text-center">米</td><td class="text-center">1490</td><td class="text-center">50.63</td><td class="text-center">80802.70</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">30</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZC-YJY<br>产品规格:5×10</td><td class="text-center">米</td><td class="text-center">505</td><td class="text-center">32.06</td><td class="text-center">17341.70</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">31</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZC-YJY<br>产品规格:5×10</td><td class="text-center">米</td><td class="text-center">60</td><td class="text-center">32.06</td><td class="text-center">2060.40</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">32</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZC-YJY<br>产品规格:3×10</td><td class="text-center">米</td><td class="text-center">70</td><td class="text-center">19.12</td><td class="text-center">1433.60</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">33</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZC-YJY<br>产品规格:5×6.0</td><td class="text-center">米</td><td class="text-center">2111</td><td class="text-center">19.19</td><td class="text-center">43402.16</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">34</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZC-YJY<br>产品规格:3×6.0</td><td class="text-center">米</td><td class="text-center">34</td><td class="text-center">11.51</td><td class="text-center">419.22</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">35</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZC-YJY<br>产品规格:5×4.0</td><td class="text-center">米</td><td class="text-center">2568</td><td class="text-center">13.08</td><td class="text-center">35977.68</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">36</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZC-YJY<br>产品规格:5×4.0</td><td class="text-center">米</td><td class="text-center">827</td><td class="text-center">13.08</td><td class="text-center">11586.27</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">37</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:RTTZ/YTTW<br>产品规格:3×4.0</td><td class="text-center">米</td><td class="text-center">844</td><td class="text-center">20.30</td><td class="text-center">18525.80</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">38</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:RTTZ/YTTW<br>产品规格:3×6.0</td><td class="text-center">米</td><td class="text-center">588</td><td class="text-center">25.02</td><td class="text-center">15911.28</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">39</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:RTTZ/YTTW<br>产品规格:5×4.0</td><td class="text-center">米</td><td class="text-center">20</td><td class="text-center">26.28</td><td class="text-center">568.40</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">40</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:RTTZ/YTTW<br>产品规格:5×6.0</td><td class="text-center">米</td><td class="text-center">20</td><td class="text-center">33.36</td><td class="text-center">721.60</td><td class="text-center"></td></tr><tr id="" class=""><td class="text-center">41</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:RTTZ/YTTW<br>产品规格:4×35+1×16</td><td class="text-center">米</td><td class="text-center">2097</td><td class="text-center">123.83</td><td class="text-center">280830.24</td><td class="text-center"></td></tr>
+            <!--<tr id="" class="">-->
+            <!--    <td class="text-center">1111</td>-->
+            <!--    <td class="text-center">222</td>-->
+            <!--    <td class="text-center">333</td>-->
+            <!--    <td class="text-center">4444</td>-->
+            <!--    <td class="text-center">555</td>-->
+            <!--    <td class="text-center">555</td>-->
+            <!--    <td class="text-center">555</td>-->
+
+            <!--</tr>-->
+            <!--<tr id="" class="">-->
+            <!--    <td class="text-center">1111</td>-->
+            <!--    <td class="text-center">222</td>-->
+            <!--    <td class="text-center">333</td>-->
+            <!--    <td class="text-center">4444</td>-->
+            <!--    <td class="text-center">555</td>-->
+            <!--    <td class="text-center">555</td>-->
+            <!--    <td class="text-center">555</td>-->
+
+            <!--</tr>-->
+            <tr id="" class="">
+                <td colspan="2" class="text-center">共计：41</td>
+                <!--<td colspan="2" class="text-center"><img src='http://app.elccc.cn/Public/uploads/ads/6056dcca873bf.png' alt="My Image"></td>-->
+                <!--<td class="text-center">222</td>-->
+                <td colspan="3" class="text-center">累计数量：39211</td>
+                <td class="text-center">2004957.75</td>
+                <td class="text-center"></td>
+
+            </tr>
+            
+            <tr id="" class="">
+                <td colspan="5" class="text-center">合计大写金额：贰佰万肆仟玖佰伍拾柒元柒角伍分</td>
+                <td colspan="2" class="text-center">质量标准：国家标准</td>
+            </tr>
+            
+            <tr id="" class="">
+                <td colspan="4" class="text-center">付款方式：款到发货</td>
+                <td colspan="3" class="text-center">包装费用：报价包含产品包装</td>
+            </tr>
+            
+            <tr id="" class="">
+                <td colspan="4" class="text-center">运输方式：专车运输</td>
+                <td colspan="3" class="text-center">运输费用：买方负责</td>
+            </tr>
+            <tr id="" class="">
+                <td colspan="4" class="text-center">报价人员：贾</td>
+                <td colspan="3" class="text-center">联系方式：</td>
+            </tr>
+
+            <tr id="" class="">
+                <td colspan="7" class="text-center"></td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+
+</html></body></html>

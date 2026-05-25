@@ -1,0 +1,781 @@
+<div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
+    <div class="row">
+        <div class="col-lg-8 p-r-0 title-margin-right">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>公式计算</h1>
+                </div>
+            </div>
+        </div>
+        <!-- /# column -->
+        <!--<div class="col-lg-4 p-l-0 title-margin-left">-->
+        <!--    <div class="page-header">-->
+        <!--        <div class="page-title">-->
+                    
+        <!--        </div>-->
+        <!--    </div>-->
+        <!--</div>-->
+        <!-- /# column -->
+    </div>
+    <!-- /# row -->
+    <section id="main-content">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card alert">
+                    <div class="card-header">
+                        <h4>公式计算</h4>
+                        <div class="card-header-right-icon">
+                            <ul>
+                                <li class="doc-link">
+                                    <a class="btn btn-xs btn-info"  data-toggle="modal" data-target="#myModal">添加</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            
+                            <div class="form-group" style="width:200px;">
+                            
+                                <select name="cate.pid" ng-model="cate.pid" class="form-control">
+                                    <!--<option value="0">暂不选择</option>-->
+                                    <!-- <volist name="cate_list" id="v">-->
+                                    <!--    <option value="{$v.id}">{$v.name}</option>-->
+                                    <!--</volist>-->
+                                     <option  value="{{v.id}}" ng-repeat="v in cate_list">{{v.name}}</option>
+                                </select>
+                             </div>
+                            <div style="display:flex;height:50px;justify-content:space-between">
+                                {{cate_curr.name}}
+                                <!--<span ng-click='updateinfo(cate_curr.id)'>{{cate_curr.name}}</span>-->
+                                <div style="margin-left:10px">
+                                    <a ng-click='updateinfo(cate_curr.id)' class="btn btn-info btn-xs">编辑</a>
+                                    <a class="btn btn-xs btn-info" data-my-pid='{{cate_curr.id}}'  data-toggle="modal" ng-click="addForm(cate_curr.id)">添加下级</a>
+                                     <a class="btn btn-danger btn-xs" ng-click="dels(cate_curr.id)">删除</a>
+                                </div>
+                                <!--<i class="glyphicon glyphicon-pencil" style="font-size: 12px;"></i> -->
+                                 <!--<a ng-click='updateinfo({{cate_curr.id}})' class="btn btn-info btn-xs">编辑</a>-->
+                            </div>
+                            <!--二级分类-->
+                             <div style="overflow-x:auto;white-space: nowrap;display:flex;align-content: space-around;width:100%;flex-direction: row;">
+                                
+                                <div style="display:flex;justify-content:space-between;width:130px;margin-left:5px;border: 0.5px solid black;" value="{{v.id}}" ng-repeat="v in cate_list_p">
+                                    <div ng-click="changeCateFirst2(v.id)">
+                                        {{v.name}}
+                                    </div>
+                                    
+                                    <div style="">
+                                        <i ng-click="updateinfo(v.id)" class="glyphicon glyphicon-pencil" style="font-size: 12px;"></i>
+                                        <a style="margin-left:5px" class="btn btn-xs btn-info" data-my-pid="v.id"  data-toggle="modal" ng-click="addForm(v.id)">+</a>
+                                        <a class="btn btn-danger btn-xs" ng-click="dels(v.id)">-</a>
+                                    </div>
+                                
+                                </div>
+                           
+                            </div>
+                            <!--第三级分类-->
+                            <div style=";width:100%;margin-top:20px;">
+                                
+                                <div style="display:flex;justify-content:space-between;margin-left:5px;border: 0.5px solid black;" value="{{v.id}}" ng-repeat="v in cate_list_pp">
+                                    <div style="display:flex">
+                                        <div> {{v.p_name}}</div>
+                                        <div style="margin-left:20px"> {{v.name}}</div>
+                                       
+                                    </div>
+                                    <div>
+                                        <a class="btn btn-xs btn-info" data-id="{{v.id}}"  data-name="{{v.name}}" ng-click="changeShow(v.id)">管理表格</a>
+                                     <a class="btn btn-danger btn-xs" ng-click="dels('{$v.id}')">删除</a>
+                                    </div>
+                                    
+                                </div>        
+                            </div>
+                             <!--管理表格-->
+                           <div style="margin-top:20px;hidden" id="cate_form_new">
+                               
+                    <div class="modal-content">
+                <div class="modal-header">
+                    <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                    <h4 class="modal-title" id="cateFormName">{{cate_form.cateFormName}}</h4>
+                </div>
+                  <input type="hidden" name="id" ng-model="cate_form.id" id="id" class="form-control" />
+                <div class="modal-body">
+                    
+                     <h5 class="p-b-5" style="display:flex;justify-content:space-between">
+                         <div style="display:flex;align-items:center">
+                            <a style="display:flex;">
+                                <div style="width:200px;">
+                                    <select ng-change="onChangeLabel()" class="form-control" ng-model="cate_form.infos.new_label_id">
+                                    <!--<option value="0">暂不选择</option>-->
+                                 <option  value="{{v.id}}" ng-repeat="v in cate_form.label_list">{{v._name}}</option>
+                                </select>
+                                </div>
+                                
+                               
+                            </a>
+                         <div style="margin-left:20px;display:flex;">{{cate_form.infos.price}}</div>
+                         
+                        </div>
+                        
+                          <div style="display:flex;align-items:center;">
+                              
+                              <a class="btn btn-info btn-xs m-l-6 pull-right" data-toggle="modal" data-target="#myImport">导入数据</a>
+                              <a ng-click="cateFormUpdate()" class="m-l-6 btn btn-info btn-xs pull-right">更新数据</a>
+                              <a ng-click="cateFormDel()" class="btn btn-danger btn-xs m-l-10 pull-right">清空表格</a>
+                            
+                            <!--<a ng-click="addGoodsPre()" class="btn btn-info btn-xs pull-right m-r-10">添加商品</a>-->
+                            
+                          </div>
+                            
+                
+                        </h5>
+
+                   <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td width="50">#序号</td>
+                                    <td>规格</td>
+                                    <td>重量(kg)</td>
+                                    <td>单价</td>
+                                    <td>基础价</td>
+                                    <td>溢价率</td>
+                                    <td>执行价</td>
+                            
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr ng-repeat=" x in cate_form.list">
+                                    <td>{{x.number}}</td>
+                                    <td><input type="text" class="form-control input-sm" ng-model="x.name"/></td>
+                                    <td><input type="text" class="form-control input-sm" ng-model="x.weight"/></td>
+                                    <td><input type="text" class="form-control input-sm" ng-model="x.price"/></td>
+                                    <td><input type="text" class="form-control input-sm" ng-model="x.calc_base_price" disabled/></td>
+                                    <td><input type="text" class="form-control input-sm" ng-model="x.extra_ratio"/></td>
+                                    <td><input type="text" class="form-control input-sm" value="{{x.end_price}}" disabled/></td>
+                                 
+                                    
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    
+
+                </div>
+                
+            </div>      
+                            </div>
+                            
+                            
+                            <!--<table class="table">-->
+                            <!--    <thead>-->
+                            <!--        <tr>-->
+                            <!--            <th>#</th>-->
+                            <!--            <th>名称</th>-->
+                                        
+                            <!--            <th width="30%">管理</th>-->
+                            <!--        </tr>-->
+                            <!--    </thead>-->
+                            <!--    <tbody>-->
+
+                            <!--    <volist name="list" id="v">-->
+                            <!--        <tr>-->
+                            <!--            <th scope="row">{$v.id}</th>-->
+                            <!--            <td>{$v.tree_label}{$v.name}</td>-->
+                            <!--            <td>-->
+                                           
+                            <!--                <a ng-click="updateinfo('{$v.id}')" class="btn btn-info btn-xs">编辑</a>-->
+                            <!--            <if condition="$v.level lt 3">-->
+                            <!--                 <a class="btn btn-xs btn-info" data-my-pid="{$v.id}"  data-toggle="modal" data-target="#myModal">添加下级</a>-->
+                                            <!--<a ng-click="updateinfo3('{$v.id}')" class="btn btn-info btn-xs">添加下级</a>-->
+                            <!--            </if>  -->
+                            <!--            <if condition="$v.level eq 3">-->
+                            <!--                 <a class="btn btn-xs btn-info" data-id="{$v.id}"  data-name="{$v.name}" ng-click="changeShow({$v.id})">管理表格</a>-->
+                                        
+                            <!--            </if>-->
+                            <!--                <a class="btn btn-danger btn-xs" ng-click="dels('{$v.id}')">删除</a>-->
+                            <!--            </td>-->
+                            <!--        </tr>-->
+                            <!--    </volist>-->
+
+                            <!--    </tbody>-->
+                            <!--</table>-->
+
+                            <!--<nav aria-label="Page navigation">-->
+                            <!--    <ul class="pagination">{$list.show}</ul>-->
+                            <!--</nav>-->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width:35%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">添加</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form name="ador">
+                          <!--<input type="" name="pid" id="pid" class="form-control" />-->
+                           <input type="hidden" name="pid" id="pid" class="form-control" />
+                          
+                        <div class="form-group">
+                            <label>名称</label>
+                            <input type="text" name="name" class="form-control"/>
+                        </div>
+                       
+                        <!--<div class="form-group">-->
+                        <!--    <label>状态</label>-->
+                        <!--    <select name="status" class="form-control">-->
+                        <!--        <option value="1">使用</option>-->
+                        <!--        <option value="0">暂停</option>-->
+                        <!--    </select>-->
+                        <!--</div>-->
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" ng-click="addor()">添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width:35%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">更新</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form>
+                        <div class="form-group">
+                            <label>名称</label>
+                            <input type="text" name="name" class="form-control" ng-model="infos.name"/>
+                        </div>
+                        
+                        <!--<div class="form-group">-->
+                        <!--    <label>状态</label>-->
+                        <!--    <select name="status" class="form-control" ng-model="infos.status">-->
+                        <!--        <option value="1">使用</option>-->
+                        <!--        <option value="0">暂停</option>-->
+                        <!--    </select>-->
+                        <!--</div>-->
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" ng-click="updateCats()">更新</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="cateForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width:70%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="cateFormName">{{cate_form.cateFormName}}</h4>
+                </div>
+                  <input type="hidden" name="id" ng-model="cate_form.id" id="id" class="form-control" />
+                <div class="modal-body">
+                    
+                     <h5 class="p-b-5" style="display:flex;justify-content:space-between">
+                         <div style="display:flex;align-items:center">
+                            <a style="display:flex;">
+                                <div style="width:200px;">
+                                    <select ng-change="onChangeLabel()" class="form-control" ng-model="cate_form.infos.new_label_id">
+                                    <!--<option value="0">暂不选择</option>-->
+                                 <option  value="{{v.id}}" ng-repeat="v in cate_form.label_list">{{v._name}}</option>
+                                </select>
+                                </div>
+                                
+                               
+                            </a>
+                         <div style="margin-left:20px;display:flex;">{{cate_form.infos.price}}</div>
+                         
+                        </div>
+                        
+                          <div style="display:flex;align-items:center;">
+                              
+                              <a class="btn btn-info btn-xs m-l-6 pull-right" data-toggle="modal" data-target="#myImport">导入数据</a>
+                              <a ng-click="cateFormUpdate()" class="m-l-6 btn btn-info btn-xs pull-right">更新数据</a>
+                              <a ng-click="cateFormDel()" class="btn btn-danger btn-xs m-l-10 pull-right">清空表格</a>
+                            
+                            <!--<a ng-click="addGoodsPre()" class="btn btn-info btn-xs pull-right m-r-10">添加商品</a>-->
+                            
+                          </div>
+                            
+                
+                        </h5>
+
+                   <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td width="50">#序号</td>
+                                    <td>规格</td>
+                                    <td>重量(kg)</td>
+                                    <td>单价</td>
+                                    <td>基础价</td>
+                                    <td>溢价率</td>
+                                    <td>执行价</td>
+                            
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr ng-repeat=" x in cate_form.list">
+                                    <td>{{x.number}}</td>
+                                    <td><input type="text" class="form-control input-sm" ng-model="x.name"/></td>
+                                    <td><input type="text" class="form-control input-sm" ng-model="x.weight"/></td>
+                                    <td><input type="text" class="form-control input-sm" ng-model="x.price"/></td>
+                                    <td><input type="text" class="form-control input-sm" ng-model="x.calc_base_price" disabled/></td>
+                                    <td><input type="text" class="form-control input-sm" ng-model="x.extra_ratio"/></td>
+                                    <td><input type="text" class="form-control input-sm" value="{{x.end_price}}" disabled/></td>
+                                 
+                                    
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    
+
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+    <!-- 导入商品-->
+    <div class="modal fade" id="myImport" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width:50%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">导入商品数据</h4>
+                </div>
+                <div class="modal-body">
+
+
+                    <div class="form-group">
+                        <label>文件</label>
+                        <input type="file" name="file" id='file' class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <!--<label>下载模板</label>-->
+                        <a href="//app.elccc.cn/Public/file/公式计算模板.xlsx">点击下载模板</a>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" ng-click="cateFormImport()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+
+</div>
+
+
+
+
+<script>
+ $("#cate_form_new").hide();
+// $(document).on('show.bs.modal', '#cateForm', function (event) {
+//     console.log(111);
+//   // 获取触发元素，即打开模态框的按钮
+//   var button = $(event.relatedTarget);
+//   // 获取传递的自定义参数
+//   var id = button.data('id');
+//   var name = button.data('name');
+//   console.log(id);
+//   console.log(name);
+//   // 设置模态框内容
+//   var modal = $(this);
+
+//   modal.find('#id').val(id);
+//   modal.find('#cateFormName').text(name);
+// });
+
+// $(document).on('show.bs.modal', '#myModal', function (event) {
+//     console.log(32);
+//   // 获取触发元素，即打开模态框的按钮
+//   var button = $(event.relatedTarget);
+//   // 获取传递的自定义参数
+//   var param = button.data('my-pid');
+//   // 设置模态框内容
+//   var modal = $(this);
+//   console.log(param);
+//   modal.find('#pid').val(param);
+//   $scope.init();
+// });
+
+
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function ($scope, $http) {
+        $scope.cate_form = [];
+        $scope.cate_form.infos;
+        $scope.cate_form.list = [];
+        $scope.cate_form.id = 0;
+        $scope.cate_form.cateFormName = "";
+        
+        $scope.cate =[];
+        $scope.cate.pid = 0;
+        $scope.cate_list = [];
+        
+        $scope.cate_curr = [];
+        $scope.cate_list_p = [];
+        
+        $scope.three_cate_curr_id = [];
+        $scope.cate_list_pp = [];
+        ////////////////////////////////////////////////////////////////////////
+        
+            /**
+     * 添加
+     * @returns {undefined}
+     */
+    $scope.addor = function() {
+        var temp = $("form[name='ador']").serializeArray();
+        var data = objToArray(temp);
+        var baseurl = "{:U('NewCate/add','model=new_cate')}";
+        // data.pid =  $scope.cate.pid;
+        //////
+        $.ajax({
+            url: baseurl,
+            type: "post",
+            data: data,
+            dataType: "json",
+            success: function (res) {
+                if (res.status != 1) {
+                    return swal('提示', res.msg, "error");
+                }else{
+                    $("#myModal").modal("hide");
+                    $scope.changeCate(); 
+                }
+                // alert(33);
+                // window.location.reload();
+            },
+            error: function () {
+
+            },
+        });
+    }
+
+// $(document).on('show.bs.modal', '#myModal', function (event) {
+//     console.log(32);
+//   // 获取触发元素，即打开模态框的按钮
+//   var button = $(event.relatedTarget);
+//   // 获取传递的自定义参数
+//   var param = button.data('my-pid');
+//   // 设置模态框内容
+//   var modal = $(this);
+//   console.log(param);
+//   modal.find('#pid').val(param);
+//   $scope.init();
+// });
+
+$scope.addForm = function(id){
+    console.log(55454);
+console.log(id)
+  // 设置模态框内容
+  
+  $('#pid').val(id);
+  
+ $("#myModal").modal("show");
+}
+        /**
+         * 通讯操作
+         * @param {type} url
+         * @param {type} data
+         * @returns {undefined}
+         */
+        $scope.commAjax = function (url, data, success) {
+            $http({
+                method: "POST",
+                url: url,
+                data: data,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var p in obj) {
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    }
+                    return str.join("&");
+                }
+            }).success(function (response) {
+                success(response);
+            });
+        };
+        //切换导体
+         $scope.$watch('cate.pid', function(newVal,oldVal) {
+    
+              console.log(4323);
+              $scope.cate_form = [];
+                   $scope.cate_curr = [];
+                $scope.cate_list_p = [];
+                
+                $scope.three_cate_curr_id = [];
+                $scope.cate_list_pp = [];
+                 $("#cate_form_new").hide();
+              if(newVal != oldVal && newVal > 0){
+                    
+                  $scope.changeCate();
+                   
+                }else if(newVal == 0){
+                     $scope.changeCateFirst();
+                }
+    
+         });
+         
+         $scope.changeCateFirst = function () {
+            var param = {id: 0};
+            //////
+            $scope.commAjax("{:U('NewCate/ajaxCateFirst')}", param, function (res) {
+                if (res.status !== 1) {
+                    return swal("错误", res.msg, "error");
+                }
+                
+                if (res.data.cate_list != null) {
+                    $scope.cate_list = res.data.cate_list;
+                    $scope.cate.pid = res.data.cate_list[0].id;
+                    $scope.cate.id = res.data.cate_list[0].id;
+                } else {
+                    $scope.cate_list = [];
+  
+                }
+            });
+        };
+        
+        $scope.changeCateFirst2 = function (id) {
+            $scope.three_cate_curr_id = id
+            var param = {id: $scope.three_cate_curr_id};
+            //////
+            $scope.commAjax("{:U('NewCate/ajaxCateFirst2')}", param, function (res) {
+                if (res.status !== 1) {
+                    return swal("错误", res.msg, "error");
+                }
+                
+                if (res.data.cate_list != null) {
+                    $scope.cate_list_pp = res.data.cate_list;
+
+                    //清空管理表格
+                    
+                    $("#cate_form_new").hide();
+                } 
+            });
+        };
+         
+         $scope.changeCate = function () {
+            var param = {id: $scope.cate.pid};
+            //////
+            $scope.commAjax("{:U('NewCate/ajaxCate')}", param, function (res) {
+                if (res.status !== 1) {
+                    return swal("错误", res.msg, "error");
+                }
+                
+                if (res.data.info != null) {
+                    $scope.cate_curr = res.data.info;
+                     $scope.cate_list_p = res.data.cate_list_p;
+                } else {
+                    $scope.cate_curr = [];
+                     $scope.cate_list_p = [];
+                }
+            });
+        };
+         
+        
+        $scope.changeShow = function (index) {
+            $scope.cate_form.id = index;
+            $("#cate_form_new").show();
+            $scope.init();
+        };
+        
+        $scope.init = function () {
+            var param = {id: $scope.cate_form.id};
+            //////
+            $scope.commAjax("{:U('NewCate/cate_form')}", param, function (res) {
+                if (res.status !== 1) {
+                    return swal("错误", res.msg, "error");
+                }
+                $scope.cate_form.infos = res.data.info;
+                $scope.cate_form.label_list = res.data.label_list;
+                $scope.cate_form.cateFormName = res.data.info.name;
+                if (res.data.info != null) {
+                    $scope.cate_form.list = res.data.list;
+                } else {
+                   
+                    $scope.cate_form.list = [];
+                }
+            });
+        };
+        
+        //切换更新
+        $scope.cateUpate = function () {
+            var param = $scope.cate_form.infos;
+            //////
+            $scope.commAjax("{:U('NewCate/cate_update')}", param, function (res) {
+                if (res.status !== 1) {
+                    return swal("错误", res.msg, "error");
+                }
+                $scope.init();
+            });
+        };
+        //导入更新
+        $scope.cateFormImport = function () {
+            var param = $scope.cate_form.infos;
+          
+            layer.load(2);
+            /////////
+            $.ajaxFileUpload({
+                url: "{:U('NewCate/cate_form_import')}",
+                secureuri: false,
+                fileElementId: "file",
+                dataType: 'json',
+                data: param,
+                success: function (data) {
+                    layer.closeAll();
+                    if (data.status !== 1) {
+                        return swal("错误", data.msg, "error");
+                    }
+                    $("#myImport").modal("hide");
+                    $scope.init();
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        };
+        //点击提交更新
+        $scope.cateFormUpdate = function () {
+             var info = $scope.cate_form.infos;
+             
+            layer.load(2);
+            var param = {
+                info: JSON.stringify(info),
+                form: JSON.stringify($scope.cate_form.list),
+             
+            };
+            $scope.commAjax("{:U('NewCate/cate_form_update')}", param, function (res) {
+                layer.closeAll('loading');
+                if (res.status !== 1) {
+                    return swal("错误", res.msg, "error");
+                }
+                return $scope.init();
+                //return swal("提示", "更新成功", "success");
+            });
+            
+            
+        };
+        //删除
+        $scope.cateFormDel = function () {
+            var param = $scope.cate_form.infos;
+            //////
+            $scope.commAjax("{:U('NewCate/cate_form_del')}", param, function (res) {
+                if (res.status !== 1) {
+                    return swal("错误", res.msg, "error");
+                }
+                $scope.init();
+            });
+        };
+        
+        //监听切换
+    $scope.$watch('cate_form.infos.new_label_id', function(newVal,oldVal) {
+        console.log(2233);
+         console.log(oldVal);
+        console.log(newVal);
+
+      if(newVal != oldVal && newVal > 0){
+            
+          $scope.cateUpate();
+        }
+    
+  });
+  
+        //   $scope.onChangeLabel = function(newVal,oldVal){
+        //       console.log(11111);
+        //       console.log(oldVal);
+        //       console.log(newVal);
+        //       var newVal = $scope.cate_form.infos.new_label_id;
+        //       console.log(newVal);
+        //      if(newVal != oldVal && newVal > 0){
+                    
+        //           $scope.cateUpate();
+        //         }
+            
+                  
+        // }
+ 
+
+        ////////////////////////////////////////////////////////////////////////
+
+        $scope.updateinfo = function (id) {
+            $scope.commAjax("{:U('NewCate/editGet','model=new_cate')}", {id: id}, function (res) {
+                $scope.infos = res.data;
+                $("#myEdit").modal("show");
+            });
+        }
+
+        $scope.updateCats = function () {
+            var param = $scope.infos;
+            param.ids = param.id;
+            /////////
+            $.ajax({
+                url: "{:U('NewCate/edit','model=new_cate')}",
+                type: "post",
+                dataType: 'json',
+                data: param,
+                success: function (data) {
+                    if (data.status !== 1) {
+                        return swal("错误", data.msg, "error");
+                    }else{
+                    $("#myEdit").modal("hide");
+                    $scope.changeCate(); 
+                }
+                    
+                    // window.location.reload();
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+
+        $scope.dels = function (ids) {
+            var param = {id: ids};
+            $scope.commAjax("{:U('NewCate/cate_del')}", param, function (res) {
+                if (res.status !== 1) {
+                    return swal("错误", res.msg, "error");
+                }else{
+                    $("#myModal").modal("hide");
+                    $scope.changeCate(); 
+                }
+                // window.location.reload();
+            });
+        }
+
+    });
+
+</script>
+
+

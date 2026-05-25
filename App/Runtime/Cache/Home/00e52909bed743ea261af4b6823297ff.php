@@ -1,0 +1,78 @@
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>易缆管理中心</title>
+        <!-- ================= Favicon ================== -->
+        <!-- Styles -->
+        <link href="/Public/assets/css/lib/font-awesome.min.css" rel="stylesheet">
+        <link href="/Public/assets/css/lib/themify-icons.css" rel="stylesheet">
+        <link href="/Public/assets/css/lib/bootstrap.min.css" rel="stylesheet">
+        <link href="/Public/assets/css/lib/unix.css" rel="stylesheet">
+        <link href="/Public/assets/css/style.css" rel="stylesheet">
+    </head>
+
+    <body class="bg-primary">
+
+        <div class="unix-login">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-lg-offset-3">
+                        <div class="login-content">
+                            <div class="login-logo">
+                                <a><span>易缆管理中心</span></a>
+                            </div>
+                            <div class="login-form">
+                                <h4>管理员登录</h4>
+                                <form>
+                                    <div class="form-group">
+                                        <label>账号</label>
+                                        <input type="text" class="form-control" name="name" placeholder="请输入账号">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>密码</label>
+                                        <input type="password" class="form-control" name="passwd" placeholder="请输入密码">
+                                    </div>
+                                    <a href="javascript:onLogin();" class="btn btn-primary btn-flat m-b-30 m-t-30">登录</a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- sweetalert -->
+        <script src="/Public/assets/js/lib/jquery.min.js"></script>
+
+        <link href="/Public/libs/sweet-alert2/sweetalert2.min.css" rel="stylesheet">
+        <script src="/Public/libs/sweet-alert2/sweetalert2.min.js"></script>
+        <script src="/Public/libs/common.js"></script>
+        <script>
+
+            function onLogin() {
+                var temp = $("form").serializeArray();
+                var data = objToArray(temp);
+                $.ajax({
+                    url: "<?php echo U('Login/auths');?>",
+                    type: "POST",
+                    data: data,
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.status !== 1) {
+                            return swal("错误", res.msg, "error");
+                        }
+                        window.location.href = res.data;
+                    },
+                    error: function (st) {
+                        console.log(st);
+                    }});
+            }
+
+        </script>
+
+    </body>
+</html>

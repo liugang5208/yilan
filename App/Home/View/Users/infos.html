@@ -1,0 +1,162 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-8 p-r-0 title-margin-right">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>注册用户</h1>
+                </div>
+            </div>
+        </div>
+        <!-- /# column -->
+        <div class="col-lg-4 p-l-0 title-margin-left">
+            <div class="page-header">
+                <div class="page-title">
+                    <ol class="breadcrumb text-right">
+                        <li><a href="{:U('Users/index')}">注册用户</a></li>
+                        <li class="active">注册用户</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /# column -->
+    </div>
+    <!-- /# row -->
+    <section id="main-content">
+
+        <div class="card alert">
+            <div class="card-header">
+                <h4>注册用户详情</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="user-photo m-b-10">
+                                    <img class="img-responsive" src="__PUBLIC__/uploads{$info.headimgurl}" alt="">
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="user-profile-name">{$info.nickname}</div>
+                                <div class="custom-tab user-profile-tab">
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active"><a href="#1" aria-controls="1" role="tab" data-toggle="tab">个人信息</a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane active" id="1">
+                                            <div class="contact-information">
+                                                <div class="phone-content">
+                                                    <span class="contact-title">账户类别</span>
+                                                    <span class="phone-number">{$ac_type|acType=$info['ac_type'],###}</span>
+                                                </div>
+                                                <div class="phone-content">
+                                                    <span class="contact-title">用户等级</span>
+                                                    <span class="phone-number">{$ac_level|getUsersLv=$info['ac_level'],###}</span>
+                                                </div>
+                                                <div class="website-content">
+                                                    <span class="contact-title">签约用户</span>
+                                                    <span class="contact-website">{$info['ac_credit']>0?'是':'否'}</span>
+                                                </div>
+                                                <div class="skype-content">
+                                                    <span class="contact-title">电话</span>
+                                                    <span class="contact-skype">{$info.phone}</span>
+                                                </div>
+                                                <div class="address-content">
+                                                    <span class="contact-title">省份</span>
+                                                    <span class="mail-address">{$info.p_name}</span>
+                                                </div>
+                                                <div class="gender-content">
+                                                    <span class="contact-title">城市</span>
+                                                    <span class="gender">{$info.c_name}</span>
+                                                </div>
+                                                <div class="phone-content">
+                                                    <span class="contact-title">地区</span>
+                                                    <span class="phone-number">{$info.l_name}</span>
+                                                </div>
+                                                <div class="phone-content">
+                                                    <span class="contact-title">街道</span>
+                                                    <span class="phone-number">{$info.street}</span>
+                                                </div>
+                                                <div class="birthday-content">
+                                                    <span class="contact-title">姓名</span>
+                                                    <span class="birth-date">{$info.name}</span>
+                                                </div>
+                                                <div class="phone-content">
+                                                    <span class="contact-title">身份证号</span>
+                                                    <span class="phone-number">{$info.idcard}</span>
+                                                </div>
+                                                <div class="phone-content">
+                                                    <span class="contact-title">联系人</span>
+                                                    <span class="phone-number">{$info.manager}</span>
+                                                </div>
+                                                <div class="email-content">
+                                                    <span class="contact-title">联系电话</span>
+                                                    <span class="contact-email">{$info.maphone}</span>
+                                                </div>
+                                                <div class="email-content">
+                                                    <span class="contact-title">微信</span>
+                                                    <span class="contact-email">{$info.wechat}</span>
+                                                </div>
+                                                <div class="address-content">
+                                                    <span class="contact-title">邮箱</span>
+                                                    <span class="mail-address">{$info.email}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card alert">
+                                    <div class="card-header">
+                                        <h4>身份证正面</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <img src="__PUBLIC__/uploads{$info.pic_id}" class="img-rounded img-responsive" alt="身份证正面">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="card alert">
+                                    <div class="card-header">
+                                        <h4>身份证反面</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <img src="__PUBLIC__/uploads{$info.pic_back}" class="img-rounded img-responsive" alt="身份证反面">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="card alert">
+                                    <div class="card-header">
+                                        <h4>营业执照</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <img src="__PUBLIC__/uploads{$info.pic_head}" class="img-rounded img-responsive" alt="营业执照">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="card alert">
+                                    <div class="card-header">
+                                        <h4>开户许可</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <img src="__PUBLIC__/uploads{$info.pic_cont}" class="img-rounded img-responsive" alt="开户许可">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

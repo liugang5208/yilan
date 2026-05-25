@@ -1,0 +1,163 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-8 p-r-0 title-margin-right">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>分类比例</h1>
+                </div>
+            </div>
+        </div>
+        <!-- /# column -->
+        <div class="col-lg-4 p-l-0 title-margin-left">
+            <div class="page-header">
+                <div class="page-title">
+                    <div class="page-header">
+                            <div class="page-title">
+                                <ol class="breadcrumb text-right">
+                                    <li><a href="{:U('Users/levels')}">用户等级</a></li>
+                                    <li class="active">分类比例</li>
+                                </ol>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <!-- /# column -->
+    </div>
+    <!-- /# row -->
+    <section id="main-content">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="card alert">
+                    <div class="card-header">
+                        <h4>分类比例</h4>
+                        <button type="button" style="float: right;" class="btn btn-primary" onclick="addor()">保存</button>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>名称</th>
+                                        <th style="color:red">调整比例(调整比例后直接回车将保存数据)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                <form name="ador">
+                                 <input hidden name="ac_level" value="{$ac_level}" />
+                                <volist name="list" id="v" key="k">
+                                    <input hidden name="form_data[{$k}][plate_cats_id]" value="{$v.id}" />
+                                    <tr>
+                                        <td>{$k}</td>
+                                        <td>{$v.name}</td>
+                                     
+                                        <td><input name="form_data[{$k}][cats_up]" type="number" onkeydown="handleBlur(event,this,{$ac_level},{$v.id},{$v.users_cats_up})"  width="100px" value="{$v.users_cats_up}" /></td>
+                                    </tr>
+                                </volist>
+                                </form>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+</div>
+
+<script>
+    function handleBlur(event,e,ac_level,plate_cats_id,old_value){
+        return false;
+        // console.log(event.key);return;
+        // console.log(1112);console.log(e.value);console.log(ac_level);console.log(plate_cats_id);
+        if (event.key  != 'Enter') return false;
+        var cats_up = e.value;
+        // if(cats_up != old_value){
+            var data = {ac_level: ac_level, plate_cats_id: plate_cats_id,cats_up:cats_up};
+            console.log(data);
+        $.ajax({
+            url: "{:U('Users/cats_op')}",
+            type: "post",
+            data: data,
+            dataType: "json",
+            success: function (res) {
+                if (res.status != 1) {
+                    return swal('提示', res.msg, "error");
+                }else{
+                     return swal('提示', res.msg);
+                }
+                // window.location.reload();
+            },
+            error: function () {
+
+            },
+        });
+        // }
+    }
+    /**
+     * 添加
+     * @returns {undefined}
+     */
+    function addor() {
+        var temp = $("form[name='ador']").serializeArray();
+        var data = objToArray(temp);
+        var baseurl = "{:U('Users/cats_op_form')}";
+        //////
+        $.ajax({
+            url: baseurl,
+            type: "post",
+            data: data,
+            dataType: "json",
+            success: function (res) {
+                if (res.status != 1) {
+                    return swal('提示', res.msg, "error");
+                }else{
+                     swal('提示', res.msg);
+                }
+                setTimeout(function() {
+                    window.location.reload();
+                }, 3000); 
+                
+            },
+            error: function () {
+
+            },
+        });
+    }
+
+    /**
+     * 更新信息
+     * @returns {undefined}
+     */
+    function change(id, st) {
+        var data = {ids: id, status: st};
+        //////
+        $.ajax({
+            url: "{:U('Core/edits','model=sys_version')}",
+            type: "post",
+            data: data,
+            dataType: "json",
+            success: function (res) {
+                if (res.status != 1) {
+                    return swal('提示', res.msg, "error");
+                }
+                window.location.reload();
+            },
+            error: function () {
+
+            },
+        });
+    }
+
+</script>
+
+

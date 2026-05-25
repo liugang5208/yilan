@@ -1,0 +1,127 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml" 
+     xmlns:o="urn:schemas-microsoft-com:office:office"
+     xmlns:x="urn:schemas-microsoft-com:office:excel"
+     xmlns:w="urn:schemas-microsoft-com:office:word"
+     xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+     xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name></x:Name><x:WorksheetOptions><x:Selected/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        table#hrdftrtbl {
+            margin: 0in 0in 0in 900in;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+        @media print {
+    div {
+        page-break-inside: avoid;
+    }
+}
+body {
+    font-family: SimSun;
+}
+    </style>
+</head>
+
+<body class="layui-anim layui-anim-fadein" style="width:700px;">
+    <!-- <img src='http://app.elccc.cn/Public/uploads/ads/6056dcca873bf.png' alt="My Image"> -->
+    <table width="100%" border="1" align="center" cellspacing="0" cellpadding="0" id="list-table" class="layui-table">
+
+        <thead>
+
+            <tr class="f12">
+                <th colspan="7" style="height:100px;display: flex;justify-content: center;align-items: center;"> </th>
+               
+            </tr>
+            <tr class="f12">
+                <th colspan="7" style="font-weight: bold;font-size: 19px;">产品报价单</th>
+            </tr>
+            <tr class="f12">
+                <th colspan="4" class="text-left" style="text-align: left;color: blue;font-weight: bold;">报价单位：成都金川电缆集团有限公司</th>
+                <th colspan="3" class="text-left" style="text-align: left;color: blue;font-weight: bold;">报价日期：2024-08-26</th>
+            </tr>
+            <tr class="f12">
+                <th colspan="4" class="text-left" style="text-align: left;color: blue;font-weight: bold;">询价单位：威鹏电缆</th>
+                <th colspan="3" class="text-left" style="text-align: left;color: blue;font-weight: bold;">报价单编号:elccc0000116</th>
+            </tr>
+            <tr class="f12">
+                <th colspan="4" class="text-left" style="text-align: left;color: blue;font-weight: bold;">项目名称：未命名</th>
+                <th colspan="3" class="text-left" style="text-align: left;color: blue;font-weight: bold;">含税标识：不含税票</th>
+            </tr>
+
+            <tr class="f12">
+                <th width="40" class="text-center">序号</th>
+                <th class="text-center" width="220" >产品名称</th>
+                <th class="text-center" width="60">计量单位</th>
+                <th class="text-center" width="70">数量</th>
+                <th class="text-center" width="90">单位（元）</th>
+                <th class="text-center" width="120">合计（元）</th>
+                <th class="text-center" width="100">报价备注项</th>
+                <!-- <th class="text-center" width="100" class="text-left">2222</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            
+            <tr id="" class=""><td class="text-center">1</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZB-YJY<br>产品规格:5×16</td><td class="text-center">米</td><td class="text-center">208</td><td class="text-center">50.99</td><td class="text-center">10605.92</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">2</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZB-YJY<br>产品规格:5×6.0</td><td class="text-center">米</td><td class="text-center">386</td><td class="text-center">20.11</td><td class="text-center">7762.46</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">3</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZB-YJY<br>产品规格:5×10</td><td class="text-center">米</td><td class="text-center">1729</td><td class="text-center">32.25</td><td class="text-center">55760.25</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">4</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZB-YJY<br>产品规格:4×25+1×16</td><td class="text-center">米</td><td class="text-center">276</td><td class="text-center">73.76</td><td class="text-center">20357.76</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">5</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZB-YJY<br>产品规格:4×35+1×16</td><td class="text-center">米</td><td class="text-center">114</td><td class="text-center">97.43</td><td class="text-center">11107.02</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">6</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZB-YJY<br>产品规格:4×70+1×35</td><td class="text-center">米</td><td class="text-center">19</td><td class="text-center">191.79</td><td class="text-center">3644.01</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">7</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZB-YJY<br>产品规格:4×50+1×25</td><td class="text-center">米</td><td class="text-center">83</td><td class="text-center">133.95</td><td class="text-center">11117.85</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">8</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZB-YJY<br>产品规格:4×95+1×50</td><td class="text-center">米</td><td class="text-center">208</td><td class="text-center">261.47</td><td class="text-center">54385.76</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">9</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZB-YJY<br>产品规格:3×95+2×50</td><td class="text-center">米</td><td class="text-center">579</td><td class="text-center">232.76</td><td class="text-center">134768.04</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">10</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZB-YJY<br>产品规格:4×185+1×95</td><td class="text-center">米</td><td class="text-center">456</td><td class="text-center">493.87</td><td class="text-center">225204.72</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">11</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZB-YJY<br>产品规格:4×240+1×120</td><td class="text-center">米</td><td class="text-center">19</td><td class="text-center">647.47</td><td class="text-center">12301.93</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">12</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZB-YJY<br>产品规格:2×25</td><td class="text-center">米</td><td class="text-center">21</td><td class="text-center">32.45</td><td class="text-center">681.45</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">13</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:WDZB-YJY<br>产品规格:2×35</td><td class="text-center">米</td><td class="text-center">27</td><td class="text-center">44.15</td><td class="text-center">1192.05</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">14</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:BTTRZ【RTTYZ】<br>产品规格:5×6.0</td><td class="text-center">米</td><td class="text-center">871</td><td class="text-center">31.89</td><td class="text-center">27776.19</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">15</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:BTTRZ【RTTYZ】<br>产品规格:5×10</td><td class="text-center">米</td><td class="text-center">895</td><td class="text-center">46.67</td><td class="text-center">41769.65</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">16</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:BTTRZ【RTTYZ】<br>产品规格:5×16</td><td class="text-center">米</td><td class="text-center">44</td><td class="text-center">66.37</td><td class="text-center">2920.28</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">17</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:BTTRZ【RTTYZ】<br>产品规格:4×25+1×16</td><td class="text-center">米</td><td class="text-center">150</td><td class="text-center">92.85</td><td class="text-center">13927.50</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">18</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:BTTRZ【RTTYZ】<br>产品规格:4×185+1×95</td><td class="text-center">米</td><td class="text-center">44</td><td class="text-center">588.66</td><td class="text-center">25901.04</td><td class="text-center"> </td></tr>
+            <!--<tr id="" class="">-->
+            <!--    <td class="text-center">1111</td>-->
+            <!--    <td class="text-center">222</td>-->
+            <!--    <td class="text-center">333</td>-->
+            <!--    <td class="text-center">4444</td>-->
+            <!--    <td class="text-center">555</td>-->
+            <!--    <td class="text-center">555</td>-->
+            <!--    <td class="text-center">555</td>-->
+
+            <!--</tr>-->
+            <!--<tr id="" class="">-->
+            <!--    <td class="text-center">1111</td>-->
+            <!--    <td class="text-center">222</td>-->
+            <!--    <td class="text-center">333</td>-->
+            <!--    <td class="text-center">4444</td>-->
+            <!--    <td class="text-center">555</td>-->
+            <!--    <td class="text-center">555</td>-->
+            <!--    <td class="text-center">555</td>-->
+
+            <!--</tr>-->
+            <tr id="" class="">
+                <td colspan="2" class="text-center" style="color: blue;font-weight: bold;">共计：18</td>
+                <!--<td colspan="2" class="text-center"><img src='http://app.elccc.cn/Public/uploads/ads/6056dcca873bf.png' alt="My Image"></td>-->
+                <!--<td class="text-center">222</td>-->
+                <td colspan="3" class="text-center" style="color: blue;font-weight: bold;">累计数量：6129</td>
+                <td class="text-center" style="color: blue;font-weight: bold;">¥ 661183.88</td>
+                <td class="text-center"></td>
+
+            </tr>
+            
+            <tr id="" class="">
+                <td colspan="5" class="text-center" style="color: blue;font-weight: bold;">合计大写金额：陸拾陸万壹仟壹佰捌拾參元捌角捌分</td>
+                <td colspan="2" class="text-center" style="color: blue;font-weight: bold;">质量标准：市场标准</td>
+            </tr>
+            
+            <tr id="" class="">
+                <td colspan="4" class="text-center" style="color: blue;font-weight: bold;">付款方式：款到发货</td>
+                <td colspan="3" class="text-center" style="color: blue;font-weight: bold;">包装费用：报价包含产品包装</td>
+            </tr>
+            
+            <tr id="" class="">
+                <td colspan="4" class="text-center" style="color: blue;font-weight: bold;">运输方式：专车运输</td>
+                <td colspan="3" class="text-center" style="color: blue;font-weight: bold;">运输费用：卖方负责</td>
+            </tr>
+            <tr id="" class="">
+                <td colspan="4" class="text-center" style="color: blue;font-weight: bold;">报价人员：贾世广</td>
+                <td colspan="3" class="text-center" style="color: blue;font-weight: bold;">联系方式：18883333289</td>
+            </tr>
+
+            <tr id="" class="">
+                <td colspan="7" class="text-center" style="color: blue;font-weight: bold;">报价备注：无</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+
+</html></body></html>

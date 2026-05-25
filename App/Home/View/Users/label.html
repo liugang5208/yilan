@@ -1,0 +1,332 @@
+<div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
+    <div class="row">
+        <div class="col-lg-8 p-r-0 title-margin-right">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>禁止区域</h1>
+                </div>
+            </div>
+        </div>
+        <!-- /# column -->
+        <div class="col-lg-4 p-l-0 title-margin-left">
+            <div class="page-header">
+                <div class="page-title">
+                    <!--ol class="breadcrumb text-right">
+                        <li><a href="#">Dashboard</a></li>
+                        <li class="active">UI-Blank</li>
+                    </ol-->
+                </div>
+            </div>
+        </div>
+        <!-- /# column -->
+    </div>
+    <!-- /# row -->
+    <section id="main-content">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="card alert">
+                    <div class="card-header">
+                        <h4>禁止区域</h4>
+                        <div class="card-header-right-icon">
+                            <ul>
+                                <li class="doc-link">
+                                    <a class="btn btn-xs btn-info" data-toggle="modal" data-target="#myModal">添加禁止区域</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>省份</th>
+                                        <th>城市</th>
+                                        <th>地区</th>
+                                        <th>状态</th>
+                                        <th width="15%">记录时间</th>
+                                        <th width="10%">管理</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                <volist name="list.list" id="v">
+                                    <tr>
+                                        <th scope="row">{$v.id}</th>
+                                        <td>{$prov|getRegionName=$v['prov'],###}</td>
+                                        <td>{$city|getRegionName=$v['city'],###}</td>
+                                        <td>{$label|getRegionName=$v['label'],###}</td>
+                                        <td>{$v['status']>0?'正常':'暂停使用'}</td>
+                                        <td>{$v.times|date='Y/m/d H:i:s',###}</td>
+                                        <td>
+                                            <a class="btn btn-info btn-xs" ng-click="updateInfo('{$v.id}')">更新</a>
+                                            <a class="btn btn-danger btn-xs" ng-click="dels('{$v.id}')">删除</a>
+                                        </td>
+                                    </tr>
+                                </volist>
+
+                                </tbody>
+                            </table>
+
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">{$list.show}</ul>
+                            </nav>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width:35%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">添加区域</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form name="addon">
+                        <div class="form-group">
+                            <label>省份</label>
+                            <select name="prov" class="form-control" onchange="getRegion(this.value, 'city', 0)">
+                                <option value="">请选择</option>
+                                <volist name='region' id='v'>
+                                    <option value="{$v.id}">{$v.name}</option>
+                                </volist>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>城市</label>
+                            <select name="city" class="form-control" onchange="getRegion(this.value, 'label', 0)">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>地区</label>
+                            <select name="label" class="form-control">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>状态</label>
+                            <select name="status" class="form-control">
+                                <option value="1">使用</option>
+                                <option value="0">暂停</option>
+                            </select>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="addor()">添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="myEdits" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width:35%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">修改区域</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label>省份</label>
+                        <select name="prov" class="form-control" onchange="getRegion(this.value, 'city', 0)" ng-model="info.prov">
+                            <option value="">请选择</option>
+                            <volist name='region' id='v'>
+                                <option value="{$v.id}">{$v.name}</option>
+                            </volist>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>城市</label>
+                        <select name="city" class="form-control" onchange="getRegion(this.value, 'label', 0)" ng-model="info.city">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>地区</label>
+                        <select name="label" class="form-control" ng-model="info.label">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>状态</label>
+                        <select name="status" class="form-control" ng-model="info.status">
+                            <option value="1">使用</option>
+                            <option value="0">暂停</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" ng-click="updateOp()">更新</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    /**
+     * 获取城市区域
+     * @param {type} id
+     * @param {type} target
+     * @param {type} par
+     * @returns {undefined}
+     */
+    function getRegion(id, target, par) {
+        var data = {pid: id};
+        $.ajax({
+            url: "{:U('Comm/region')}",
+            type: "post",
+            data: data,
+            dataType: "json",
+            success: function (res) {
+                if (res.status != 1) {
+                    return swal('提示', res.msg, "error");
+                }
+                ///////
+                var html = "<option value=''>请选择</option>";
+                for (var i = 0; i < res.data.length; i++) {
+                    var tmp = "<option value='" + res.data[i]["id"] + "'>" + res.data[i]["name"] + "</option>";
+                    if (par == res.data[i]["id"]) {
+                        tmp = "<option value='" + res.data[i]["id"] + "' selected>" + res.data[i]["name"] + "</option>";
+                    }
+                    html += tmp;
+                }
+                $("select[name='" + target + "']").html(html);
+            },
+            error: function () {
+
+            },
+        });
+    }
+
+    /**
+     * 添加
+     * @returns {undefined}
+     */
+    function addor() {
+        var temp = $("form[name='addon']").serializeArray();
+        var data = objToArray(temp);
+        var baseurl = "{:U('Core/addon','model=users_label')}";
+        //////
+        $.ajax({
+            url: baseurl,
+            type: "post",
+            data: data,
+            dataType: "json",
+            success: function (res) {
+                if (res.status != 1) {
+                    return swal('提示', res.msg, "error");
+                }
+                window.location.reload();
+            },
+            error: function () {
+
+            },
+        });
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function ($scope, $http) {
+
+        $scope.info;
+
+        /**
+         * 通讯操作
+         * @param {type} url
+         * @param {type} data
+         * @returns {undefined}
+         */
+        $scope.commAjax = function (url, data, success) {
+            $http({
+                method: "POST",
+                url: url,
+                data: data,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var p in obj) {
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    }
+                    return str.join("&");
+                }
+            }).success(function (response) {
+                success(response);
+            });
+        };
+
+        ////////////////////////////////////////////////////////////////////////
+
+        $scope.updateInfo = function (id) {
+            $scope.commAjax("{:U('Core/infos','model=users_label')}", {ids: id}, function (res) {
+                $scope.info = res.data;
+                getRegion(res.data.prov, "city", res.data.city);
+                getRegion(res.data.city, "label", res.data.label);
+                //
+                $("#myEdits").modal("show");
+            });
+        }
+
+        $scope.updateOp = function () {
+            var param = $scope.info;
+            param.ids = param.id;
+            /////////
+            $.ajax({
+                url: "{:U('Core/edits','model=users_label')}",
+                type: "post",
+                dataType: 'json',
+                data: param,
+                success: function (data) {
+                    if (data.status !== 1) {
+                        return swal("错误", data.msg, "error");
+                    }
+                    window.location.reload();
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+
+        $scope.dels = function (ids) {
+            var param = {id: ids};
+            $scope.commAjax("{:U('Core/dels','model=users_label')}", param, function (res) {
+                if (res.status !== 1) {
+                    return swal("错误", res.msg, "error");
+                }
+                window.location.reload();
+            });
+        }
+
+    });
+
+
+
+
+</script>
+
+

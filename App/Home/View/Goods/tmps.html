@@ -1,0 +1,346 @@
+<div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
+
+    <div class="row">
+        <div class="col-lg-8 p-r-0 title-margin-right">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>商品模板</h1>
+                </div>
+            </div>
+        </div>
+        <!-- /# column -->
+        <div class="col-lg-4 p-l-0 title-margin-left">
+            <div class="page-header">
+                <div class="page-title">
+                    <!--ol class="breadcrumb text-right">
+                        <li><a href="#">Dashboard</a></li>
+                        <li class="active">UI-Blank</li>
+                    </ol-->
+                </div>
+            </div>
+        </div>
+        <!-- /# column -->
+    </div>
+    <!-- /# row -->
+    <section id="main-content">
+
+
+        <div class="col-lg-12">
+            <div class="card alert">
+                <div class="card-header">
+                    <h4>商品模板</h4>
+                    <div class="card-header-right-icon">
+                        <ul>
+                            <li class="doc-link">
+                                <a class="btn btn-xs btn-info" data-toggle="modal" data-target="#myModal">添加商品模板</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>名称</th>
+                                    <th>模板类型</th>
+                                    <th>状态</th>
+                                    <th width="15%">添加时间</th>
+                                    <th width="30%">管理</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            <volist name="list.list" id="v" key="k">
+                                <tr>
+                                    <th scope="row">{$k}</th>
+                                    <td>{$v.name}</td>
+                                    <td>{$v['types']<2?'多商品模板':'单商品模板'}</td>
+                                    <td>{$v['status']>0?'正常':'暂停使用'}</td>
+                                    <td>{$v.times|date='Y/m/d H:i:s',###}</td>
+                                    <td>
+                                        <a href="{:U('Goods/tmps_log','id='.$v['id'])}" class="btn btn-info btn-xs">查看</a>
+                                        <a ng-click="reModel('{$v.id}')" class="btn btn-info btn-xs">重新上传</a>
+                                        <a ng-click="updateInfo('{$v.id}')" class="btn btn-info btn-xs">编辑</a>
+                                        <a ng-click="clear('{$v.id}')" class="btn btn-danger btn-xs">清空</a>
+                                        <a ng-click="dels('{$v.id}')" class="btn btn-danger btn-xs">删除</a>
+                                    </td>
+                                </tr>
+                            </volist>
+
+                            </tbody>
+                        </table>
+
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">{$list.show}</ul>
+                        </nav>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width:35%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">添加商品模板</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form name="up">
+                        <input type="hidden" name="status" value="1"/>
+
+                        <div class="form-group">
+                            <label>名称</label>
+                            <input type="text" name="name" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label>模板文件</label>
+                            <input type="file" name="file" id='file' class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label>模板类型</label>
+                            <select name="types" class="form-control">
+                                <option value="2">单商品模板</option>
+                                <option value="1">多商品模板</option>
+                            </select>
+                        </div>
+                        <div class="help-block">
+                            <a href="__PUBLIC__/file/sig.xlsx" class="btn btn-link" download="单商品模板">单商品模板下载</a>
+                            <a href="__PUBLIC__/file/mor.xlsx" class="btn btn-link" download="多商品模板">多商品模板</a>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" ng-click="addor()">添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myEdits" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width:35%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">更新商品模板信息</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form>
+                        <div class="form-group">
+                            <label>名称</label>
+                            <input type="text" name="name" class="form-control" ng-model="lininfo.name"/>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" ng-click="updateOp()">更新</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width:35%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">重新上传商品模板信息</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form name="reupload">
+                        <div class="form-group">
+                            <label>模板文件</label>
+                            <input type="file" name="file" id='file2' class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label>模板类型</label>
+                            <select name="types" class="form-control">
+                                <option value="2">单商品模板</option>
+                                <option value="1">多商品模板</option>
+                            </select>
+                        </div>
+                        <div class="help-block">
+                            <a href="__PUBLIC__/file/sig.xlsx" class="btn btn-link" download="单商品模板">单商品模板下载</a>
+                            <a href="__PUBLIC__/file/mor.xlsx" class="btn btn-link" download="多商品模板">多商品模板</a>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" ng-click="readdor()">更新</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function ($scope, $http) {
+
+        $scope.lininfo;
+        $scope.liid;
+
+        ////////////////////////////////////////////////////////////////////////
+
+        /**
+         * 通讯操作
+         * @param {type} url
+         * @param {type} data
+         * @returns {undefined}
+         */
+        $scope.commAjax = function (url, data, success) {
+            $http({
+                method: "POST",
+                url: url,
+                data: data,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var p in obj) {
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    }
+                    return str.join("&");
+                }
+            }).success(function (response) {
+                success(response);
+            });
+        };
+
+        ////////////////////////////////////////////////////////////////////////
+
+        /**
+         * 上传
+         * @returns {undefined}
+         */
+        $scope.addor = function () {
+            var temp = $("form[name='up']").serializeArray();
+            var data = objToArray(temp);
+            data.type = 1;
+            /////////
+            $.ajaxFileUpload({
+                url: "{:U('Goods/tmps_addon')}",
+                secureuri: false,
+                fileElementId: "file",
+                dataType: 'json',
+                data: data,
+                success: function (data) {
+                    if (data.status !== 1) {
+                        return swal("错误", data.msg, "error");
+                    }
+                    window.location.reload();
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+
+        $scope.reModel = function (id) {
+            $scope.liid = id;
+            $("#myChange").modal("show");
+        }
+
+        /**
+         * 重新上传
+         * @returns {undefined}
+         */
+        $scope.readdor = function () {
+            var temp = $("form[name='reupload']").serializeArray();
+            var data = objToArray(temp);
+            data.ids = $scope.liid;
+            data.type = 2;
+            /////////
+            $.ajaxFileUpload({
+                url: "{:U('Goods/tmps_addon')}",
+                secureuri: false,
+                fileElementId: "file2",
+                dataType: 'json',
+                data: data,
+                success: function (data) {
+                    if (data.status !== 1) {
+                        return swal("错误", data.msg, "error");
+                    }
+                    window.location.reload();
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+
+        $scope.updateInfo = function (id) {
+            $scope.commAjax("{:U('Core/infos','model=sys_tmps')}", {ids: id}, function (res) {
+                $scope.lininfo = res.data;
+                $("#myEdits").modal("show");
+            });
+        }
+
+        $scope.updateOp = function () {
+            var param = $scope.lininfo;
+            param.ids = param.id;
+            /////////
+            $.ajaxFileUpload({
+                url: "{:U('Core/edits','model=sys_tmps')}",
+                secureuri: false,
+                fileElementId: "filedit",
+                dataType: 'json',
+                data: param,
+                success: function (data) {
+                    if (data.status !== 1) {
+                        return swal("错误", data.msg, "error");
+                    }
+                    window.location.reload();
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+
+        $scope.clear = function (ids) {
+            var param = {id: ids};
+            $scope.commAjax("{:U('Goods/tmps_clear')}", param, function (res) {
+                if (res.status !== 1) {
+                    return swal("错误", res.msg, "error");
+                }
+                window.location.reload();
+            });
+        }
+
+        $scope.dels = function (ids) {
+            var param = {id: ids};
+            $scope.commAjax("{:U('Goods/tmps_dels')}", param, function (res) {
+                if (res.status !== 1) {
+                    return swal("错误", res.msg, "error");
+                }
+                window.location.reload();
+            });
+        }
+
+    });
+
+</script>

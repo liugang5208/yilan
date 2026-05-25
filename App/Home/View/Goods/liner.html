@@ -1,0 +1,270 @@
+<div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
+    <div class="row">
+        <div class="col-lg-8 p-r-0 title-margin-right">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>线缆板块</h1>
+                </div>
+            </div>
+        </div>
+        <!-- /# column -->
+        <div class="col-lg-4 p-l-0 title-margin-left">
+            <div class="page-header">
+                <div class="page-title">
+                    <!--ol class="breadcrumb text-right">
+                        <li><a href="#">Dashboard</a></li>
+                        <li class="active">UI-Blank</li>
+                    </ol-->
+                </div>
+            </div>
+        </div>
+        <!-- /# column -->
+    </div>
+    <!-- /# row -->
+    <section id="main-content">
+
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="card alert">
+                    <div class="card-header">
+                        <h4>线缆板块</h4>
+                        <div class="card-header-right-icon">
+                            <ul>
+                                <li class="doc-link">
+                                    <a class="btn btn-xs btn-info" data-toggle="modal" data-target="#myModal">添加线缆板块</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>名称</th>
+                                        <th>排序</th>
+                                        <th>状态</th>
+                                        <th width="15%">记录时间</th>
+                                        <th width="30%">管理</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                <volist name="list.list" id="v" key="k">
+                                    <tr>
+                                        <th scope="row">{$k}</th>
+                                        <td>{$v.name}</td>
+                                        <td>{$v.sorts}</td>
+                                        <td>{$v['status']>0?'正常':'暂停使用'}</td>
+                                        <td>{$v.times|date='Y/m/d H:i:s',###}</td>
+                                        <td>
+                                            <a href="{:U('Goods/plate_banner','id='.$v['id'])}" class="btn btn-info btn-xs">广告管理</a>
+                                            <a href="{:U('Goods/plate_infos','id='.$v['id'])}" class="btn btn-info btn-xs">商品管理</a>
+                                            <a ng-click="changeid('{$v.id}', 1)" class="btn btn-info btn-xs">上调顺序</a>
+                                            <a ng-click="changeid('{$v.id}', 0)" class="btn btn-info btn-xs">下调顺序</a>
+                                            <a ng-click="updateInfo('{$v.id}')" class="btn btn-info btn-xs">编辑</a>
+                                            <a ng-click="dels('{$v.id}')" class="btn btn-danger btn-xs">删除</a>
+                                        </td>
+                                    </tr>
+                                </volist>
+
+                                </tbody>
+                            </table>
+
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">{$list.show}</ul>
+                            </nav>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width:35%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">添加线缆板块</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form name="addon">
+                        <input type="hidden" name="types" value="1"/>
+
+                        <div class="form-group">
+                            <label>名称</label>
+                            <input type="text" name="name" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label>排序</label>
+                            <input type="number" name="sorts" class="form-control" value="0"/>
+                        </div>
+                        <div class="form-group">
+                            <label>状态</label>
+                            <select name="status" class="form-control">
+                                <option value="1">使用</option>
+                                <option value="0">暂停</option>
+                            </select>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" ng-click="addor()">添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myEdits" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width:35%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">修改线缆板块</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form name="edit">
+
+                        <div class="form-group">
+                            <label>名称</label>
+                            <input type="text" name="name" class="form-control" ng-model="lininfo.name"/>
+                        </div>
+                        <div class="form-group">
+                            <label>排序</label>
+                            <input type="text" name="sorts" class="form-control" ng-model="lininfo.sorts"/>
+                        </div>
+                        <div class="form-group">
+                            <label>状态</label>
+                            <select name="status" class="form-control" ng-model="lininfo.status">
+                                <option value="1">使用</option>
+                                <option value="0">暂停</option>
+                            </select>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" ng-click="updateOp()">更新</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function ($scope, $http) {
+
+        $scope.lininfo;
+
+        ////////////////////////////////////////////////////////////////////////
+
+        /**
+         * 通讯操作
+         * @param {type} url
+         * @param {type} data
+         * @returns {undefined}
+         */
+        $scope.commAjax = function (url, data, success) {
+            $http({
+                method: "POST",
+                url: url,
+                data: data,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var p in obj) {
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    }
+                    return str.join("&");
+                }
+            }).success(function (response) {
+                success(response);
+            });
+        };
+
+        ////////////////////////////////////////////////////////////////////////
+
+        $scope.addor = function () {
+            var temp = $("form[name='addon']").serializeArray();
+            var data = objToArray(temp);
+            /////////
+            $.ajaxFileUpload({
+                url: "{:U('Core/addon','model=plate_types')}",
+                secureuri: false,
+                fileElementId: "file",
+                dataType: 'json',
+                data: data,
+                success: function (data) {
+                    if (data.status !== 1) {
+                        return swal("错误", data.msg, "error");
+                    }
+                    window.location.reload();
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+
+        $scope.updateInfo = function (id) {
+            $scope.commAjax("{:U('Core/infos','model=plate_types')}", {ids: id}, function (res) {
+                $scope.lininfo = res.data;
+                $("#myEdits").modal("show");
+            });
+        }
+
+        $scope.updateOp = function () {
+            var param = $scope.lininfo;
+            param.ids = param.id;
+            /////
+            $scope.commAjax("{:U('Core/edits','model=plate_types')}", param, function (res) {
+                if (res.status !== 1) {
+                    return swal("错误", res.msg, "error");
+                }
+                window.location.reload();
+            });
+        }
+
+        $scope.dels = function (ids) {
+            var param = {id: ids};
+            $scope.commAjax("{:U('Core/dels','model=plate_types')}", param, function (res) {
+                if (res.status !== 1) {
+                    return swal("错误", res.msg, "error");
+                }
+                window.location.reload();
+            });
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+
+        $scope.changeid = function (id, type) {
+            var param = {id: id, redi: type};
+            $scope.commAjax("{:U('Core/uptypes')}", param, function (res) {
+                if (res.status !== 1) {
+                    return swal("错误", res.msg, "error");
+                }
+                window.location.reload();
+            });
+        }
+
+    });
+
+</script>

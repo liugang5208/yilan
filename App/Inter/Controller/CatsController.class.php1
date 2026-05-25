@@ -1,0 +1,96 @@
+<?php
+
+namespace Inter\Controller;
+
+#use Think\Controller;
+
+class CatsController extends CommController {
+
+    /**
+     * 线缆
+     */
+    public function index() {
+        if(!isset($param['new']) || $param['new'] != 1){
+             return get_op_put(0, '');
+        }
+        $p = $this->param;
+        #
+        $res = $this->getCatinfo(1, $p);
+        #
+        return get_op_put(1, "获取成功", $res);
+    }
+
+    /**
+     * 配套
+     */
+    public function peis() {
+        $p = $this->param;
+        #
+        $res = $this->getCatinfo(2, $p);
+        #
+        return get_op_put(1, "获取成功", $res);
+    }
+
+    /**
+     * 分类详情
+     * @param type $type
+     * @return type
+     */
+    private function getCatinfo($type, $p) {
+        $plate_types = M("plate_types");
+        $plate_banner = M("plate_banner");
+        $plate = M("plate");
+        #
+        $res["cats"] = $plate_types->where(["types" => $type, "status" => 1])->order("sorts asc,id asc")->select();
+        #
+        $list = [];
+        foreach ($res["cats"] as $k => $v) {
+            $cond = ["type_id" => $type, "pid" => $v["id"]];
+            #
+            $tempBanner = $plate_banner->where($cond)->order("sorts asc,id desc")->select();
+            foreach ($tempBanner as $m => $s) {
+                $tempBanner[$m]["source_url"] = C("WEBIMG") . "ads/" . $s["source"];
+            }
+            #
+            $tempList = $plate->where($cond)->order("sorts desc,id desc")->select();
+            foreach ($tempList as $r => $c) {
+                $tempList[$r]["source_url"] = C("WEBIMG") . "ads/" . $c["source"];
+                $tempList[$r]["child"] = $this->listImgs(["pid" => $c["id"]]);
+            }
+            #
+            $list[$k] = ["banner" => $tempBanner, "list" => $tempList];
+            $res["cats"][$k]["child"] = ["banner" => $tempBanner, "list" => $tempList];
+        }
+        $res["list"] = $list;
+        #
+        return $res;
+    }
+
+    /**
+     * 图片资源加载
+     * @param type $where
+     * @return string
+     */
+    private function listImgs($where) {
+        $plate_conts = M("plate_conts");
+        #
+        $temp = $plate_conts->where($where)->order("sorts desc,id desc")->select();
+        foreach ($temp as $m => $s) {
+            $class = "list_line_item";
+            if ($s["show_type"] == "2") {
+                $class = "list_line_item2";
+            }
+            if ($s["show_type"] == "3") {
+                $class = "list_line_item3";
+            }
+            if ($s["show_type"] == "4") {
+                $class = "list_line_item4";
+            }
+            $temp[$m]["class"] = $class;
+            #
+            $temp[$m]["source_url"] = C("WEBIMG") . "ads/" . $s["source"];
+        }
+        return $temp;
+    }
+
+}

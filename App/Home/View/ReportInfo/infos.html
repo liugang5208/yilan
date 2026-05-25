@@ -1,0 +1,199 @@
+<style>
+    .contact-information h4, .basic-information h4{ margin-bottom:0px; font-weight:bold;}
+    .contact-title{ font-size:12px; padding-bottom:5px;}
+    .mail-address{ font-size:12px;}
+
+    .recent-comment .media-left img{ border-radius:0px; vertical-align:middle; width:100%;}
+    .media-left{ overflow:hidden; width:30%;}
+    .media-body{ font-size:12px;}
+    .list-goods{ font-size:12px;}
+</style>
+
+<div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
+    <div class="row">
+        <div class="col-lg-8 p-r-0 title-margin-right">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>详情</h1>
+                </div>
+            </div>
+        </div>
+        <!-- /# column -->
+        <div class="col-lg-4 p-l-0 title-margin-left">
+            <div class="page-header">
+                <div class="page-title">
+                    <ol class="breadcrumb text-right">
+                        <li><a href="{:U('ReportInfo/index')}">列表</a></li>
+                        <li class="active">详情</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /# column -->
+    </div>
+    <!-- /# row -->
+    <section id="main-content">
+
+        <div class="card alert">
+            <div class="card-body">
+                <div class="row">
+
+                    <div class="col-md-5">
+                        <div class="basic-information">
+                            <h4>基本信息</h4>
+                            <div class="birthday-content">
+                                <span class="contact-title">logo:</span>
+                                
+                                <span class="mail-address">
+                                    <if condition="$info.logo">
+                                         <img class="media-object" src="{$info.logo}" >
+                                    </if>
+                                </span>
+                            </div>
+                            <div class="gender-content">
+                                <span class="contact-title">用户:</span>
+                                <span class="mail-address">{$user|getUsersName=$info['uid'],'nickname',###}({$user|getUsersName=$info['uid'],'phone',###})</span>
+                            </div>
+                            <div class="birthday-content">
+                                <span class="contact-title">报价单(价格)调整比例:</span>
+                                <span class="mail-address">{$info.ratio}</span>
+                            </div>
+                            <div class="gender-content">
+                                <span class="contact-title">是否含票:</span>
+                                <span class="mail-address">
+                                    {$info['ticket']==0?'不含税票':''}
+                                    {$info['ticket']==1?'增值税普通税票':''}
+                                    {$info['ticket']==2?'增值税专用税票':''}
+                                </span>
+                            </div>
+                            <div class="gender-content">
+                                <span class="contact-title">总金额:</span>
+                                <span class="mail-address">{$info.money}</span>
+                            </div>
+
+
+                        </div>
+                        <div class="basic-information">
+                            <h4>报价单备注信息</h4>
+                            <div class="birthday-content">
+                                <span class="contact-title">结算方式:</span>
+                                <span class="mail-address">{$info.check_type}</span>
+                            </div>
+                            <div class="birthday-content">
+                                <span class="contact-title">运输方式:</span>
+                                <span class="mail-address">{$info.trans_type}</span>
+                            </div>
+                            <div class="birthday-content">
+                                <span class="contact-title">运输费用:</span>
+                                <span class="mail-address">{$info.fees_out}</span>
+                            </div>
+                            <div class="birthday-content">
+                                <span class="contact-title">包装选项:</span>
+                                <span class="mail-address">{$info.pack_recyle}</span>
+                            </div>
+                            <div class="birthday-content">
+                                <span class="contact-title">询价单位:</span>
+                                <span class="mail-address">{$info.question_comp}</span>
+                            </div>
+                            <div class="birthday-content">
+                                <span class="contact-title">项目名称:</span>
+                                <span class="mail-address">{$info.project_comp}</span>
+                            </div>
+                            <div class="birthday-content">
+                                <span class="contact-title">报价单位:</span>
+                                <span class="mail-address">{$info.rep_comp}</span>
+                            </div>
+                            <div class="birthday-content">
+                                <span class="contact-title">使用单位:</span>
+                                <span class="mail-address">{$info.use_comp}</span>
+                            </div>
+                            <div class="birthday-content">
+                                <span class="contact-title">生产周期:</span>
+                                <span class="mail-address">{$info.pro_time}</span>
+                            </div>
+                            <div class="birthday-content">
+                                <span class="contact-title">报价人员:</span>
+                                <span class="mail-address">{$info.rep_user}</span>
+                            </div>
+                            <div class="birthday-content">
+                                <span class="contact-title">报价日期:</span>
+                                <span class="mail-address">{$info.rep_date}</span>
+                            </div>
+                           
+                            
+                            <div class="gender-content">
+                                <span class="contact-title">备注:</span>
+                                <span class="mail-address">{$info.tags}</span>
+                            </div>
+                            
+                            
+                        </div>
+
+                        
+
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="basic-information">
+                            <h4>商品</h4>
+
+                            <div class="recent-comment m-t-15">
+                                <volist name="goods.list" id="v">
+                                    <div class="media">
+                                        <!--<h4 class="media-heading color-primary">{$v.name}</h4>-->
+                                       
+                                        <if condition="$v.types eq 0">
+                                            <div class="media-body">
+                                                <p>{$v.attr1}</p>
+                                                <p>{$v.attr2}</p>
+                                                <p>{$v.attr3}</p>
+                                                <p>计量单位：{$v.unit}</p>
+                                                <p>标准名称：{$v.catname}</p>
+                                            </div>
+                                            <br/>
+                                            <div class="row text-center list-goods">
+                                                <div class="col-md-6">购买数量</div>
+                                                <div class="col-md-6">单品价格</div>
+                                            </div>
+                                            <div class="row text-center list-goods">
+                                                <div class="col-md-6">{$v.nums}</div>
+                                                <div class="col-md-6">{$v.market}</div>
+                                            </div>
+                                        </if>
+                                        <if condition="$v.types eq 1">
+                                            <div class="media-body">
+                                                <p>{$v.attr1}</p>
+                                                <p>{$v.attr2}</p>
+                                                <p>{$v.attr3}</p>
+                                                <p>计量单位：{$v.unit}</p>
+                                            </div>
+                                            <br/>
+                                            <div class="row text-center list-goods">
+                                                <div class="col-md-3">标准名称</div>
+                                                <div class="col-md-3">规格名称</div>
+                                                <div class="col-md-3">购买数量</div>
+                                                <div class="col-md-3">单品价格</div>
+                                            </div>
+                                            <volist name="v.child" id="s">
+                                                <div class="row text-center list-goods">
+                                                    <div class="col-md-3">{$s.catname}</div>
+                                                    <div class="col-md-3">{$s.info.name}</div>
+                                                    <div class="col-md-3">{$s.nums}</div>
+                                                    <div class="col-md-3">{$s.info.market}</div>
+                                                </div>
+                                            </volist>
+                                        </if>
+                                    </div>
+                                </volist>
+                            </div>
+
+                        </div>
+                    </div>
+                    
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>

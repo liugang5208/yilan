@@ -1,0 +1,586 @@
+<div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
+    <div class="row">
+        <div class="col-lg-8 p-r-0 title-margin-right">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>分类</h1>
+                </div>
+            </div>
+        </div>
+        <!-- /# column -->
+        <div class="col-lg-4 p-l-0 title-margin-left">
+            <div class="page-header">
+                <div class="page-title">
+                    <!--ol class="breadcrumb text-right">
+                        <li><a href="#">Dashboard</a></li>
+                        <li class="active">UI-Blank</li>
+                    </ol-->
+                </div>
+            </div>
+        </div>
+        <!-- /# column -->
+    </div>
+    <!-- /# row -->
+    <section id="main-content">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card alert" style="width:100%">
+                    <div class="card-header">
+                        <h4>分类</h4>
+                        <div class="card-header-right-icon">
+                            <ul>
+                                <li class="doc-link">
+                                    <a class="btn btn-xs btn-info" data-toggle="modal" data-target="#myModal">添加</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                             <volist name="list" id="v">
+                                 <div style="">
+                                     <div class="line-1" style="height:30px;display:flex;justify-content:space-between" >
+                                        <div>
+                                             {$v.name}
+                                        </div>
+                                            
+                                        <div>     
+                                          <a ng-click="updateinfo('{$v.id}')" class="btn btn-info btn-xs">编辑</a>
+                                          <a ng-click="updateinfo2('{$v.id}')" class="btn btn-info btn-xs">添加导体</a>
+                                          <a class="btn btn-danger btn-xs" ng-click="dels('{$v.id}')">删除</a>
+                                        </div>
+                                         
+                                     </div>
+
+                                     <div class="line-2" style="display:flex;flex-wrap:wrap;align-content: space-around;width:100%;flex-direction: row;margin-top:-10px">
+                                         <volist name="v.children" id="v2">
+                                             <div style="width:16%;display:flex;margin-top:5px">
+                                                 <div style="width:120px;display:flex;">
+                                                         <div style="color: <?php echo ($v2['pid'] > 0) ? 'blue' : 'inherit'; ?>;">{$v2.name}:</div>
+                                                    <div style="margin-left:5px"> {$v2.price}</div>
+                                                 </div>
+                                             
+                                             
+                                             <a style="margin-left:5px;height:22px" ng-click="updateinfo3('{$v2.id}')" class="btn btn-info btn-xs">调价</a>
+                                             <a style="margin-left:5px;height:22px" class="btn btn-danger btn-xs" ng-click="dels('{$v2.id}')">删除</a>
+                                             </div>
+                                             
+                                         </volist>
+                                     </div>
+                                
+                                 </div>
+                                 <hr>
+                                 
+                             </volist>        
+                            
+                            
+                            <!--<table class="table">-->
+                            <!--    <thead>-->
+                            <!--        <tr>-->
+                            <!--            <th width="50px">#</th>-->
+                            <!--            <th >名称</th>-->
+                            <!--            <th >执行价格</th>-->
+                                        <!--<th width="50px">状态</th>-->
+                            <!--            <th width="20%">记录时间</th>-->
+                            <!--            <th width="20%">管理</th>-->
+                            <!--        </tr>-->
+                            <!--    </thead>-->
+                            <!--    <tbody>-->
+
+                            <!--    <volist name="list" id="v">-->
+                            <!--        <tr>-->
+                            <!--            <th scope="row">{$v.id}</th>-->
+                            <!--            <td>{$v.tree_label}{$v.name}</td>-->
+                            <!--            <td>-->
+                            <!--                 <if condition="$v.cate_label_id eq 0 ">-->
+                            <!--                 </if>-->
+                            <!--                  <if condition="$v.cate_label_id neq 0 ">-->
+                            <!--                      {$v.price}-->
+                            <!--                </if> -->
+                            <!--            </td>-->
+                                        <!--<td>{$v['status']>0?'正常':'暂停使用'}</td>-->
+                            <!--            <td>{$v.add_time|date='Y/m/d H:i:s',###}</td>-->
+                            <!--            <td>-->
+                            <!--            <if condition="$v.cate_label_id eq 0 ">-->
+                            <!--                <a ng-click="updateinfo('{$v.id}')" class="btn btn-info btn-xs">编辑</a>-->
+                            <!--                <a ng-click="updateinfo2('{$v.id}')" class="btn btn-info btn-xs">添加导体</a>-->
+                            <!--            </if>    -->
+                            <!--            <if condition="$v.cate_label_id neq 0 ">-->
+                            <!--                <a ng-click="updateinfo3('{$v.id}')" class="btn btn-info btn-xs">调价</a>-->
+                            <!--            </if>  -->
+                            <!--                <a class="btn btn-danger btn-xs" ng-click="dels('{$v.id}')">删除</a>-->
+                            <!--            </td>-->
+                            <!--        </tr>-->
+                            <!--    </volist>-->
+
+                            <!--    </tbody>-->
+                            <!--</table>-->
+
+                            <!--<nav aria-label="Page navigation">-->
+                            <!--    <ul class="pagination">{$list.show}</ul>-->
+                            <!--</nav>-->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width:35%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">添加</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form name="ador">
+                        <div class="form-group">
+                            <label>名称</label>
+                            <input type="text" name="name" class="form-control"/>
+                        </div>
+                        <!--<div class="form-group">-->
+                        <!--    <label>状态</label>-->
+                        <!--    <select name="status" class="form-control">-->
+                        <!--        <option value="1">使用</option>-->
+                        <!--        <option value="0">暂停</option>-->
+                        <!--    </select>-->
+                        <!--</div>-->
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="addor()">添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width:35%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">更新</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form>
+                        <div class="form-group">
+                            <label>名称</label>
+                            <input type="text" name="name" class="form-control" ng-model="infos.name"/>
+                        </div>
+                        <!--<div class="form-group">-->
+                        <!--    <label>状态</label>-->
+                        <!--    <select name="status" class="form-control" ng-model="infos.status">-->
+                        <!--        <option value="1">使用</option>-->
+                        <!--        <option value="0">暂停</option>-->
+                        <!--    </select>-->
+                        <!--</div>-->
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" ng-click="updateCats()">更新</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+        <!-- Modal 添加下级 -->
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width:35%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">添加导体</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form name="ador2">
+                          
+                          <input ng-hide="true" name="cate_label_id" class="form-control" ng-model="infos.cate_label_id"/>
+                        
+                        <div class="form-group">
+                            <label>材料名称</label>
+                            <input type="text" name="name" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                             <label>价格关联</label>
+                            <select name="pid" ng-model="infos.pid" class="form-control">
+                                <option value="0">暂不选择</option>
+                                 <option  value="{{v.id}}" ng-repeat="v in infos.cate_list">{{v.name}}</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>关联比例</label>
+                            <input type="number" name="ratio" ng-change="onChangeRatio()" ng-model="infos.ratio" class="form-control"/>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>执行价格</label>
+                            <input type="text" name="price" ng-model="infos.price" class="form-control chang_price"/>
+                        </div>
+                        <!--<div class="form-group">-->
+                        <!--    <label>状态</label>-->
+                        <!--    <select name="status" class="form-control">-->
+                        <!--        <option value="1">使用</option>-->
+                        <!--        <option value="0">暂停</option>-->
+                        <!--    </select>-->
+                        <!--</div>-->
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="addor2()">添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myEdit2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width:35%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">调价</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form>
+                        <input ng-hide="true" name="cate_label_id" class="form-control" ng-model="infos.cate_label_id"/>
+                        
+                        <div class="form-group">
+                            <label>名称</label>
+                            <input type="text" name="name" class="form-control" ng-model="infos.name"/>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>价格关联</label>
+                            <select ng-model="infos.pid" ng-change="onSelectChange()" class="form-control">
+                                <option value="0">暂不选择</option>
+                                 <option  value="{{v.id}}" ng-repeat="v in infos.cate_list">{{v.name}}</option>
+                            </select>
+                        </div>
+                        
+                         <div class="form-group">
+                            <label>关联比例</label>
+                            <input type="number" ng-change="onChangeRatio()" name="ratio" ng-model="infos.ratio" class="form-control"/>
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                            <label>执行价格</label>
+                            <input type="text" name="price" class="form-control chang_price" ng-model="infos.price"/>
+                        </div>
+                        <!--<div class="form-group">-->
+                        <!--    <label>状态</label>-->
+                        <!--    <select name="status" class="form-control" ng-model="infos.status">-->
+                        <!--        <option value="1">使用</option>-->
+                        <!--        <option value="0">暂停</option>-->
+                        <!--    </select>-->
+                        <!--</div>-->
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <!--<button type="button" class="btn btn-primary" ng-click="edit()">更新</button>-->
+                    <button type="button" class="btn btn-primary" ng-click="edit()" ng-disabled="isRequesting">
+                        <span ng-if="isRequesting" class="spinner"></span>
+                        <span ng-if="!isRequesting">更新</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<style>
+    
+    .btn-primary.disabled,
+.btn-primary[disabled] {
+    
+    cursor: not-allowed; /* 禁止点击的鼠标样式 */
+}
+
+.spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ccc; /* 外圈颜色 */
+    border-top-color: #333; /* 顶部颜色，形成转圈圈效果 */
+    border-radius: 50%;
+    animation: spin 1s linear infinite; /* 动画效果 */
+    margin-right: 8px; /* 与文本之间的间距 */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+</style>
+
+<script>
+  function changePid(){
+      
+  }
+  
+ function addor2() {
+        var temp = $("form[name='ador2']").serializeArray();
+        var data = objToArray(temp);
+        var baseurl = "{:U('NewLabel/add','model=new_label')}";
+        //////
+        $.ajax({
+            url: baseurl,
+            type: "post",
+            data: data,
+            dataType: "json",
+            success: function (res) {
+                if (res.status != 1) {
+                    return swal('提示', res.msg, "error");
+                }
+                window.location.reload();
+            },
+            error: function () {
+
+            },
+        });
+    }
+    /**
+     * 添加
+     * @returns {undefined}
+     */
+    function addor() {
+        var temp = $("form[name='ador']").serializeArray();
+        var data = objToArray(temp);
+        var baseurl = "{:U('NewLabel/add','model=new_label')}";
+        //////
+        $.ajax({
+            url: baseurl,
+            type: "post",
+            data: data,
+            dataType: "json",
+            success: function (res) {
+                if (res.status != 1) {
+                    return swal('提示', res.msg, "error");
+                }
+                window.location.reload();
+            },
+            error: function () {
+
+            },
+        });
+    }
+
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function ($scope, $http) {
+$scope.isRequesting = false;
+        $scope.infos;
+
+$scope.onChangeRatio = function(){
+    if($scope.infos.pid > 0){
+            var cate = '';
+        $scope.infos.cate_list.forEach(function(item) {
+            
+            if(item.id == $scope.infos.pid){
+                cate = item;
+            }
+        });
+    if(cate){
+        var price = 0;
+        $scope.infos.price = ((cate.price * $scope.infos.ratio)/100).toFixed(2);
+    } 
+    }
+           
+    
+}
+ // 假设你想要Item2不可编辑
+  $scope.$watch('infos.pid', function(newVal,oldVal) {console.log(2233);console.log(newVal);
+          if(newVal != 'undefined' && newVal > 0){
+           $(".chang_price").attr("disabled", "disabled");
+        }else{
+            $(".chang_price").removeAttr("disabled");
+
+        }
+   
+    if(newVal != 'undefined' && newVal > 0){
+        var cate = '';
+        $scope.infos.cate_list.forEach(function(item) {
+            console.log(newVal);
+             console.log(item.id == newVal);
+            if(item.id == newVal){
+                cate = item;
+            }
+        });
+        // $scope.infos = {
+        // ratio: 100
+        // };
+        if(newVal != oldVal){
+            if($scope.infos.ratio == 'undefined'){
+                $scope.infos.ratio = 100;
+            }
+             
+             var price = 0;
+              
+            //  $scope.infos.price = ((cate.price * $scope.infos.ratio)/100).toFixed(2);
+             var price = parseFloat(((cate.price * $scope.infos.ratio) / 100).toFixed(2));
+             
+             const factor = Math.pow(10, 0);
+               var price =  Math.trunc($price * factor) / factor;
+            $scope.infos.price = $price;
+             console.log(555555); console.log( $scope.infos.price);
+        }
+       
+        console.log(cate);
+    }
+    
+  });
+        ////////////////////////////////////////////////////////////////////////
+
+        // $scope.onSelectChange = function() {
+        //     console.log(556);
+        //      console.log($scope.infos.pid);
+        //      $(".chang_price").attr("disabled", "disabled");
+        // }
+        /**
+         * 通讯操作
+         * @param {type} url
+         * @param {type} data
+         * @returns {undefined}
+         */
+        $scope.commAjax = function (url, data, success) {
+            $http({
+                method: "POST",
+                url: url,
+                data: data,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var p in obj) {
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    }
+                    return str.join("&");
+                }
+            }).success(function (response) {
+                success(response);
+            });
+        };
+
+        ////////////////////////////////////////////////////////////////////////
+
+        $scope.updateinfo = function (id) {
+            $scope.commAjax("{:U('NewLabel/editGet','model=new_label')}", {id: id}, function (res) {
+                $scope.infos = res.data;
+                $("#myEdit").modal("show");
+            });
+        }
+
+        $scope.updateCats = function () {
+            var param = $scope.infos;
+            param.ids = param.id;
+            /////////
+            $.ajax({
+                url: "{:U('Core/edits','model=new_label')}",
+                type: "post",
+                dataType: 'json',
+                data: param,
+                success: function (data) {
+                    if (data.status !== 1) {
+                        return swal("错误", data.msg, "error");
+                    }
+                    window.location.reload();
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+        
+        $scope.updateinfo2 = function (id) {
+            $scope.commAjax("{:U('NewLabel/addGet','model=new_label')}", {cate_label_id: id}, function (res) {
+                
+                $scope.infos = res.data;
+                console.log(11);
+                console.log(res.data);
+                $("#myModal2").modal("show");
+            });
+        }
+        
+        $scope.updateinfo3 = function (id) {
+            $scope.commAjax("{:U('NewLabel/editGet','model=new_label')}", {id: id}, function (res) {
+                $scope.infos = res.data;
+                console.log(111);
+                console.log(id);
+                console.log(res.data);
+                $("#myEdit2").modal("show");
+            });
+        }
+        
+        $scope.edit = function () {
+            var param = $scope.infos;
+            param.ids = param.id;
+            $scope.isRequesting = true;
+            /////////
+            $.ajax({
+                url: "{:U('NewLabel/edit','model=new_label')}",
+                type: "post",
+                dataType: 'json',
+                data: param,
+                // timeout: 10000, // 设置超时时间为5000毫秒（5秒）
+                success: function (data) {
+                    if (data.status !== 1) {
+                        return swal("错误", data.msg, "error");
+                    }
+                     $scope.isRequesting = false;
+                    window.location.reload();
+                },
+                error: function (data) {
+                     $scope.isRequesting = false;
+                    console.log(data);
+                }
+            });
+        }
+
+        $scope.dels = function (ids) {
+            swal({
+                title: '确认删除',
+                text: "确定要删除吗？",
+                icon: 'warning',
+                buttons: true,
+                dangerMode: true,
+           }).then((willDelete) => {
+                if (willDelete) {
+                    var param = {id: ids};
+                    $scope.commAjax("{:U('Core/dels','model=new_label')}", param, function (res) {
+                        if (res.status !== 1) {
+                            return swal("错误", res.msg, "error");
+                        }
+                        window.location.reload();
+                    });
+                }else{
+                    
+                }
+            
+            })   
+        }
+
+    });
+
+</script>
+
+

@@ -1,0 +1,213 @@
+<div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
+
+    <!-- 标题 -->
+    <div class="row">
+        <div class="col-lg-8 p-r-0 title-margin-right">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>客服配置管理</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主内容 -->
+    <section id="main-content">
+
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="card alert">
+
+                    <!-- 头部 -->
+                    <div class="card-header">
+                        <h4>配置项</h4>
+                    </div>
+
+                    <!-- 内容 -->
+                    <div class="card-body">
+
+                        <form class="form-horizontal">
+
+                            <!-- 动态表单 -->
+                            <div class="form-group" ng-repeat="item in configList">
+
+                                <label class="col-sm-2 control-label">
+                                    {{item.title}}
+                                </label>
+
+                                <div class="col-sm-6">
+
+                                    <!-- 输入框 -->
+                                    <input 
+                                        ng-if="item.type == 1"
+                                        type="text"
+                                        class="form-control"
+                                        ng-model="formData[item.name]"
+                                    />
+
+                                    <!-- 图片地址 -->
+                                    
+                                   <div ng-if="item.type == 2">
+
+                                        <input 
+                                            type="file"
+                                            class="form-control"
+                                            onchange="angular.element(this).scope().uploadFile(this, this.getAttribute('data-name'))"
+                                            data-name="{{item.name}}"
+                                        />
+                                    
+                                        <!-- 有值才显示图片 -->
+                                        <img 
+                                            ng-if="formData[item.name]" 
+                                            ng-src="{{formData[item.name]}}" 
+                                            style="max-width:100px;margin-top:10px;"
+                                        >
+                                    
+                                    </div>
+
+                                    <!-- 多行文本 -->
+                                    <textarea 
+                                        ng-if="item.type == 3"
+                                        class="form-control"
+                                        rows="3"
+                                        ng-model="formData[item.name]"
+                                    ></textarea>
+
+                                </div>
+
+                            </div>
+
+                            <!-- 提交按钮 -->
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-6">
+                                    <button type="button" class="btn btn-primary" ng-click="saveConfig()">
+                                        保存配置
+                                    </button>
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+</div>
+
+
+<script>
+
+var app = angular.module('myApp', []);
+
+app.controller('myCtrl', function ($scope, $http) {
+
+    $scope.configList = [];
+    $scope.formData = {};
+
+    /**
+     * 通用POST
+     */
+    $scope.commAjax = function (url, data, success) {
+        $http({
+            method: "POST",
+            url: url,
+            data: data,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            transformRequest: function (obj) {
+                var str = [];
+                for (var p in obj) {
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+        }).then(function (res) {
+            success(res.data);
+        });
+    };
+
+    /**
+     * 获取配置
+     */
+    $scope.getConfig = function () {
+       
+        $scope.commAjax("{:U('config/customer_config_ajax')}", {}, function (res) {
+            if (res.status !== 1) {
+                alert(res.msg);
+                return;
+            }
+
+            $scope.configList = res.data;
+
+            // 初始化数据
+            angular.forEach(res.data, function (item) {
+                $scope.formData[item.name] = item.value;
+            });
+
+        });
+    };
+
+    /**
+     * 保存
+     */
+    $scope.saveConfig = function () {
+
+        $.ajax({
+            url: "{:U('config/saveCustomerConfig')}",
+            type: "post",
+            data: $scope.formData,
+            dataType: "json",
+            success: function (res) {
+                if (res.status !== 1) {
+                    return alert(res.msg);
+                }
+                alert("保存成功");
+            },
+            error: function () {
+                alert("请求失败");
+            }
+        });
+
+    };
+
+    // 页面加载自动执行
+    $scope.getConfig();
+    
+    $scope.uploadFile = function (obj, fieldName) {
+    var file = obj.files[0];
+    if (!file) return;
+
+    var formData = new FormData();
+    formData.append("file", file);
+
+    $.ajax({
+        url: "{:U('config/upload')}",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: "json",   // ⭐ 关键！！
+        success: function (res) {
+            console.log(33333333);
+            console.log(res);
+            if (res.status != 1) {
+                alert(res.msg);
+                return;
+            }
+
+            $scope.$apply(function () {
+                $scope.formData[fieldName] = res.data.path_url;
+            });
+
+        }
+    });
+};
+
+});
+
+</script>

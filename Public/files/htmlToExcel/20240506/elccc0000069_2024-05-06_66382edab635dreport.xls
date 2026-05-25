@@ -1,0 +1,129 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml" 
+     xmlns:o="urn:schemas-microsoft-com:office:office"
+     xmlns:x="urn:schemas-microsoft-com:office:excel"
+     xmlns:w="urn:schemas-microsoft-com:office:word"
+     xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+     xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name></x:Name><x:WorksheetOptions><x:Selected/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        table#hrdftrtbl {
+            margin: 0in 0in 0in 900in;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+        @media print {
+    div {
+        page-break-inside: avoid;
+    }
+}
+    </style>
+</head>
+
+<body class="layui-anim layui-anim-fadein">
+    <!-- <img src='http://app.elccc.cn/Public/uploads/ads/6056dcca873bf.png' alt="My Image"> -->
+    <table width="100%" border="1" align="center" cellspacing="0" cellpadding="0" id="list-table" class="layui-table">
+
+        <thead>
+
+            <tr class="f12">
+                <th colspan="7" style="height:30px;"><img style="height:50px;" src="http://app.elccc.cn/Public/uploads//logo/logo16634494187319.jpg"> </th>
+               
+            </tr>
+            <tr class="f12">
+                <th colspan="7">产品报价单</th>
+            </tr>
+            <tr class="f12">
+                <th colspan="4" class="text-left" style="text-align: left;">报价单位：成都金川电缆集团有限公司</th>
+                <th colspan="3" class="text-left" style="text-align: left;">报价日期：2024-05-06</th>
+            </tr>
+            <tr class="f12">
+                <th colspan="4" class="text-left" style="text-align: left;">询价单位：重庆神舟电缆集团股份有限公司</th>
+                <th colspan="3" class="text-left" style="text-align: left;">报价单编号:elccc0000069</th>
+            </tr>
+            <tr class="f12">
+                <th colspan="4" class="text-left" style="text-align: left;">项目名称：重庆开州教育局教师公租房项目</th>
+                <th colspan="3" class="text-left" style="text-align: left;">含税标识：不含税票</th>
+            </tr>
+
+            <tr class="f12">
+                <th width="50" class="text-center">序号</th>
+                <th class="text-center" width="150" >产品名称</th>
+                <th class="text-center" width="100">计量单位</th>
+                <th class="text-center" width="100">数量</th>
+                <th class="text-center" width="100">单位（元）</th>
+                <th class="text-center" width="130">合计（元）</th>
+                <th class="text-center" width="100">报价备注项</th>
+                <!-- <th class="text-center" width="100" class="text-left">2222</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            
+            <tr id="" class=""><td class="text-center">1</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:1×25</td><td class="text-center">米</td><td class="text-center">100</td><td class="text-center">17.94</td><td class="text-center">1812.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">2</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:1×35</td><td class="text-center">米</td><td class="text-center">200</td><td class="text-center">24.94</td><td class="text-center">5038.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">3</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:1×50</td><td class="text-center">米</td><td class="text-center">300</td><td class="text-center">34.10</td><td class="text-center">10332.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">4</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:1×70</td><td class="text-center">米</td><td class="text-center">400</td><td class="text-center">48.47</td><td class="text-center">19580.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">5</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:1×95</td><td class="text-center">米</td><td class="text-center">500</td><td class="text-center">66.93</td><td class="text-center">33800.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">6</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:1×120</td><td class="text-center">米</td><td class="text-center">600</td><td class="text-center">84.36</td><td class="text-center">51120.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">7</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:1×150</td><td class="text-center">米</td><td class="text-center">700</td><td class="text-center">101.88</td><td class="text-center">72030.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">8</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:1×185</td><td class="text-center">米</td><td class="text-center">800</td><td class="text-center">126.35</td><td class="text-center">102088.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">9</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:1×240</td><td class="text-center">米</td><td class="text-center">900</td><td class="text-center">166.03</td><td class="text-center">150921.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">10</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:1×300</td><td class="text-center">米</td><td class="text-center">1000</td><td class="text-center">205.54</td><td class="text-center">207600.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">11</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:1×400</td><td class="text-center">米</td><td class="text-center">1100</td><td class="text-center">270.44</td><td class="text-center">300454.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">12</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:1×500</td><td class="text-center">米</td><td class="text-center">1200</td><td class="text-center">346.38</td><td class="text-center">419808.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">13</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:1×630</td><td class="text-center">米</td><td class="text-center">1300</td><td class="text-center">437.02</td><td class="text-center">573807.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">14</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:1×800</td><td class="text-center">米</td><td class="text-center">1400</td><td class="text-center">554.47</td><td class="text-center">784014.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">15</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:2×1.5</td><td class="text-center">米</td><td class="text-center">1500</td><td class="text-center">2.68</td><td class="text-center">4065.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">16</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:2×2.5</td><td class="text-center">米</td><td class="text-center">1600</td><td class="text-center">4.11</td><td class="text-center">6640.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">17</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:2×4.0</td><td class="text-center">米</td><td class="text-center">1700</td><td class="text-center">6.08</td><td class="text-center">10438.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">18</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:2×6.0</td><td class="text-center">米</td><td class="text-center">1800</td><td class="text-center">8.85</td><td class="text-center">16092.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">19</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:2×10</td><td class="text-center">米</td><td class="text-center">1900</td><td class="text-center">14.46</td><td class="text-center">27740.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">20</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:2×16</td><td class="text-center">米</td><td class="text-center">2000</td><td class="text-center">23.24</td><td class="text-center">46940.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">21</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:2×25</td><td class="text-center">米</td><td class="text-center">2100</td><td class="text-center">35.76</td><td class="text-center">75852.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">22</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:2×35</td><td class="text-center">米</td><td class="text-center">2200</td><td class="text-center">49.71</td><td class="text-center">110462.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">23</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:2×50</td><td class="text-center">米</td><td class="text-center">2300</td><td class="text-center">67.32</td><td class="text-center">156377.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">24</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:2×70</td><td class="text-center">米</td><td class="text-center">2400</td><td class="text-center">96.61</td><td class="text-center">234192.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">25</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:2×95</td><td class="text-center">米</td><td class="text-center">2500</td><td class="text-center">133.25</td><td class="text-center">336450.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">26</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:2×120</td><td class="text-center">米</td><td class="text-center">2600</td><td class="text-center">168.11</td><td class="text-center">441454.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">27</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:2×150</td><td class="text-center">米</td><td class="text-center">2700</td><td class="text-center">201.63</td><td class="text-center">549855.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">28</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:2×185</td><td class="text-center">米</td><td class="text-center">2800</td><td class="text-center">250.16</td><td class="text-center">707448.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">29</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:2×240</td><td class="text-center">米</td><td class="text-center">2900</td><td class="text-center">328.82</td><td class="text-center">963119.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">30</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:2×300</td><td class="text-center">米</td><td class="text-center">3000</td><td class="text-center">410.15</td><td class="text-center">1242750.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">31</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:2×400</td><td class="text-center">米</td><td class="text-center">3100</td><td class="text-center">545.02</td><td class="text-center">1706457.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">32</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:2×500</td><td class="text-center">米</td><td class="text-center">3200</td><td class="text-center">698.12</td><td class="text-center">2256320.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">33</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:2×630</td><td class="text-center">米</td><td class="text-center">3300</td><td class="text-center">878.97</td><td class="text-center">2929608.00</td><td class="text-center"> </td></tr><tr id="" class=""><td class="text-center">34</td><td class="text-center">电压等级:0.6/1kV<br>产品型号:ZC-YJV<br>产品型号:3×1.5</td><td class="text-center">米</td><td class="text-center">3400</td><td class="text-center">3.79</td><td class="text-center">13022.00</td><td class="text-center"> </td></tr>
+            <!--<tr id="" class="">-->
+            <!--    <td class="text-center">1111</td>-->
+            <!--    <td class="text-center">222</td>-->
+            <!--    <td class="text-center">333</td>-->
+            <!--    <td class="text-center">4444</td>-->
+            <!--    <td class="text-center">555</td>-->
+            <!--    <td class="text-center">555</td>-->
+            <!--    <td class="text-center">555</td>-->
+
+            <!--</tr>-->
+            <!--<tr id="" class="">-->
+            <!--    <td class="text-center">1111</td>-->
+            <!--    <td class="text-center">222</td>-->
+            <!--    <td class="text-center">333</td>-->
+            <!--    <td class="text-center">4444</td>-->
+            <!--    <td class="text-center">555</td>-->
+            <!--    <td class="text-center">555</td>-->
+            <!--    <td class="text-center">555</td>-->
+
+            <!--</tr>-->
+            <tr id="" class="">
+                <td colspan="2" class="text-center">共计：59500</td>
+                <!--<td colspan="2" class="text-center"><img src='http://app.elccc.cn/Public/uploads/ads/6056dcca873bf.png' alt="My Image"></td>-->
+                <!--<td class="text-center">222</td>-->
+                <td colspan="3" class="text-center">累计数量：59500</td>
+                <td class="text-center">14567685.00</td>
+                <td class="text-center"></td>
+
+            </tr>
+            
+            <tr id="" class="">
+                <td colspan="5" class="text-center">合计大写金额：壹仟肆佰伍拾陸万柒仟陸佰捌拾伍元整</td>
+                <td colspan="2" class="text-center">质量标准：国家标准</td>
+            </tr>
+            
+            <tr id="" class="">
+                <td colspan="4" class="text-center">付款方式：货到付款</td>
+                <td colspan="3" class="text-center">包装费用：报价包含产品包装</td>
+            </tr>
+            
+            <tr id="" class="">
+                <td colspan="4" class="text-center">运输方式：物流运输</td>
+                <td colspan="3" class="text-center">运输费用：卖方负责</td>
+            </tr>
+            <tr id="" class="">
+                <td colspan="4" class="text-center">报价人员：贾世广</td>
+                <td colspan="3" class="text-center">联系方式：13438204989</td>
+            </tr>
+
+            <tr id="" class="">
+                <td colspan="7" class="text-center">报价备注：    备注项： 
+1、以上报价含税13%、含物流运费、不含卸车费。  质量按照国家标准执行
+
+2、付款方式：预付30%定金，余款发货前付清
+
+3、因铜价不稳定，报价产品单价有效期为1天。</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+
+</html></body></html>

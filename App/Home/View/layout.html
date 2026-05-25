@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>易缆管理中心</title>
+        <!-- ================= Favicon ================== -->
+        <!-- Styles -->
+        <link href="__PUBLIC__/assets/css/lib/font-awesome.min.css" rel="stylesheet">
+        <link href="__PUBLIC__/assets/css/lib/themify-icons.css" rel="stylesheet">
+        <link href="__PUBLIC__/assets/css/lib/menubar/sidebar.css" rel="stylesheet">
+        <link href="__PUBLIC__/assets/css/lib/bootstrap.min.css" rel="stylesheet">
+        <link href="__PUBLIC__/assets/css/lib/unix.css" rel="stylesheet">
+        <link href="__PUBLIC__/assets/css/style.css" rel="stylesheet">
+        <!-- jquery vendor -->
+        <script src="__PUBLIC__/assets/js/lib/jquery.min.js"></script>
+        <script src="__PUBLIC__/assets/js/lib/jquery.nanoscroller.min.js"></script>
+        <script src="__PUBLIC__/assets/js/lib/bootstrap.min.js"></script>
+        <!-- Angularjs -->
+        <script src="__PUBLIC__/libs/angular/angular.min.js"></script>
+
+        <!-- sweetalert -->
+        <link href="__PUBLIC__/libs/sweet-alert2/sweetalert2.min.css" rel="stylesheet">
+        <script src="__PUBLIC__/libs/sweet-alert2/sweetalert2.min.js"></script>
+
+        <!----->
+        <link href="__PUBLIC__/libs/swiper/css/swiper.min.css" rel="stylesheet">
+        <script src="__PUBLIC__/libs/swiper/js/swiper.min.js"></script>
+
+        <script src="__PUBLIC__/libs/layer/layer.js"></script>
+        <script src="__PUBLIC__/libs/common.js"></script>
+        <script src="__PUBLIC__/libs/ajaxfileupload.js?v=3"></script>
+        <style>
+            .table{
+                font-size:12px;
+            }
+            .none{
+                display:none!important;
+            }
+            .sidebar .nano-content > ul li > a{
+                padding: 8px 20px;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
+            <div class="nano">
+                <div class="nano-content">
+                    <ul>
+                        <li class="label">管理功能</li>
+                        <li><a href="{:U('Bords/index')}"><i class="ti-home"></i> 概览</a></li>
+                        <li class="active open">
+                            <a class="sidebar-sub-toggle">
+                                <i class="ti-harddrives"></i> 用户管理 <span class="sidebar-collapse-icon ti-angle-down"></span>
+                            </a>
+                            <ul>
+                                <li><a href="{:U('Users/index')}">注册用户</a></li>
+                                <li><a href="{:U('Users/logrs')}">登录统计</a></li>
+                                <li><a href="{:U('Users/search')}">搜索记录</a></li>
+                                <!--li><a href="{:U('Users/label')}">禁止区域</a></li-->
+                                <li><a href="{:U('Users/levels')}">用户等级</a></li>
+                                <!--li><a href="{:U('Users/cnlogs')}">账户操作记录</a></li-->
+                                <li><a href="{:U('Users/mess')}">消息管理</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{:U('Task/index')}"><i class="ti-harddrives"></i> 材料价格任务执行更新</a></li>
+                        <li><a href="{:U('NewLabel/index')}"><i class="ti-harddrives"></i> 材料价格分类</a></li>
+                        <li><a href="{:U('NewCate/index')}"><i class="ti-harddrives"></i> 公式计算</a></li>
+                        <li><a href="{:U('NewTax/index')}"><i class="ti-harddrives"></i> 税率标签</a></li>
+                        <!--<li><a href="{:U('Goods/cats_exc')}"><i class="ti-harddrives"></i> 材料标签</a></li>-->
+                        <li><a href="{:U('Goods/cats')}"><i class="ti-harddrives"></i> 商品分类</a></li>
+                        <!--li><a href="{:U('Goods/tmps')}"><i class="ti-harddrives"></i> 商品模板</a></li-->
+                        <li><a href="{:U('Goods/liner')}"><i class="ti-harddrives"></i> 线缆板块</a></li>
+                        <li><a href="{:U('Goods/peita')}"><i class="ti-harddrives"></i> 配套板块</a></li>
+                        <li><a href="{:U('Shops/index')}"><i class="ti-harddrives"></i> 店铺管理</a></li>
+                        <li><a href="{:U('Order/index')}"><i class="ti-harddrives"></i> 订单管理</a></li>
+                        <!--li><a href="{:U('Shops/buyer')}"><i class="ti-harddrives"></i> 采购管理</a></li>
+                        <li><a href="{:U('Shops/recyle')}"><i class="ti-harddrives"></i> 回收管理</a></li-->
+                        <!--<li><a href="{:U('Trans/citys')}"><i class="ti-harddrives"></i> 物流板块</a></li>-->
+                        <!--li>
+                            <a class="sidebar-sub-toggle">
+                                <i class="ti-harddrives"></i> 知识板块 <span class="sidebar-collapse-icon ti-angle-down"></span>
+                            </a>
+                            <ul>
+                                <li><a href="{:U('Know/cats')}">知识分类</a></li>
+                                <li><a href="{:U('Know/index')}">知识文章</a></li>
+                            </ul>
+                        </li-->
+                        <li><a href="{:U('Know/advs')}"><i class="ti-harddrives"></i> 广告管理</a></li>
+                        <li><a href="{:U('Know/helps')}"><i class="ti-harddrives"></i> 帮助中心</a></li>
+                        <li><a href="{:U('Know/sysc')}"><i class="ti-harddrives"></i> 系统文本</a></li>
+                        <li><a href="{:U('Sysc/banks')}"><i class="ti-harddrives"></i> 银行卡号</a></li>
+                        <li><a href="{:U('Version/index')}"><i class="ti-harddrives"></i> 系统版本</a></li>
+                        <li><a href="{:U('Bar/index')}"><i class="ti-harddrives"></i> tab栏控制</a></li>
+                         <li><a href="{:U('ReportInfo/index')}"><i class="ti-harddrives"></i>报价单管理</a></li>
+                         <!--<li><a href="{:U('Config/customer_config')}"><i class="ti-harddrives"></i>客服配置</a></li>-->
+
+                        <li><a href="{:U('Index/index')}"><i class="ti-close"></i> 退出登录</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /# sidebar -->
+
+        <div class="header">
+            <div class="pull-left">
+                <div class="logo"><a href="{:U('Bords/index')}"><span>易缆管理中心</span></a></div>
+            </div>
+
+            <div class="pull-right p-r-15">
+                <ul>
+
+                    <li class="header-icon dib">
+                        <img class="avatar-img" src="__PUBLIC__/assets/images/avatar/1.jpg" alt="" />
+                        <span class="user-avatar">管理员 <i class="ti-angle-down f-s-10"></i></span>
+
+                        <div class="drop-down dropdown-profile">
+                            <div class="dropdown-content-body">
+                                <ul>
+                                    <li><a href="javascript:;"><i class="ti-user"></i> <span>密码管理</span></a></li>
+                                    <li><a href="{:U('Index/index')}"><i class="ti-power-off"></i> <span>退出登录</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+
+
+        <div class="content-wrap">
+            <div class="main">
+
+                {__CONTENT__}
+
+            </div>
+        </div>
+        <!-- nano scroller -->
+        <script src="__PUBLIC__/assets/js/lib/menubar/sidebar.js"></script>
+        <script src="__PUBLIC__/assets/js/lib/preloader/pace.min.js"></script>
+        <!-- scripit init-->
+        <script type="text/javascript" src="__PUBLIC__/assets/js/scripts.js"></script>
+    </body>
+
+</html>

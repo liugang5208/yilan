@@ -1,0 +1,117 @@
+<script charset="utf-8" src="__PUBLIC__/libs/kindeditor/kindeditor-all.js"></script>
+<script charset="utf-8" src="__PUBLIC__/libs/kindeditor/lang/zh-CN.js"></script>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-8 p-r-0 title-margin-right">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>添加知识文章</h1>
+                </div>
+            </div>
+        </div>
+        <!-- /# column -->
+        <div class="col-lg-4 p-l-0 title-margin-left">
+            <div class="page-header">
+                <div class="page-title">
+                    <ol class="breadcrumb text-right">
+                        <li><a href="{:U('Know/index')}">知识文章</a></li>
+                        <li class="active">添加知识文章</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /# column -->
+    </div>
+    <!-- /# row -->
+    <section id="main-content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card alert">
+                    <div class="card-header">
+                        <h4>添加知识文章</h4>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="row">
+
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+                                        <label>分类</label>
+                                        <select name="catid" class="form-control input-sm">
+                                            <option value="">请选择</option>
+                                            <volist name="list" id="v">
+                                                <option value="{$v.id}">{$v.name}</option>
+                                            </volist>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>标题</label>
+                                        <input type="text" name="title" class="form-control input-sm"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>概述</label>
+                                        <textarea name="descr" class="form-control input-sm" rows="6"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>状态</label>
+                                        <select name="status" class="form-control input-sm">
+                                            <option value="1">发布</option>
+                                            <option value="0">草稿</option>
+                                        </select>
+                                    </div>
+                                    <button type="button" class="btn btn-primary" onclick="addor()">添加</button>
+                                </div> 
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label>内容</label>
+                                        <textarea name="context" id="editor_id" class="form-control input-sm" rows="20"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+
+    KindEditor.ready(function (K) {
+        window.editor = K.create('#editor_id');
+    });
+
+    /**
+     * 添加
+     * @returns {undefined}
+     */
+    function addor() {
+        editor.sync();
+        ////
+        var temp = $("form").serializeArray();
+        var data = objToArray(temp);
+        var baseurl = "{:U('Core/addon','model=know')}";
+        //////
+        $.ajax({
+            url: baseurl,
+            type: "post",
+            data: data,
+            dataType: "json",
+            success: function (res) {
+                if (res.status != 1) {
+                    return swal('提示', res.msg, "error");
+                }
+                window.location.reload();
+            },
+            error: function () {
+
+            },
+        });
+    }
+
+</script>
+
+

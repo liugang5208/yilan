@@ -1,0 +1,155 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-8 p-r-0 title-margin-right">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>采购</h1>
+                </div>
+            </div>
+        </div>
+        <!-- /# column -->
+        <div class="col-lg-4 p-l-0 title-margin-left">
+            <div class="page-header">
+                <div class="page-title">
+                    <!--ol class="breadcrumb text-right">
+                        <li><a href="#">Dashboard</a></li>
+                        <li class="active">UI-Blank</li>
+                    </ol-->
+                </div>
+            </div>
+        </div>
+        <!-- /# column -->
+    </div>
+    <!-- /# row -->
+    <section id="main-content">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="card alert">
+                    <div class="card-header">
+                        <h4>采购</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>采购类别</th>
+                                        <th>质量标准</th>
+                                        <th>是否含税</th>
+                                        <th>付款方式</th>
+                                        <th>使用地点</th>
+                                        <th>采购模式</th>
+
+                                        <th>采购预算</th>
+                                        <th>单位名称</th>
+                                        <th>联系人员</th>
+                                        <th>手机号码</th>
+                                        <th>QQ号码</th>
+                                        <th>电子邮箱</th>
+                                        <th>接受方式</th>
+                                        <th>采购备注</th>
+                                        <th>记录时间</th>
+                                        <th>管理</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                <volist name="list.list" id="v">
+                                    <tr>
+                                        <th scope="row">{$v.id}</th>
+                                        <td>{$v.buy_type}</td>
+                                        <td>{$v.make_lince}</td>
+                                        <td>{$v.tex}</td>
+                                        <td>{$v.paytype}</td>
+                                        <td>{$v.use_addr}</td>
+                                        <td>{$v.buy_mode}</td>
+                                        <td>{$v.money}</td>
+                                        <td>{$v.comp}</td>
+                                        <td>{$v.comp_user}</td>
+                                        <td>{$v.comp_phone}</td>
+                                        <td>{$v.comp_qq}</td>
+                                        <td>{$v.comp_mail}</td>
+                                        <td>{$v.comp_accept}</td>
+                                        <td>{$v.comp_tags}</td>
+                                        <td>{$v.times|date='Y/m/d H:i:s',###}</td>
+                                        <td>
+                                            <a href="javascript:dels('{$v.id}');" class="btn btn-danger btn-xs">删除</a>
+                                        </td>
+                                    </tr>
+                                </volist>
+
+                                </tbody>
+                            </table>
+
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">{$list.show}</ul>
+                            </nav>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+
+<script>
+
+    /**
+     * 添加
+     * @returns {undefined}
+     */
+    function addor() {
+        var temp = $("form").serializeArray();
+        var data = objToArray(temp);
+        var baseurl = "{:U('Core/addon','model=bulks_buyer')}";
+        //////
+        $.ajax({
+            url: baseurl,
+            type: "post",
+            data: data,
+            dataType: "json",
+            success: function (res) {
+                if (res.status != 1) {
+                    return swal('提示', res.msg, "error");
+                }
+                window.location.reload();
+            },
+            error: function () {
+
+            },
+        });
+    }
+
+    /**
+     * 删除
+     * @returns {undefined}
+     */
+    function dels(id) {
+        var data = {id: id};
+        var baseurl = "{:U('Core/dels','model=bulks_buyer')}";
+        //////
+        $.ajax({
+            url: baseurl,
+            type: "post",
+            data: data,
+            dataType: "json",
+            success: function (res) {
+                if (res.status != 1) {
+                    return swal('提示', res.msg, "error");
+                }
+                window.location.reload();
+            },
+            error: function () {
+
+            },
+        });
+    }
+
+</script>
+
+

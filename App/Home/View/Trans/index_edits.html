@@ -1,0 +1,162 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-8 p-r-0 title-margin-right">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>更新物流公司信息</h1>
+                </div>
+            </div>
+        </div>
+        <!-- /# column -->
+        <div class="col-lg-4 p-l-0 title-margin-left">
+            <div class="page-header">
+                <div class="page-title">
+                    <ol class="breadcrumb text-right">
+                        <li><a href="javascript:window.history.back(-1);">物流公司</a></li>
+                        <li class="active">更新物流公司信息</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /# column -->
+    </div>
+    <!-- /# row -->
+    <section id="main-content">
+
+        <div class="col-lg-12">
+            <div class="card alert">
+                <div class="card-header">
+                    <h4>更新物流公司信息</h4>
+                </div>
+                <div class="card-body">
+
+                    <form>
+                        <input type="hidden" name="ids" value="{$id}"/>
+                        <input type="hidden" name="pid" value="{$info.pid}"/>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>物流公司名称</label>
+                                    <input type="text" name="name" class="form-control input-sm" value="{$info.name}"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>专线往返</label>
+                                    <input type="text" name="line_trans" class="form-control input-sm" value="{$info.line_trans}"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>线路关键词</label>
+                                    <textarea name="line_keys" class="form-control input-sm" rows="5">{$info.line_keys}</textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>代收发送</label>
+                                    <input type="text" name="agent_save" class="form-control input-sm" value="{$info.agent_save}"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>代收查询</label>
+                                    <input type="text" name="agent_phone" class="form-control input-sm" value="{$info.agent_phone}"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>总部电话</label>
+                                    <input type="text" name="telephone" class="form-control input-sm" value="{$info.telephone}"/>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>公司地址</label>
+                                    <input type="text" name="addr" class="form-control input-sm" value="{$info.addr}"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>状态</label>
+                                    <select name="status" class="form-control input-sm">
+                                        <option value="1" <if condition="$info['status'] eq 1">selected</if>>使用</option>
+                                        <option value="0" <if condition="$info['status'] eq 0">selected</if>>暂停</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </form>
+
+                    <button type="button" class="btn btn-primary" onclick="addor()">更新</button>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
+
+<script>
+
+    getRegion("{$info.base_prov}", 'base_city', "{$info.base_city}");
+    getRegion("{$info.base_city}", 'base_label', "{$info.base_label}");
+
+    getRegion("{$info.line_prov}", 'line_city', "{$info.line_city}");
+    getRegion("{$info.line_city}", 'line_label', "{$info.line_label}");
+
+    /**
+     * 获取城市区域
+     * @param {type} id
+     * @param {type} target
+     * @param {type} par
+     * @returns {undefined}
+     */
+    function getRegion(id, target, par) {
+        var data = {pid: id};
+        $.ajax({
+            url: "{:U('Comm/region')}",
+            type: "post",
+            data: data,
+            dataType: "json",
+            success: function (res) {
+                if (res.status != 1) {
+                    return swal('提示', res.msg, "error");
+                }
+                ///////
+                var html = "<option value=''>请选择</option>";
+                for (var i = 0; i < res.data.length; i++) {
+                    var tmp = "<option value='" + res.data[i]["id"] + "'>" + res.data[i]["name"] + "</option>";
+                    if (par == res.data[i]["id"]) {
+                        tmp = "<option value='" + res.data[i]["id"] + "' selected>" + res.data[i]["name"] + "</option>";
+                    }
+                    html += tmp;
+                }
+                $("select[name='" + target + "']").html(html);
+            },
+            error: function () {
+
+            },
+        });
+    }
+
+    /**
+     * 更新
+     * @returns {undefined}
+     */
+    function addor() {
+        var temp = $("form").serializeArray();
+        var data = objToArray(temp);
+        var baseurl = "{:U('Core/edits','model=trans')}";
+        //////
+        $.ajax({
+            url: baseurl,
+            type: "post",
+            data: data,
+            dataType: "json",
+            success: function (res) {
+                if (res.status != 1) {
+                    return swal('提示', res.msg, "error");
+                }
+                window.location.reload();
+            },
+            error: function () {
+
+            },
+        });
+    }
+
+</script>
