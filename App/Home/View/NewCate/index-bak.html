@@ -104,19 +104,15 @@
                     
                      <h5 class="p-b-5" style="display:flex;justify-content:space-between">
                          <div style="display:flex;align-items:center">
-                            <a style="display:flex;align-items:center;gap:8px;">
-                                <div style="width:150px;">
-                                    <select ng-change="onLabelCatChange()" class="form-control" ng-model="cate_form.label_cat">
-                                        <option value="">选择大类</option>
-                                        <option value="{{g.cate_label_id}}" ng-repeat="g in cate_form.label_groups">{{g.cat_name}}</option>
-                                    </select>
-                                </div>
+                            <a style="display:flex;">
                                 <div style="width:200px;">
                                     <select ng-change="onChangeLabel()" class="form-control" ng-model="cate_form.infos.new_label_id">
-                                        <option value="">选择材料</option>
-                                        <option value="{{v.id}}" ng-repeat="v in cate_form.label_sub_list">{{v.name}} - {{v.price}}</option>
-                                    </select>
+                                    <!--<option value="0">暂不选择</option>-->
+                                 <option  value="{{v.id}}" ng-repeat="v in cate_form.label_list">{{v._name}}</option>
+                                </select>
                                 </div>
+                                
+                               
                             </a>
                          <div style="margin-left:20px;display:flex;">{{cate_form.infos.price}}</div>
                          
@@ -303,19 +299,15 @@
                     
                      <h5 class="p-b-5" style="display:flex;justify-content:space-between">
                          <div style="display:flex;align-items:center">
-                            <a style="display:flex;align-items:center;gap:8px;">
-                                <div style="width:150px;">
-                                    <select ng-change="onLabelCatChange()" class="form-control" ng-model="cate_form.label_cat">
-                                        <option value="">选择大类</option>
-                                        <option value="{{g.cate_label_id}}" ng-repeat="g in cate_form.label_groups">{{g.cat_name}}</option>
-                                    </select>
-                                </div>
+                            <a style="display:flex;">
                                 <div style="width:200px;">
                                     <select ng-change="onChangeLabel()" class="form-control" ng-model="cate_form.infos.new_label_id">
-                                        <option value="">选择材料</option>
-                                        <option value="{{v.id}}" ng-repeat="v in cate_form.label_sub_list">{{v.name}} - {{v.price}}</option>
-                                    </select>
+                                    <!--<option value="0">暂不选择</option>-->
+                                 <option  value="{{v.id}}" ng-repeat="v in cate_form.label_list">{{v._name}}</option>
+                                </select>
                                 </div>
+                                
+                               
                             </a>
                          <div style="margin-left:20px;display:flex;">{{cate_form.infos.price}}</div>
                          
@@ -641,45 +633,6 @@ console.log(id)
             }
         };
         
-        // 从 label_list 按 cate_label_id 分组，提取大类列表
-        $scope.buildLabelGroups = function(labelList) {
-            var seen = {}, groups = [];
-            (labelList || []).forEach(function(item) {
-                var catId = item.cate_label_id;
-                if (!seen[catId]) {
-                    seen[catId] = true;
-                    // _name 格式：大类名-材料名-价格，取第一段作为大类名
-                    var catName = item._name ? item._name.split('-')[0] : ('大类' + catId);
-                    groups.push({ cate_label_id: catId, cat_name: catName });
-                }
-            });
-            return groups;
-        };
-
-        // 大类切换时过滤小类列表
-        $scope.onLabelCatChange = function() {
-            var catId = $scope.cate_form.label_cat;
-            $scope.cate_form.label_sub_list = ($scope.cate_form.label_list || []).filter(function(item) {
-                return String(item.cate_label_id) === String(catId);
-            });
-            $scope.cate_form.infos.new_label_id = '';
-        };
-
-        // 编辑回显时根据 new_label_id 反查大类并初始化小类列表
-        $scope.restoreLabelCat = function() {
-            var curId = $scope.cate_form.infos.new_label_id;
-            if (!curId) return;
-            var found = ($scope.cate_form.label_list || []).find(function(item) {
-                return String(item.id) === String(curId);
-            });
-            if (found) {
-                $scope.cate_form.label_cat = String(found.cate_label_id);
-                $scope.cate_form.label_sub_list = ($scope.cate_form.label_list || []).filter(function(item) {
-                    return String(item.cate_label_id) === String(found.cate_label_id);
-                });
-            }
-        };
-
         $scope.init = function () {
             var param = {id: $scope.cate_form.id};
             //////
@@ -688,15 +641,12 @@ console.log(id)
                     return swal("错误", res.msg, "error");
                 }
                 $scope.cate_form.infos = res.data.info;
-                $scope.cate_form.label_list = (res.data.label_list || []).filter(function(item) {
-                    return item.pid !== 0;
-                });
-                $scope.cate_form.label_groups = $scope.buildLabelGroups($scope.cate_form.label_list);
+                $scope.cate_form.label_list = res.data.label_list;
                 $scope.cate_form.cateFormName = res.data.info.name;
-                $scope.restoreLabelCat();
                 if (res.data.info != null) {
                     $scope.cate_form.list = res.data.list;
                 } else {
+                   
                     $scope.cate_form.list = [];
                 }
             });
@@ -784,12 +734,19 @@ console.log(id)
     
   });
   
-        // $scope.onChangeLabel = function() {
-        //     var newVal = $scope.cate_form.infos.new_label_id;
-        //     if (newVal && newVal != 0) {
-        //         $scope.cateUpate();
-        //     }
-        // };
+        //   $scope.onChangeLabel = function(newVal,oldVal){
+        //       console.log(11111);
+        //       console.log(oldVal);
+        //       console.log(newVal);
+        //       var newVal = $scope.cate_form.infos.new_label_id;
+        //       console.log(newVal);
+        //      if(newVal != oldVal && newVal > 0){
+                    
+        //           $scope.cateUpate();
+        //         }
+            
+                  
+        // }
  
 
         ////////////////////////////////////////////////////////////////////////
