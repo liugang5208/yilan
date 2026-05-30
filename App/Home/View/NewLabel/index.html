@@ -1,37 +1,18 @@
 <div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
-    <div class="row">
-        <div class="col-lg-8 p-r-0 title-margin-right">
-            <div class="page-header">
-                <div class="page-title">
-                    <h1>分类</h1>
-                </div>
-            </div>
-        </div>
-        <!-- /# column -->
-        <div class="col-lg-4 p-l-0 title-margin-left">
-            <div class="page-header">
-                <div class="page-title">
-                    <h1 style="text-align:right;padding-right:20px;">
-                        <a class="btn btn-xs" style="background:#333;color:#fff;border-color:#333;" data-toggle="modal" data-target="#myModal">添加新的分类</a>
-                    </h1>
-                </div>
-            </div>
-        </div>
-        <!-- /# column -->
-    </div>
-    <!-- /# row -->
-    <section id="main-content">
 
+    <!-- 基础材料管理 -->
+    <section id="section-base">
         <div class="row">
             <div class="col-lg-12">
                 <div class="card alert" style="width:100%">
+                    <div class="section-header">
+                        <span class="section-title">基础材料管理</span>
+                        <a class="btn btn-xs section-add-btn" style="background:#333;color:#fff;border-color:#333;" onclick="openAddCate(0)">+ 添加基础材料分类</a>
+                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
-
-                            <!-- 上半部分：基础价格展示区（pid == 0，color: inherit） -->
-                            <volist name="list" id="v">
+                            <volist name="baseList" id="v">
                                 <div class="cate-block">
-                                    <!-- 分类标题行 -->
                                     <div class="cate-title-row">
                                         <div class="cate-title-name">{$v.name}</div>
                                         <div class="cate-title-btns">
@@ -40,7 +21,6 @@
                                             <a class="btn btn-danger btn-xs" ng-click="dels('{$v.id}')">删除分类</a>
                                         </div>
                                     </div>
-                                    <!-- 材料卡片网格 -->
                                     <div class="material-grid">
                                         <volist name="v.children" id="v2">
                                             <if condition="$v2['pid'] eq 0">
@@ -58,15 +38,27 @@
                                         </volist>
                                     </div>
                                 </div>
-                                <!-- <hr class="cate-divider"> -->
                             </volist>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                            <div style="border-top:3px solid #252525;margin:16px 0 12px 0;"></div>
-
-                            <!-- 下半部分：派生价格展示区（pid > 0，color: blue） -->
-                            <volist name="list" id="v">
+    <!-- 衍生材料管理 -->
+    <section id="section-derived">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card alert" style="width:100%">
+                    <div class="section-header section-header-derived">
+                        <span class="section-title">衍生材料管理</span>
+                        <a class="btn btn-xs section-add-btn" style="background:#1a6fc4;color:#fff;border-color:#1a6fc4;" onclick="openAddCate(1)">+ 添加衍生材料分类</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <volist name="derivedList" id="v">
                                 <div class="cate-block">
-                                    <!-- 分类标题行 -->
                                     <div class="cate-title-row">
                                         <div class="cate-title-name">{$v.name}</div>
                                         <div class="cate-title-btns">
@@ -75,31 +67,27 @@
                                             <a class="btn btn-danger btn-xs" ng-click="dels('{$v.id}')">删除分类</a>
                                         </div>
                                     </div>
-                                    <!-- 材料卡片网格 -->
                                     <div class="material-grid">
                                         <volist name="v.children" id="v2">
                                             <if condition="$v2['pid'] gt 0">
                                             <div class="material-card">
                                                 <div class="material-row material-row-top">
                                                     <?php
-                                                    // 构建全量 id=>pid 索引（跨大类），只需构建一次
                                                     static $children_pid_map = null;
                                                     if ($children_pid_map === null) {
                                                         $children_pid_map = [];
-                                                        foreach ($list as $_v) {
+                                                        foreach ($allTree as $_v) {
                                                             foreach ($_v['children'] as $_c) {
                                                                 $children_pid_map[$_c['id']] = $_c['pid'];
                                                             }
                                                         }
                                                     }
-                                                    // 判断 pid/pid2/pid3 对应材料自身是否是派生（pid>0）
                                                     $ref1_is_derived = $v2['pid']  > 0 && isset($children_pid_map[$v2['pid']])  && $children_pid_map[$v2['pid']]  > 0;
                                                     $ref1_is_base    = $v2['pid']  > 0 && isset($children_pid_map[$v2['pid']])  && $children_pid_map[$v2['pid']] == 0;
                                                     $ref2_is_derived = $v2['pid2'] > 0 && isset($children_pid_map[$v2['pid2']]) && $children_pid_map[$v2['pid2']] > 0;
                                                     $ref2_is_base    = $v2['pid2'] > 0 && isset($children_pid_map[$v2['pid2']]) && $children_pid_map[$v2['pid2']] == 0;
                                                     $ref3_is_derived = $v2['pid3'] > 0 && isset($children_pid_map[$v2['pid3']]) && $children_pid_map[$v2['pid3']] > 0;
                                                     $ref3_is_base    = $v2['pid3'] > 0 && isset($children_pid_map[$v2['pid3']]) && $children_pid_map[$v2['pid3']] == 0;
-                                                    // 同时引用了基础材料和派生材料
                                                     $v2_is_mixed = (($ref1_is_base || $ref2_is_base || $ref3_is_base) && ($ref1_is_derived || $ref2_is_derived || $ref3_is_derived));
                                                     ?>
                                                     <if condition="$v2_is_mixed">
@@ -118,14 +106,11 @@
                                         </volist>
                                     </div>
                                 </div>
-                                <!-- <hr class="cate-divider"> -->
                             </volist>
-
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 
@@ -140,9 +125,14 @@
                 <div class="modal-body">
 
                     <form name="ador">
+                        <input type="hidden" name="cate_type" id="addCateType" value="0"/>
                         <div class="form-group">
                             <label>名称</label>
                             <input type="text" name="name" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label>分类类型</label>
+                            <input type="text" class="form-control" id="addCateTypeLabel" readonly style="background:#f5f5f5;color:#666;"/>
                         </div>
                     </form>
 
@@ -187,7 +177,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">添加导体</h4>
+                    <h4 class="modal-title" id="myModalLabel">添加材料</h4>
                 </div>
                 <div class="modal-body">
 
@@ -199,8 +189,8 @@
                             <input type="text" name="name" class="form-control"/>
                         </div>
 
-                        <!-- 三列材料选择表格 -->
-                        <table class="table table-bordered edit2-material-table">
+                        <!-- 三列材料选择表格（衍生材料才显示） -->
+                        <table ng-hide="infos.isBase" class="table table-bordered edit2-material-table">
                             <thead>
                                 <tr>
                                     <th class="edit2-th edit2-th-1">材料一选择</th>
@@ -225,7 +215,7 @@
                                         </div>
                                         <div class="edit2-ratio-row">
                                             <label class="edit2-label">关联比例:</label>
-                                            <input type="number" ng-change="onChangeRatio()" name="ratio" ng-model="infos.ratio" class="form-control edit2-ratio-input"/>
+                                            <input type="number" ng-change="onChangeRatio()" name="ratio" ng-model="infos.ratio" step="0.0001" class="form-control edit2-ratio-input"/>
                                         </div>
                                     </td>
                                     <td class="edit2-td edit2-td-2">
@@ -243,7 +233,7 @@
                                         </div>
                                         <div class="edit2-ratio-row">
                                             <label class="edit2-label">关联比例:</label>
-                                            <input type="number" ng-change="onChangeRatio()" name="ratio2" ng-model="infos.ratio2" class="form-control edit2-ratio-input"/>
+                                            <input type="number" ng-change="onChangeRatio()" name="ratio2" ng-model="infos.ratio2" step="0.0001" class="form-control edit2-ratio-input"/>
                                         </div>
                                     </td>
                                     <td class="edit2-td edit2-td-3">
@@ -261,16 +251,16 @@
                                         </div>
                                         <div class="edit2-ratio-row">
                                             <label class="edit2-label">关联比例:</label>
-                                            <input type="number" ng-change="onChangeRatio()" name="ratio3" ng-model="infos.ratio3" class="form-control edit2-ratio-input"/>
+                                            <input type="number" ng-change="onChangeRatio()" name="ratio3" ng-model="infos.ratio3" step="0.0001" class="form-control edit2-ratio-input"/>
                                         </div>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                         <div class="edit2-bottom-fields">
-                            <div class="form-group">
+                            <div ng-hide="infos.isBase" class="form-group">
                                 <label>组合工费比例</label>
-                                <input type="number" name="end_ratio" ng-change="onChangeRatio2()" ng-model="infos.end_ratio" class="form-control"/>
+                                <input type="number" name="end_ratio" ng-change="onChangeRatio2()" ng-model="infos.end_ratio" step="0.0001" class="form-control"/>
                             </div>
                             <div class="form-group">
                                 <label>执行价格</label>
@@ -306,8 +296,8 @@
                             <input type="text" name="name" class="form-control" ng-model="infos.name"/>
                         </div>
 
-                        <!-- 三列材料选择表格 -->
-                        <table class="table table-bordered edit2-material-table">
+                        <!-- 三列材料选择表格（衍生材料才显示） -->
+                        <table ng-hide="infos.isBase" class="table table-bordered edit2-material-table">
                             <thead>
                                 <tr>
                                     <th class="edit2-th edit2-th-1">材料一选择</th>
@@ -332,7 +322,7 @@
                                         </div>
                                         <div class="edit2-ratio-row">
                                             <label class="edit2-label">关联比例:</label>
-                                            <input type="number" ng-change="onChangeRatio()" name="ratio" ng-model="infos.ratio" class="form-control edit2-ratio-input"/>
+                                            <input type="number" ng-change="onChangeRatio()" name="ratio" ng-model="infos.ratio" step="0.0001" class="form-control edit2-ratio-input"/>
                                         </div>
                                     </td>
                                     <td class="edit2-td edit2-td-2">
@@ -350,7 +340,7 @@
                                         </div>
                                         <div class="edit2-ratio-row">
                                             <label class="edit2-label">关联比例:</label>
-                                            <input type="number" ng-change="onChangeRatio()" name="ratio2" ng-model="infos.ratio2" class="form-control edit2-ratio-input"/>
+                                            <input type="number" ng-change="onChangeRatio()" name="ratio2" ng-model="infos.ratio2" step="0.0001" class="form-control edit2-ratio-input"/>
                                         </div>
                                     </td>
                                     <td class="edit2-td edit2-td-3">
@@ -368,16 +358,16 @@
                                         </div>
                                         <div class="edit2-ratio-row">
                                             <label class="edit2-label">关联比例:</label>
-                                            <input type="number" ng-change="onChangeRatio()" name="ratio3" ng-model="infos.ratio3" class="form-control edit2-ratio-input"/>
+                                            <input type="number" ng-change="onChangeRatio()" name="ratio3" ng-model="infos.ratio3" step="0.0001" class="form-control edit2-ratio-input"/>
                                         </div>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                         <div class="edit2-bottom-fields">
-                            <div class="form-group">
+                            <div ng-hide="infos.isBase" class="form-group">
                                 <label>组合工费比例</label>
-                                <input type="number" name="end_ratio" ng-change="onChangeRatio2()" ng-model="infos.end_ratio" class="form-control"/>
+                                <input type="number" name="end_ratio" ng-change="onChangeRatio2()" ng-model="infos.end_ratio" step="0.0001" class="form-control"/>
                             </div>
                             <div class="form-group">
                                 <label>执行价格</label>
@@ -402,6 +392,40 @@
 
 
 <style>
+
+/* ===== section 标题栏 ===== */
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #333;
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 3px 3px 0 0;
+}
+
+.section-header-derived {
+    background: #1a6fc4;
+}
+
+.section-title {
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.section-add-btn {
+    font-size: 12px !important;
+    padding: 3px 10px !important;
+    height: auto !important;
+    border: 1px solid rgba(255,255,255,0.4) !important;
+    background: rgba(255,255,255,0.15) !important;
+    color: #fff !important;
+}
+
+.section-add-btn:hover {
+    background: rgba(255,255,255,0.28) !important;
+}
 
 /* ===== 分类块：整体浅灰背景 ===== */
 .cate-block {
@@ -618,13 +642,31 @@
 
 <script>
   function changePid(){
-      
+
+  }
+
+  function openAddCate(type) {
+      document.getElementById('addCateType').value = type;
+      document.getElementById('addCateTypeLabel').value = type == 0 ? '基础材料' : '衍生材料';
+      $("form[name='ador']")[0].reset();
+      document.getElementById('addCateType').value = type;
+      document.getElementById('addCateTypeLabel').value = type == 0 ? '基础材料' : '衍生材料';
+      $('#myModal').modal('show');
   }
   
  function addor2() {
         // 从 Angular scope 取值，避免 serializeArray 读不到动态 option 的 value
         var scope = angular.element(document.querySelector('[ng-controller="myCtrl"]')).scope();
         var infos = scope.infos || {};
+        // 衍生材料分类下必须选择至少一个材料
+        if (!infos.isBase) {
+            var pid  = Number(infos.pid  || 0);
+            var pid2 = Number(infos.pid2 || 0);
+            var pid3 = Number(infos.pid3 || 0);
+            if (pid <= 0 && pid2 <= 0 && pid3 <= 0) {
+                return swal('提示', '请至少选择一个材料', 'warning');
+            }
+        }
         var temp = $("form[name='ador2']").serializeArray();
         var data = objToArray(temp);
         // 用 scope 里的值覆盖 pid/pid2/pid3，确保是正确的数字 id
@@ -681,7 +723,7 @@
     }
 
     // 全量分类树（ThinkPHP 渲染时注入，每项含 id/name/children）
-    var PAGE_CATE_LIST = {:json_encode($list)};
+    var PAGE_CATE_LIST = {:json_encode($allTree)};
 
     // 全量子项扁平列表（带所属大类信息，供价格计算用）
     var PAGE_CATE_FLAT = [];
@@ -700,18 +742,22 @@
 
         // 大类列表（用于大类下拉）
         $scope.allCateGroups = (PAGE_CATE_LIST || []).map(function(g) {
-            return { id: String(g.id), name: g.name, children: g.children || [] };
+            return { id: String(g.id), name: g.name, cate_type: g.cate_type, children: g.children || [] };
         });
 
         // 大类切换时更新对应小类列表，并清空已选小类
         $scope.onCatChange = function(idx) {
             var catId = $scope.infos['cat' + idx];
             var group = ($scope.allCateGroups || []).find(function(g) { return String(g.id) === String(catId); });
-            $scope.infos['subList' + idx] = group ? group.children : [];
-            // 清空已选小类
-            if (idx === 1) $scope.infos.pid  = 0;
-            if (idx === 2) $scope.infos.pid2 = 0;
-            if (idx === 3) $scope.infos.pid3 = 0;
+            var children = group ? (group.children || []) : [];
+            var groupIsDerived = group && Number(group.cate_type) === 1;
+            $scope.infos['subList' + idx] = children.filter(function(c) {
+                return groupIsDerived ? Number(c.pid) > 0 : Number(c.pid) === 0;
+            });
+            // 清空已选小类，ratio 重置为 100
+            if (idx === 1) { $scope.infos.pid  = 0; $scope.infos.ratio  = 100; }
+            if (idx === 2) { $scope.infos.pid2 = 0; $scope.infos.ratio2 = 100; }
+            if (idx === 3) { $scope.infos.pid3 = 0; $scope.infos.ratio3 = 100; }
             $scope.onChangeRatio();
         };
 
@@ -725,7 +771,11 @@
                     if (found) {
                         $scope.infos['cat' + idx] = String(found.cate_group_id);
                         var group = ($scope.allCateGroups || []).find(function(g) { return String(g.id) === String(found.cate_group_id); });
-                        $scope.infos['subList' + idx] = group ? group.children : [];
+                        var children = group ? (group.children || []) : [];
+                        var groupIsDerived = group && Number(group.cate_type) === 1;
+                        $scope.infos['subList' + idx] = children.filter(function(c) {
+                            return groupIsDerived ? Number(c.pid) > 0 : Number(c.pid) === 0;
+                        });
                     }
                 } else {
                     $scope.infos['subList' + idx] = [];
@@ -784,9 +834,9 @@
                      price = (price * $scope.infos.end_ratio) / 100;
                 }
                 
-                price = Math.round((price + Number.EPSILON) * 100) / 100;
-                
-                $scope.infos.price = price;
+                price = Math.round((price + Number.EPSILON) * 10000) / 10000;
+
+                $scope.infos.price = parseFloat(price.toFixed(4));
             }else{
                 $(".chang_price").removeAttr("disabled");
             }
@@ -846,7 +896,7 @@
                      price = (price * $scope.infos.end_ratio) / 100;
                 }
                 
-                price = Math.round((price + Number.EPSILON) * 100) / 100;
+                price = Math.round((price + Number.EPSILON) * 10000) / 10000;
                 
                     $scope.infos.price = price;
             }else{
@@ -877,15 +927,14 @@
         };
 
         $scope.updateinfo = function (id) {
-            $scope.commAjax("{:U('NewLabel/editGet','model=new_label')}", {id: id}, function (res) {
+            $scope.commAjax("{:U('Core/infos','model=new_label')}", {ids: id}, function (res) {
                 $scope.infos = res.data;
                 $("#myEdit").modal("show");
             });
         }
 
         $scope.updateCats = function () {
-            var param = $scope.infos;
-            param.ids = param.id;
+            var param = { ids: $scope.infos.id, name: $scope.infos.name };
             /////////
             $.ajax({
                 url: "{:U('Core/edits','model=new_label')}",
@@ -910,20 +959,28 @@
                 $scope.infos.pid  = 0;
                 $scope.infos.pid2 = 0;
                 $scope.infos.pid3 = 0;
+                $scope.infos.ratio  = 100;
+                $scope.infos.ratio2 = 100;
+                $scope.infos.ratio3 = 100;
+                $scope.infos.end_ratio = 0;
                 $scope.infos.cat1 = '';
                 $scope.infos.cat2 = '';
                 $scope.infos.cat3 = '';
                 $scope.infos.subList1 = [];
                 $scope.infos.subList2 = [];
                 $scope.infos.subList3 = [];
+                var cateGroup = (PAGE_CATE_LIST || []).find(function(g){ return String(g.id) === String(id); });
+                $scope.infos.isBase = cateGroup ? cateGroup.cate_type == 0 : false;
                 $scope.buildFullCateList();
                 $("#myModal2").modal("show");
             });
         }
-        
+
         $scope.updateinfo3 = function (id) {
             $scope.commAjax("{:U('NewLabel/editGet','model=new_label')}", {id: id}, function (res) {
                 $scope.infos = res.data;
+                var cateGroup = (PAGE_CATE_LIST || []).find(function(g){ return String(g.id) === String($scope.infos.cate_label_id); });
+                $scope.infos.isBase = cateGroup ? cateGroup.cate_type == 0 : false;
                 $scope.buildFullCateList();
                 $scope.restoreCatSelections();
                 $("#myEdit2").modal("show");

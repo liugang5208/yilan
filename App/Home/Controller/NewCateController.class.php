@@ -143,14 +143,37 @@ class NewCateController extends CommController {
         $id = I("post.id");
         $info = M('new_cate')->where(['id'=>$id])->find();
         $list = M('new_cate_form')->where(['new_cate_id'=>$id])->order('id asc')->select();
-        $label_list = M('new_label')->where('cate_label_id','>',0)->order('cate_label_id asc,id asc')->select();
-        
-        foreach ($label_list as $k=>$v){
-            $p =M('new_label')->where(['id'=>$v['cate_label_id']])->find();
-            $label_list[$k]['_name'] = $p['name'].'-'.$v['name'].'-'.$v['price'];
+
+        // 只取衍生材料分类（cate_type=1）的根节点，构建 id=>name 索引
+        $derived_roots = M('new_label')->where(['cate_label_id'=>0, 'cate_type'=>1])->select();
+        $root_map = [];
+        foreach ($derived_roots as $r) {
+            $root_map[$r['id']] = $r['name'];
+        }
+
+        // 只查父分类存在（未被删除）且属于衍生分类的子材料
+        $valid_root_ids = array_keys($root_map);
+        if (empty($valid_root_ids)) {
+            $label_list = [];
+        } else {
+            $label_list = M('new_label')
+                ->where(['cate_label_id' => array('in', $valid_root_ids)])
+                ->order('cate_label_id asc, id asc')
+                ->select();
+            foreach ($label_list as $k => $v) {
+                $label_list[$k]['cat_name'] = $root_map[$v['cate_label_id']];
+                $label_list[$k]['_name']    = $root_map[$v['cate_label_id']] . '-' . $v['name'] . '-' . $v['price'];
+            }
+        }
+
+        foreach ($list as $k => $row) {
+            $list[$k]['price']           = number_format((float)$row['price'],           4, '.', '');
+            $list[$k]['calc_base_price'] = number_format((float)$row['calc_base_price'], 4, '.', '');
+            $list[$k]['end_price']       = number_format((float)$row['end_price'],       4, '.', '');
         }
         $data['list'] = $list;
         $data['info'] = $info;
+        $data['info']['price'] = number_format((float)$info['price'], 4, '.', '');
         $data['label_list'] = $label_list;
         return get_op_put(1, "获取成功",$data);
     }

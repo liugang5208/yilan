@@ -118,7 +118,7 @@
                                     </select>
                                 </div>
                             </a>
-                         <div style="margin-left:20px;display:flex;">{{cate_form.infos.price}}</div>
+                         <div style="margin-left:20px;display:flex;">{{cate_form.infos.price | number:4}}</div>
                          
                         </div>
                         
@@ -317,7 +317,7 @@
                                     </select>
                                 </div>
                             </a>
-                         <div style="margin-left:20px;display:flex;">{{cate_form.infos.price}}</div>
+                         <div style="margin-left:20px;display:flex;">{{cate_form.infos.price | number:4}}</div>
                          
                         </div>
                         
@@ -648,8 +648,7 @@ console.log(id)
                 var catId = item.cate_label_id;
                 if (!seen[catId]) {
                     seen[catId] = true;
-                    // _name 格式：大类名-材料名-价格，取第一段作为大类名
-                    var catName = item._name ? item._name.split('-')[0] : ('大类' + catId);
+                    var catName = item.cat_name || ('大类' + catId);
                     groups.push({ cate_label_id: catId, cat_name: catName });
                 }
             });
@@ -660,7 +659,7 @@ console.log(id)
         $scope.onLabelCatChange = function() {
             var catId = $scope.cate_form.label_cat;
             $scope.cate_form.label_sub_list = ($scope.cate_form.label_list || []).filter(function(item) {
-                return String(item.cate_label_id) === String(catId);
+                return String(item.cate_label_id) === String(catId) && Number(item.pid) > 0;
             });
             $scope.cate_form.infos.new_label_id = '';
         };
@@ -675,7 +674,7 @@ console.log(id)
             if (found) {
                 $scope.cate_form.label_cat = String(found.cate_label_id);
                 $scope.cate_form.label_sub_list = ($scope.cate_form.label_list || []).filter(function(item) {
-                    return String(item.cate_label_id) === String(found.cate_label_id);
+                    return String(item.cate_label_id) === String(found.cate_label_id) && Number(item.pid) > 0;
                 });
             }
         };

@@ -7,13 +7,15 @@ use Think\Log;
 class NewLabelController extends CommController {
 
     public function index() {
-        $model = M("new_label");
-        #
-        // $list = boPage($model, $where, "id asc");
-        $list = $model->order('id asc')->select();
-        $list = getTreeChildren($list,0,'id','cate_label_id');
-        // $list = flattenTreeWithPrefix($list,'','cate_label_id');//var_dump($list);
-        $this->assign("list", $list);
+        $model   = M("new_label");
+        $allList = $model->order('id asc')->select();
+        // 构建完整树后按 cate_type 过滤根节点（子材料随父分类，无需重复处理）
+        $tree        = getTreeChildren($allList, 0, 'id', 'cate_label_id');
+        $baseList    = array_values(array_filter($tree, function($r){ return $r['cate_type'] == 0; }));
+        $derivedList = array_values(array_filter($tree, function($r){ return $r['cate_type'] == 1; }));
+        $this->assign("baseList",    $baseList);
+        $this->assign("derivedList", $derivedList);
+        $this->assign("allTree",     $tree);
         $this->display();
     }
     
@@ -200,40 +202,35 @@ class NewLabelController extends CommController {
               $up['pid_str'] = $temp;
               
             //   $_pinfo = $db->where(['id'=>$v['pid']])->find();
-              $price = bcmul($p['price'] ,$v['ratio'],2);
-              $price = bcdiv($price ,100,2);
+              $price = bcmul($p['price'] ,$v['ratio'],6);
+              $price = bcdiv($price ,100,4);
               $price2 = 0;
               if($v['pid2'] > 0){
                   $p2 = $db->where(['id'=>$v['pid2']])->find();
-                   $price2 = bcmul($p2['price'] ,$v['ratio2'],2);
-                   $price2 = bcdiv($price2 ,100,2);
+                   $price2 = bcmul($p2['price'] ,$v['ratio2'],6);
+                   $price2 = bcdiv($price2 ,100,4);
               }
               $price3 = 0;
               if($v['pid3'] > 0){
                   $p3 = $db->where(['id'=>$v['pid3']])->find();
-                   $price3 = bcmul($p3['price'] ,$v['ratio3'],2);
-                   $price3 = bcdiv($price3 ,100,2);
+                   $price3 = bcmul($p3['price'] ,$v['ratio3'],6);
+                   $price3 = bcdiv($price3 ,100,4);
               }
-              
-              $price = bcadd($price,$price2,2);
-              $price =  bcadd($price,$price3,2);
-              $end_ratio_price = 0;
-             
+
+              $price = bcadd($price,$price2,4);
+              $price = bcadd($price,$price3,4);
               if($v['end_ratio'] > 0 ){
-                  $price = bcmul($price,$v['end_ratio']/100,2);
+                  $price = bcmul($price, bcdiv($v['end_ratio'],100,6), 4);
               }
-            //   $price =  bcadd($price,$end_ratio_price,2);
-              
-              
               $up['price'] = $price;
-              
+
               $orgChildList[$k]['_price'] = $up['price'];
               $db->where(['id'=>$v['id']])->save($up);
-              
+
               array_push($new_label_ids,$v['id']);
-              
+
             }
-            
+
         $orgChildList2 = M('new_label')->where("FIND_IN_SET($id, pid2_str)")->order('level2 asc,id asc')->select();
         foreach ($orgChildList2 as $k=>$v){
               $p = $db->where(['id'=>$v['pid2']])->find();
@@ -246,84 +243,72 @@ class NewLabelController extends CommController {
               $up['level2'] = count(explode(',',$temp));
               $up['pid2_str'] = $temp;
 
-              $price = bcmul($p['price'] ,$v['ratio'],2);
-              $price = bcdiv($price ,100,2);
+              $price = bcmul($p['price'] ,$v['ratio'],6);
+              $price = bcdiv($price ,100,4);
               $price2 = 0;
               if($v['pid2'] > 0){
                   $p2 = $db->where(['id'=>$v['pid2']])->find();
-                  $price2 = bcmul($p2['price'] ,$v['ratio2'],2);
-                  $price2 = bcdiv($price2 ,100,2);
+                  $price2 = bcmul($p2['price'] ,$v['ratio2'],6);
+                  $price2 = bcdiv($price2 ,100,4);
               }
               $price3 = 0;
               if($v['pid3'] > 0){
                   $p3 = $db->where(['id'=>$v['pid3']])->find();
-                  $price3 = bcmul($p3['price'] ,$v['ratio3'],2);
-                  $price3 = bcdiv($price3 ,100,2);
+                  $price3 = bcmul($p3['price'] ,$v['ratio3'],6);
+                  $price3 = bcdiv($price3 ,100,4);
               }
-              
-              $price = bcadd($price,$price2,2);
-              $price =  bcadd($price,$price3,2);
-              $end_ratio_price = 0;
-             
+
+              $price = bcadd($price,$price2,4);
+              $price = bcadd($price,$price3,4);
               if($v['end_ratio'] > 0 ){
-                  $price = bcmul($price,$v['end_ratio']/100,2);
+                  $price = bcmul($price, bcdiv($v['end_ratio'],100,6), 4);
               }
-            //   $price =  bcadd($price,$end_ratio_price,2);
-              
-              
               $up['price'] = $price;
-              
+
               $orgChildList[$k]['_price'] = $up['price'];
               $db->where(['id'=>$v['id']])->save($up);
-              
+
               array_push($new_label_ids,$v['id']);
-              
+
             }
-            
+
         $orgChildList3 = M('new_label')->where("FIND_IN_SET($id, pid3_str)")->order('level3 asc,id asc')->select();
-  
+
         foreach ($orgChildList3 as $k=>$v){
-        
+
               $p = $db->where(['id'=>$v['pid3']])->find();
               if($p['pid3_str']){
                   $temp = $p['pid3_str'].','.$p['id'];
               }else{
                   $temp = $p['id'];
               }
-             
+
               $level = 1;
-              
+
               $up['level3'] = count(explode(',',$temp));
-              
+
               $up['pid3_str'] = $temp;
-              
-            //   $_pinfo = $db->where(['id'=>$v['pid']])->find();
-              $price = bcmul($p['price'] ,$v['ratio'],2);
-              $price = bcdiv($price ,100,2);
+
+              $price = bcmul($p['price'] ,$v['ratio'],6);
+              $price = bcdiv($price ,100,4);
               $price2 = 0;
               if($v['pid2'] > 0){
-                  $p = $db->where(['id'=>$v['pid2']])->find();
-                  $price2 = bcmul($p2['price'] ,$v['ratio2'],2);
-                  $price2 = bcdiv($price2 ,100,2);
+                  $p2 = $db->where(['id'=>$v['pid2']])->find();
+                  $price2 = bcmul($p2['price'] ,$v['ratio2'],6);
+                  $price2 = bcdiv($price2 ,100,4);
               }
               $price3 = 0;
               if($v['pid3'] > 0){
                   $p3 = $db->where(['id'=>$v['pid3']])->find();
-                  $price3 = bcmul($p3['price'] ,$v['ratio3'],2);
-                  $price3 = bcdiv($price3 ,100,2);
+                  $price3 = bcmul($p3['price'] ,$v['ratio3'],6);
+                  $price3 = bcdiv($price3 ,100,4);
               }
-              
-              $price = bcadd($price,$price2,2);
-              $price =  bcadd($price,$price3,2);
-              $end_ratio_price = 0;
-             
+
+              $price = bcadd($price,$price2,4);
+              $price = bcadd($price,$price3,4);
               if($v['end_ratio'] > 0 ){
-                  $end_ratio_price = bcmul($price,$v['end_ratio'],2);
-                  $end_ratio_price = bcdiv($end_ratio_price ,100,2);
+                  $price = bcmul($price, bcdiv($v['end_ratio'],100,6), 4);
               }
-            //   $price =  bcadd($price,$end_ratio_price,2);
-              
-              
               $up['price'] = $price;
               
               $orgChildList[$k]['_price'] = $up['price'];
@@ -378,22 +363,21 @@ class NewLabelController extends CommController {
     
     public function addGet(){
         $data = I("post.");
-        $cate_label_id = $data['cate_label_id'];
-        $data['cate_list'] = M('new_label')->where(['cate_label_id'=>$cate_label_id])->select();
+        $data['cate_list'] = M('new_label')->where(['cate_label_id' => array('gt', 0)])->select();
         $data['pid'] = 0;
-        //  $data['ratio'] = 100;
         return get_op_put(1, "修改成功",$data);
     }
-     public function editGet(){
+
+    public function editGet(){
         $param = I("post.");
-        $data =M('new_label')->where(['id'=>$param['id']])->find();
-        $cate_label_id = $data['cate_label_id'];
-        $where['id']  = array('neq',$data['id']);
-        $data['cate_list'] = M('new_label')->where($where)->where(['cate_label_id'=>$cate_label_id])->select();
-        $data['ratio'] = (float)$data['ratio'];
-        $data['ratio2'] = (float)$data['ratio2'];
-        $data['ratio3'] = (float)$data['ratio3'];
+        $data = M('new_label')->where(['id'=>$param['id']])->find();
+        $where['id'] = array('neq', $data['id']);
+        $data['cate_list'] = M('new_label')->where($where)->where(['cate_label_id' => array('gt', 0)])->select();
+        $data['ratio']     = (float)$data['ratio'];
+        $data['ratio2']    = (float)$data['ratio2'];
+        $data['ratio3']    = (float)$data['ratio3'];
         $data['end_ratio'] = (float)$data['end_ratio'];
+        $data['price']     = number_format((float)$data['price'], 4, '.', '');
         return get_op_put(1, "修改成功",$data);
     }
     

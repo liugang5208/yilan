@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs ls *)",
+      "Bash(lsof -iTCP:9000 -sTCP:LISTEN)",
+      "Bash(php -r \"echo phpinfo\\(\\);\")",
+      "Bash(nginx -T)",
+      "Read(//proc/24391/**)",
+      "Bash(nginx -v)",
+      "Bash(/usr/local/bin/nginx -t)",
+      "Read(//opt/meituan/nginx/**)",
+      "Bash(kill 27328)",
+      "Bash(/usr/local/opt/php@8.1/bin/php -S localhost:8088 -t /Users/gangliu/data/catdesk_workspace/yilan /Users/gangliu/data/catdesk_workspace/yilan/router.php)",
+      "Bash(echo \"started, pid=$!\")",
+      "Bash(mysql -h 127.0.0.1 -u root -e \"ALTER TABLE \\\\`online_elccc_cn\\\\`.\\\\`new_label\\\\` ADD COLUMN \\\\`cate_type\\\\` tinyint\\(1\\) NOT NULL DEFAULT 0 COMMENT '0=基础材料分类 1=衍生材料分类' AFTER \\\\`name\\\\`;\")",
+      "Bash(mysql -h 127.0.0.1 -u root -e \"SHOW COLUMNS FROM \\\\`online_elccc_cn\\\\`.\\\\`new_label\\\\` LIKE 'cate_type';\")",
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"DESCRIBE new_label;\")",
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"SELECT id, name, cate_label_id, cate_type, is_del, status FROM new_label LIMIT 10;\")",
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"SELECT id, name, cate_label_id, cate_type, is_del FROM new_label WHERE is_del != 1 LIMIT 5;\")",
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"SELECT COLUMN_NAME, COLUMN_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME='new_label' AND COLUMN_NAME IN \\('ratio','ratio2','ratio3','end_ratio'\\);\")",
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e ' *)",
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"SELECT COLUMN_NAME, COLUMN_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME='new_label' AND COLUMN_NAME='price';\")",
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"ALTER TABLE \\\\`new_label\\\\` MODIFY COLUMN \\\\`price\\\\` decimal\\(14,4\\) NOT NULL DEFAULT 0.0000;\")",
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"SELECT COLUMN_NAME, COLUMN_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME='new_cate' AND COLUMN_NAME='price';\")",
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"ALTER TABLE \\\\`new_cate\\\\` MODIFY COLUMN \\\\`price\\\\` decimal\\(14,4\\) NOT NULL DEFAULT 0.0000;\")",
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"SELECT COLUMN_NAME, COLUMN_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME='new_cate_form' AND COLUMN_NAME IN \\('price','calc_base_price','end_price','extra_ratio','weight'\\);\")",
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"ALTER TABLE \\\\`new_cate_form\\\\` MODIFY COLUMN \\\\`price\\\\` decimal\\(14,4\\) NOT NULL DEFAULT 0.0000;\")"
+    ],
+    "additionalDirectories": [
+      "/Users/gangliu/data/catdesk_workspace/yilan/App/Runtime/Cache/Home"
+    ]
+  }
+}
