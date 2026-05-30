@@ -24,7 +24,14 @@
       "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"SELECT COLUMN_NAME, COLUMN_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME='new_cate' AND COLUMN_NAME='price';\")",
       "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"ALTER TABLE \\\\`new_cate\\\\` MODIFY COLUMN \\\\`price\\\\` decimal\\(14,4\\) NOT NULL DEFAULT 0.0000;\")",
       "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"SELECT COLUMN_NAME, COLUMN_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME='new_cate_form' AND COLUMN_NAME IN \\('price','calc_base_price','end_price','extra_ratio','weight'\\);\")",
-      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"ALTER TABLE \\\\`new_cate_form\\\\` MODIFY COLUMN \\\\`price\\\\` decimal\\(14,4\\) NOT NULL DEFAULT 0.0000;\")"
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"ALTER TABLE \\\\`new_cate_form\\\\` MODIFY COLUMN \\\\`price\\\\` decimal\\(14,4\\) NOT NULL DEFAULT 0.0000;\")",
+      "WebFetch(domain:qhweb.eastmoney.com)",
+      "WebSearch",
+      "WebFetch(domain:futsseapi.eastmoney.com)",
+      "Bash(curl -s \"https://futsseapi.eastmoney.com/list/main/risk/shfe\" --max-time 10)",
+      "Bash(curl -s https://futsseapi.eastmoney.com/list/main/risk/shfe -H 'Referer: https://qhweb.eastmoney.com/' -H 'User-Agent: Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/120.0.0.0 Safari/537.36' -H 'Origin: https://qhweb.eastmoney.com' --max-time 10)",
+      "Bash(curl -s 'https://futsseapi.eastmoney.com/list/main/risk/shfe?orderBy=&sort=&pageSize=999&pageIndex=0&specificContract=false&platform=zbPC&field=name,p,zdf,zde,zjsj,o,h,l,vol,ccl,cje,dm' -H 'Referer: https://qhweb.eastmoney.com/' -H 'User-Agent: Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/124.0.0.0 Safari/537.36' --max-time 10)",
+      "Bash(python3 -m json.tool)"
     ],
     "additionalDirectories": [
       "/Users/gangliu/data/catdesk_workspace/yilan/App/Runtime/Cache/Home"

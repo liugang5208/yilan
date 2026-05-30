@@ -182,140 +182,69 @@ class NewLabelController extends CommController {
             $pid_str = explode(',',$info['pid_str']);
         }
         
-        //原下级
+        // 计算单条材料的完整价格（三路 pid 贡献之和）
+        $calcPrice = function($v) use ($db) {
+            $price = 0;
+            if ($v['pid'] > 0) {
+                $p1 = $db->where(['id'=>$v['pid']])->find();
+                $price = bcdiv(bcmul($p1['price'], $v['ratio'], 6), 100, 4);
+            }
+            $price2 = 0;
+            if ($v['pid2'] > 0) {
+                $p2 = $db->where(['id'=>$v['pid2']])->find();
+                $price2 = bcdiv(bcmul($p2['price'], $v['ratio2'], 6), 100, 4);
+            }
+            $price3 = 0;
+            if ($v['pid3'] > 0) {
+                $p3 = $db->where(['id'=>$v['pid3']])->find();
+                $price3 = bcdiv(bcmul($p3['price'], $v['ratio3'], 6), 100, 4);
+            }
+            $total = bcadd(bcadd($price, $price2, 4), $price3, 4);
+            if ($v['end_ratio'] > 0) {
+                $total = bcmul($total, bcdiv($v['end_ratio'], 100, 6), 4);
+            }
+            return $total;
+        };
+
+        // pid_str 链：更新 level/pid_str 及价格
         $orgChildList = $db->where("FIND_IN_SET($id, pid_str)")->order('level asc,id asc')->select();
-        // var_dump($orgChildList);die;
-         $blwares = D("Home/NewLabel", "Opera");
-        foreach ($orgChildList as $k=>$v){
-        
-              $p = $db->where(['id'=>$v['pid']])->find();
-              if($p['pid_str']){
-                   $temp = $p['pid_str'].','.$p['id'];
-              }else{
-                   $temp = $p['id'];
-              }
-             
-              $level = 1;
-              
-              $up['level'] = count(explode(',',$temp));
-              
-              $up['pid_str'] = $temp;
-              
-            //   $_pinfo = $db->where(['id'=>$v['pid']])->find();
-              $price = bcmul($p['price'] ,$v['ratio'],6);
-              $price = bcdiv($price ,100,4);
-              $price2 = 0;
-              if($v['pid2'] > 0){
-                  $p2 = $db->where(['id'=>$v['pid2']])->find();
-                   $price2 = bcmul($p2['price'] ,$v['ratio2'],6);
-                   $price2 = bcdiv($price2 ,100,4);
-              }
-              $price3 = 0;
-              if($v['pid3'] > 0){
-                  $p3 = $db->where(['id'=>$v['pid3']])->find();
-                   $price3 = bcmul($p3['price'] ,$v['ratio3'],6);
-                   $price3 = bcdiv($price3 ,100,4);
-              }
+        $blwares = D("Home/NewLabel", "Opera");
+        foreach ($orgChildList as $k => $v) {
+            $up = [];
+            $p1 = $db->where(['id'=>$v['pid']])->find();
+            $up['pid_str'] = $p1['pid_str'] ? $p1['pid_str'].','.$p1['id'] : $p1['id'];
+            $up['level']   = count(explode(',', $up['pid_str']));
+            $up['price']   = $calcPrice($v);
+            $orgChildList[$k]['_price'] = $up['price'];
+            $db->where(['id'=>$v['id']])->save($up);
+            array_push($new_label_ids, $v['id']);
+        }
 
-              $price = bcadd($price,$price2,4);
-              $price = bcadd($price,$price3,4);
-              if($v['end_ratio'] > 0 ){
-                  $price = bcmul($price, bcdiv($v['end_ratio'],100,6), 4);
-              }
-              $up['price'] = $price;
-
-              $orgChildList[$k]['_price'] = $up['price'];
-              $db->where(['id'=>$v['id']])->save($up);
-
-              array_push($new_label_ids,$v['id']);
-
-            }
-
+        // pid2_str 链：更新 level2/pid2_str 及价格
         $orgChildList2 = M('new_label')->where("FIND_IN_SET($id, pid2_str)")->order('level2 asc,id asc')->select();
-        foreach ($orgChildList2 as $k=>$v){
-              $p = $db->where(['id'=>$v['pid2']])->find();
-              if($p['pid2_str']){
-                  $temp = $p['pid2_str'].','.$p['id'];
-              }else{
-                  $temp = $p['id'];
-              }
-              $level = 1;
-              $up['level2'] = count(explode(',',$temp));
-              $up['pid2_str'] = $temp;
+        foreach ($orgChildList2 as $k => $v) {
+            $up = [];
+            $p2 = $db->where(['id'=>$v['pid2']])->find();
+            $up['pid2_str'] = $p2['pid2_str'] ? $p2['pid2_str'].','.$p2['id'] : $p2['id'];
+            $up['level2']   = count(explode(',', $up['pid2_str']));
+            $up['price']    = $calcPrice($v);
+            $orgChildList2[$k]['_price'] = $up['price'];
+            $db->where(['id'=>$v['id']])->save($up);
+            array_push($new_label_ids, $v['id']);
+        }
 
-              $price = bcmul($p['price'] ,$v['ratio'],6);
-              $price = bcdiv($price ,100,4);
-              $price2 = 0;
-              if($v['pid2'] > 0){
-                  $p2 = $db->where(['id'=>$v['pid2']])->find();
-                  $price2 = bcmul($p2['price'] ,$v['ratio2'],6);
-                  $price2 = bcdiv($price2 ,100,4);
-              }
-              $price3 = 0;
-              if($v['pid3'] > 0){
-                  $p3 = $db->where(['id'=>$v['pid3']])->find();
-                  $price3 = bcmul($p3['price'] ,$v['ratio3'],6);
-                  $price3 = bcdiv($price3 ,100,4);
-              }
-
-              $price = bcadd($price,$price2,4);
-              $price = bcadd($price,$price3,4);
-              if($v['end_ratio'] > 0 ){
-                  $price = bcmul($price, bcdiv($v['end_ratio'],100,6), 4);
-              }
-              $up['price'] = $price;
-
-              $orgChildList[$k]['_price'] = $up['price'];
-              $db->where(['id'=>$v['id']])->save($up);
-
-              array_push($new_label_ids,$v['id']);
-
-            }
-
+        // pid3_str 链：更新 level3/pid3_str 及价格
         $orgChildList3 = M('new_label')->where("FIND_IN_SET($id, pid3_str)")->order('level3 asc,id asc')->select();
-
-        foreach ($orgChildList3 as $k=>$v){
-
-              $p = $db->where(['id'=>$v['pid3']])->find();
-              if($p['pid3_str']){
-                  $temp = $p['pid3_str'].','.$p['id'];
-              }else{
-                  $temp = $p['id'];
-              }
-
-              $level = 1;
-
-              $up['level3'] = count(explode(',',$temp));
-
-              $up['pid3_str'] = $temp;
-
-              $price = bcmul($p['price'] ,$v['ratio'],6);
-              $price = bcdiv($price ,100,4);
-              $price2 = 0;
-              if($v['pid2'] > 0){
-                  $p2 = $db->where(['id'=>$v['pid2']])->find();
-                  $price2 = bcmul($p2['price'] ,$v['ratio2'],6);
-                  $price2 = bcdiv($price2 ,100,4);
-              }
-              $price3 = 0;
-              if($v['pid3'] > 0){
-                  $p3 = $db->where(['id'=>$v['pid3']])->find();
-                  $price3 = bcmul($p3['price'] ,$v['ratio3'],6);
-                  $price3 = bcdiv($price3 ,100,4);
-              }
-
-              $price = bcadd($price,$price2,4);
-              $price = bcadd($price,$price3,4);
-              if($v['end_ratio'] > 0 ){
-                  $price = bcmul($price, bcdiv($v['end_ratio'],100,6), 4);
-              }
-              $up['price'] = $price;
-              
-              $orgChildList[$k]['_price'] = $up['price'];
-              $db->where(['id'=>$v['id']])->save($up);
-              
-              array_push($new_label_ids,$v['id']);
-            }
+        foreach ($orgChildList3 as $k => $v) {
+            $up = [];
+            $p3 = $db->where(['id'=>$v['pid3']])->find();
+            $up['pid3_str'] = $p3['pid3_str'] ? $p3['pid3_str'].','.$p3['id'] : $p3['id'];
+            $up['level3']   = count(explode(',', $up['pid3_str']));
+            $up['price']    = $calcPrice($v);
+            $orgChildList3[$k]['_price'] = $up['price'];
+            $db->where(['id'=>$v['id']])->save($up);
+            array_push($new_label_ids, $v['id']);
+        }
             
             // var_dump($new_label_ids);die;
         
