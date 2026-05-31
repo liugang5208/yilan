@@ -1,4 +1,143 @@
-<div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>易缆管理中心</title>
+        <!-- ================= Favicon ================== -->
+        <!-- Styles -->
+        <link href="/Public/assets/css/lib/font-awesome.min.css" rel="stylesheet">
+        <link href="/Public/assets/css/lib/themify-icons.css" rel="stylesheet">
+        <link href="/Public/assets/css/lib/menubar/sidebar.css" rel="stylesheet">
+        <link href="/Public/assets/css/lib/bootstrap.min.css" rel="stylesheet">
+        <link href="/Public/assets/css/lib/unix.css" rel="stylesheet">
+        <link href="/Public/assets/css/style.css" rel="stylesheet">
+        <!-- jquery vendor -->
+        <script src="/Public/assets/js/lib/jquery.min.js"></script>
+        <script src="/Public/assets/js/lib/jquery.nanoscroller.min.js"></script>
+        <script src="/Public/assets/js/lib/bootstrap.min.js"></script>
+        <!-- Angularjs -->
+        <script src="/Public/libs/angular/angular.min.js"></script>
+
+        <!-- sweetalert -->
+        <link href="/Public/libs/sweet-alert2/sweetalert2.min.css" rel="stylesheet">
+        <script src="/Public/libs/sweet-alert2/sweetalert2.min.js"></script>
+
+        <!----->
+        <link href="/Public/libs/swiper/css/swiper.min.css" rel="stylesheet">
+        <script src="/Public/libs/swiper/js/swiper.min.js"></script>
+
+        <script src="/Public/libs/layer/layer.js"></script>
+        <script src="/Public/libs/common.js"></script>
+        <script src="/Public/libs/ajaxfileupload.js?v=3"></script>
+        <style>
+            .table{
+                font-size:12px;
+            }
+            .none{
+                display:none!important;
+            }
+            .sidebar .nano-content > ul li > a{
+                padding: 8px 20px;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
+            <div class="nano">
+                <div class="nano-content">
+                    <ul>
+                        <li class="label">管理功能</li>
+                        <li><a href="<?php echo U('Bords/index');?>"><i class="ti-home"></i> 概览</a></li>
+                        <li class="active open">
+                            <a class="sidebar-sub-toggle">
+                                <i class="ti-harddrives"></i> 用户管理 <span class="sidebar-collapse-icon ti-angle-down"></span>
+                            </a>
+                            <ul>
+                                <li><a href="<?php echo U('Users/index');?>">注册用户</a></li>
+                                <li><a href="<?php echo U('Users/logrs');?>">登录统计</a></li>
+                                <li><a href="<?php echo U('Users/search');?>">搜索记录</a></li>
+                                <!--li><a href="<?php echo U('Users/label');?>">禁止区域</a></li-->
+                                <li><a href="<?php echo U('Users/levels');?>">用户等级</a></li>
+                                <!--li><a href="<?php echo U('Users/cnlogs');?>">账户操作记录</a></li-->
+                                <li><a href="<?php echo U('Users/mess');?>">消息管理</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="<?php echo U('Task/index');?>"><i class="ti-harddrives"></i> 材料价格任务执行更新</a></li>
+                        <li><a href="<?php echo U('NewLabel/index');?>"><i class="ti-harddrives"></i> 材料价格分类</a></li>
+                        <li><a href="<?php echo U('NewCate/index');?>"><i class="ti-harddrives"></i> 公式计算</a></li>
+                        <li><a href="<?php echo U('NewTax/index');?>"><i class="ti-harddrives"></i> 税率标签</a></li>
+                        <!--<li><a href="<?php echo U('Goods/cats_exc');?>"><i class="ti-harddrives"></i> 材料标签</a></li>-->
+                        <li><a href="<?php echo U('Goods/cats');?>"><i class="ti-harddrives"></i> 商品分类</a></li>
+                        <!--li><a href="<?php echo U('Goods/tmps');?>"><i class="ti-harddrives"></i> 商品模板</a></li-->
+                        <li><a href="<?php echo U('Goods/liner');?>"><i class="ti-harddrives"></i> 线缆板块</a></li>
+                        <li><a href="<?php echo U('Goods/peita');?>"><i class="ti-harddrives"></i> 配套板块</a></li>
+                        <li><a href="<?php echo U('Shops/index');?>"><i class="ti-harddrives"></i> 店铺管理</a></li>
+                        <li><a href="<?php echo U('Order/index');?>"><i class="ti-harddrives"></i> 订单管理</a></li>
+                        <!--li><a href="<?php echo U('Shops/buyer');?>"><i class="ti-harddrives"></i> 采购管理</a></li>
+                        <li><a href="<?php echo U('Shops/recyle');?>"><i class="ti-harddrives"></i> 回收管理</a></li-->
+                        <!--<li><a href="<?php echo U('Trans/citys');?>"><i class="ti-harddrives"></i> 物流板块</a></li>-->
+                        <!--li>
+                            <a class="sidebar-sub-toggle">
+                                <i class="ti-harddrives"></i> 知识板块 <span class="sidebar-collapse-icon ti-angle-down"></span>
+                            </a>
+                            <ul>
+                                <li><a href="<?php echo U('Know/cats');?>">知识分类</a></li>
+                                <li><a href="<?php echo U('Know/index');?>">知识文章</a></li>
+                            </ul>
+                        </li-->
+                        <li><a href="<?php echo U('Know/advs');?>"><i class="ti-harddrives"></i> 广告管理</a></li>
+                        <li><a href="<?php echo U('Know/helps');?>"><i class="ti-harddrives"></i> 帮助中心</a></li>
+                        <li><a href="<?php echo U('Know/sysc');?>"><i class="ti-harddrives"></i> 系统文本</a></li>
+                        <li><a href="<?php echo U('Sysc/banks');?>"><i class="ti-harddrives"></i> 银行卡号</a></li>
+                        <li><a href="<?php echo U('Version/index');?>"><i class="ti-harddrives"></i> 系统版本</a></li>
+                        <li><a href="<?php echo U('Bar/index');?>"><i class="ti-harddrives"></i> tab栏控制</a></li>
+                         <li><a href="<?php echo U('ReportInfo/index');?>"><i class="ti-harddrives"></i>报价单管理</a></li>
+                         <!--<li><a href="<?php echo U('Config/customer_config');?>"><i class="ti-harddrives"></i>客服配置</a></li>-->
+
+                        <li><a href="<?php echo U('Index/index');?>"><i class="ti-close"></i> 退出登录</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /# sidebar -->
+
+        <div class="header">
+            <div class="pull-left">
+                <div class="logo"><a href="<?php echo U('Bords/index');?>"><span>易缆管理中心</span></a></div>
+            </div>
+
+            <div class="pull-right p-r-15">
+                <ul>
+
+                    <li class="header-icon dib">
+                        <img class="avatar-img" src="/Public/assets/images/avatar/1.jpg" alt="" />
+                        <span class="user-avatar">管理员 <i class="ti-angle-down f-s-10"></i></span>
+
+                        <div class="drop-down dropdown-profile">
+                            <div class="dropdown-content-body">
+                                <ul>
+                                    <li><a href="javascript:;"><i class="ti-user"></i> <span>密码管理</span></a></li>
+                                    <li><a href="<?php echo U('Index/index');?>"><i class="ti-power-off"></i> <span>退出登录</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+
+
+        <div class="content-wrap">
+            <div class="main">
+
+                <div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
 
     <!-- 基础材料管理 -->
     <section id="section-base">
@@ -11,34 +150,28 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <volist name="baseList" id="v">
-                                <div class="cate-block">
+                            <?php if(is_array($baseList)): $i = 0; $__LIST__ = $baseList;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?><div class="cate-block">
                                     <div class="cate-title-row">
-                                        <div class="cate-title-name">{$v.name}</div>
+                                        <div class="cate-title-name"><?php echo ($v["name"]); ?></div>
                                         <div class="cate-title-btns">
-                                            <a ng-click="updateinfo('{$v.id}')" class="btn btn-info btn-xs">分类编辑</a>
-                                            <a ng-click="updateinfo2('{$v.id}')" class="btn btn-info btn-xs">添加材料</a>
-                                            <a class="btn btn-danger btn-xs" ng-click="dels('{$v.id}')">删除分类</a>
+                                            <a ng-click="updateinfo('<?php echo ($v["id"]); ?>')" class="btn btn-info btn-xs">分类编辑</a>
+                                            <a ng-click="updateinfo2('<?php echo ($v["id"]); ?>')" class="btn btn-info btn-xs">添加材料</a>
+                                            <a class="btn btn-danger btn-xs" ng-click="dels('<?php echo ($v["id"]); ?>')">删除分类</a>
                                         </div>
                                     </div>
                                     <div class="material-grid">
-                                        <volist name="v.children" id="v2">
-                                            <if condition="$v2['pid'] eq 0">
-                                            <div class="material-card">
+                                        <?php if(is_array($v["children"])): $i = 0; $__LIST__ = $v["children"];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v2): $mod = ($i % 2 );++$i; if($v2['pid'] == 0): ?><div class="material-card">
                                                 <div class="material-row material-row-top">
-                                                    <div class="material-name">{$v2.name}</div>
-                                                    <a class="btn btn-danger btn-xs material-btn" ng-click="dels('{$v2.id}')">删除</a>
+                                                    <div class="material-name"><?php echo ($v2["name"]); ?></div>
+                                                    <a class="btn btn-danger btn-xs material-btn" ng-click="dels('<?php echo ($v2["id"]); ?>')">删除</a>
                                                 </div>
                                                 <div class="material-row material-row-bottom">
-                                                    <div class="material-price">{$v2.price}</div>
-                                                    <a ng-click="updateinfo3('{$v2.id}')" class="btn btn-info btn-xs material-btn">编辑</a>
+                                                    <div class="material-price"><?php echo ($v2["price"]); ?></div>
+                                                    <a ng-click="updateinfo3('<?php echo ($v2["id"]); ?>')" class="btn btn-info btn-xs material-btn">编辑</a>
                                                 </div>
-                                            </div>
-                                            </if>
-                                        </volist>
+                                            </div><?php endif; endforeach; endif; else: echo "" ;endif; ?>
                                     </div>
-                                </div>
-                            </volist>
+                                </div><?php endforeach; endif; else: echo "" ;endif; ?>
                         </div>
                     </div>
                 </div>
@@ -57,56 +190,32 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <volist name="derivedList" id="v">
-                                <div class="cate-block">
+                            <?php if(is_array($derivedList)): $i = 0; $__LIST__ = $derivedList;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?><div class="cate-block">
                                     <div class="cate-title-row">
-                                        <div class="cate-title-name">{$v.name}</div>
+                                        <div class="cate-title-name"><?php echo ($v["name"]); ?></div>
                                         <div class="cate-title-btns">
-                                            <a ng-click="updateinfo('{$v.id}')" class="btn btn-info btn-xs">分类编辑</a>
-                                            <a ng-click="updateinfo2('{$v.id}')" class="btn btn-info btn-xs">添加材料</a>
-                                            <a class="btn btn-danger btn-xs" ng-click="dels('{$v.id}')">删除分类</a>
+                                            <a ng-click="updateinfo('<?php echo ($v["id"]); ?>')" class="btn btn-info btn-xs">分类编辑</a>
+                                            <a ng-click="updateinfo2('<?php echo ($v["id"]); ?>')" class="btn btn-info btn-xs">添加材料</a>
+                                            <a class="btn btn-danger btn-xs" ng-click="dels('<?php echo ($v["id"]); ?>')">删除分类</a>
                                         </div>
                                     </div>
                                     <div class="material-grid">
-                                        <volist name="v.children" id="v2">
-                                            <if condition="$v2['pid'] gt 0">
-                                            <div class="material-card">
+                                        <?php if(is_array($v["children"])): $i = 0; $__LIST__ = $v["children"];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v2): $mod = ($i % 2 );++$i; if($v2['pid'] > 0): ?><div class="material-card">
                                                 <div class="material-row material-row-top">
                                                     <?php
-                                                    static $children_pid_map = null;
-                                                    if ($children_pid_map === null) {
-                                                        $children_pid_map = [];
-                                                        foreach ($allTree as $_v) {
-                                                            foreach ($_v['children'] as $_c) {
-                                                                $children_pid_map[$_c['id']] = $_c['pid'];
-                                                            }
-                                                        }
-                                                    }
-                                                    $ref1_is_derived = $v2['pid']  > 0 && isset($children_pid_map[$v2['pid']])  && $children_pid_map[$v2['pid']]  > 0;
-                                                    $ref1_is_base    = $v2['pid']  > 0 && isset($children_pid_map[$v2['pid']])  && $children_pid_map[$v2['pid']] == 0;
-                                                    $ref2_is_derived = $v2['pid2'] > 0 && isset($children_pid_map[$v2['pid2']]) && $children_pid_map[$v2['pid2']] > 0;
-                                                    $ref2_is_base    = $v2['pid2'] > 0 && isset($children_pid_map[$v2['pid2']]) && $children_pid_map[$v2['pid2']] == 0;
-                                                    $ref3_is_derived = $v2['pid3'] > 0 && isset($children_pid_map[$v2['pid3']]) && $children_pid_map[$v2['pid3']] > 0;
-                                                    $ref3_is_base    = $v2['pid3'] > 0 && isset($children_pid_map[$v2['pid3']]) && $children_pid_map[$v2['pid3']] == 0;
-                                                    $v2_is_mixed = (($ref1_is_base || $ref2_is_base || $ref3_is_base) && ($ref1_is_derived || $ref2_is_derived || $ref3_is_derived));
-                                                    ?>
-                                                    <if condition="$v2_is_mixed">
-                                                    <div class="material-name" style="color:red;">{$v2.name}</div>
-                                                    <else/>
-                                                    <div class="material-name material-name-blue">{$v2.name}</div>
-                                                    </if>
-                                                    <a class="btn btn-danger btn-xs material-btn" ng-click="dels('{$v2.id}')">删除</a>
+ static $children_pid_map = null; if ($children_pid_map === null) { $children_pid_map = []; foreach ($allTree as $_v) { foreach ($_v['children'] as $_c) { $children_pid_map[$_c['id']] = $_c['pid']; } } } $ref1_is_derived = $v2['pid'] > 0 && isset($children_pid_map[$v2['pid']]) && $children_pid_map[$v2['pid']] > 0; $ref1_is_base = $v2['pid'] > 0 && isset($children_pid_map[$v2['pid']]) && $children_pid_map[$v2['pid']] == 0; $ref2_is_derived = $v2['pid2'] > 0 && isset($children_pid_map[$v2['pid2']]) && $children_pid_map[$v2['pid2']] > 0; $ref2_is_base = $v2['pid2'] > 0 && isset($children_pid_map[$v2['pid2']]) && $children_pid_map[$v2['pid2']] == 0; $ref3_is_derived = $v2['pid3'] > 0 && isset($children_pid_map[$v2['pid3']]) && $children_pid_map[$v2['pid3']] > 0; $ref3_is_base = $v2['pid3'] > 0 && isset($children_pid_map[$v2['pid3']]) && $children_pid_map[$v2['pid3']] == 0; $v2_is_mixed = (($ref1_is_base || $ref2_is_base || $ref3_is_base) && ($ref1_is_derived || $ref2_is_derived || $ref3_is_derived)); ?>
+                                                    <?php if($v2_is_mixed): ?><div class="material-name" style="color:red;"><?php echo ($v2["name"]); ?></div>
+                                                    <?php else: ?>
+                                                    <div class="material-name material-name-blue"><?php echo ($v2["name"]); ?></div><?php endif; ?>
+                                                    <a class="btn btn-danger btn-xs material-btn" ng-click="dels('<?php echo ($v2["id"]); ?>')">删除</a>
                                                 </div>
                                                 <div class="material-row material-row-bottom">
-                                                    <div class="material-price">{$v2.price}</div>
-                                                    <a ng-click="updateinfo3('{$v2.id}')" class="btn btn-info btn-xs material-btn">编辑</a>
+                                                    <div class="material-price"><?php echo ($v2["price"]); ?></div>
+                                                    <a ng-click="updateinfo3('<?php echo ($v2["id"]); ?>')" class="btn btn-info btn-xs material-btn">编辑</a>
                                                 </div>
-                                            </div>
-                                            </if>
-                                        </volist>
+                                            </div><?php endif; endforeach; endif; else: echo "" ;endif; ?>
                                     </div>
-                                </div>
-                            </volist>
+                                </div><?php endforeach; endif; else: echo "" ;endif; ?>
                         </div>
                     </div>
                 </div>
@@ -678,7 +787,7 @@
         data.ratio3 = infos.ratio3 || 0;
         data.end_ratio = infos.end_ratio || 0;
         data.price  = infos.price  || 0;
-        var baseurl = "{:U('NewLabel/add','model=new_label')}";
+        var baseurl = "<?php echo U('NewLabel/add','model=new_label');?>";
         //////
         $.ajax({
             url: baseurl,
@@ -703,7 +812,7 @@
     function addor() {
         var temp = $("form[name='ador']").serializeArray();
         var data = objToArray(temp);
-        var baseurl = "{:U('NewLabel/add','model=new_label')}";
+        var baseurl = "<?php echo U('NewLabel/add','model=new_label');?>";
         //////
         $.ajax({
             url: baseurl,
@@ -723,7 +832,7 @@
     }
 
     // 全量分类树（ThinkPHP 渲染时注入，每项含 id/name/children）
-    var PAGE_CATE_LIST = {:json_encode($allTree)};
+    var PAGE_CATE_LIST = <?php echo json_encode($allTree);?>;
 
     // 全量子项扁平列表（带所属大类信息，供价格计算用）
     var PAGE_CATE_FLAT = [];
@@ -923,7 +1032,7 @@
         };
 
         $scope.updateinfo = function (id) {
-            $scope.commAjax("{:U('Core/infos','model=new_label')}", {ids: id}, function (res) {
+            $scope.commAjax("<?php echo U('Core/infos','model=new_label');?>", {ids: id}, function (res) {
                 $scope.infos = res.data;
                 $("#myEdit").modal("show");
             });
@@ -933,7 +1042,7 @@
             var param = { ids: $scope.infos.id, name: $scope.infos.name };
             /////////
             $.ajax({
-                url: "{:U('Core/edits','model=new_label')}",
+                url: "<?php echo U('Core/edits','model=new_label');?>",
                 type: "post",
                 dataType: 'json',
                 data: param,
@@ -950,7 +1059,7 @@
         }
         
         $scope.updateinfo2 = function (id) {
-            $scope.commAjax("{:U('NewLabel/addGet','model=new_label')}", {cate_label_id: id}, function (res) {
+            $scope.commAjax("<?php echo U('NewLabel/addGet','model=new_label');?>", {cate_label_id: id}, function (res) {
                 $scope.infos = res.data;
                 $scope.infos.pid  = 0;
                 $scope.infos.pid2 = 0;
@@ -973,7 +1082,7 @@
         }
 
         $scope.updateinfo3 = function (id) {
-            $scope.commAjax("{:U('NewLabel/editGet','model=new_label')}", {id: id}, function (res) {
+            $scope.commAjax("<?php echo U('NewLabel/editGet','model=new_label');?>", {id: id}, function (res) {
                 $scope.infos = res.data;
                 var cateGroup = (PAGE_CATE_LIST || []).find(function(g){ return String(g.id) === String($scope.infos.cate_label_id); });
                 $scope.infos.isBase = cateGroup ? cateGroup.cate_type == 0 : false;
@@ -990,7 +1099,7 @@
             $scope.isRequesting = true;
             /////////
             $.ajax({
-                url: "{:U('NewLabel/edit','model=new_label')}",
+                url: "<?php echo U('NewLabel/edit','model=new_label');?>",
                 type: "post",
                 dataType: 'json',
                 data: param,
@@ -1018,7 +1127,7 @@
            }).then((willDelete) => {
                 if (willDelete) {
                     var param = {id: ids};
-                    $scope.commAjax("{:U('Core/dels','model=new_label')}", param, function (res) {
+                    $scope.commAjax("<?php echo U('Core/dels','model=new_label');?>", param, function (res) {
                         if (res.status !== 1) {
                             return swal("错误", res.msg, "error");
                         }
@@ -1034,3 +1143,15 @@
     });
 
 </script>
+
+
+            </div>
+        </div>
+        <!-- nano scroller -->
+        <script src="/Public/assets/js/lib/menubar/sidebar.js"></script>
+        <script src="/Public/assets/js/lib/preloader/pace.min.js"></script>
+        <!-- scripit init-->
+        <script type="text/javascript" src="/Public/assets/js/scripts.js"></script>
+    </body>
+
+</html>

@@ -219,9 +219,7 @@ class NewLabelController extends CommController {
 
               $price = bcadd($price,$price2,4);
               $price = bcadd($price,$price3,4);
-              if($v['end_ratio'] > 0 ){
-                  $price = bcmul($price, bcdiv($v['end_ratio'],100,6), 4);
-              }
+              $price = bcadd($price, $v['end_ratio'], 4);
               $up['price'] = $price;
 
               $orgChildList[$k]['_price'] = $up['price'];
@@ -260,9 +258,7 @@ class NewLabelController extends CommController {
 
               $price = bcadd($price,$price2,4);
               $price = bcadd($price,$price3,4);
-              if($v['end_ratio'] > 0 ){
-                  $price = bcmul($price, bcdiv($v['end_ratio'],100,6), 4);
-              }
+              $price = bcadd($price, $v['end_ratio'], 4);
               $up['price'] = $price;
 
               $orgChildList[$k]['_price'] = $up['price'];
@@ -306,9 +302,7 @@ class NewLabelController extends CommController {
 
               $price = bcadd($price,$price2,4);
               $price = bcadd($price,$price3,4);
-              if($v['end_ratio'] > 0 ){
-                  $price = bcmul($price, bcdiv($v['end_ratio'],100,6), 4);
-              }
+              $price = bcadd($price, $v['end_ratio'], 4);
               $up['price'] = $price;
               
               $orgChildList[$k]['_price'] = $up['price'];
