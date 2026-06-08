@@ -1,4 +1,143 @@
-<div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>易缆管理中心</title>
+        <!-- ================= Favicon ================== -->
+        <!-- Styles -->
+        <link href="/Public/assets/css/lib/font-awesome.min.css" rel="stylesheet">
+        <link href="/Public/assets/css/lib/themify-icons.css" rel="stylesheet">
+        <link href="/Public/assets/css/lib/menubar/sidebar.css" rel="stylesheet">
+        <link href="/Public/assets/css/lib/bootstrap.min.css" rel="stylesheet">
+        <link href="/Public/assets/css/lib/unix.css" rel="stylesheet">
+        <link href="/Public/assets/css/style.css" rel="stylesheet">
+        <!-- jquery vendor -->
+        <script src="/Public/assets/js/lib/jquery.min.js"></script>
+        <script src="/Public/assets/js/lib/jquery.nanoscroller.min.js"></script>
+        <script src="/Public/assets/js/lib/bootstrap.min.js"></script>
+        <!-- Angularjs -->
+        <script src="/Public/libs/angular/angular.min.js"></script>
+
+        <!-- sweetalert -->
+        <link href="/Public/libs/sweet-alert2/sweetalert2.min.css" rel="stylesheet">
+        <script src="/Public/libs/sweet-alert2/sweetalert2.min.js"></script>
+
+        <!----->
+        <link href="/Public/libs/swiper/css/swiper.min.css" rel="stylesheet">
+        <script src="/Public/libs/swiper/js/swiper.min.js"></script>
+
+        <script src="/Public/libs/layer/layer.js"></script>
+        <script src="/Public/libs/common.js"></script>
+        <script src="/Public/libs/ajaxfileupload.js?v=3"></script>
+        <style>
+            .table{
+                font-size:12px;
+            }
+            .none{
+                display:none!important;
+            }
+            .sidebar .nano-content > ul li > a{
+                padding: 8px 20px;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
+            <div class="nano">
+                <div class="nano-content">
+                    <ul>
+                        <li class="label">管理功能</li>
+                        <li><a href="<?php echo U('Bords/index');?>"><i class="ti-home"></i> 概览</a></li>
+                        <li class="active open">
+                            <a class="sidebar-sub-toggle">
+                                <i class="ti-harddrives"></i> 用户管理 <span class="sidebar-collapse-icon ti-angle-down"></span>
+                            </a>
+                            <ul>
+                                <li><a href="<?php echo U('Users/index');?>">注册用户</a></li>
+                                <li><a href="<?php echo U('Users/logrs');?>">登录统计</a></li>
+                                <li><a href="<?php echo U('Users/search');?>">搜索记录</a></li>
+                                <!--li><a href="<?php echo U('Users/label');?>">禁止区域</a></li-->
+                                <li><a href="<?php echo U('Users/levels');?>">用户等级</a></li>
+                                <!--li><a href="<?php echo U('Users/cnlogs');?>">账户操作记录</a></li-->
+                                <li><a href="<?php echo U('Users/mess');?>">消息管理</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="<?php echo U('Task/index');?>"><i class="ti-harddrives"></i> 材料价格任务执行更新</a></li>
+                        <li><a href="<?php echo U('NewLabel/index');?>"><i class="ti-harddrives"></i> 材料价格分类</a></li>
+                        <li><a href="<?php echo U('NewCate/index');?>"><i class="ti-harddrives"></i> 公式计算</a></li>
+                        <li><a href="<?php echo U('NewTax/index');?>"><i class="ti-harddrives"></i> 税率标签</a></li>
+                        <!--<li><a href="<?php echo U('Goods/cats_exc');?>"><i class="ti-harddrives"></i> 材料标签</a></li>-->
+                        <li><a href="<?php echo U('Goods/cats');?>"><i class="ti-harddrives"></i> 商品分类</a></li>
+                        <!--li><a href="<?php echo U('Goods/tmps');?>"><i class="ti-harddrives"></i> 商品模板</a></li-->
+                        <li><a href="<?php echo U('Goods/liner');?>"><i class="ti-harddrives"></i> 线缆板块</a></li>
+                        <li><a href="<?php echo U('Goods/peita');?>"><i class="ti-harddrives"></i> 配套板块</a></li>
+                        <li><a href="<?php echo U('Shops/index');?>"><i class="ti-harddrives"></i> 店铺管理</a></li>
+                        <li><a href="<?php echo U('Order/index');?>"><i class="ti-harddrives"></i> 订单管理</a></li>
+                        <!--li><a href="<?php echo U('Shops/buyer');?>"><i class="ti-harddrives"></i> 采购管理</a></li>
+                        <li><a href="<?php echo U('Shops/recyle');?>"><i class="ti-harddrives"></i> 回收管理</a></li-->
+                        <!--<li><a href="<?php echo U('Trans/citys');?>"><i class="ti-harddrives"></i> 物流板块</a></li>-->
+                        <!--li>
+                            <a class="sidebar-sub-toggle">
+                                <i class="ti-harddrives"></i> 知识板块 <span class="sidebar-collapse-icon ti-angle-down"></span>
+                            </a>
+                            <ul>
+                                <li><a href="<?php echo U('Know/cats');?>">知识分类</a></li>
+                                <li><a href="<?php echo U('Know/index');?>">知识文章</a></li>
+                            </ul>
+                        </li-->
+                        <li><a href="<?php echo U('Know/advs');?>"><i class="ti-harddrives"></i> 广告管理</a></li>
+                        <li><a href="<?php echo U('Know/helps');?>"><i class="ti-harddrives"></i> 帮助中心</a></li>
+                        <li><a href="<?php echo U('Know/sysc');?>"><i class="ti-harddrives"></i> 系统文本</a></li>
+                        <li><a href="<?php echo U('Sysc/banks');?>"><i class="ti-harddrives"></i> 银行卡号</a></li>
+                        <li><a href="<?php echo U('Version/index');?>"><i class="ti-harddrives"></i> 系统版本</a></li>
+                        <li><a href="<?php echo U('Bar/index');?>"><i class="ti-harddrives"></i> tab栏控制</a></li>
+                         <li><a href="<?php echo U('ReportInfo/index');?>"><i class="ti-harddrives"></i>报价单管理</a></li>
+                         <!--<li><a href="<?php echo U('Config/customer_config');?>"><i class="ti-harddrives"></i>客服配置</a></li>-->
+
+                        <li><a href="<?php echo U('Index/index');?>"><i class="ti-close"></i> 退出登录</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /# sidebar -->
+
+        <div class="header">
+            <div class="pull-left">
+                <div class="logo"><a href="<?php echo U('Bords/index');?>"><span>易缆管理中心</span></a></div>
+            </div>
+
+            <div class="pull-right p-r-15">
+                <ul>
+
+                    <li class="header-icon dib">
+                        <img class="avatar-img" src="/Public/assets/images/avatar/1.jpg" alt="" />
+                        <span class="user-avatar">管理员 <i class="ti-angle-down f-s-10"></i></span>
+
+                        <div class="drop-down dropdown-profile">
+                            <div class="dropdown-content-body">
+                                <ul>
+                                    <li><a href="javascript:;"><i class="ti-user"></i> <span>密码管理</span></a></li>
+                                    <li><a href="<?php echo U('Index/index');?>"><i class="ti-power-off"></i> <span>退出登录</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+
+
+        <div class="content-wrap">
+            <div class="main">
+
+                <div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
     <div class="row">
         <div class="col-lg-8 p-r-0 title-margin-right">
             <div class="page-header">
@@ -40,9 +179,9 @@
                             
                                 <select name="cate.pid" ng-model="cate.pid" class="form-control">
                                     <!--<option value="0">暂不选择</option>-->
-                                    <!-- <volist name="cate_list" id="v">-->
-                                    <!--    <option value="{$v.id}">{$v.name}</option>-->
-                                    <!--</volist>-->
+                                    <!-- <?php if(is_array($cate_list)): $i = 0; $__LIST__ = $cate_list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?>-->
+                                    <!--    <option value="<?php echo ($v["id"]); ?>"><?php echo ($v["name"]); ?></option>-->
+                                    <!--<?php endforeach; endif; else: echo "" ;endif; ?>-->
                                      <option  value="{{v.id}}" ng-repeat="v in cate_list">{{v.name}}</option>
                                 </select>
                              </div>
@@ -184,31 +323,31 @@
                             <!--    </thead>-->
                             <!--    <tbody>-->
 
-                            <!--    <volist name="list" id="v">-->
+                            <!--    <?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?>-->
                             <!--        <tr>-->
-                            <!--            <th scope="row">{$v.id}</th>-->
-                            <!--            <td>{$v.tree_label}{$v.name}</td>-->
+                            <!--            <th scope="row"><?php echo ($v["id"]); ?></th>-->
+                            <!--            <td><?php echo ($v["tree_label"]); echo ($v["name"]); ?></td>-->
                             <!--            <td>-->
                                            
-                            <!--                <a ng-click="updateinfo('{$v.id}')" class="btn btn-info btn-xs">编辑</a>-->
-                            <!--            <if condition="$v.level lt 3">-->
-                            <!--                 <a class="btn btn-xs btn-info" data-my-pid="{$v.id}"  data-toggle="modal" data-target="#myModal">添加下级</a>-->
-                                            <!--<a ng-click="updateinfo3('{$v.id}')" class="btn btn-info btn-xs">添加下级</a>-->
-                            <!--            </if>  -->
-                            <!--            <if condition="$v.level eq 3">-->
-                            <!--                 <a class="btn btn-xs btn-info" data-id="{$v.id}"  data-name="{$v.name}" ng-click="changeShow({$v.id})">管理表格</a>-->
+                            <!--                <a ng-click="updateinfo('<?php echo ($v["id"]); ?>')" class="btn btn-info btn-xs">编辑</a>-->
+                            <!--            <?php if($v["level"] < 3): ?>-->
+                            <!--                 <a class="btn btn-xs btn-info" data-my-pid="<?php echo ($v["id"]); ?>"  data-toggle="modal" data-target="#myModal">添加下级</a>-->
+                                            <!--<a ng-click="updateinfo3('<?php echo ($v["id"]); ?>')" class="btn btn-info btn-xs">添加下级</a>-->
+                            <!--<?php endif; ?>  -->
+                            <!--            <?php if($v["level"] == 3): ?>-->
+                            <!--                 <a class="btn btn-xs btn-info" data-id="<?php echo ($v["id"]); ?>"  data-name="<?php echo ($v["name"]); ?>" ng-click="changeShow(<?php echo ($v["id"]); ?>)">管理表格</a>-->
                                         
-                            <!--            </if>-->
-                            <!--                <a class="btn btn-danger btn-xs" ng-click="dels('{$v.id}')">删除</a>-->
+                            <!--<?php endif; ?>-->
+                            <!--                <a class="btn btn-danger btn-xs" ng-click="dels('<?php echo ($v["id"]); ?>')">删除</a>-->
                             <!--            </td>-->
                             <!--        </tr>-->
-                            <!--    </volist>-->
+                            <!--<?php endforeach; endif; else: echo "" ;endif; ?>-->
 
                             <!--    </tbody>-->
                             <!--</table>-->
 
                             <!--<nav aria-label="Page navigation">-->
-                            <!--    <ul class="pagination">{$list.show}</ul>-->
+                            <!--    <ul class="pagination"><?php echo ($list["show"]); ?></ul>-->
                             <!--</nav>-->
 
                         </div>
@@ -472,7 +611,7 @@
     $scope.addor = function() {
         var temp = $("form[name='ador']").serializeArray();
         var data = objToArray(temp);
-        var baseurl = "{:U('NewCate/add','model=new_cate')}";
+        var baseurl = "<?php echo U('NewCate/add','model=new_cate');?>";
         // data.pid =  $scope.cate.pid;
         //////
         $.ajax({
@@ -566,7 +705,7 @@ console.log(id)
          $scope.changeCateFirst = function () {
             var param = {id: 0};
             //////
-            $scope.commAjax("{:U('NewCate/ajaxCateFirst')}", param, function (res) {
+            $scope.commAjax("<?php echo U('NewCate/ajaxCateFirst');?>", param, function (res) {
                 if (res.status !== 1) {
                     return swal("错误", res.msg, "error");
                 }
@@ -586,7 +725,7 @@ console.log(id)
             $scope.three_cate_curr_id = id
             var param = {id: $scope.three_cate_curr_id};
             //////
-            $scope.commAjax("{:U('NewCate/ajaxCateFirst2')}", param, function (res) {
+            $scope.commAjax("<?php echo U('NewCate/ajaxCateFirst2');?>", param, function (res) {
                 if (res.status !== 1) {
                     return swal("错误", res.msg, "error");
                 }
@@ -604,7 +743,7 @@ console.log(id)
          $scope.changeCate = function () {
             var param = {id: $scope.cate.pid};
             //////
-            $scope.commAjax("{:U('NewCate/ajaxCate')}", param, function (res) {
+            $scope.commAjax("<?php echo U('NewCate/ajaxCate');?>", param, function (res) {
                 if (res.status !== 1) {
                     return swal("错误", res.msg, "error");
                 }
@@ -682,7 +821,7 @@ console.log(id)
         $scope.init = function () {
             var param = {id: $scope.cate_form.id};
             //////
-            $scope.commAjax("{:U('NewCate/cate_form')}", param, function (res) {
+            $scope.commAjax("<?php echo U('NewCate/cate_form');?>", param, function (res) {
                 if (res.status !== 1) {
                     return swal("错误", res.msg, "error");
                 }
@@ -705,7 +844,7 @@ console.log(id)
         $scope.cateUpate = function () {
             var param = $scope.cate_form.infos;
             //////
-            $scope.commAjax("{:U('NewCate/cate_update')}", param, function (res) {
+            $scope.commAjax("<?php echo U('NewCate/cate_update');?>", param, function (res) {
                 if (res.status !== 1) {
                     return swal("错误", res.msg, "error");
                 }
@@ -719,7 +858,7 @@ console.log(id)
             layer.load(2);
             /////////
             $.ajaxFileUpload({
-                url: "{:U('NewCate/cate_form_import')}",
+                url: "<?php echo U('NewCate/cate_form_import');?>",
                 secureuri: false,
                 fileElementId: "file",
                 dataType: 'json',
@@ -747,7 +886,7 @@ console.log(id)
                 form: JSON.stringify($scope.cate_form.list),
              
             };
-            $scope.commAjax("{:U('NewCate/cate_form_update')}", param, function (res) {
+            $scope.commAjax("<?php echo U('NewCate/cate_form_update');?>", param, function (res) {
                 layer.closeAll('loading');
                 if (res.status !== 1) {
                     return swal("错误", res.msg, "error");
@@ -762,7 +901,7 @@ console.log(id)
         $scope.cateFormDel = function () {
             var param = $scope.cate_form.infos;
             //////
-            $scope.commAjax("{:U('NewCate/cate_form_del')}", param, function (res) {
+            $scope.commAjax("<?php echo U('NewCate/cate_form_del');?>", param, function (res) {
                 if (res.status !== 1) {
                     return swal("错误", res.msg, "error");
                 }
@@ -794,7 +933,7 @@ console.log(id)
         ////////////////////////////////////////////////////////////////////////
 
         $scope.updateinfo = function (id) {
-            $scope.commAjax("{:U('NewCate/editGet','model=new_cate')}", {id: id}, function (res) {
+            $scope.commAjax("<?php echo U('NewCate/editGet','model=new_cate');?>", {id: id}, function (res) {
                 $scope.infos = res.data;
                 $("#myEdit").modal("show");
             });
@@ -805,7 +944,7 @@ console.log(id)
             param.ids = param.id;
             /////////
             $.ajax({
-                url: "{:U('NewCate/edit','model=new_cate')}",
+                url: "<?php echo U('NewCate/edit','model=new_cate');?>",
                 type: "post",
                 dataType: 'json',
                 data: param,
@@ -828,7 +967,7 @@ console.log(id)
 
         $scope.dels = function (ids) {
             var param = {id: ids};
-            $scope.commAjax("{:U('NewCate/cate_del')}", param, function (res) {
+            $scope.commAjax("<?php echo U('NewCate/cate_del');?>", param, function (res) {
                 if (res.status !== 1) {
                    
                     return swal("错误", res.msg, "error");
@@ -846,3 +985,15 @@ console.log(id)
 </script>
 
 
+
+
+            </div>
+        </div>
+        <!-- nano scroller -->
+        <script src="/Public/assets/js/lib/menubar/sidebar.js"></script>
+        <script src="/Public/assets/js/lib/preloader/pace.min.js"></script>
+        <!-- scripit init-->
+        <script type="text/javascript" src="/Public/assets/js/scripts.js"></script>
+    </body>
+
+</html>

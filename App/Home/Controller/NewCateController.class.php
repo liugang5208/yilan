@@ -162,18 +162,19 @@ class NewCateController extends CommController {
                 ->select();
             foreach ($label_list as $k => $v) {
                 $label_list[$k]['cat_name'] = $root_map[$v['cate_label_id']];
-                $label_list[$k]['_name']    = $root_map[$v['cate_label_id']] . '-' . $v['name'] . '-' . $v['price'];
+                $label_list[$k]['price']    = number_format((float)$v['price'], 2, '.', '');
+                $label_list[$k]['_name']    = $root_map[$v['cate_label_id']] . '-' . $v['name'] . '-' . $label_list[$k]['price'];
             }
         }
 
         foreach ($list as $k => $row) {
-            $list[$k]['price']           = number_format((float)$row['price'],           4, '.', '');
-            $list[$k]['calc_base_price'] = number_format((float)$row['calc_base_price'], 4, '.', '');
-            $list[$k]['end_price']       = number_format((float)$row['end_price'],       4, '.', '');
+            $list[$k]['price']           = number_format((float)$row['price'],           2, '.', '');
+            $list[$k]['calc_base_price'] = number_format((float)$row['calc_base_price'], 2, '.', '');
+            $list[$k]['end_price']       = number_format((float)$row['end_price'],       2, '.', '');
         }
         $data['list'] = $list;
         $data['info'] = $info;
-        $data['info']['price'] = number_format((float)$info['price'], 4, '.', '');
+        $data['info']['price'] = number_format((float)$info['price'], 2, '.', '');
         $data['label_list'] = $label_list;
         return get_op_put(1, "获取成功",$data);
     }

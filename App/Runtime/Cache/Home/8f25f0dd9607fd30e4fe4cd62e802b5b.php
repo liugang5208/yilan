@@ -146,7 +146,10 @@
                 <div class="card alert" style="width:100%">
                     <div class="section-header">
                         <span class="section-title">基础材料管理</span>
-                        <a class="btn btn-xs section-add-btn" style="background:#333;color:#fff;border-color:#333;" onclick="openAddCate(0)">+ 添加基础材料分类</a>
+                        <div style="display:flex;gap:6px;">
+                            <a class="btn btn-xs section-add-btn" style="background:#333;color:#fff;border-color:#333;" onclick="openAddCate(0)">+ 添加基础材料分类</a>
+                            <a href="/Home/PriceSync/index" class="btn btn-xs section-add-btn" style="background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.4);">⇄ 期货价格同步</a>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -166,7 +169,8 @@
                                                     <a class="btn btn-danger btn-xs material-btn" ng-click="dels('<?php echo ($v2["id"]); ?>')">删除</a>
                                                 </div>
                                                 <div class="material-row material-row-bottom">
-                                                    <div class="material-price"><?php echo ($v2["price"]); ?></div>
+                                                    <?php if($v2['last_futures_price'] > 0): ?><div class="material-futures-price"><?php echo number_format((float)$v2['last_futures_price'],2,'.','' );?></div><?php endif; ?>
+                                                    <div class="material-price"><?php echo number_format((float)$v2['price'],2,'.','' );?></div>
                                                     <a ng-click="updateinfo3('<?php echo ($v2["id"]); ?>')" class="btn btn-info btn-xs material-btn">编辑</a>
                                                 </div>
                                             </div><?php endif; endforeach; endif; else: echo "" ;endif; ?>
@@ -186,7 +190,10 @@
                 <div class="card alert" style="width:100%">
                     <div class="section-header section-header-derived">
                         <span class="section-title">衍生材料管理</span>
-                        <a class="btn btn-xs section-add-btn" style="background:#1a6fc4;color:#fff;border-color:#1a6fc4;" onclick="openAddCate(1)">+ 添加衍生材料分类</a>
+                        <div style="display:flex;gap:6px;">
+                            <a class="btn btn-xs section-add-btn" ng-click="openCloneCate()">复制衍生分类</a>
+                            <a class="btn btn-xs section-add-btn" style="background:#1a6fc4;color:#fff;border-color:#1a6fc4;" onclick="openAddCate(1)">+ 添加衍生材料分类</a>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -210,7 +217,7 @@
                                                     <a class="btn btn-danger btn-xs material-btn" ng-click="dels('<?php echo ($v2["id"]); ?>')">删除</a>
                                                 </div>
                                                 <div class="material-row material-row-bottom">
-                                                    <div class="material-price"><?php echo ($v2["price"]); ?></div>
+                                                    <div class="material-price"><?php echo number_format((float)$v2['price'],2,'.','' );?></div>
                                                     <a ng-click="updateinfo3('<?php echo ($v2["id"]); ?>')" class="btn btn-info btn-xs material-btn">编辑</a>
                                                 </div>
                                             </div><?php endif; endforeach; endif; else: echo "" ;endif; ?>
@@ -324,7 +331,7 @@
                                         </div>
                                         <div class="edit2-ratio-row">
                                             <label class="edit2-label">关联比例:</label>
-                                            <input type="number" ng-change="onChangeRatio()" name="ratio" ng-model="infos.ratio" step="0.0001" class="form-control edit2-ratio-input"/>
+                                            <input type="number" ng-change="onChangeRatio()" name="ratio" ng-model="infos.ratio" step="0.01" class="form-control edit2-ratio-input"/>
                                         </div>
                                     </td>
                                     <td class="edit2-td edit2-td-2">
@@ -342,7 +349,7 @@
                                         </div>
                                         <div class="edit2-ratio-row">
                                             <label class="edit2-label">关联比例:</label>
-                                            <input type="number" ng-change="onChangeRatio()" name="ratio2" ng-model="infos.ratio2" step="0.0001" class="form-control edit2-ratio-input"/>
+                                            <input type="number" ng-change="onChangeRatio()" name="ratio2" ng-model="infos.ratio2" step="0.01" class="form-control edit2-ratio-input"/>
                                         </div>
                                     </td>
                                     <td class="edit2-td edit2-td-3">
@@ -360,7 +367,7 @@
                                         </div>
                                         <div class="edit2-ratio-row">
                                             <label class="edit2-label">关联比例:</label>
-                                            <input type="number" ng-change="onChangeRatio()" name="ratio3" ng-model="infos.ratio3" step="0.0001" class="form-control edit2-ratio-input"/>
+                                            <input type="number" ng-change="onChangeRatio()" name="ratio3" ng-model="infos.ratio3" step="0.01" class="form-control edit2-ratio-input"/>
                                         </div>
                                     </td>
                                 </tr>
@@ -369,7 +376,7 @@
                         <div class="edit2-bottom-fields">
                             <div ng-hide="infos.isBase" class="form-group">
                                 <label>组合工费比例</label>
-                                <input type="number" name="end_ratio" ng-change="onChangeRatio2()" ng-model="infos.end_ratio" step="0.0001" class="form-control"/>
+                                <input type="number" name="end_ratio" ng-change="onChangeRatio2()" ng-model="infos.end_ratio" step="0.01" class="form-control"/>
                             </div>
                             <div class="form-group">
                                 <label>执行价格</label>
@@ -431,7 +438,7 @@
                                         </div>
                                         <div class="edit2-ratio-row">
                                             <label class="edit2-label">关联比例:</label>
-                                            <input type="number" ng-change="onChangeRatio()" name="ratio" ng-model="infos.ratio" step="0.0001" class="form-control edit2-ratio-input"/>
+                                            <input type="number" ng-change="onChangeRatio()" name="ratio" ng-model="infos.ratio" step="0.01" class="form-control edit2-ratio-input"/>
                                         </div>
                                     </td>
                                     <td class="edit2-td edit2-td-2">
@@ -449,7 +456,7 @@
                                         </div>
                                         <div class="edit2-ratio-row">
                                             <label class="edit2-label">关联比例:</label>
-                                            <input type="number" ng-change="onChangeRatio()" name="ratio2" ng-model="infos.ratio2" step="0.0001" class="form-control edit2-ratio-input"/>
+                                            <input type="number" ng-change="onChangeRatio()" name="ratio2" ng-model="infos.ratio2" step="0.01" class="form-control edit2-ratio-input"/>
                                         </div>
                                     </td>
                                     <td class="edit2-td edit2-td-3">
@@ -467,7 +474,7 @@
                                         </div>
                                         <div class="edit2-ratio-row">
                                             <label class="edit2-label">关联比例:</label>
-                                            <input type="number" ng-change="onChangeRatio()" name="ratio3" ng-model="infos.ratio3" step="0.0001" class="form-control edit2-ratio-input"/>
+                                            <input type="number" ng-change="onChangeRatio()" name="ratio3" ng-model="infos.ratio3" step="0.01" class="form-control edit2-ratio-input"/>
                                         </div>
                                     </td>
                                 </tr>
@@ -476,9 +483,28 @@
                         <div class="edit2-bottom-fields">
                             <div ng-hide="infos.isBase" class="form-group">
                                 <label>组合工费比例</label>
-                                <input type="number" name="end_ratio" ng-change="onChangeRatio2()" ng-model="infos.end_ratio" step="0.0001" class="form-control"/>
+                                <input type="number" name="end_ratio" ng-change="onChangeRatio2()" ng-model="infos.end_ratio" step="0.01" class="form-control"/>
                             </div>
-                            <div class="form-group">
+                            <!-- 自动同步状态：只读展示，不可手动修改 -->
+                            <div ng-if="infos.has_auto_sync == 1" class="edit2-autosync-block">
+                                <div class="edit2-autosync-tip">⚠ 该材料已配置期货自动同步，价格不可手动修改</div>
+                                <div class="edit2-autosync-fields">
+                                    <div class="edit2-autosync-item">
+                                        <div class="edit2-autosync-label">期货现价</div>
+                                        <div class="edit2-autosync-value">{{infos.last_futures_price}}</div>
+                                    </div>
+                                    <div class="edit2-autosync-item">
+                                        <div class="edit2-autosync-label">同步比例</div>
+                                        <div class="edit2-autosync-value">{{infos.last_sync_ratio}}%</div>
+                                    </div>
+                                    <div class="edit2-autosync-item">
+                                        <div class="edit2-autosync-label">执行价格</div>
+                                        <div class="edit2-autosync-value edit2-autosync-price">{{infos.price}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 非自动同步：正常可编辑 -->
+                            <div ng-if="infos.has_auto_sync != 1" class="form-group">
                                 <label>执行价格</label>
                                 <input type="text" name="price" class="form-control chang_price" ng-model="infos.price"/>
                             </div>
@@ -488,9 +514,46 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" ng-click="edit()" ng-disabled="isRequesting">
+                    <button type="button" class="btn btn-primary" ng-click="edit()"
+                            ng-disabled="isRequesting || infos.has_auto_sync == 1"
+                            title="{{infos.has_auto_sync == 1 ? '已启用期货自动同步，价格不可手动修改' : ''}}">
                         <span ng-if="isRequesting" class="spinner"></span>
-                        <span ng-if="!isRequesting">更新</span>
+                        <span ng-if="!isRequesting">{{infos.has_auto_sync == 1 ? '价格同步中（不可修改）' : '更新'}}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal：复制衍生分类 -->
+    <div class="modal fade" id="modalCloneCate" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width:420px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">复制衍生分类</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>源分类 <span style="color:#e74c3c;">*</span></label>
+                        <select class="form-control" ng-model="clone.source_id" ng-change="onCloneSourceChange()">
+                            <option value="">请选择要复制的衍生分类</option>
+                            <option value="{{g.id}}" ng-repeat="g in derivedCateGroups">{{g.name}}</option>
+                        </select>
+                        <div style="font-size:11px;color:#888;margin-top:4px;" ng-if="clone.source_id">
+                            包含 <strong>{{clone.materialCount}}</strong> 条材料
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>新分类名称 <span style="color:#e74c3c;">*</span></label>
+                        <input type="text" class="form-control" ng-model="clone.new_name" placeholder="输入新分类名称"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" ng-click="submitCloneCate()" ng-disabled="clone.loading">
+                        <span ng-if="clone.loading">复制中...</span>
+                        <span ng-if="!clone.loading">确认复制</span>
                     </button>
                 </div>
             </div>
@@ -622,6 +685,25 @@
     color: #1a6fc4;
 }
 
+/* 期货现价（与材料价格同行显示） */
+.material-futures-price {
+    font-size: 11px;
+    color: #1a6fc4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+    min-width: 0;
+    line-height: 1;
+    background: #eaf3fd;
+    border: 1px solid #b8d9f5;
+    border-radius: 3px;
+    padding: 3px 5px;
+    height: 22px;
+    box-sizing: border-box;
+    margin-right: 2px;
+}
+
 /* 价格：白色input框样式 */
 .material-price {
     font-size: 12px;
@@ -723,6 +805,49 @@
 
 .edit2-bottom-fields {
     padding: 0 4px;
+}
+
+/* 自动同步只读展示块 */
+.edit2-autosync-block {
+    margin-bottom: 12px;
+}
+.edit2-autosync-tip {
+    font-size: 12px;
+    color: #e67e22;
+    background: #fef9ec;
+    border: 1px solid #f5c97a;
+    border-radius: 3px;
+    padding: 5px 10px;
+    margin-bottom: 8px;
+}
+.edit2-autosync-fields {
+    display: flex;
+    gap: 8px;
+}
+.edit2-autosync-item {
+    flex: 1;
+}
+.edit2-autosync-label {
+    font-size: 11px;
+    color: #888;
+    margin-bottom: 3px;
+}
+.edit2-autosync-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    background: #f5f5f5;
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+    padding: 4px 8px;
+    height: 30px;
+    line-height: 22px;
+    box-sizing: border-box;
+}
+.edit2-autosync-price {
+    color: #1a6fc4;
+    background: #eaf3fd;
+    border-color: #b8d9f5;
 }
 
 /* ===== 按钮样式修正 ===== */
@@ -854,6 +979,16 @@
             return { id: String(g.id), name: g.name, cate_type: g.cate_type, children: g.children || [] };
         });
 
+        // 衍生分类列表（用于复制衍生分类的源下拉）
+        $scope.derivedCateGroups = (PAGE_CATE_LIST || []).filter(function(g) {
+            return Number(g.cate_type) === 1;
+        }).map(function(g) {
+            return { id: g.id, name: g.name, children: g.children || [] };
+        });
+
+        // 复制衍生分类状态
+        $scope.clone = { source_id: '', new_name: '', materialCount: 0, loading: false };
+
         // 大类切换时更新对应小类列表，并清空已选小类
         $scope.onCatChange = function(idx) {
             var catId = $scope.infos['cat' + idx];
@@ -941,9 +1076,9 @@
                 
                 price = price + ($scope.infos.end_ratio || 0);
                 
-                price = Math.round((price + Number.EPSILON) * 10000) / 10000;
+                price = Math.round((price + Number.EPSILON) * 100) / 100;
 
-                $scope.infos.price = parseFloat(price.toFixed(4));
+                $scope.infos.price = parseFloat(price.toFixed(2));
             }else{
                 $(".chang_price").removeAttr("disabled");
             }
@@ -1001,9 +1136,9 @@
                 
                 price = price + ($scope.infos.end_ratio || 0);
                 
-                price = Math.round((price + Number.EPSILON) * 10000) / 10000;
-                
-                    $scope.infos.price = price;
+                price = Math.round((price + Number.EPSILON) * 100) / 100;
+
+                    $scope.infos.price = parseFloat(price.toFixed(2));
             }else{
                 $(".chang_price").removeAttr("disabled");
             }
@@ -1117,6 +1252,46 @@
             });
         }
 
+        // ===================== 复制衍生分类 =====================
+        $scope.openCloneCate = function() {
+            $scope.clone = { source_id: '', new_name: '', materialCount: 0, loading: false };
+            $('#modalCloneCate').modal('show');
+        };
+
+        $scope.onCloneSourceChange = function() {
+            var g = $scope.derivedCateGroups.find(function(x) {
+                return String(x.id) === String($scope.clone.source_id);
+            });
+            // 只统计 pid>0 的材料（衍生材料，与页面展示一致）
+            $scope.clone.materialCount = g ? g.children.filter(function(c) {
+                return Number(c.pid) > 0;
+            }).length : 0;
+        };
+
+        $scope.submitCloneCate = function() {
+            if (!$scope.clone.source_id) return swal('提示', '请选择源分类', 'warning');
+            if (!$scope.clone.new_name || !$scope.clone.new_name.trim()) return swal('提示', '请输入新分类名称', 'warning');
+            var srcGroup = $scope.derivedCateGroups.find(function(x){ return String(x.id) === String($scope.clone.source_id); });
+            if (srcGroup && srcGroup.name === $scope.clone.new_name.trim()) return swal('提示', '新分类名称不能与源分类名称相同', 'warning');
+            $scope.clone.loading = true;
+            $http({
+                method: 'POST',
+                url: "<?php echo U('NewLabel/cloneDerivedCate');?>",
+                data: 'source_id=' + $scope.clone.source_id + '&new_name=' + encodeURIComponent($scope.clone.new_name.trim()),
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }).then(function(res) {
+                $scope.clone.loading = false;
+                if (res.data.status !== 1) return swal('错误', res.data.msg, 'error');
+                $('#modalCloneCate').modal('hide');
+                swal('成功', '分类复制完成，共创建 ' + res.data.data.count + ' 条材料', 'success').then(function() {
+                    window.location.reload();
+                });
+            }, function() {
+                $scope.clone.loading = false;
+                swal('错误', '网络请求失败', 'error');
+            });
+        };
+
         $scope.dels = function (ids) {
             swal({
                 title: '确认删除',
@@ -1127,7 +1302,7 @@
            }).then((willDelete) => {
                 if (willDelete) {
                     var param = {id: ids};
-                    $scope.commAjax("<?php echo U('Core/dels','model=new_label');?>", param, function (res) {
+                    $scope.commAjax("<?php echo U('NewLabel/dels');?>", param, function (res) {
                         if (res.status !== 1) {
                             return swal("错误", res.msg, "error");
                         }

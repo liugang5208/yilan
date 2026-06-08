@@ -1,0 +1,709 @@
+<div class="container-fluid" ng-app="priceSyncApp" ng-controller="priceSyncCtrl">
+
+    <!-- 页头 -->
+    <div class="row">
+        <div class="col-lg-8 p-r-0 title-margin-right">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>期货价格同步管理</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 p-l-0 title-margin-left">
+            <div class="page-header">
+                <div class="page-title" style="text-align:right;padding-right:20px;padding-top:18px;">
+                    <a href="/Home/NewLabel/index" class="btn btn-xs btn-default">← 返回分类管理</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <!-- 左栏：期货实时行情 -->
+        <div class="col-lg-5">
+            <div class="card ps-card">
+                <div class="ps-card-header">
+                    <span class="ps-card-title">东方财富期货</span>
+                    <div class="ps-card-actions">
+                        <span class="ps-update-time">更新：{{quoteUpdateTime}}</span>
+                        <button class="btn btn-xs ps-btn-refresh" ng-click="refreshQuote()" ng-disabled="quoteLoading">
+                            <span ng-if="quoteLoading">刷新中...</span>
+                            <span ng-if="!quoteLoading">↻ 刷新</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Tab 导航 -->
+                <div class="ps-tab-bar">
+                    <span class="ps-tab" ng-repeat="t in exchangeTabs"
+                          ng-class="{active: currentExchange === t.key}"
+                          ng-click="switchExchange(t.key)">{{t.label}}</span>
+                </div>
+                <div class="ps-card-body">
+                    <div class="ps-search-row">
+                        <input type="text" class="form-control ps-search-input" placeholder="搜索合约名称..." ng-model="quoteKeyword"/>
+                    </div>
+                    <table class="table table-hover ps-table">
+                        <thead>
+                            <tr>
+                                <th>合约名称</th>
+                                <th>代码</th>
+                                <th class="text-right">最新价</th>
+                                <th class="text-right">涨跌幅</th>
+                                <th class="text-center">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="q in quoteList | filter:quoteKeyword" ng-click="selectQuote(q)" ng-class="{active: selectedQuote && selectedQuote.dm === q.dm}">
+                                <td>{{q.name}}</td>
+                                <td><span class="ps-code">{{q.dm}}</span></td>
+                                <td class="text-right ps-price">{{q.p | number:2}}</td>
+                                <td class="text-right" ng-class="q.zdf > 0 ? 'ps-up' : (q.zdf < 0 ? 'ps-down' : '')">
+                                    <span ng-if="q.zdf > 0">+</span>{{q.zdf}}%
+                                </td>
+                                <td class="text-center">
+                                    <button class="btn btn-xs ps-btn-link" ng-click="openAddFromQuote(q); $event.stopPropagation()">+ 配置</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右栏：同步配置管理 -->
+        <div class="col-lg-7">
+            <div class="card ps-card">
+                <div class="ps-card-header">
+                    <span class="ps-card-title">同步配置</span>
+                    <div class="ps-card-actions">
+                        <button class="btn btn-xs ps-btn-batch" ng-click="batchSync()" ng-disabled="checkedConfigs().length === 0">
+                            批量同步 <span ng-if="checkedConfigs().length > 0">({{checkedConfigs().length}})</span>
+                        </button>
+                        <button class="btn btn-xs ps-btn-add" ng-click="openAddConfig()">+ 新增配置</button>
+                    </div>
+                </div>
+                <div class="ps-card-body">
+                    <table class="table table-hover ps-table">
+                        <thead>
+                            <tr>
+                                <th style="width:32px;"><input type="checkbox" ng-click="toggleAll()" ng-model="allChecked"/></th>
+                                <th style="width:36px;">ID</th>
+                                <th>期货合约</th>
+                                <th>映射材料</th>
+                                <th class="text-right">换算比例</th>
+                                <th>最后同步时间</th>
+                                <th class="text-center">自动同步</th>
+                                <th class="text-center">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="c in configList">
+                                <td><input type="checkbox" ng-model="c.checked"/></td>
+                                <td class="ps-code" style="text-align:center;" ng-bind="$index+1"></td>
+                                <td>
+                                    <div class="ps-config-futures">{{c.futures_name}}</div>
+                                    <div class="ps-code">{{c.futures_code}}</div>
+                                </td>
+                                <td>
+                                    <div class="ps-config-label">{{c.label_name}}</div>
+                                    <div class="ps-price-preview">
+                                        当前：<span class="ps-price">{{c.current_price}}</span>
+                                        → 同步后：<span class="ps-price-new" ng-if="getQuotePrice(c.futures_code)">
+                                            {{calcSyncPrice(c) | number:4}}
+                                        </span>
+                                        <span ng-if="!getQuotePrice(c.futures_code)" class="ps-no-quote">-</span>
+                                    </div>
+                                </td>
+                                <td class="text-right">
+                                    <span class="ps-ratio">{{c.ratio}}%</span>
+                                </td>
+                                <td class="ps-log-time">{{c.last_sync_at}}</td>
+                                <td class="text-center">
+                                    <span class="ps-badge" ng-class="c.auto_sync ? 'ps-badge-on' : 'ps-badge-off'"
+                                          ng-click="toggleAutoSync(c)" style="cursor:pointer;">
+                                        {{c.auto_sync ? '启用' : '停用'}}
+                                    </span>
+                                </td>
+                                <td class="text-center ps-action-btns">
+                                    <button class="btn btn-xs btn-info" ng-click="syncOne(c)"
+                                            ng-disabled="c.syncing || !c.auto_sync"
+                                            title="{{!c.auto_sync ? '请先启用自动同步' : ''}}">
+                                        <span ng-if="c.syncing">同步中</span>
+                                        <span ng-if="!c.syncing">同步</span>
+                                    </button>
+                                    <button class="btn btn-xs btn-default" ng-click="openEditConfig(c)">编辑</button>
+                                    <button class="btn btn-xs btn-default" ng-click="openSyncLog(c)">日志</button>
+                                    <button class="btn btn-xs btn-danger" ng-click="delConfig(c)">删除</button>
+                                </td>
+                            </tr>
+                            <tr ng-if="configList.length === 0">
+                                <td colspan="8" class="text-center ps-empty">暂无配置，点击"新增配置"添加</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal：新增/编辑配置 -->
+    <div class="modal fade" id="modalConfig" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width:480px;">
+            <div class="modal-content">
+                <div class="modal-header ps-modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">{{editMode ? '编辑配置' : '新增同步配置'}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="ps-form-label">期货合约 <span class="ps-required">*</span></label>
+                        <select class="form-control" ng-model="form.futures_code" ng-change="onFormFuturesChange()">
+                            <option value="">请选择期货合约</option>
+                            <option value="{{q.dm}}" ng-repeat="q in allQuotesFlat">【{{q.exchange}}】{{q.name}}</option>
+                        </select>
+                        <div class="ps-form-hint" ng-if="form.futures_code">
+                            当前价格：<strong>{{getQuotePrice(form.futures_code) | number:2}}</strong>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="ps-form-label">映射基础材料 <span class="ps-required">*</span></label>
+                        <div style="display:flex;gap:8px;">
+                            <select class="form-control" style="flex:0 0 38%;" ng-model="form.mat_cat" ng-change="onFormMatCatChange()">
+                                <option value="">请选择大类</option>
+                                <option value="{{g}}" ng-repeat="g in matCatGroups">{{g}}</option>
+                            </select>
+                            <select class="form-control" style="flex:1;"
+                                    ng-model="form.new_label_id"
+                                    ng-disabled="!form.mat_cat"
+                                    ng-options="m.id as (m.name + '（当前：' + m.price + '）') for m in form.matSubList">
+                                <option value="">{{form.mat_cat ? '请选择材料' : '请先选择大类'}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="ps-form-label">换算比例 <span class="ps-required">*</span></label>
+                        <input type="number" class="form-control" ng-model="form.ratio" step="0.0001" placeholder="100 表示 100%，即同步期货全价"/>
+                        <div class="ps-form-hint" ng-if="form.futures_code && form.ratio">
+                            预计同步价格：<strong>{{(getQuotePrice(form.futures_code) * form.ratio / 100) | number:4}}</strong>
+                            &nbsp;（期货现价 {{getQuotePrice(form.futures_code) | number:2}} × {{form.ratio}}%）
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="ps-form-label">自动同步</label>
+                        <div>
+                            <label class="ps-radio-label">
+                                <input type="radio" ng-model="form.auto_sync" ng-value="1"/> 启用
+                            </label>
+                            <label class="ps-radio-label" style="margin-left:16px;">
+                                <input type="radio" ng-model="form.auto_sync" ng-value="0"/> 停用
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" ng-click="saveConfig()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal：同步日志 -->
+    <div class="modal fade" id="modalLog" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width:600px;">
+            <div class="modal-content">
+                <div class="modal-header ps-modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">同步日志 — {{logTarget}}</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table ps-table">
+                        <thead>
+                            <tr>
+                                <th>时间</th>
+                                <th class="text-right">期货价格</th>
+                                <th class="text-right">同步前价格</th>
+                                <th class="text-right">同步后价格</th>
+                                <th class="text-center">方式</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="l in logList">
+                                <td class="ps-log-time">{{l.time}}</td>
+                                <td class="text-right">{{l.futures_price | number:2}}</td>
+                                <td class="text-right ps-price">{{l.old_price | number:4}}</td>
+                                <td class="text-right ps-price-new">{{l.new_price | number:4}}</td>
+                                <td class="text-center">
+                                    <span class="ps-badge" ng-class="l.type === '手动' ? 'ps-badge-manual' : 'ps-badge-auto'">{{l.type}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast 提示 -->
+    <div class="ps-toast" ng-class="{show: toast.show, error: toast.error}">{{toast.msg}}</div>
+
+</div>
+
+
+<style>
+.ps-card {
+    border-radius: 4px;
+    margin-bottom: 16px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    overflow: hidden;
+}
+.ps-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #2c2c2c;
+    color: #fff;
+    padding: 9px 14px;
+}
+.ps-card-title {
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+.ps-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.ps-card-body {
+    padding: 12px;
+    background: #fff;
+}
+
+/* 按钮 */
+.ps-btn-refresh  { background:#fff; color:#333; border:1px solid #ccc; }
+.ps-btn-add      { background:#1a6fc4; color:#fff; border-color:#1a6fc4; }
+.ps-btn-batch    { background:#555; color:#fff; border-color:#555; }
+.ps-btn-add-time { background:#27ae60; color:#fff; border-color:#27ae60; }
+.ps-btn-link     { background:transparent; color:#1a6fc4; border:1px solid #1a6fc4; padding:1px 6px !important; font-size:11px !important; }
+
+/* 表格 */
+.ps-table { margin-bottom: 0; font-size: 12px; }
+.ps-table th { background: #f5f5f5; font-weight: 600; padding: 6px 8px !important; white-space: nowrap; }
+.ps-table td { padding: 6px 8px !important; vertical-align: middle; }
+.ps-table tbody tr:hover { background: #f0f7ff; cursor: pointer; }
+.ps-table tbody tr.active { background: #dbeeff; }
+
+/* Tab */
+.ps-tab-bar {
+    display: flex;
+    background: #3a3a3a;
+    padding: 0 14px;
+}
+.ps-tab {
+    padding: 7px 14px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+    user-select: none;
+}
+.ps-tab:hover { color: #fff; }
+.ps-tab.active { color: #fff; border-bottom-color: #3498db; font-weight: 600; }
+
+/* 搜索 */
+.ps-search-row { margin-bottom: 8px; }
+.ps-search-input { height: 30px !important; font-size: 12px !important; }
+
+/* 价格 */
+.ps-price     { color: #333; font-weight: 600; }
+.ps-price-new { color: #1a6fc4; font-weight: 600; }
+.ps-up        { color: #c0392b; }
+.ps-down      { color: #27ae60; }
+.ps-code      { color: #888; font-size: 11px; }
+.ps-no-quote  { color: #bbb; font-size: 11px; }
+.ps-no-time   { color: #bbb; font-size: 11px; }
+.ps-empty     { color: #aaa; padding: 24px !important; }
+
+/* 配置项 */
+.ps-config-futures { font-weight: 600; font-size: 12px; }
+.ps-config-label   { font-size: 12px; }
+.ps-price-preview  { font-size: 11px; color: #888; margin-top: 2px; }
+.ps-ratio          { font-weight: 600; color: #555; }
+.ps-update-time    { font-size: 11px; color: rgba(255,255,255,0.6); }
+
+/* 时间标签 */
+.ps-time-chip {
+    display: inline-block;
+    background: #e8f4fd;
+    color: #1a6fc4;
+    border: 1px solid #b8d9f5;
+    border-radius: 10px;
+    padding: 1px 8px;
+    font-size: 11px;
+    margin-right: 4px;
+    margin-bottom: 3px;
+}
+.ps-time-chip-rm .ps-chip-remove {
+    margin-left: 4px;
+    cursor: pointer;
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+/* 状态徽章 */
+.ps-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+}
+.ps-badge-on     { background: #d5f5e3; color: #1e8449; }
+.ps-badge-off    { background: #f0f0f0; color: #888; }
+.ps-badge-manual { background: #fde8d8; color: #c0392b; }
+.ps-badge-auto   { background: #d5f5e3; color: #1e8449; }
+
+/* 操作按钮 */
+.ps-action-btns { white-space: nowrap; }
+.ps-action-btns .btn { margin-right: 2px; }
+
+/* 表单 */
+.ps-form-label  { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+.ps-required    { color: #e74c3c; }
+.ps-form-hint   { font-size: 11px; color: #888; margin-top: 4px; }
+.ps-radio-label { font-weight: normal; font-size: 12px; cursor: pointer; }
+
+/* Modal */
+.ps-modal-header { background: #2c2c2c; }
+.ps-modal-header h4, .ps-modal-header .close { color: #fff !important; }
+
+/* Toast */
+.ps-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #333;
+    color: #fff;
+    padding: 10px 24px;
+    border-radius: 20px;
+    font-size: 13px;
+    opacity: 0;
+    transition: all 0.3s;
+    pointer-events: none;
+    z-index: 9999;
+}
+.ps-toast.show   { opacity: 1; transform: translateX(-50%) translateY(0); }
+.ps-toast.error  { background: #c0392b; }
+
+/* 日志 */
+.ps-log-time { font-size: 11px; color: #888; }
+</style>
+
+
+<script>
+var app = angular.module('priceSyncApp', []);
+app.controller('priceSyncCtrl', function($scope, $timeout, $http) {
+
+
+    // ===================== 初始化 =====================
+    $scope.exchangeTabs    = [
+        { key:'shfe',  label:'上期所' },
+        { key:'dce',   label:'大商所' },
+        { key:'czce',  label:'郑商所' },
+        { key:'gfex',  label:'广期所' },
+        { key:'ine',   label:'上期能源' },
+        { key:'cffex', label:'中金所' },
+        { key:'global', label:'国际期货' },
+    ];
+    $scope.currentExchange = 'shfe';
+    $scope.quoteList       = [];
+    $scope.allQuotesFlat   = [];
+    // 各交易所已加载的数据缓存
+    var quotesCache = {};
+    $scope.configList      = [];
+    $scope.baseMaterials   = [];
+    $scope.quoteKeyword    = '';
+    $scope.quoteLoading    = false;
+    $scope.quoteUpdateTime = '2026-05-31 09:15:00';
+    $scope.selectedQuote   = null;
+    $scope.allChecked      = false;
+    $scope.toast           = { show: false, msg: '', error: false };
+    $scope.editMode        = false;
+    $scope.form            = {};
+    $scope.logList         = [];
+    $scope.logTarget       = '';
+
+    $scope.matCatGroups = [];
+
+    // 页面加载
+    loadQuotes('shfe');
+    loadConfigList();
+    loadMaterials();
+
+    // ===================== 工具函数 =====================
+    function commPost(url, data, success, fail) {
+        var params = Object.keys(data || {}).map(function(k){
+            return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
+        }).join('&');
+        $http({ method:'POST', url:url, data:params,
+                headers:{'Content-Type':'application/x-www-form-urlencoded'} })
+        .then(function(res){
+            if (res.data.status === 1) { success && success(res.data); }
+            else { $scope.showToast(res.data.msg || '操作失败', true); fail && fail(res.data); }
+        }, function(){ $scope.showToast('网络请求失败', true); fail && fail(); });
+    }
+
+    function loadConfigList() {
+        commPost("{:U('PriceSync/getConfigList')}", {}, function(res) {
+            $scope.configList = (res.data || []).map(function(c){
+                c.syncing   = false;
+                c.checked   = false;
+                c.auto_sync = Number(c.auto_sync);
+                return c;
+            });
+            // 加载配置中涉及的所有交易所行情（未缓存的才请求）
+            var exchanges = [];
+            $scope.configList.forEach(function(c) {
+                if (c.exchange && exchanges.indexOf(c.exchange) === -1) {
+                    exchanges.push(c.exchange);
+                }
+            });
+            exchanges.forEach(function(ex) { loadQuotes(ex); });
+        });
+    }
+
+    function loadMaterials() {
+        commPost("{:U('PriceSync/getMaterials')}", {}, function(res) {
+            $scope.baseMaterials = res.data || [];
+            var seen = {}, groups = [];
+            $scope.baseMaterials.forEach(function(m){
+                if (!seen[m.cat_name]) { seen[m.cat_name] = true; groups.push(m.cat_name); }
+            });
+            $scope.matCatGroups = groups;
+        });
+    }
+
+    $scope.showToast = function(msg, isError) {
+        $scope.toast = { show: true, msg: msg, error: !!isError };
+        $timeout(function() { $scope.toast.show = false; }, 2500);
+    };
+
+    $scope.getQuotePrice = function(code) {
+        var q = $scope.allQuotesFlat.find(function(x){ return x.dm === code; });
+        return q ? q.p : null;
+    };
+
+    // 重建弹窗全量下拉列表
+    var EXCHANGE_LABELS = { shfe:'上期所', dce:'大商所', czce:'郑商所', gfex:'广期所', ine:'上期能源', cffex:'中金所', global:'国际期货' };
+    function rebuildAllQuotesFlat() {
+        var flat = [];
+        Object.keys(quotesCache).forEach(function(ex) {
+            (quotesCache[ex] || []).forEach(function(q) {
+                flat.push(angular.extend({}, q, { exchange: EXCHANGE_LABELS[ex] || ex, exchange_key: ex }));
+            });
+        });
+        $scope.allQuotesFlat = flat;
+    }
+
+    // 从后端加载指定交易所行情
+    function loadQuotes(exchange, forceRefresh) {
+        if (!forceRefresh && quotesCache[exchange]) {
+            $scope.quoteList = quotesCache[exchange];
+            return;
+        }
+        $scope.quoteLoading = true;
+        $http({
+            method: 'POST',
+            url: "{:U('PriceSync/getQuotes')}",
+            data: 'exchange=' + exchange,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).then(function(res) {
+            if (res.data.status === 1) {
+                quotesCache[exchange]  = res.data.data || [];
+                $scope.quoteList       = quotesCache[exchange];
+                $scope.quoteUpdateTime = new Date().toLocaleString('zh-CN');
+                rebuildAllQuotesFlat();
+            } else {
+                $scope.showToast('行情获取失败：' + res.data.msg, true);
+            }
+            $scope.quoteLoading = false;
+        }, function() {
+            $scope.showToast('网络请求失败', true);
+            $scope.quoteLoading = false;
+        });
+    }
+
+    $scope.calcSyncPrice = function(c) {
+        var p = $scope.getQuotePrice(c.futures_code);
+        if (!p) return null;
+        return Math.round(p * c.ratio / 100 * 10000) / 10000;
+    };
+
+    $scope.checkedConfigs = function() {
+        return $scope.configList.filter(function(c){ return c.checked; });
+    };
+
+    // ===================== 行情操作 =====================
+    $scope.switchExchange = function(key) {
+        $scope.currentExchange = key;
+        $scope.quoteKeyword    = '';
+        $scope.selectedQuote   = null;
+        loadQuotes(key);
+    };
+
+    $scope.refreshQuote = function() {
+        loadQuotes($scope.currentExchange, true);
+        $scope.showToast('行情已刷新');
+    };
+
+    $scope.selectQuote = function(q) {
+        $scope.selectedQuote = q;
+    };
+
+    // ===================== 配置操作 =====================
+    $scope.openAddConfig = function() {
+        $scope.editMode = false;
+        $scope.form = { futures_code:'', new_label_id:'', mat_cat:'', matSubList:[], ratio:100, auto_sync:0 };
+        $('#modalConfig').modal('show');
+    };
+
+    $scope.openAddFromQuote = function(q) {
+        $scope.editMode = false;
+        $scope.form = { futures_code: q.dm, futures_name: q.name, new_label_id:'', mat_cat:'', matSubList:[], ratio:100, auto_sync:0 };
+        $('#modalConfig').modal('show');
+    };
+
+    $scope.onFormFuturesChange = function() {};
+
+    // 大类切换时过滤材料子列表
+    $scope.onFormMatCatChange = function() {
+        $scope.form.new_label_id = '';
+        $scope.form.matSubList = $scope.baseMaterials.filter(function(m) {
+            return m.cat_name === $scope.form.mat_cat;
+        });
+    };
+
+    $scope.openEditConfig = function(c) {
+        $scope.editMode = true;
+        $scope.form = angular.copy(c);
+        // 回显大类和材料子列表
+        var mat = $scope.baseMaterials.find(function(m){ return String(m.id) === String(c.new_label_id); });
+        $scope.form.mat_cat    = mat ? mat.cat_name : '';
+        $scope.form.matSubList = mat ? $scope.baseMaterials.filter(function(m){ return m.cat_name === mat.cat_name; }) : [];
+        $('#modalConfig').modal('show');
+    };
+
+    $scope.saveConfig = function() {
+        if (!$scope.form.futures_code) return $scope.showToast('请选择期货合约', true);
+        if (!$scope.form.ratio)        return $scope.showToast('请填写换算比例', true);
+
+        var mat = $scope.baseMaterials.find(function(m){ return String(m.id) === String($scope.form.new_label_id); });
+        var q   = $scope.allQuotesFlat.find(function(x){ return x.dm === $scope.form.futures_code; });
+
+        console.log('[saveConfig] new_label_id=', $scope.form.new_label_id, 'type=', typeof $scope.form.new_label_id, 'baseMaterials.length=', $scope.baseMaterials.length, 'mat=', mat);
+        if (!mat) return $scope.showToast('请选择映射材料', true);
+
+        var postData = {
+            futures_code:  $scope.form.futures_code,
+            futures_name:  q   ? q.name   : ($scope.form.futures_name || ''),
+            exchange:      q   ? (q.exchange_key || $scope.currentExchange) : $scope.currentExchange,
+            new_label_id:  $scope.form.new_label_id,
+            label_name:    mat ? mat.name  : '',
+            ratio:         $scope.form.ratio,
+            auto_sync:     $scope.form.auto_sync ? 1 : 0,
+        };
+        if ($scope.form.id) postData.id = $scope.form.id;
+
+        commPost("{:U('PriceSync/saveConfig')}", postData, function() {
+            $scope.showToast($scope.editMode ? '配置已更新' : '配置已添加');
+            $('#modalConfig').modal('hide');
+            loadConfigList();
+        });
+    };
+
+    $scope.delConfig = function(c) {
+        if (!confirm('确定删除该配置？')) return;
+        commPost("{:U('PriceSync/delConfig')}", { id: c.id }, function() {
+            $scope.showToast('已删除');
+            loadConfigList();
+        });
+    };
+
+    $scope.toggleAutoSync = function(c) {
+        var newVal = c.auto_sync ? 0 : 1;
+        commPost("{:U('PriceSync/toggleAutoSync')}", { id: c.id, auto_sync: newVal }, function() {
+            c.auto_sync = newVal;
+            $scope.showToast(c.futures_name + ' 自动同步已' + (newVal ? '启用' : '停用'));
+        });
+    };
+
+    // ===================== 同步操作 =====================
+    $scope.syncOne = function(c) {
+        if (!c.auto_sync) return $scope.showToast('请先启用自动同步', true);
+        swal({
+            title: '确认同步',
+            text: c.futures_name + ' → ' + c.label_name,
+            icon: 'info',
+            buttons: { cancel: '取消', confirm: { text: '确认同步', value: true } },
+            dangerMode: false,
+        }).then(function(confirmed) {
+            if (!confirmed) return;
+            var futuresPrice = $scope.getQuotePrice(c.futures_code);
+            c.syncing = true;
+            var postData = { config_id: c.id, sync_type: 1 };
+            if (futuresPrice) postData.futures_price = futuresPrice;
+            commPost("{:U('PriceSync/syncOne')}", postData, function(res) {
+                c.syncing = false;
+                $scope.showToast(c.futures_name + ' → ' + c.label_name + ' 同步成功');
+                $timeout(function(){ window.location.reload(); }, 800);
+            }, function() { c.syncing = false; });
+        });
+    };
+
+    $scope.batchSync = function() {
+        var list = $scope.checkedConfigs();
+        if (!list.length) return;
+        swal({
+            title: '确认批量同步',
+            text: '将同步选中的 ' + list.length + ' 条配置',
+            icon: 'info',
+            buttons: { cancel: '取消', confirm: { text: '确认同步', value: true } },
+            dangerMode: false,
+        }).then(function(confirmed) {
+            if (!confirmed) return;
+            var ids = list.map(function(c){ return c.id; }).join(',');
+            list.forEach(function(c){ c.syncing = true; });
+            commPost("{:U('PriceSync/batchSync')}", { ids: ids, sync_type: 1 }, function(res) {
+                list.forEach(function(c){ c.syncing = false; });
+                $scope.showToast(res.msg);
+                $timeout(function(){ window.location.reload(); }, 800);
+            }, function(){ list.forEach(function(c){ c.syncing = false; }); });
+        });
+    };
+
+    $scope.toggleAll = function() {
+        // 全选只选启用状态的配置
+        $scope.configList.forEach(function(c){
+            c.checked = $scope.allChecked ? !!c.auto_sync : false;
+        });
+    };
+
+    // ===================== 日志 =====================
+    $scope.openSyncLog = function(c) {
+        $scope.logTarget = c.futures_name + ' → ' + c.label_name;
+        $scope.logList   = [];
+        $('#modalLog').modal('show');
+        commPost("{:U('PriceSync/getSyncLog')}", { config_id: c.id }, function(res) {
+            $scope.logList = (res.data || []).map(function(l){
+                l.time = l.add_time_str; l.type = l.type_str; return l;
+            });
+        });
+    };
+});
+</script>

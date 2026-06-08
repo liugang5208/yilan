@@ -1,0 +1,114 @@
+[ 2026-06-05T15:29:04+08:00 ] ::1 /.well-known/appspecific/com.chrome.devtools.json
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000003s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000031s ]
+ERR: 无法加载模块:.well-known
+
+[ 2026-06-05T15:29:04+08:00 ] ::1 /Public/assets/css/lib/bootstrap.min.css.map
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000002s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000023s ]
+ERR: 无法加载模块:Public
+
+[ 2026-06-05T15:29:39+08:00 ] ::1 /.well-known/appspecific/com.chrome.devtools.json
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000003s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000026s ]
+ERR: 无法加载模块:.well-known
+
+[ 2026-06-05T15:29:39+08:00 ] ::1 /Public/assets/css/lib/bootstrap.min.css.map
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000002s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000027s ]
+ERR: 无法加载模块:Public
+
+[ 2026-06-05T15:37:58+08:00 ] ::1 /.well-known/appspecific/com.chrome.devtools.json
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000003s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000024s ]
+ERR: 无法加载模块:.well-known
+
+[ 2026-06-05T15:37:58+08:00 ] ::1 /Public/assets/css/lib/bootstrap.min.css.map
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000003s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000032s ]
+ERR: 无法加载模块:Public
+
+[ 2026-06-05T15:38:00+08:00 ] ::1 /.well-known/appspecific/com.chrome.devtools.json
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000009s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000226s ]
+ERR: 无法加载模块:.well-known
+
+[ 2026-06-05T15:38:00+08:00 ] ::1 /Public/assets/css/lib/bootstrap.min.css.map
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000006s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000047s ]
+ERR: 无法加载模块:Public
+
+[ 2026-06-05T15:38:06+08:00 ] ::1 /.well-known/appspecific/com.chrome.devtools.json
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000081s ]
+ERR: 无法加载模块:.well-known
+
+[ 2026-06-05T15:38:06+08:00 ] ::1 /Public/assets/css/lib/bootstrap.min.css.map
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000093s ]
+ERR: 无法加载模块:Public
+
+[ 2026-06-05T15:38:26+08:00 ] ::1 /.well-known/appspecific/com.chrome.devtools.json
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000005s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000043s ]
+ERR: 无法加载模块:.well-known
+
+[ 2026-06-05T15:38:26+08:00 ] ::1 /Public/assets/css/lib/bootstrap.min.css.map
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000004s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000038s ]
+ERR: 无法加载模块:Public
+
+[ 2026-06-05T15:38:27+08:00 ] ::1 /.well-known/appspecific/com.chrome.devtools.json
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000002s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000019s ]
+ERR: 无法加载模块:.well-known
+
+[ 2026-06-05T15:38:27+08:00 ] ::1 /Public/assets/css/lib/bootstrap.min.css.map
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000004s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000087s ]
+ERR: 无法加载模块:Public
+
+[ 2026-06-05T15:38:31+08:00 ] ::1 /.well-known/appspecific/com.chrome.devtools.json
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000098s ]
+ERR: 无法加载模块:.well-known
+
+[ 2026-06-05T15:38:31+08:00 ] ::1 /Public/assets/css/lib/bootstrap.min.css.map
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000005s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000037s ]
+ERR: 无法加载模块:Public
+
+[ 2026-06-05T16:40:54+08:00 ] ::1 /apple-touch-icon-precomposed.png
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000002s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000021s ]
+ERR: 无法加载模块:Apple-touch-icon-precomposed
+
+[ 2026-06-05T16:40:54+08:00 ] ::1 /apple-touch-icon.png
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000002s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000019s ]
+ERR: 无法加载模块:Apple-touch-icon
+
+[ 2026-06-05T16:40:54+08:00 ] ::1 /favicon.ico
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000002s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000017s ]
+ERR: 无法加载模块:Favicon
+
