@@ -27,8 +27,10 @@ class BlrenewOpera {
         $plate_conts_blank = M("plate_conts_blank");
         $post = $this->param;
         #
-        unset($post["source"]);
-        $count = $this->plate_conts_check();
+        $groupId  = isset($post['group_id']) ? (int)$post['group_id'] : 0;
+        $editId   = isset($post['id'])       ? (int)$post['id']       : 0;
+        unset($post["source"], $post["id"], $post["blank_id"], $post["group_id"]);
+        $count = $this->plate_conts_check($editId);
         $post["uptimes"] = time();
         $this->blank = $post;
         
@@ -52,6 +54,11 @@ class BlrenewOpera {
         }
         $post["status"] = 1;
         $post["times"] = time();
+        if (!$groupId) {
+            $defaultGroup = M('plate_conts_blank_group')->where(['pid' => 0])->order('sort asc, id asc')->field('id')->find();
+            $groupId = $defaultGroup ? (int)$defaultGroup['id'] : 0;
+        }
+        $post["group_id"] = $groupId;
         if (!$plate_conts_blank->add($post)) {
             return get_op_res(0, "更新失败");
         }
@@ -168,11 +175,15 @@ class BlrenewOpera {
      * 板块详情广告-检索
      * @param type $post
      */
-    private function plate_conts_check() {
+    private function plate_conts_check($editId = 0) {
         $plate_conts_blank = M("plate_conts_blank");
-        #
-        $where["pid"] = $this->param["pid"];
-        $where["cat_index"] = $this->param["cat_index"];
+        # 编辑时用 id 精确定位，新增时用 pid+cat_index 检查是否已存在
+        if ($editId > 0) {
+            $where["id"] = $editId;
+        } else {
+            $where["pid"]       = $this->param["pid"];
+            $where["cat_index"] = $this->param["cat_index"];
+        }
         $count = $plate_conts_blank->where($where)->count();
         #
         return ["where" => $where, "count" => $count];
@@ -182,17 +193,7 @@ class BlrenewOpera {
      * 获取价格
      */
     private function getMarket($v) {
-        $runPrice = 0;
-        $runPrice =bcmul((string)$v['price'],(string)$v["dratio"],2);
-        return $runPrice;
-        // $catRatio = round($this->plate_cats_ratio(), 2);
-        // $ratio = round($this->plate_conts_ratio(), 2);
-        // #
-        // $dPrice = $v["price"] * $v["dratio"];
-        // $upPrice = $dPrice * $catRatio - $dPrice;
-        // $runPrice = $v["price"] + $upPrice;
-        // #
-        // return $runPrice * $ratio;
+        return bcmul((string)$v['price'], (string)$v['dratio'], 2);
     }
 
     ////////////////////////////////////////////////////////////////////////////

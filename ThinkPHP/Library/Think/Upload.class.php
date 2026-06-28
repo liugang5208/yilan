@@ -167,12 +167,12 @@ class Upload {
             }
 
             /* 调用回调函数检测文件是否存在 */
-            $data = call_user_func($this->callback, $file);
+            $data = ($this->callback && is_callable($this->callback)) ? call_user_func($this->callback, $file) : null;
             if( $this->callback && $data ){
                 if ( file_exists('.'.$data['path'])  ) {
                     $info[$key] = $data;
                     continue;
-                }elseif($this->removeTrash){
+                }elseif($this->removeTrash && is_callable($this->removeTrash)){
                     call_user_func($this->removeTrash,$data);//删除垃圾据
                 }
             }

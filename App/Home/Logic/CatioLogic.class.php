@@ -72,8 +72,7 @@ class CatioLogic {
             $cData = $plate_conts_logs->query($sql);
             #
             $catRatio = setCatRatio($this->param);
-            $blankRatio = setBlankRatio($v);
-            $cex = "(price*dratio*" . $catRatio . "-(price*dratio)+price)*" . $blankRatio;
+            $cex = "(price*dratio*" . $catRatio . "-(price*dratio)+price)";
             #
             $sql2 = "update plate_conts_logs set market=round(" . $cex . ",2) where pid=" . $v['pid'] . " and cat_index=" . $v['cat_index'];
             $plate_conts_logs->execute($sql2);

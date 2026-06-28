@@ -17,6 +17,226 @@
     .form-width input{ display:inline-block; width:70%!important;}
 
     .myTempBody{ height:500px; overflow-y:scroll;}
+
+    /* ===== cate-block 样式（参考 NewLabel）===== */
+    .cate-block {
+        background-color: #e8e8e8;
+        border-radius: 3px;
+        padding: 6px 8px 8px 8px;
+        margin-bottom: 8px;
+        display: inline-block;
+        min-width: 140px;
+        margin-right: 8px;
+        vertical-align: top;
+    }
+    .cate-title-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 28px;
+        margin-bottom: 4px;
+    }
+    .cate-title-name {
+        font-size: 13px;
+        font-weight: bold;
+        color: #333;
+        cursor: pointer;
+    }
+    .cate-title-btns {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+    }
+    .cate-ratio {
+        font-size: 11px;
+        color: #888;
+        margin-top: 2px;
+    }
+    .price-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0;
+    }
+
+    /* ===== 商品属性详情面板（新版）===== */
+    .goods-detail-panel {
+        margin-top: 14px;
+        border-top: 2px solid #e8e8e8;
+        padding-top: 0;
+    }
+    /* 顶部标题 + 操作按钮 header */
+    .gd-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #f0f4f8;
+        border: 1px solid #dce3ea;
+        border-radius: 4px 4px 0 0;
+        padding: 7px 14px;
+        margin-top: 14px;
+    }
+    .gd-header-label {
+        font-size: 12px;
+        color: #666;
+    }
+    .gd-header-label span {
+        color: #2980b9;
+        font-weight: bold;
+        font-size: 13px;
+    }
+    .gd-header-label em {
+        color: #aaa;
+        font-size: 11px;
+        margin-left: 10px;
+        font-style: normal;
+    }
+    .gd-header-actions {
+        display: flex;
+        gap: 6px;
+    }
+    /* 表单主体 */
+    .gd-body {
+        border: 1px solid #dce3ea;
+        border-top: none;
+        border-radius: 0 0 4px 4px;
+        background: #fff;
+        padding: 14px 16px;
+    }
+    /* 两列网格 */
+    .gd-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px 20px;
+        margin-bottom: 12px;
+    }
+    /* input-group 风格字段 */
+    .gd-field {
+        display: flex;
+        align-items: center;
+    }
+    .gd-field-label {
+        font-size: 12px;
+        color: #555;
+        white-space: nowrap;
+        background: #f5f7fa;
+        border: 1px solid #dce3ea;
+        border-right: none;
+        border-radius: 3px 0 0 3px;
+        padding: 4px 10px;
+        height: 30px;
+        line-height: 22px;
+        min-width: 68px;
+        text-align: center;
+        flex-shrink: 0;
+    }
+    .gd-field .form-control {
+        border-radius: 0 3px 3px 0;
+        height: 30px;
+        font-size: 12px;
+        border-color: #dce3ea;
+    }
+    .gd-field .form-control:focus {
+        border-color: #2980b9;
+        box-shadow: 0 0 0 2px rgba(41,128,185,0.12);
+    }
+    /* 图片上传区 */
+    .gd-upload-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px 20px;
+    }
+    .gd-upload-item {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+    .gd-upload-input-row {
+        display: flex;
+        align-items: center;
+    }
+    .gd-upload-input-row .gd-field-label {
+        border-radius: 3px 0 0 3px;
+    }
+    .gd-upload-input-row input[type="file"] {
+        flex: 1;
+        height: 30px;
+        font-size: 12px;
+        border: 1px solid #dce3ea;
+        border-left: none;
+        border-radius: 0 3px 3px 0;
+        padding: 3px 6px;
+        background: #fff;
+        line-height: 22px;
+    }
+    /* 图片预览 */
+    .gd-thumb-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding-left: 68px;
+    }
+    .gd-thumb {
+        width: 120px;
+        height: 88px;
+        object-fit: cover;
+        border-radius: 3px;
+        border: 1px solid #dce3ea;
+        background: #f5f7fa;
+        cursor: pointer;
+        transition: border-color 0.2s;
+    }
+    .gd-thumb:hover { border-color: #2980b9; }
+    .gd-thumb-placeholder {
+        width: 120px;
+        height: 88px;
+        border-radius: 3px;
+        border: 1px dashed #ccc;
+        background: #fafafa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ccc;
+        font-size: 20px;
+        flex-shrink: 0;
+    }
+    .gd-thumb-tip {
+        font-size: 11px;
+        color: #aaa;
+        line-height: 1.6;
+    }
+    /* 分割线 */
+    .gd-divider {
+        border: none;
+        border-top: 1px dashed #eee;
+        margin: 0 0 12px 0;
+    }
+
+    /* ===== section 样式（参考 NewLabel）===== */
+    .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #333;
+        color: #fff;
+        padding: 8px 14px;
+        border-radius: 3px 3px 0 0;
+    }
+    .section-header-blue { background: #2980b9; }
+    .section-title {
+        font-size: 14px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+    .section-add-btn {
+        font-size: 12px !important;
+        padding: 3px 10px !important;
+        height: auto !important;
+        border: 1px solid rgba(255,255,255,0.4) !important;
+        background: rgba(255,255,255,0.15) !important;
+        color: #fff !important;
+    }
+    .section-add-btn:hover { background: rgba(255,255,255,0.28) !important; }
+    .section-body { padding: 12px; background: #fff; border: 1px solid #e0e0e0; border-top: none; border-radius: 0 0 3px 3px; margin-bottom: 14px; }
 </style>
 
 <div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
@@ -52,20 +272,76 @@
                     <!--</div>-->
                     <div class="card-body p-t-10">
 
-                        <div style="display:flex;justify-content:space-between">
-                            <div>商品价格组成</div>
-                            
-                            <div>
-                                 <a class="btn btn-xs btn-danger btn-info" ng-click="delAllPrice()" data-toggle="modal" >一键删除</a>
-                                 <a class="btn btn-xs btn-info" ng-click="copyPrice()" data-toggle="modal" >复制上一版块的内容</a>
-                                 <a class="btn btn-xs btn-info" ng-click="priceAdd()" data-toggle="modal" >添加</a>
+                        <!-- ===== 标准选项管理 ===== -->
+                        <div class="section-header" style="background:#555;">
+                            <span class="section-title">标准选项管理</span>
+                            <div style="display:flex;gap:6px;">
+                                <a class="btn btn-xs section-add-btn" ng-click="openCopyGroupContent()" ng-show="active_group_id > 0">复制标准内容</a>
+                                <a class="btn btn-xs section-add-btn" ng-click="clearGroupContent()" ng-show="active_group_id > 0" style="background:rgba(220,53,69,0.7)!important;border-color:rgba(220,53,69,0.9)!important;">清空标准内容</a>
                             </div>
-                       
                         </div>
-                        
-                        <div class="row border-dark">
-                            <div class="col-md-11">
-                                <div class="row">
+                        <div class="section-body">
+                            <div class="price-grid">
+                                <div class="cate-block" ng-repeat="g in group_list"
+                                     ng-style="{'border': active_group_id == g.id ? '2px solid #555' : '2px solid transparent', 'cursor': 'pointer'}"
+                                     ng-click="selectGroup(g)">
+                                    <div class="cate-title-row">
+                                        <div class="cate-title-name" style="display:flex;align-items:center;gap:5px;">
+                                            <span ng-if="active_group_id == g.id" style="width:7px;height:7px;border-radius:50%;background:#555;display:inline-block;"></span>
+                                            {{g.name}}
+                                        </div>
+                                        <a class="btn btn-info btn-xs" ng-click="openEditGroup(g); $event.stopPropagation()">编辑</a>
+                                    </div>
+                                    <div style="margin-top:4px;">
+                                        <div class="cate-ratio">比例：{{(g.ratio || 100) | number:2}}%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- /section-body 标准选项管理 -->
+
+                        <!-- ===== 商品属性管理 ===== -->
+                        <div class="section-header section-header-blue">
+                            <span class="section-title">商品属性管理</span>
+                            <div style="display:flex;gap:6px;">
+                                <a class="btn btn-xs section-add-btn" ng-click="openAddBlock()">+ 添加</a>
+                                <a class="btn btn-xs section-add-btn" ng-click="openCopyBlock()">复制商品内容</a>
+                                <a class="btn btn-xs section-add-btn" style="background:rgba(220,53,69,0.7)!important;border-color:rgba(220,53,69,0.9)!important;" ng-click="goodsClear()">清空商品内容</a>
+                            </div>
+                        </div>
+                        <div class="section-body">
+                            <div class="price-grid">
+                                <div class="cate-block" ng-repeat="b in filteredBlanks"
+                                     ng-style="{'border': cat_index == b.cat_index ? '2px solid #2980b9' : '2px solid transparent'}"
+                                     ng-click="changeType(b.cat_index, b.id)" style="cursor:pointer;">
+                                    <div class="cate-title-row">
+                                        <div class="cate-title-name">{{b.catname || ('商品' + b.cat_index)}}</div>
+                                        <a class="btn btn-info btn-xs" ng-click="openEditBlock(b); $event.stopPropagation()">编辑</a>
+                                    </div>
+                                    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
+                                        <div class="cate-ratio">比例：{{b.up_a || 100}}%</div>
+                                        <a class="btn btn-danger btn-xs" ng-click="deleteBlock(b); $event.stopPropagation()">删除</a>
+                                    </div>
+                                </div>
+                                <div ng-if="filteredBlanks.length === 0" style="color:#aaa;font-size:12px;padding:8px;">
+                                    {{active_group_id > 0 ? '该选项下暂无商品' : '暂无商品，点击"+ 添加"'}}
+                                </div>
+                            </div>
+                        </div><!-- /section-body 商品属性管理 -->
+
+                        <div>
+
+                        <!-- ===== 商品价格组成 ===== -->
+                        <div class="section-header" style="background:#27ae60;">
+                            <span class="section-title">
+                                属性价格管理
+                                <span ng-if="blank && blank.catname" style="font-size:11px;font-weight:normal;opacity:0.85;margin-left:8px;">— 【{{(group_list | filter:{id:active_group_id}:true)[0].name}}】-【{{blank.catname}}】</span>
+                            </span>
+                            <div style="display:flex;gap:6px;">
+                                <a class="btn btn-xs section-add-btn" ng-click="priceAdd()">+ 添加</a>
+                                <a class="btn btn-xs section-add-btn" style="background:rgba(220,53,69,0.7)!important;border-color:rgba(220,53,69,0.9)!important;" ng-click="delAllPrice()">一键删除</a>
+                            </div>
+                        </div>
+                        <div class="section-body">
                                     <!--<div class="col-md-2">-->
 
                                     <!--    <form class="form-horizontal">-->
@@ -174,171 +450,110 @@
                                     <!--    </form>-->
 
                                     <!--</div>-->
-                            <!--价格组成-->
-                             <div style="overflow-x:auto;white-space: nowrap;display:flex;align-content: space-around;width:100%;flex-direction: row;">
-                                
-                                <div style="display:flex;justify-content:space-between;width:150px;margin-left:5px;border: 0.5px solid black;" value="{{v.id}}" ng-repeat="v in price_list">
-                                    <div style="display:flex;flex-direction:column" ng-click="priceEdit(v.id)">
-                                        <div>
-                                              {{v.name}}
-                                        </div>
-                                       <div>
-                                              {{v.ratio}}
-                                        </div>
+                            <!-- 属性价格列表 -->
+                            <div class="price-grid">
+                                <div class="cate-block" ng-repeat="v in price_list" style="background:#fef3cd;border-left:3px solid #f39c12;">
+                                    <div class="cate-title-row">
+                                        <div class="cate-title-name" ng-click="priceEdit(v.id)">{{v.name}}</div>
+                                        <a class="btn btn-info btn-xs" ng-click="priceEdit(v.id)">编辑</a>
                                     </div>
-                                    
-                                    <div style="">
-                                         <!--<a ng-click="priceEdit(v.id)" style="font-size: 12px;" class="glyphicon glyphicon-pencil"></a>-->
-                                            <a class="btn btn-danger btn-xs" ng-click="delsPrice(v.id)">-</a>
-                                            
-                                        
+                                    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
+                                        <div class="cate-ratio">比例值：{{v.ratio}}%</div>
+                                        <a class="btn btn-danger btn-xs" ng-click="delsPrice(v.id)">删除</a>
                                     </div>
-                                
                                 </div>
-                           
-                            </div>        
-                                    
-                                    
-                            <!--    <table class="table">-->
-                            <!--    <thead>-->
-                            <!--        <tr>-->
-                                        <!--<th>#ID</th>-->
-                            <!--            <th>名称</th>-->
-                            <!--            <th>百分比</th>-->
-                            <!--            <th width="20%">操作</th>-->
-                            <!--        </tr>-->
-                            <!--    </thead>-->
-                            <!--    <tbody>-->
+                                <div ng-if="price_list.length === 0" style="color:#aaa;font-size:12px;padding:8px;">暂无数据，点击"+ 添加"</div>
+                            </div>
 
-                            <!--     <tr ng-repeat="x in price_list">-->
-                                        <!--<th scope="row">{$v.id}</th>-->
-                            <!--            <td>{{x.name}}</td>-->
-                            <!--            <td>{{x.ratio}}</td>-->
-                            <!--            <td>-->
-                                          
-                            <!--                <a ng-click="priceEdit(x.id)" class="btn btn-info btn-xs">编辑</a>-->
-                            <!--                <a class="btn btn-danger btn-xs" ng-click="delsPrice(x.id)">删除</a>-->
-                            <!--            </td>-->
-                            <!--        </tr>-->
-                            <!--    </volist>-->
+                            <!-- 当前选中商品的图片/名称设置 -->
+                            <div class="goods-detail-panel" ng-if="blank">
 
-                            <!--    </tbody>-->
-                            <!--</table>-->
-                            
-                            
+                                <!-- 顶部：标题 + 操作按钮 -->
+                                <div class="gd-header">
+                                    <div class="gd-header-label">
+                                        当前商品：<span>{{blank.catname || '未选择'}}</span>
+                                        <em>· 修改后点击「更新商品数据」保存</em>
+                                    </div>
+                                    <div class="gd-header-actions">
+                                        <button type="button" class="btn btn-primary btn-sm" ng-click="changeGoodsImgs()">更新商品数据</button>
+                                        <a ng-click="clearBlankFields()" class="btn btn-danger btn-sm">清空板块数据</a>
+                                    </div>
                                 </div>
+
+                                <!-- 表单主体 -->
+                                <div class="gd-body">
+
+                                    <!-- 左右布局：左侧三个字段对齐，右侧图片预览 -->
+                                    <div style="display:flex;align-items:flex-start;gap:16px;">
+
+                                        <!-- 左列：商品名称 / 执行税率 / Banner图上传 -->
+                                        <div style="flex:0 0 60%;min-width:0;height:140px;display:flex;flex-direction:column;justify-content:space-between;">
+                                            <div class="gd-field">
+                                                <span class="gd-field-label">商品名称</span>
+                                                <input type="text" class="form-control" ng-model="blank.gnames" placeholder="请输入商品名称"/>
+                                            </div>
+                                            <div class="gd-field">
+                                                <span class="gd-field-label">执行税率</span>
+                                                <select name="new_tax_id" ng-model="blank.new_tax_id" class="form-control">
+                                                    <option value="0">暂不选择</option>
+                                                    <option value="{{v.id}}" ng-repeat="v in tax_list">{{v.name}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="gd-field">
+                                                <span class="gd-field-label">Banner图</span>
+                                                <input type="file" id="banner" name="banner" accept="image/*" class="form-control"/>
+                                            </div>
+                                        </div>
+
+                                        <!-- 右列：Banner图预览 -->
+                                        <div class="gd-thumb-row" style="flex:1;padding-left:0;">
+                                            <a href="javascript:;" ng-if="blank.source && blank.source[0]">
+                                                <img class="gd-thumb" src="__PUBLIC__/uploads/banner/{{blank.source[0]}}" onclick="showimage(this)"
+                                                     style="width:100%;height:140px;"/>
+                                            </a>
+                                            <div class="gd-thumb-placeholder" ng-if="!blank.source || !blank.source[0]"
+                                                 style="width:100%;height:140px;">🖼</div>
+                                            <div class="gd-thumb-tip">点击图片可放大预览<br>建议尺寸 750×300</div>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- 商品图片（暂时屏蔽，保留备用） -->
+                                    <input type="file" id="goods" name="goods" accept="image/*" style="display:none;"/>
+
+                                </div><!-- /gd-body -->
+
                             </div>
-                            <!--<div class="col-md-1">-->
-                            <!--    <div class="bg-info form-block text-center" ng-click="changeBlank()">确认调整</div>-->
-                            <!--</div>-->
+                        </div><!-- /section-body 属性价格管理 -->
+
+                        <!-- ===== 商品设置 ===== -->
+                        <div class="section-header" style="background:#7f8c8d;">
+                            <span class="section-title">商品设置</span>
+                            <div style="display:flex;gap:6px;">
+                                <a class="btn btn-xs section-add-btn" ng-click="upGoodsAll()">更新商品</a>
+                                <a class="btn btn-xs section-add-btn" data-toggle="modal" data-target="#myImport">导入商品数据</a>
+                                <a class="btn btn-xs section-add-btn" style="background:rgba(220,53,69,0.7)!important;border-color:rgba(220,53,69,0.9)!important;" ng-click="clearLogsOnly()">清空商品数据</a>
+                            </div>
                         </div>
-
-                        <h5>板块设置</h5>
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="{{cat_index==1?'active':''}}" ng-click="changeType(1)"><a>板块一</a></li>
-                            <li role="presentation" class="{{cat_index==2?'active':''}}" ng-click="changeType(2)"><a>板块二</a></li>
-                            <li role="presentation" class="{{cat_index==3?'active':''}}" ng-click="changeType(3)"><a>板块三</a></li>
-                        </ul>
-
-                        <div class="row m-t-10" style="border-bottom: 1px solid #ddd; padding-bottom:10px;">
-                            <!--<div class="col-md-2 text-center">-->
-                            <!--    <br/><br/>-->
-                            <!--    <button type="button" class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#myBlank">设置板块图片</button>-->
-                            <!--</div>-->
-                            <div class="col-md-8">
-
-                                <form class="form-inline m-b-10 row">
-                                    <div class="form-group col-md-4 form-width">
-                                        <label>板块名称</label>
-                                        <input type="text" class="form-control input-sm" ng-model="blank.catname">
-                                    </div>
-                                    <div class="form-group">
-                                         <label>执行税率</label>
-                                        <select name="new_tax_id" ng-model="blank.new_tax_id" class="form-control">
-                                            <option value="0">暂不选择</option>
-                                             <option  value="{{v.id}}" ng-repeat="v in tax_list">{{v.name}}</option>
-                                        </select>
-                                    </div>
-                                    <!--<div class="form-group col-md-4 form-width">-->
-                                    <!--    <label>普票费率</label>-->
-                                    <!--    <input type="text" class="form-control input-sm" ng-model="blank.ticket_nor">-->
-                                    <!--</div>-->
-                                    <!--<div class="form-group col-md-4 form-width">-->
-                                    <!--    <label>专票费率</label>-->
-                                    <!--    <input type="text" class="form-control input-sm" ng-model="blank.ticket_person">-->
-                                    <!--</div>-->
-                                    <div class="form-group col-md-4 form-width m-t-10">
-                                        <button type="button" class="btn btn-default btn-xs" ng-click="changeBlank()">更新板块内容</button>
-                                    </div>
-                                </form>
-
-                                <form class="form-inline m-b-10 row">
-                                    <div class="form-group col-md-4 form-width">
-                                        <label>商品图片</label>
-                                        <input type="file" id="goods" name="goods" class="form-control input-sm">
-                                    </div>
-                                    <div class="form-group col-md-4 form-width">
-                                        <label>banner</label>
-                                        <input type="file" id="banner" name="banner" class="form-control input-sm">
-                                    </div>
-                                    <div class="form-group col-md-4 form-width">
-                                        <label>商品名称</label>
-                                        <input type="text" class="form-control input-sm" ng-model="blank.gnames">
-                                    </div>
-
-                                    <button type="button" class="btn btn-default btn-sm" ng-click="changeGoodsImgs()">更新板块商品</button>
-                                    <a ng-click="blankClear()" class="btn btn-danger btn-sm m-l-10">清空板块数据</a>
-                                </form>
-
-                            </div>
-                            <div class="col-md-2 text-center">
-                                <p>banner</p>
-                                <a href="javascript:;">
-                                    <img src="__PUBLIC__/uploads/banner/{{blank.source[0]}}" onclick="showimage(this)" style=" width:50%;"/>
-                                </a>
-                            </div>
-                            
-                            <div class="col-md-2 text-center">
-                                <p>商品图片</p>
-                                <a href="javascript:;">
-                                    <img src="__PUBLIC__/uploads/goods/{{blank.gimage}}"  onclick="showimage(this)" style=" width:50%;"/>
-                                </a>
-                            </div>
-
-                        </div>
-                        
-   <div class="modal fade bs-example-modal-lg text-center" id="imgModal" tabindex="-1" role="dialog" data-toggle="modal" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-   <div class="modal-dialog modal-lg" style="display:inline-block;width:auto;">
-       <div class="modal-content">
-           <div id="imgshow"></div>
-        </div>
-      </div>
-    </div>
-
-                        <h5 class="p-b-5">
-                            商品设置
-                            <a ng-click="goodsClear()" class="btn btn-danger btn-xs m-l-10 pull-right">清空商品数据</a>
-                            <a ng-click="upGoodsAll()" class="btn btn-info btn-xs pull-right">更新商品</a>
-                            <!--<a ng-click="addGoodsPre()" class="btn btn-info btn-xs pull-right m-r-10">添加商品</a>-->
-                            <a class="btn btn-info btn-xs pull-right m-r-10" data-toggle="modal" data-target="#myImport">导入商品数据</a>
-                            <!--<a class="btn btn-info btn-xs pull-right m-r-10" data-toggle="modal" data-target="#myTemp">添加商品模板数据</a>-->
-                        </h5>
+                        <div class="section-body" style="padding:0;border-top:1px solid #e0e0e0;">
 
                         <table class="table table-bordered">
                             <thead>
-                                <tr>
+                                <tr style="background:#1a3a5c;color:#fff;font-weight:bold;font-size:13px;">
                                     <td>#</td>
-                                    <td><input type="text" class="form-control input-sm" id="keya" value="{{keys.keya}}"/></td>
-                                    <td><input type="text" class="form-control input-sm" id="keyb" value="{{keys.keyb}}"/></td>
-                                    <td><input type="text" class="form-control input-sm" id="keyc" value="{{keys.keyc}}"/></td>
-                                    <td><input type="text" class="form-control input-sm" id="keyd" value="{{keys.keyd}}"/></td>
-                                    <td><input type="text" class="form-control input-sm" id="keye" value="{{keys.keye}}"/></td>
+                                    <td><input type="text" class="form-control input-sm" ng-model="keys.keya" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;"/></td>
+                                    <td><input type="text" class="form-control input-sm" ng-model="keys.keyb" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;"/></td>
+                                    <td><input type="text" class="form-control input-sm" ng-model="keys.keyc" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;"/></td>
+                                    <td><input type="text" class="form-control input-sm" ng-model="keys.keyd" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;"/></td>
+                                    <td>参考重量(kg)</td>
+                                    <td><input type="text" class="form-control input-sm" ng-model="keys.keye" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;"/></td>
+                                    <td><input type="text" class="form-control input-sm" ng-model="keys.keyf" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;"/></td>
+                                    <td><input type="text" class="form-control input-sm" ng-model="keys.keyg" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;"/></td>
+                                    <td><input type="text" class="form-control input-sm" ng-model="keys.keyh" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;"/></td>
                                     <td>综合价格</td>
                                     <td>溢价率</td>
                                     <td>执行价格</td>
-                                    <td>发货时间</td>
-                                    <!--<td width="30%">管理</td>-->
+                                    <td><input type="text" class="form-control input-sm" ng-model="keys.keyi" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;"/></td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -349,11 +564,15 @@
                                     <td><input type="text" class="form-control input-sm" ng-model="x.value_1"/></td>
                                     <td><input type="text" class="form-control input-sm" ng-model="x.value_2"/></td>
                                     <td><input type="text" class="form-control input-sm" ng-model="x.value_3"/></td>
+                                    <td><input type="text" class="form-control input-sm" value="{{x.weight}}" disabled/></td>
                                     <td><input type="text" class="form-control input-sm" ng-model="x.value_4"/></td>
+                                    <td><input type="text" class="form-control input-sm" ng-model="x.value_5"/></td>
+                                    <td><input type="text" class="form-control input-sm" ng-model="x.value_6"/></td>
+                                    <td><input type="text" class="form-control input-sm" ng-model="x.value_7"/></td>
                                     <td><input type="text" class="form-control input-sm" ng-model="x.price" disabled/></td>
                                     <td><input type="text" class="form-control input-sm" ng-model="x.dratio"/></td>
                                     <td><input type="text" class="form-control input-sm" value="{{x.market}}" disabled/></td>
-                                    <td><input type="text" class="form-control input-sm" ng-model="x.trans"/></td>
+                                    <td><input type="text" class="form-control input-sm" ng-model="x.value_8" placeholder="{{x.trans}}"/></td>
                                     <!--<td>-->
                                     <!--    <a ng-click="changelogs(x.id, 1)" class="btn btn-info btn-xs">上调顺序</a>-->
                                     <!--    <a ng-click="changelogs(x.id, 0)" class="btn btn-info btn-xs">下调顺序</a>-->
@@ -364,13 +583,146 @@
                             </tbody>
                         </table>
 
-                    </div>
-                </div>
+                        </div><!-- /section-body 商品设置 -->
+
+                        </div><!-- /ng-if 属性价格+商品设置 -->
+
+                    </div><!-- /card-body -->
+                </div><!-- /card alert -->
             </div>
         </div>
     </section>
     
-        <!-- 价格组成Modal -->
+        <!-- 图片放大Modal -->
+    <div class="modal fade bs-example-modal-lg text-center" id="imgModal" tabindex="-1" role="dialog" data-toggle="modal" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="display:inline-block;width:auto;">
+            <div class="modal-content">
+                <div id="imgshow"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 复制标准内容弹窗 -->
+    <div class="modal fade" id="modalCopyGroup" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width:380px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">复制标准内容</h4>
+                </div>
+                <div class="modal-body">
+                    <div style="margin-bottom:10px;font-size:12px;color:#555;">
+                        目标选项：<strong style="color:#555;">{{getActiveGroupName()}}</strong>
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size:12px;">选择复制源</label>
+                        <select class="form-control" ng-model="copyGroupFromId">
+                            <option value="">请选择复制源选项</option>
+                            <option value="{{g.id}}" ng-repeat="g in group_list" ng-if="g.id != active_group_id">{{g.name}}</option>
+                        </select>
+                    </div>
+                    <div style="font-size:11px;color:#e74c3c;margin-top:6px;">⚠ 将覆盖目标选项下所有商品属性的设置、属性价格及规格数据</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" ng-click="copyGroupContentConfirm()">确定复制</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 标准选项管理 - 添加/编辑弹窗 -->
+    <div class="modal fade" id="modalGroup" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width:360px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">编辑选项</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>选项卡名称</label>
+                        <input type="text" class="form-control" ng-model="groupForm.name" placeholder="请输入选项卡名称"/>
+                    </div>
+                    <div class="form-group">
+                        <label>比例</label>
+                        <input type="number" class="form-control" ng-model="groupForm.ratio" step="0.01" placeholder="100"/>
+                    </div>
+                    <div class="form-group">
+                        <label>排序</label>
+                        <input type="number" class="form-control" ng-model="groupForm.sort" placeholder="0" disabled/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" ng-click="groupSave()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 商品属性管理 - 添加/编辑弹窗 -->
+    <div class="modal fade" id="modalBlock" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width:360px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">{{blockEditMode ? '编辑商品' : '添加商品'}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>商品名称</label>
+                        <input type="text" class="form-control" ng-model="blockForm.catname" placeholder="请输入商品名称"/>
+                    </div>
+                    <div class="form-group">
+                        <label>比例</label>
+                        <input type="number" class="form-control" ng-model="blockForm.up_a" step="0.1" placeholder="100"/>
+                    </div>
+                    <div class="form-group">
+                        <label>排序</label>
+                        <input type="number" class="form-control" ng-model="blockForm.sorts" placeholder="0"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" ng-click="blockSave()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 复制商品内容弹窗 -->
+    <div class="modal fade" id="modalCopyBlock" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width:380px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">复制商品内容</h4>
+                </div>
+                <div class="modal-body">
+                    <div style="margin-bottom:10px;font-size:12px;color:#555;">
+                        目标商品：<strong style="color:#2980b9;">{{blank.catname || ('板块' + cat_index)}}</strong>
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size:12px;">选择复制源</label>
+                        <select class="form-control" ng-model="copyFromCatIndex">
+                            <option value="">请选择复制源商品</option>
+                            <option value="{{b.cat_index}}" ng-repeat="b in filteredBlanks" ng-if="b.cat_index != cat_index">
+                                {{b.catname || ('板块' + b.cat_index)}}
+                            </option>
+                        </select>
+                    </div>
+                    <div style="font-size:11px;color:#e74c3c;margin-top:6px;">⚠ 将覆盖目标商品的设置、属性价格及全部规格数据</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" ng-click="copyBlockConfirm()">确认复制</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 价格组成Modal -->
     <div class="modal fade" id="myModalPrice" tabindex="-1" role="dialog" aria-labelledby="myModalPrice">
         <div class="modal-dialog" role="document" style="width:35%;">
             <div class="modal-content">
@@ -409,7 +761,7 @@
                         </div>
                         
                         <div class="form-group">
-                            <label>溢价率</label>
+                            <label>比例值</label>
                             <input type="number" name="ratio" ng-model="price.infos.ratio" class="form-control"/>
                         </div>
                     </form>
@@ -536,11 +888,8 @@
                         <label>上传文件</label>
                         <input type="file" name="file" id='file' class="form-control"/>
                     </div>
-                    
-                     <div class="form-group">
-                        <!--<label>下载模板</label>-->
+                    <div class="form-group">
                         <a href="//app.elccc.cn/Public/file/导入商品模板.xlsx">点击下载模板</a>
-
                     </div>
 
                 </div>
@@ -628,6 +977,7 @@
                 </div>
                 <div class="modal-body">
 
+                    <!-- 板块图片上传暂时屏蔽
                     <form class="form-inline m-b-10 row">
                         <div class="form-group form-width col-md-4">
                             <label>板块图片</label>
@@ -635,6 +985,7 @@
                         </div>
                         <button type="button" class="btn btn-default btn-sm" ng-click="changeImgs()">添加板块图片</button>
                     </form>
+                    -->
 
                     <table class="table">
                         <caption>板块图片</caption>
@@ -691,10 +1042,17 @@
         $scope.keys;
         $scope.tax_list = [];
         $scope.price_list = [];
+        $scope.all_blanks    = [];
+        $scope.blockForm     = { catname: '', up_a: 0, new_tax_id: 0 };
+        $scope.blockEditMode = false;
+        $scope.group_list      = [];
+        $scope.groupForm       = { name: '', ratio: 100, sort: 0 };
+        $scope.active_group_id = 0;
+        $scope.filteredBlanks  = [];
         ////////////////////////////////////////////////////////////////////////
         $scope.price = [];
         $scope.price.infos = [];
-        $scope.price.infos.ratio = 1;
+        $scope.price.infos.ratio = 100;
         $scope.price.new_cate_one_list = [];
         $scope.price.new_cate_two_list = [];
         $scope.price.new_cate_three_list = [];
@@ -740,8 +1098,12 @@
         };
         
         $scope.priceAdd = function (id) {
-             var cat_index = $scope.cat_index;
-            $scope.commAjax("{:U('goodsPrice/priceAddGet')}", {plate_conts_id: $scope.pid,cat_index:cat_index}, function (res) {
+            if (!$scope.blank || !$scope.blank.id) return swal('提示', '请先选择一个商品属性', 'warning');
+            $scope.commAjax("{:U('goodsPrice/priceAddGet')}", {
+                plate_conts_id: $scope.pid,
+                blank_id:       $scope.blank.id,
+                cat_index:      $scope.cat_index
+            }, function (res) {
                $scope.price.infos = res.data.info;
                $scope.priceCateList();
                $("#myModalPrice").modal("show");
@@ -863,26 +1225,35 @@
          * 调整比例
          * @returns {undefined}
          */
+        $scope.current_blank_id = 0;
+
         $scope.init = function () {
-            var param = {pid: $scope.pid, cat_index: $scope.cat_index};
+            var param = {pid: $scope.pid, cat_index: $scope.cat_index, blank_id: $scope.current_blank_id};
             //////
             $scope.commAjax("{:U('Goods/plate_conts_blankr')}", param, function (res) {
                 if (res.status !== 1) {
                     return swal("错误", res.msg, "error");
                 }
+                $scope.tax_list   = res.data.tax_list   || [];
+                $scope.all_blanks = res.data.all_blanks || [];
+                $scope.group_list = res.data.group_list || [];
+                // 默认选中第一个标准选项（仅首次加载时）
+                if ($scope.active_group_id === 0 && $scope.group_list.length > 0) {
+                    $scope.active_group_id = $scope.group_list[0].id;
+                }
+                recomputeFilteredBlanks();
+                // 首次加载时同步 current_blank_id（与当前 info 对应）
+                if ($scope.current_blank_id === 0 && res.data.info && res.data.info.id) {
+                    $scope.current_blank_id = parseInt(res.data.info.id);
+                }
+                $scope.price_list = res.data.price_list || [];
                 if (res.data.info != null) {
                     $scope.blank = res.data.info;
-                    $scope.list = res.data.list;
-                    $scope.keys = res.data.key;
-                    $scope.tax_list = res.data.tax_list;
-                    $scope.price_list = res.data.price_list;
+                    $scope.list  = res.data.list;
+                    $scope.keys  = res.data.key;
                 } else {
-                    $scope.blank = {
-                        catname: "", source: "",
-                        up_a: 0, down_a: 0, up_b: 0, down_b: 0, up_c: 0, down_c: 0,
-                        up_d: 0, down_d: 0, up_e: 0, down_e: 0, up_f: 0, down_f: 0
-                    };
-                    $scope.list = [];
+                    $scope.blank = {catname:"",source:"",up_a:0,up_b:0,up_c:0,up_d:0,up_e:0,up_f:0,down_a:0,down_b:0,down_c:0,down_d:0,down_e:0,down_f:0};
+                    $scope.list  = [];
                 }
             });
         };
@@ -894,10 +1265,208 @@
          * @param {type} index
          * @returns {undefined}
          */
-        $scope.changeType = function (index) {
-            $scope.cat_index = index;
+        $scope.changeType = function (index, blankId) {
+            $scope.cat_index       = index;
+            $scope.current_blank_id = blankId || 0;
             $scope.init();
         };
+
+        // ===================== 标准选项管理 =====================
+        function recomputeFilteredBlanks() {
+            $scope.filteredBlanks = ($scope.all_blanks || []).filter(function(b) {
+                return parseInt(b.group_id) === parseInt($scope.active_group_id);
+            });
+        }
+
+        $scope.selectGroup = function (g) {
+            $scope.active_group_id = g.id;
+            recomputeFilteredBlanks();
+            // 当前分组没有商品属性，清空所有联动数据
+            if ($scope.filteredBlanks.length === 0) {
+                $scope.cat_index        = 0;
+                $scope.current_blank_id = 0;
+                $scope.price_list       = [];
+                $scope.list             = [];
+                $scope.blank            = {catname:'',source:'',up_a:0,up_b:0,up_c:0,up_d:0,up_e:0,up_f:0,down_a:0,down_b:0,down_c:0,down_d:0,down_e:0,down_f:0};
+                return;
+            }
+            // 若当前 cat_index 不在该分组内，切换到该分组第一个 blank
+            var inGroup = $scope.filteredBlanks.some(function(b) {
+                return parseInt(b.cat_index) === parseInt($scope.cat_index);
+            });
+            if (!inGroup) {
+                $scope.cat_index        = parseInt($scope.filteredBlanks[0].cat_index);
+                $scope.current_blank_id = parseInt($scope.filteredBlanks[0].id);
+            } else {
+                var cur = $scope.filteredBlanks.find(function(b){ return parseInt(b.cat_index) === parseInt($scope.cat_index); });
+                if (cur) $scope.current_blank_id = parseInt(cur.id);
+            }
+            $scope.init();
+        };
+
+        $scope.copyGroupFromId = '';
+
+        $scope.getActiveGroupName = function () {
+            var g = ($scope.group_list || []).find(function(x){ return x.id == $scope.active_group_id; });
+            return g ? g.name : '';
+        };
+
+        $scope.openCopyGroupContent = function () {
+            if (!$scope.active_group_id) return swal('提示', '请先选择目标标准选项', 'warning');
+            if ($scope.group_list.length < 2) return swal('提示', '至少需要两个标准选项才能复制', 'warning');
+            $scope.copyGroupFromId = '';
+            $('#modalCopyGroup').modal('show');
+        };
+
+        $scope.copyGroupContentConfirm = function () {
+            if (!$scope.copyGroupFromId) return swal('提示', '请选择复制源选项', 'warning');
+            var srcName = '';
+            ($scope.group_list || []).forEach(function(g){ if (g.id == $scope.copyGroupFromId) srcName = g.name; });
+            swal({ title: '确认复制', text: '将把「' + srcName + '」的全部数据覆盖到「' + $scope.getActiveGroupName() + '」，操作不可恢复', icon: 'warning', buttons: true, dangerMode: true })
+            .then(function (ok) {
+                if (!ok) return;
+                var param = { pid: $scope.pid, from_group_id: $scope.copyGroupFromId, to_group_id: $scope.active_group_id };
+                layer.load(2);
+                $scope.commAjax("{:U('Goods/group_copy_from')}", param, function (res) {
+                    layer.closeAll('loading');
+                    if (res.status !== 1) return swal('错误', res.msg, 'error');
+                    $('#modalCopyGroup').modal('hide');
+                    // 重置旧 blank 选中状态，让 init 重新从目标分组第一个 blank 加载
+                    $scope.current_blank_id = 0;
+                    $scope.cat_index        = 0;
+                    // 先拉最新 all_blanks，再 selectGroup 定位到目标分组第一个 blank
+                    $scope.commAjax("{:U('Goods/plate_conts_blankr')}", {pid: $scope.pid, cat_index: 0, blank_id: 0}, function (r) {
+                        if (r.status !== 1) return;
+                        $scope.all_blanks = r.data.all_blanks || [];
+                        $scope.group_list = r.data.group_list || [];
+                        $scope.tax_list   = r.data.tax_list   || [];
+                        var tgtGroup = ($scope.group_list || []).find(function(g){ return parseInt(g.id) === parseInt($scope.active_group_id); });
+                        if (tgtGroup) {
+                            $scope.selectGroup(tgtGroup);
+                        } else {
+                            $scope.init();
+                        }
+                    });
+                    swal('成功', '复制完成', 'success');
+                });
+            });
+        };
+
+        $scope.clearGroupContent = function () {
+            if (!$scope.active_group_id) return swal('提示', '请先选择一个标准选项', 'warning');
+            var g = ($scope.group_list || []).find(function(x){ return x.id == $scope.active_group_id; });
+            var name = g ? g.name : '当前选项';
+            swal({ title: '确认清空', text: '将清空「' + name + '」下所有商品属性的设置、属性价格及规格数据，操作不可恢复', icon: 'warning', buttons: true, dangerMode: true })
+            .then(function (ok) {
+                if (!ok) return;
+                var param = { pid: $scope.pid, group_id: $scope.active_group_id };
+                layer.load(2);
+                $scope.commAjax("{:U('Goods/group_clear')}", param, function (res) {
+                    layer.closeAll('loading');
+                    if (res.status !== 1) return swal('错误', res.msg, 'error');
+                    $scope.init();
+                });
+            });
+        };
+
+        $scope.openEditGroup = function (g) {
+            $scope.groupForm = angular.copy(g);
+            $scope.groupForm.ratio = parseFloat($scope.groupForm.ratio) || 100;
+            $scope.groupForm.sort  = parseInt($scope.groupForm.sort)    || 0;
+            $('#modalGroup').modal('show');
+        };
+
+        $scope.groupSave = function () {
+            if (!$scope.groupForm.name) return swal('提示', '请输入选项卡名称', 'warning');
+            var param = angular.copy($scope.groupForm);
+            $scope.commAjax("{:U('Goods/group_save')}", param, function (res) {
+                if (res.status !== 1) return swal('错误', res.msg, 'error');
+                $('#modalGroup').modal('hide');
+                $scope.init();
+            });
+        };
+
+        // ===================== 商品属性管理 =====================
+        $scope.openAddBlock = function () {
+            var maxIdx = 0;
+            ($scope.all_blanks || []).forEach(function(b){ if (b.cat_index > maxIdx) maxIdx = parseInt(b.cat_index); });
+            $scope.blockForm     = { catname: '', up_a: 100, sorts: 0, new_tax_id: 0, cat_index: maxIdx + 1, pid: $scope.pid, group_id: $scope.active_group_id };
+            $scope.blockEditMode = false;
+            $('#modalBlock').modal('show');
+        };
+
+        $scope.openEditBlock = function (b) {
+            $scope.blockForm          = angular.copy(b);
+            $scope.blockForm.sorts    = parseInt($scope.blockForm.sorts)  || 0;
+            $scope.blockForm.up_a     = parseFloat($scope.blockForm.up_a) || 0;
+            $scope.blockEditMode = true;
+            $('#modalBlock').modal('show');
+        };
+
+        $scope.blockSave = function () {
+            if (!$scope.blockForm.catname) return swal('提示', '请输入商品名称', 'warning');
+            var param = angular.copy($scope.blockForm);
+            param.pid       = $scope.pid;
+            param.cat_index = $scope.blockForm.cat_index;
+            $scope.commAjax("{:U('Goods/plate_conts_blank')}", param, function (res) {
+                if (res.status !== 1) return swal('错误', res.msg, 'error');
+                $('#modalBlock').modal('hide');
+                if (!$scope.blockEditMode) $scope.changeType(param.cat_index);
+                else $scope.init();
+            });
+        };
+
+        $scope.deleteBlock = function (b) {
+            swal({ title: '确认删除', text: '将删除「' + (b.catname || '该商品') + '」及其所有产品数据', icon: 'warning', buttons: true, dangerMode: true })
+            .then(function (ok) {
+                if (!ok) return;
+                $scope.commAjax("{:U('Goods/plate_conts_del_block')}", { pid: $scope.pid, cat_index: b.cat_index }, function (res) {
+                    if (res.status !== 1) return swal('错误', res.msg, 'error');
+                    if ($scope.cat_index == b.cat_index) $scope.cat_index = 1;
+                    $scope.init();
+                });
+            });
+        };
+
+        // ===================== 复制商品内容 =====================
+        $scope.copyFromCatIndex = '';
+
+        $scope.openCopyBlock = function () {
+            if (!$scope.cat_index) return swal('提示', '请先选择目标商品', 'warning');
+            if ($scope.filteredBlanks.length < 2) return swal('提示', '当前标准选项下至少需要两个商品才能复制', 'warning');
+            $scope.copyFromCatIndex = '';
+            $('#modalCopyBlock').modal('show');
+        };
+
+        $scope.copyBlockConfirm = function () {
+            if (!$scope.copyFromCatIndex) return swal('提示', '请选择复制源商品', 'warning');
+            swal({ title: '确认复制', text: '将覆盖目标商品的全部设置、属性价格及规格数据，操作不可恢复', icon: 'warning', buttons: true, dangerMode: true })
+            .then(function (ok) {
+                if (!ok) return;
+                var param = { pid: $scope.pid, from_cat_index: $scope.copyFromCatIndex, to_cat_index: $scope.cat_index, group_id: $scope.active_group_id };
+                layer.load(2);
+                $scope.commAjax("{:U('Goods/plate_conts_copy_block')}", param, function (res) {
+                    layer.closeAll('loading');
+                    if (res.status !== 1) return swal('错误', res.msg, 'error');
+                    $('#modalCopyBlock').modal('hide');
+                    $scope.init();
+                    swal('成功', '复制完成', 'success');
+                });
+            });
+        };
+
+        $scope.clearBlankFields = function () {
+            swal({ title: '确认清空', text: '将清空商品名称、图片、banner及税率信息', icon: 'warning', buttons: true, dangerMode: true })
+            .then(function (ok) {
+                if (!ok) return;
+                var param = { pid: $scope.pid, cat_index: $scope.cat_index };
+                $scope.commAjax("{:U('Goods/plate_conts_blank_fields_clear')}", param, function (res) {
+                    if (res.status !== 1) return swal('错误', res.msg, 'error');
+                    $scope.init();
+                });
+            });
+        };
+
         /**
          * 调整板块图片
          * @returns {undefined}
@@ -995,7 +1564,7 @@
          * @returns {undefined}
          */
         $scope.addGoodsTmp = function () {
-            var param = {pid: "{$id}", cat_index: $scope.cat_index, ptype: 2};
+            var param = {pid: "{$id}", blank_id: $scope.blank ? $scope.blank.id : 0, cat_index: $scope.cat_index, ptype: 2};
             layer.load(2);
             /////////
             $.ajaxFileUpload({
@@ -1069,14 +1638,18 @@
         $scope.upGoodsAll = function () {
             layer.load(2);
             var param = {
-                pid: "{$id}",
+                pid:      "{$id}",
+                blank_id: $scope.blank ? $scope.blank.id : 0,
                 cat_index: $scope.cat_index,
                 logs: JSON.stringify($scope.list),
-                keya: $("#keya").val(),
-                keyb: $("#keyb").val(),
-                keyc: $("#keyc").val(),
-                keyd: $("#keyd").val(),
-                keye: $("#keye").val(),
+                keya: $scope.keys.keya,
+                keyb: $scope.keys.keyb,
+                keyc: $scope.keys.keyc,
+                keyd: $scope.keys.keyd,
+                keye: $scope.keys.keye,
+                keyf: $scope.keys.keyf,
+                keyg: $scope.keys.keyg,
+                keyh: $scope.keys.keyh,
             };
             $scope.commAjax("{:U('Goods/plate_conts_update')}", param, function (res) {
                 layer.closeAll('loading');
@@ -1123,16 +1696,39 @@
          * @returns {undefined}
          */
         $scope.goodsClear = function () {
-            var param = {pid: "{$id}", cat_index: $scope.cat_index, ptype: 2};
-            layer.load(2);
-            $scope.commAjax("{:U('Goods/plate_conts_clearlog')}", param, function (res) {
-                layer.closeAll('loading');
-                if (res.status !== 1) {
-                    return swal("错误", res.msg, "error");
-                }
-                return $scope.init();
+            if (!$scope.active_group_id) return swal('提示', '请先选择一个标准选项', 'warning');
+            var g = ($scope.group_list || []).find(function(x){ return x.id == $scope.active_group_id; });
+            var name = g ? g.name : '当前选项';
+            swal({ title: '确认清空', text: '将清空「' + name + '」下所有商品属性、属性价格及规格数据，操作不可恢复', icon: 'warning', buttons: true, dangerMode: true })
+            .then(function (ok) {
+                if (!ok) return;
+                var param = { pid: "{$id}", group_id: $scope.active_group_id };
+                layer.load(2);
+                $scope.commAjax("{:U('Goods/group_clear')}", param, function (res) {
+                    layer.closeAll('loading');
+                    if (res.status !== 1) return swal('错误', res.msg, 'error');
+                    $scope.price_list = [];
+                    $scope.list       = [];
+                    $scope.blank      = {catname:'',source:'',up_a:0,up_b:0,up_c:0,up_d:0,up_e:0,up_f:0,down_a:0,down_b:0,down_c:0,down_d:0,down_e:0,down_f:0};
+                    return $scope.init();
+                });
             });
         }
+
+        $scope.clearLogsOnly = function () {
+            swal({ title: '确认清空', text: '将清空当前商品设置中的所有规格数据，操作不可恢复', icon: 'warning', buttons: true, dangerMode: true })
+            .then(function (ok) {
+                if (!ok) return;
+                var param = {pid: "{$id}", blank_id: $scope.blank ? $scope.blank.id : 0, cat_index: $scope.cat_index, logs_only: 1};
+                layer.load(2);
+                $scope.commAjax("{:U('Goods/plate_conts_clearlog')}", param, function (res) {
+                    layer.closeAll('loading');
+                    if (res.status !== 1) return swal("错误", res.msg, "error");
+                    $scope.list = [];
+                    return $scope.init();
+                });
+            });
+        };
 
         $scope.changelogs = function (id, type) {
             var param = {id: id, redi: type};
@@ -1156,36 +1752,33 @@
                 // dangerMode: true,
            }).then((willDelete) => {
                 if (willDelete) {
-                      var param = {pid: "{$id}", cat_index: $scope.cat_index, ptype: 2};
-                    // var param = {id: ids};
+                    if (!$scope.blank || !$scope.blank.id) return swal('提示', '请先选择商品属性', 'warning');
+                    var param = {blank_id: $scope.blank.id};
                     $scope.commAjax("{:U('GoodsPrice/copyPrice')}", param, function (res) {
                         if (res.status !== 1) {
                             return swal("错误", res.msg, "error");
                         }
                         $scope.init();
-                        // window.location.reload();
                     });
                 }else{
-                    
+
                 }
-            
-            })   
+
+            })
         }
-        
+
         $scope.delAllPrice = function (ids) {
             swal({
                 title: '确认',
                 text: "确认删除吗？",
                 icon: 'warning',
-                // buttons: true,
-                showCancelButton: true, // 显示取消按钮
-                confirmButtonText: '确认', // 确认按钮文本
-                cancelButtonText: '取消', // 取消按钮文本
-                // dangerMode: true,
-           }).then((willDelete) => {console.log(1122111);console.log(willDelete);
+                showCancelButton: true,
+                confirmButtonText: '确认',
+                cancelButtonText: '取消',
+           }).then((willDelete) => {
                 if (willDelete) {
-                      var param = {pid: "{$id}", cat_index: $scope.cat_index, ptype: 2};
-                    // var param = {id: ids};
+                    if (!$scope.blank || !$scope.blank.id) return swal('提示', '请先选择商品属性', 'warning');
+                    var param = {blank_id: $scope.blank.id};
                     $scope.commAjax("{:U('GoodsPrice/delAllPrice')}", param, function (res) {
                         if (res.status !== 1) {
                             return swal("错误", res.msg, "error");

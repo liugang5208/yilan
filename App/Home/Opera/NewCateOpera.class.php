@@ -39,10 +39,8 @@ class NewCateOpera {
         //     var_dump($list);
         // }
         foreach($list as $k2=>$v2){
-            //更新商品价格
-            $run['pid'] = $v2['plate_conts_id'];
-            $run['cat_index'] = $v2['cat_index'];
-            $run['type'] = 0;
+            $run['blank_id'] = $v2['blank_id'];
+            $run['type']     = 0;
             $blwares->runs($run);
         }
         

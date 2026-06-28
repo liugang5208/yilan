@@ -19,6 +19,18 @@ if (version_compare(PHP_VERSION, '5.3.0', '<')) {
 // 开启调试模式 建议开发阶段开启 部署阶段注释或者设为false
 define('APP_DEBUG', true);
 require_once './vendor/autoload.php';
+
+// PATH_INFO 修复：当 PATH_INFO 为空时从 REQUEST_URI 补充，兼容 Nginx try_files 模式
+if (empty($_SERVER['PATH_INFO']) && !empty($_SERVER['REQUEST_URI'])) {
+    $uri = $_SERVER['REQUEST_URI'];
+    if (false !== ($pos = strpos($uri, '?'))) {
+        $uri = substr($uri, 0, $pos);
+    }
+    if ($uri !== '' && $uri !== '/') {
+        $_SERVER['PATH_INFO'] = $uri;
+    }
+}
+
 // 定义应用目录
 define('APP_PATH', './App/');
 

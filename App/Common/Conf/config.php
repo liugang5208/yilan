@@ -23,6 +23,7 @@ return array(
     'DB_PORT' => 3306,
     'DB_PREFIX' => '',
     'URL_MODEL' => 2,
+    'SESSION_OPTIONS' => array('save_path' => '/tmp'),
     'APP_URL'   => $status ? 'http://localhost:8088' : '',
     'PAY_MODEL' => 0,
     "LAYOUT_ON" => true,
