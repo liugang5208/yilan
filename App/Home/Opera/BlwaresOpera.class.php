@@ -71,15 +71,16 @@ class BlwaresOpera {
             $v["uptimes"] = time();
             $save           = $v;
             $save["market"] = round($this->getMarket($v), 2);
-            if (!isset($save['key_0']) && isset($this->param["type"]) && $this->param["type"] < 1) {
-                $save["key_0"] = isset($this->param["keya"]) ? $this->param["keya"] : '';
-                $save["key_1"] = isset($this->param["keyb"]) ? $this->param["keyb"] : '';
-                $save["key_2"] = isset($this->param["keyc"]) ? $this->param["keyc"] : '';
-                $save["key_3"] = isset($this->param["keyd"]) ? $this->param["keyd"] : '';
-                $save["key_4"] = isset($this->param["keye"]) ? $this->param["keye"] : '';
-                $save["key_5"] = isset($this->param["keyf"]) ? $this->param["keyf"] : '';
-                $save["key_6"] = isset($this->param["keyg"]) ? $this->param["keyg"] : '';
-                $save["key_7"] = isset($this->param["keyh"]) ? $this->param["keyh"] : '';
+            if (isset($this->param["type"]) && $this->param["type"] < 1) {
+                $cleanKey = function($v) { return ($v === null || $v === 'null') ? '' : $v; };
+                if (isset($this->param["keya"])) $save["key_0"] = $cleanKey($this->param["keya"]);
+                if (isset($this->param["keyb"])) $save["key_1"] = $cleanKey($this->param["keyb"]);
+                if (isset($this->param["keyc"])) $save["key_2"] = $cleanKey($this->param["keyc"]);
+                if (isset($this->param["keyd"])) $save["key_3"] = $cleanKey($this->param["keyd"]);
+                if (isset($this->param["keye"])) $save["key_4"] = $cleanKey($this->param["keye"]);
+                if (isset($this->param["keyf"])) $save["key_5"] = $cleanKey($this->param["keyf"]);
+                if (isset($this->param["keyg"])) $save["key_6"] = $cleanKey($this->param["keyg"]);
+                if (isset($this->param["keyh"])) $save["key_7"] = $cleanKey($this->param["keyh"]);
             }
             $plate_conts_logs->where($where)->save($save);
         }
