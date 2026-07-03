@@ -183,6 +183,40 @@
         </div>
     </section>
 
+    <!-- 衍生材料目录 -->
+    <section id="section-derived-catalog" style="margin-bottom:20px;">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card alert" style="width:100%">
+                    <div class="section-header" style="background:#27ae60;">
+                        <span class="section-title">衍生材料目录</span>
+                        <div style="display:flex;gap:6px;">
+                            <a class="btn btn-xs section-add-btn" style="background:#1a8a50;color:#fff;border-color:#1a8a50;" onclick="openAddCate(2)">+ 添加衍生目录</a>
+                        </div>
+                    </div>
+                    <div class="card-body" style="padding:12px 16px;">
+                        <div style="display:grid;grid-template-columns:repeat(10,1fr);gap:8px;">
+                            <?php if(is_array($directoryList)): $ki = 0; $__LIST__ = $directoryList;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vc): $mod = ($ki % 2 );++$ki;?><div class="derived-catalog-item" data-cate-id="<?php echo ($vc["id"]); ?>"
+                                 onclick="selectDerivedCatalog('<?php echo ($vc["id"]); ?>', this)"
+                                 style="border:1px solid #dce3ea;border-radius:4px;background:#f8f9fa;cursor:pointer;overflow:hidden;">
+                                <!-- 第一行：序号 + 删除 -->
+                                <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 6px;border-bottom:1px solid #eee;">
+                                    <span style="color:#999;font-size:11px;"><?php echo ($ki); ?></span>
+                                    <a ng-click="dels('<?php echo ($vc["id"]); ?>');$event.stopPropagation()" class="btn btn-danger btn-xs" style="padding:0px 5px;font-size:11px;line-height:18px;">删除</a>
+                                </div>
+                                <!-- 第二行：类名称 + 编辑 -->
+                                <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 6px;">
+                                    <span class="catalog-name" style="font-size:12px;font-weight:bold;color:#333;flex:1;word-break:break-all;line-height:1.4;"><?php echo ($vc["name"]); ?></span>
+                                    <a ng-click="updateinfo('<?php echo ($vc["id"]); ?>');$event.stopPropagation()" class="btn btn-info btn-xs" style="padding:0px 5px;font-size:11px;line-height:18px;margin-left:4px;flex-shrink:0;">编辑</a>
+                                </div>
+                            </div><?php endforeach; endif; else: echo "" ;endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- 衍生材料管理 -->
     <section id="section-derived">
         <div class="row">
@@ -192,12 +226,12 @@
                         <span class="section-title">衍生材料管理</span>
                         <div style="display:flex;gap:6px;">
                             <a class="btn btn-xs section-add-btn" ng-click="openCloneCate()">复制衍生分类</a>
-                            <a class="btn btn-xs section-add-btn" style="background:#1a6fc4;color:#fff;border-color:#1a6fc4;" onclick="openAddCate(1)">+ 添加衍生材料分类</a>
+                            <a class="btn btn-xs section-add-btn" style="background:#1a6fc4;color:#fff;border-color:#1a6fc4;" onclick="openAddDerivedMaterial()">+ 添加衍生材料分类</a>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <?php if(is_array($derivedList)): $i = 0; $__LIST__ = $derivedList;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?><div class="cate-block">
+                            <?php if(is_array($derivedList)): $i = 0; $__LIST__ = $derivedList;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?><div class="cate-block" id="derived-cate-<?php echo ($v["id"]); ?>" data-dir-id="<?php echo ($v["cate_label_id"]); ?>">
                                     <div class="cate-title-row">
                                         <div class="cate-title-name"><?php echo ($v["name"]); ?></div>
                                         <div class="cate-title-btns">
@@ -242,6 +276,7 @@
 
                     <form name="ador">
                         <input type="hidden" name="cate_type" id="addCateType" value="0"/>
+                        <input type="hidden" name="cate_label_id" id="addCateLabelId" value="0"/>
                         <div class="form-group">
                             <label>名称</label>
                             <input type="text" name="name" class="form-control"/>
@@ -536,9 +571,10 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>源分类 <span style="color:#e74c3c;">*</span></label>
-                        <select class="form-control" ng-model="clone.source_id" ng-change="onCloneSourceChange()">
-                            <option value="">请选择要复制的衍生分类</option>
-                            <option value="{{g.id}}" ng-repeat="g in derivedCateGroups">{{g.name}}</option>
+                        <div style="font-size:11px;color:#27ae60;margin-bottom:6px;" ng-if="clone.dirName">当前目录：<strong>{{clone.dirName}}</strong></div>
+                        <select class="form-control" ng-model="clone.source_id" ng-change="onCloneSourceChange()" ng-disabled="!clone.filteredGroups.length">
+                            <option value="">{{clone.filteredGroups.length ? '请选择要复制的衍生分类' : '当前目录下暂无衍生分类'}}</option>
+                            <option value="{{g.id}}" ng-repeat="g in clone.filteredGroups">{{g.name}}</option>
                         </select>
                         <div style="font-size:11px;color:#888;margin-top:4px;" ng-if="clone.source_id">
                             包含 <strong>{{clone.materialCount}}</strong> 条材料
@@ -872,6 +908,32 @@
     100% { transform: rotate(360deg); }
 }
 
+/* 衍生材料管理：默认隐藏所有子块，由 JS 按选中目录控制显示 */
+#section-derived .cate-block { display: none; }
+
+/* 衍生材料目录 */
+.derived-catalog-item {
+    transition: all 0.2s;
+}
+.derived-catalog-item:hover {
+    border-color: #27ae60 !important;
+    background: #eafaf1 !important;
+}
+.derived-catalog-item.active {
+    border-color: #27ae60 !important;
+    background: #27ae60 !important;
+    box-shadow: 0 2px 6px rgba(39,174,96,0.3);
+}
+.derived-catalog-item.active .catalog-name,
+.derived-catalog-item.active span {
+    color: #fff !important;
+}
+/* 衍生材料管理中被高亮的大类块 */
+.cate-block.catalog-highlight {
+    border: 2px solid #27ae60 !important;
+    box-shadow: 0 0 0 3px rgba(39,174,96,0.15);
+}
+
 </style>
 
 <script>
@@ -879,12 +941,51 @@
 
   }
 
+  // 衍生材料目录 — 选中并定位
+  var _selectedDirId = 0;  // 当前选中的衍生材料目录 id
+
+  // 添加属于当前目录的衍生材料分类（cate_type=1, cate_label_id=目录id）
+  function openAddDerivedMaterial() {
+      if (!_selectedDirId) {
+          return swal('提示', '请先在「衍生材料目录」中选择一个目录', 'warning');
+      }
+      $("form[name='ador']")[0].reset();
+      document.getElementById('addCateType').value = 1;
+      document.getElementById('addCateLabelId').value = _selectedDirId;
+      document.getElementById('addCateTypeLabel').value = '衍生材料分类';
+      $('#myModal').modal('show');
+  }
+
+  function selectDerivedCatalog(dirId, el) {
+      _selectedDirId = dirId;
+      // 切换目录选中态
+      document.querySelectorAll('.derived-catalog-item').forEach(function(item) {
+          item.classList.remove('active');
+      });
+      el.classList.add('active');
+
+      // 按 data-dir-id 过滤：只显示属于当前目录的分类块
+      document.querySelectorAll('#section-derived .cate-block').forEach(function(b) {
+          b.style.display = (b.getAttribute('data-dir-id') == dirId) ? 'block' : 'none';
+      });
+  }
+
+  // 页面加载后：优先选中新建的目录，否则默认第一项
+  document.addEventListener('DOMContentLoaded', function() {
+      var autoId = sessionStorage.getItem('autoSelectDirId');
+      sessionStorage.removeItem('autoSelectDirId');
+      var target = autoId
+          ? document.querySelector('.derived-catalog-item[data-cate-id="' + autoId + '"]')
+          : document.querySelector('.derived-catalog-item');
+      if (target) target.click();
+  });
+
   function openAddCate(type) {
-      document.getElementById('addCateType').value = type;
-      document.getElementById('addCateTypeLabel').value = type == 0 ? '基础材料' : '衍生材料';
       $("form[name='ador']")[0].reset();
       document.getElementById('addCateType').value = type;
-      document.getElementById('addCateTypeLabel').value = type == 0 ? '基础材料' : '衍生材料';
+      document.getElementById('addCateLabelId').value = 0;
+      var labels = {0: '基础材料', 1: '衍生材料分类', 2: '衍生材料目录'};
+      document.getElementById('addCateTypeLabel').value = labels[type] || '衍生材料';
       $('#myModal').modal('show');
   }
   
@@ -938,7 +1039,7 @@
         var temp = $("form[name='ador']").serializeArray();
         var data = objToArray(temp);
         var baseurl = "<?php echo U('NewLabel/add','model=new_label');?>";
-        //////
+        var cateType = parseInt(document.getElementById('addCateType').value);
         $.ajax({
             url: baseurl,
             type: "post",
@@ -948,11 +1049,13 @@
                 if (res.status != 1) {
                     return swal('提示', res.msg, "error");
                 }
+                // 新建衍生材料目录后，记录 id 供重载后自动选中
+                if (cateType === 2 && res.data) {
+                    sessionStorage.setItem('autoSelectDirId', res.data);
+                }
                 window.location.reload();
             },
-            error: function () {
-
-            },
+            error: function () {}
         });
     }
 
@@ -962,11 +1065,23 @@
     // 全量子项扁平列表（带所属大类信息，供价格计算用）
     var PAGE_CATE_FLAT = [];
     (PAGE_CATE_LIST || []).forEach(function(g) {
-        (g.children || []).forEach(function(item) {
-            item.cate_group_id = g.id;
-            item.cate_group_name = g.name;
-            PAGE_CATE_FLAT.push(item);
-        });
+        if (Number(g.cate_type) === 2) {
+            // 衍生材料目录：需两层深（目录→分类→材料）
+            (g.children || []).forEach(function(cat) {
+                (cat.children || []).forEach(function(item) {
+                    item.cate_group_id   = cat.id;
+                    item.cate_group_name = cat.name;
+                    PAGE_CATE_FLAT.push(item);
+                });
+            });
+        } else {
+            // 基础材料分类：一层深（分类→材料）
+            (g.children || []).forEach(function(item) {
+                item.cate_group_id   = g.id;
+                item.cate_group_name = g.name;
+                PAGE_CATE_FLAT.push(item);
+            });
+        }
     });
 
     var app = angular.module('myApp', []);
@@ -974,16 +1089,34 @@
         $scope.isRequesting = false;
         $scope.infos;
 
-        // 大类列表（用于大类下拉）
-        $scope.allCateGroups = (PAGE_CATE_LIST || []).map(function(g) {
-            return { id: String(g.id), name: g.name, cate_type: g.cate_type, children: g.children || [] };
+        // 分类列表（用于「添加材料」弹窗中的分类下拉）
+        $scope.allCateGroups = [];
+        (PAGE_CATE_LIST || []).forEach(function(g) {
+            var t = Number(g.cate_type);
+            if (t === 0) {
+                // 基础材料分类：直接在根层，保留
+                $scope.allCateGroups.push({ id: String(g.id), name: g.name, cate_type: t, children: g.children || [] });
+            } else if (t === 2) {
+                // 衍生材料目录：从其 children 提取 cate_type=1 的分类
+                (g.children || []).forEach(function(cat) {
+                    if (Number(cat.cate_type) === 1) {
+                        $scope.allCateGroups.push({ id: String(cat.id), name: cat.name, cate_type: Number(cat.cate_type), children: cat.children || [] });
+                    }
+                });
+            }
         });
 
         // 衍生分类列表（用于复制衍生分类的源下拉）
-        $scope.derivedCateGroups = (PAGE_CATE_LIST || []).filter(function(g) {
-            return Number(g.cate_type) === 1;
-        }).map(function(g) {
-            return { id: g.id, name: g.name, children: g.children || [] };
+        // 复制衍生分类的源下拉：从目录子节点提取 cate_type=1 的分类（同 allCateGroups 过滤逻辑）
+        $scope.derivedCateGroups = [];
+        (PAGE_CATE_LIST || []).forEach(function(g) {
+            if (Number(g.cate_type) === 2) {
+                (g.children || []).forEach(function(cat) {
+                    if (Number(cat.cate_type) === 1) {
+                        $scope.derivedCateGroups.push({ id: cat.id, name: cat.name, dirId: g.id, children: cat.children || [] });
+                    }
+                });
+            }
         });
 
         // 复制衍生分类状态
@@ -1254,12 +1387,18 @@
 
         // ===================== 复制衍生分类 =====================
         $scope.openCloneCate = function() {
-            $scope.clone = { source_id: '', new_name: '', materialCount: 0, loading: false };
+            var dirId = window._selectedDirId || 0;
+            var dirNode = (PAGE_CATE_LIST || []).find(function(g) { return String(g.id) === String(dirId); });
+            var dirName = dirNode ? dirNode.name : '';
+            var filtered = $scope.derivedCateGroups.filter(function(g) {
+                return String(g.dirId) === String(dirId);
+            });
+            $scope.clone = { source_id: '', new_name: '', materialCount: 0, loading: false, filteredGroups: filtered, dirId: dirId, dirName: dirName };
             $('#modalCloneCate').modal('show');
         };
 
         $scope.onCloneSourceChange = function() {
-            var g = $scope.derivedCateGroups.find(function(x) {
+            var g = ($scope.clone.filteredGroups || []).find(function(x) {
                 return String(x.id) === String($scope.clone.source_id);
             });
             // 只统计 pid>0 的材料（衍生材料，与页面展示一致）
@@ -1271,7 +1410,7 @@
         $scope.submitCloneCate = function() {
             if (!$scope.clone.source_id) return swal('提示', '请选择源分类', 'warning');
             if (!$scope.clone.new_name || !$scope.clone.new_name.trim()) return swal('提示', '请输入新分类名称', 'warning');
-            var srcGroup = $scope.derivedCateGroups.find(function(x){ return String(x.id) === String($scope.clone.source_id); });
+            var srcGroup = ($scope.clone.filteredGroups || []).find(function(x){ return String(x.id) === String($scope.clone.source_id); });
             if (srcGroup && srcGroup.name === $scope.clone.new_name.trim()) return swal('提示', '新分类名称不能与源分类名称相同', 'warning');
             $scope.clone.loading = true;
             $http({

@@ -144,7 +144,15 @@ class PriceSyncController extends CommController {
 
         $opera = D('Home/NewLabel', 'Opera');
         foreach ($labelIds as $lid) {
-            $opera->runs(array('new_label_id' => $lid), $taskId);
+            $opera->runs(array('new_label_id' => $lid), $taskId, false);
+        }
+        // 所有 task_log 写完后，一次 curl 触发 RespsController::task() 消费全部
+        $opera->triggerAsync();
+
+        // 若本次没有产生任何 task_log（关联 new_cate 为空），直接标记 task 完成，避免永久卡在 status=1
+        $taskLogCount = M('task_log')->where(array('task_id' => $taskId))->count();
+        if (!$taskLogCount) {
+            M('task')->where(array('id' => $taskId))->save(array('status' => 3, 'ratio' => 100));
         }
     }
 

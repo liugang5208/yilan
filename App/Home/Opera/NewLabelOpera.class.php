@@ -16,10 +16,56 @@ class NewLabelOpera {
     /**
      * 入口
      */
-    public function runs($param,$taskId = 0) {
+    public function runs($param, $taskId = 0, $fireAsync = true) {
         $this->param = $param;
         if($taskId > 0) $this->taskId = $taskId;
-       return $this->setListGoods();
+        $result = $this->setListGoods();
+        if ($fireAsync) {
+            $this->asyncTriggerTask();
+        }
+        return $result;
+    }
+
+    /**
+     * 批量写完 task_log 后统一触发一次（供批量场景调用）
+     */
+    public function triggerAsync() {
+        $this->asyncTriggerTask();
+    }
+
+    /**
+     * 异步触发 Inter/Resps/task 执行 task_log 队列
+     * 通过 shell exec + & 后台运行，完全不占用 PHP-FPM worker
+     * 从当前请求的 HTTP_HOST 动态构建 URL，自动兼容本地/测试/生产环境
+     */
+    /**
+     * 异步触发 Inter/Resps/task（fire-and-forget）
+     * exec/shell_exec 被禁用时自动降级为 PHP curl 超短超时
+     */
+    private function asyncTriggerTask() {
+        $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+        $host   = !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost:8088';
+        $url    = $scheme . '://' . $host . '/Inter/Resps/task.html';
+
+        if (function_exists('exec')) {
+            // 优先：shell exec 后台运行，完全不占 FPM worker
+            $cmd = "curl -s -X POST " . escapeshellarg($url) . " > /dev/null 2>&1 &";
+            exec($cmd);
+        } else {
+            // 降级：PHP curl 超短超时（100ms），client 断开后 server 端 ignore_user_abort 继续跑
+            $ch = curl_init($url);
+            curl_setopt_array($ch, array(
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST           => true,
+                CURLOPT_POSTFIELDS     => '',
+                CURLOPT_TIMEOUT_MS     => 100,
+                CURLOPT_NOSIGNAL       => 1,
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_SSL_VERIFYHOST => false,
+            ));
+            @curl_exec($ch);
+            curl_close($ch);
+        }
     }
 
 

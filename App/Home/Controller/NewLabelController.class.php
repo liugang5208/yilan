@@ -9,13 +9,31 @@ class NewLabelController extends CommController {
     public function index() {
         $model   = M("new_label");
         $allList = $model->order('id asc')->select();
-        // 构建完整树后按 cate_type 过滤根节点（子材料随父分类，无需重复处理）
         $tree        = getTreeChildren($allList, 0, 'id', 'cate_label_id');
         $baseList    = array_values(array_filter($tree, function($r){ return $r['cate_type'] == 0; }));
-        $derivedList = array_values(array_filter($tree, function($r){ return $r['cate_type'] == 1; }));
-        $this->assign("baseList",    $baseList);
-        $this->assign("derivedList", $derivedList);
-        $this->assign("allTree",     $tree);
+        // cate_type=2: 衍生材料目录（顶层目录）
+        $directoryList = array_values(array_filter($allList, function($r){ return $r['cate_type'] == 2; }));
+        // derivedList：cate_type=1 的分类（含材料明细 children）
+        // 分类现在是目录的子节点，需从 tree 目录的 children 中提取
+        $derivedList = [];
+        foreach ($tree as $node) {
+            if ($node['cate_type'] == 2) {
+                // 从目录子节点中取分类（cate_type=1）
+                foreach ($node['children'] as $cat) {
+                    if ($cat['cate_type'] == 1) {
+                        $derivedList[] = $cat;
+                    }
+                }
+            } elseif ($node['cate_type'] == 1) {
+                // 兼容旧数据：cate_label_id=0 的分类（未挂目录）
+                $derivedList[] = $node;
+            }
+        }
+        $derivedList = array_values($derivedList);
+        $this->assign("baseList",       $baseList);
+        $this->assign("directoryList",  $directoryList);
+        $this->assign("derivedList",    $derivedList);
+        $this->assign("allTree",        $tree);
         $this->display();
     }
     
@@ -65,7 +83,7 @@ class NewLabelController extends CommController {
         
         
         #
-        return get_op_put(1, "添加成功");
+        return get_op_put(1, "添加成功", $id);
     }
     
     public function edit(){
@@ -330,7 +348,14 @@ class NewLabelController extends CommController {
                 $task->where(['type'=>1,'item_id'=>$id])->where('status=1 OR status=2')->save(['status'=>4]);
                 $taskId = $task->add(['type'=>1,'item_id'=>$id,'title'=>$title,'status'=>1,'add_time'=>time(),'up_time'=>time()]);
                 foreach ($new_label_ids as $k=>$v){
-                    $blwares->runs(['new_label_id'=>$v],$taskId);
+                    $blwares->runs(['new_label_id'=>$v], $taskId, false);
+                }
+                // 全部 task_log 写完后，一次触发消费
+                $blwares->triggerAsync();
+                // 若没有产生任何 task_log（label 未关联 new_cate），直接标记完成
+                $taskLogCount = M('task_log')->where(['task_id'=>$taskId])->count();
+                if (!$taskLogCount) {
+                    $task->where(['id'=>$taskId])->save(['status'=>3,'ratio'=>100]);
                 }
             }
          
@@ -376,15 +401,15 @@ class NewLabelController extends CommController {
 
         $db = M('new_label');
 
-        // 验证源分类存在且是衍生分类
-        $source = $db->where(['id' => $sourceId, 'cate_label_id' => 0, 'cate_type' => 1])->find();
+        // 验证源分类存在且是衍生分类（cate_type=1，不限 cate_label_id，兼容挂目录和未挂目录的分类）
+        $source = $db->where(['id' => $sourceId, 'cate_type' => 1])->find();
         if (!$source) return get_op_put(0, '源分类不存在或不是衍生分类');
         if ($source['name'] === $newName) return get_op_put(0, '新分类名称不能与源分类名称相同');
 
-        // 1. 创建新根节点
+        // 1. 创建新根节点，cate_label_id 继承源分类所属目录
         $newRootId = $db->add([
             'name'         => $newName,
-            'cate_label_id'=> 0,
+            'cate_label_id'=> $source['cate_label_id'],
             'cate_type'    => 1,
             'pid'          => 0,
             'status'       => 1,

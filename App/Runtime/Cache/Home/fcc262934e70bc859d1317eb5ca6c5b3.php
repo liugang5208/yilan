@@ -159,79 +159,92 @@
     <!-- /# row -->
     <section id="main-content">
 
-        <div class="row">
+        <!-- ===== 一级材料管理 ===== -->
+        <div class="row" style="margin-bottom:14px;">
             <div class="col-lg-12">
-                <div class="card alert">
-                    <div class="card-header">
-                        <h4>公式计算</h4>
-                        <div class="card-header-right-icon">
-                            <ul>
-                                <li class="doc-link">
-                                    <a class="btn btn-xs btn-info"  data-toggle="modal" data-target="#myModal">添加</a>
-                                </li>
-                            </ul>
+                <div class="card alert" style="width:100%;margin-bottom:0;">
+                    <div class="section-header" style="background:#2c3e50;">
+                        <span class="section-title">一级材料管理</span>
+                        <a class="btn btn-xs section-add-btn" ng-click="addForm(0, 0)">+ 添加分类</a>
+                    </div>
+                    <div class="card-body" style="padding:12px 16px;">
+                        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px 8px;row-gap:20px;">
+                            <div ng-repeat="v in cate_list"
+                                 ng-class="{'cate-level1-active': selectedL1 == v.id}"
+                                 ng-click="selectLevel1(v.id)"
+                                 style="display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:4px;border:1px solid #dce3ea;background:#f8f9fa;cursor:pointer;user-select:none;min-width:0;">
+                                <span style="font-size:11px;color:#aaa;flex-shrink:0;min-width:16px;" ng-bind="$index+1"></span>
+                                <span style="font-size:13px;font-weight:bold;color:#333;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{v.name}}</span>
+                                <a ng-click="updateinfo(v.id);$event.stopPropagation()" class="btn btn-info btn-xs" style="flex-shrink:0;">编辑</a>
+                                <a ng-click="dels(v.id);$event.stopPropagation()" class="btn btn-danger btn-xs" style="flex-shrink:0;">删除</a>
+                            </div>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            
-                            <div class="form-group" style="width:200px;">
-                            
-                                <select name="cate.pid" ng-model="cate.pid" class="form-control">
-                                    <!--<option value="0">暂不选择</option>-->
-                                    <!-- <?php if(is_array($cate_list)): $i = 0; $__LIST__ = $cate_list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?>-->
-                                    <!--    <option value="<?php echo ($v["id"]); ?>"><?php echo ($v["name"]); ?></option>-->
-                                    <!--<?php endforeach; endif; else: echo "" ;endif; ?>-->
-                                     <option  value="{{v.id}}" ng-repeat="v in cate_list">{{v.name}}</option>
-                                </select>
-                             </div>
-                            <div style="display:flex;height:50px;justify-content:space-between">
-                                {{cate_curr.name}}
-                                <!--<span ng-click='updateinfo(cate_curr.id)'>{{cate_curr.name}}</span>-->
-                                <div style="margin-left:10px">
-                                    <a ng-click='updateinfo(cate_curr.id)' class="btn btn-info btn-xs">编辑</a>
-                                    <a class="btn btn-xs btn-info" data-my-pid='{{cate_curr.id}}'  data-toggle="modal" ng-click="addForm(cate_curr.id)">添加下级</a>
-                                     <a class="btn btn-danger btn-xs" ng-click="dels(cate_curr.id)">删除</a>
-                                </div>
-                                <!--<i class="glyphicon glyphicon-pencil" style="font-size: 12px;"></i> -->
-                                 <!--<a ng-click='updateinfo({{cate_curr.id}})' class="btn btn-info btn-xs">编辑</a>-->
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== 二级材料管理 ===== -->
+        <div class="row" style="margin-bottom:14px;" ng-show="cate_list_p.length > 0 || selectedL1 > 0">
+            <div class="col-lg-12">
+                <div class="card alert" style="width:100%;margin-bottom:0;">
+                    <div class="section-header" style="background:#2980b9;">
+                        <span class="section-title">二级材料管理
+                            <span ng-if="cate_curr.name" style="font-size:12px;font-weight:normal;opacity:0.8;margin-left:8px;">— {{cate_curr.name}}</span>
+                        </span>
+                        <a ng-click="addForm(cate_curr.id, 1)" class="btn btn-xs section-add-btn">+ 添加分类</a>
+                    </div>
+                    <div class="card-body" style="padding:12px 16px;">
+                        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px 8px;row-gap:20px;">
+                            <div ng-repeat="v in cate_list_p"
+                                 ng-class="{'cate-level2-active': selectedL2 == v.id}"
+                                 ng-click="selectLevel2(v.id)"
+                                 style="display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:4px;border:1px solid #dce3ea;background:#f8f9fa;cursor:pointer;user-select:none;min-width:0;">
+                                <span style="font-size:11px;color:#aaa;flex-shrink:0;min-width:16px;" ng-bind="$index+1"></span>
+                                <span style="font-size:13px;font-weight:bold;color:#333;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{v.name}}</span>
+                                <a ng-click="updateinfo(v.id);$event.stopPropagation()" class="btn btn-info btn-xs" style="flex-shrink:0;">编辑</a>
+
+                                <a ng-click="dels(v.id);$event.stopPropagation()" class="btn btn-danger btn-xs" style="flex-shrink:0;">删除</a>
                             </div>
-                            <!--二级分类-->
-                             <div style="flex-wrap:wrap;white-space: nowrap;display:flex;align-content: space-around;width:100%;flex-direction: row;">
-                                
-                                <div style="width:16%;display:flex;justify-content:space-between;width:240px;margin-left:5px;border: 0.5px solid black;" value="{{v.id}}" ng-repeat="v in cate_list_p">
-                                    <div ng-click="changeCateFirst2(v.id)" style="cursor: pointer;">
-                                        {{v.name}}
-                                    </div>
-                                    
-                                    <div style="">
-                                        <i ng-click="updateinfo(v.id)" class="glyphicon glyphicon-pencil" style="font-size: 12px;"></i>
-                                        <a style="margin-left:5px" class="btn btn-xs btn-info" data-my-pid="v.id"  data-toggle="modal" ng-click="addForm(v.id)">+</a>
-                                        <a class="btn btn-danger btn-xs" ng-click="dels(v.id)">-</a>
-                                    </div>
-                                
-                                </div>
-                           
+                            <div ng-if="cate_list_p.length === 0" style="color:#aaa;font-size:12px;padding:4px;">暂无下级，点击「+ 添加下级」</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== 三级材料管理 ===== -->
+        <div class="row" style="margin-bottom:14px;" ng-show="cate_list_pp.length > 0 || selectedL2 > 0">
+            <div class="col-lg-12">
+                <div class="card alert" style="width:100%;margin-bottom:0;">
+                    <div class="section-header" style="background:#7f8c8d;">
+                        <span class="section-title">三级材料管理
+                            <span ng-if="selectedL2Name" style="font-size:12px;font-weight:normal;opacity:0.8;margin-left:8px;">— {{selectedL2Name}}</span>
+                        </span>
+                        <a ng-click="addForm(selectedL2, 2)" class="btn btn-xs section-add-btn">+ 添加分类</a>
+                    </div>
+                    <div class="card-body" style="padding:12px 16px;">
+                        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px 8px;row-gap:20px;">
+                            <div ng-repeat="v in cate_list_pp" id="row-{{v.id}}"
+                                 ng-class="{'cate-level3-active': cate_form.id == v.id}"
+                                 ng-click="changeShow(v.id)"
+                                 style="display:flex;align-items:center;gap:6px;padding:6px 8px;border:1px solid #dce3ea;border-radius:4px;background:#f8f9fa;cursor:pointer;min-width:0;">
+                                <span style="font-size:11px;color:#aaa;flex-shrink:0;min-width:16px;" ng-bind="$index+1"></span>
+                                <span style="font-size:13px;font-weight:bold;color:#333;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{v.name}}</span>
+                                <a ng-click="updateinfo(v.id);$event.stopPropagation()" class="btn btn-info btn-xs" style="flex-shrink:0;">编辑</a>
+                                <a ng-click="dels(v.id);$event.stopPropagation()" class="btn btn-danger btn-xs" style="flex-shrink:0;">删除</a>
                             </div>
-                            <!--第三级分类-->
-                            <div style=";width:100%;margin-top:20px;">
-                                
-                                <div style="display:flex;justify-content:space-between;margin-left:5px;border: 0.5px solid black;" value="{{v.id}}" ng-repeat="v in cate_list_pp"  id="row-{{v.id}}" >
-                                    <div style="display:flex">
-                                        <div> {{v.p_name}}</div>
-                                        <div style="margin-left:20px"> {{v.name}}</div>
-                                       
-                                    </div>
-                                    <div>
-                                        <a ng-click="updateinfo(v.id)" class="btn btn-info btn-xs">编辑</a>
-                                        <a class="btn btn-xs btn-info" data-id="{{v.id}}"  data-name="{{v.name}}" ng-click="changeShow(v.id)">管理表格</a>
-                                     <a class="btn btn-danger btn-xs" ng-click="dels(v.id)">删除</a>
-                                    </div>
-                                    
-                                </div>        
-                            </div>
-                             <!--管理表格-->
-                           <div style="margin-top:20px;hidden" id="cate_form_new">
+                            <div ng-if="cate_list_pp.length === 0" style="color:#aaa;font-size:12px;padding:4px;grid-column:1/-1;">暂无三级分类</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== 管理表格 ===== -->
+        <div class="row" ng-show="cate_form_visible">
+            <div class="col-lg-12">
+                <div class="card alert" style="width:100%;margin-bottom:0;" id="cate_form_new">
                                
                     <div class="modal-content">
                 <div class="modal-header">
@@ -244,9 +257,16 @@
                      <h5 class="p-b-5" style="display:flex;justify-content:space-between">
                          <div style="display:flex;align-items:center">
                             <a style="display:flex;align-items:center;gap:8px;">
+                               
+                                <div style="width:150px;">
+                                    <select ng-change="onLabelDirChange()" class="form-control" ng-model="cate_form.label_dir">
+                                        <option value="">选择目录</option>
+                                        <option value="{{d.id}}" ng-repeat="d in cate_form.directories">{{d.name}}</option>
+                                    </select>
+                                </div>
                                 <div style="width:150px;">
                                     <select ng-change="onLabelCatChange()" class="form-control" ng-model="cate_form.label_cat">
-                                        <option value="">选择大类</option>
+                                        <option value="">选择分类</option>
                                         <option value="{{g.cate_label_id}}" ng-repeat="g in cate_form.label_groups">{{g.cat_name}}</option>
                                     </select>
                                 </div>
@@ -278,6 +298,7 @@
                             <thead>
                                 <tr>
                                     <td width="50">#序号</td>
+                                    <td>材料名称</td>
                                     <td>规格</td>
                                     <td>重量(kg)</td>
                                     <td>单价</td>
@@ -291,6 +312,7 @@
 
                                 <tr ng-repeat=" x in cate_form.list">
                                     <td>{{x.number}}</td>
+                                    <td><input type="text" class="form-control input-sm" value="{{cate_form.cateFormName}}" disabled/></td>
                                     <td><input type="text" class="form-control input-sm" ng-model="x.name"/></td>
                                     <td><input type="text" class="form-control input-sm" ng-model="x.weight"/></td>
                                     <td><input type="text" class="form-control input-sm" ng-model="x.price" disabled/></td>
@@ -307,55 +329,11 @@
                     
 
                 </div>
-                
-            </div>      
-                            </div>
-                            
-                            
-                            <!--<table class="table">-->
-                            <!--    <thead>-->
-                            <!--        <tr>-->
-                            <!--            <th>#</th>-->
-                            <!--            <th>名称</th>-->
-                                        
-                            <!--            <th width="30%">管理</th>-->
-                            <!--        </tr>-->
-                            <!--    </thead>-->
-                            <!--    <tbody>-->
-
-                            <!--    <?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?>-->
-                            <!--        <tr>-->
-                            <!--            <th scope="row"><?php echo ($v["id"]); ?></th>-->
-                            <!--            <td><?php echo ($v["tree_label"]); echo ($v["name"]); ?></td>-->
-                            <!--            <td>-->
-                                           
-                            <!--                <a ng-click="updateinfo('<?php echo ($v["id"]); ?>')" class="btn btn-info btn-xs">编辑</a>-->
-                            <!--            <?php if($v["level"] < 3): ?>-->
-                            <!--                 <a class="btn btn-xs btn-info" data-my-pid="<?php echo ($v["id"]); ?>"  data-toggle="modal" data-target="#myModal">添加下级</a>-->
-                                            <!--<a ng-click="updateinfo3('<?php echo ($v["id"]); ?>')" class="btn btn-info btn-xs">添加下级</a>-->
-                            <!--<?php endif; ?>  -->
-                            <!--            <?php if($v["level"] == 3): ?>-->
-                            <!--                 <a class="btn btn-xs btn-info" data-id="<?php echo ($v["id"]); ?>"  data-name="<?php echo ($v["name"]); ?>" ng-click="changeShow(<?php echo ($v["id"]); ?>)">管理表格</a>-->
-                                        
-                            <!--<?php endif; ?>-->
-                            <!--                <a class="btn btn-danger btn-xs" ng-click="dels('<?php echo ($v["id"]); ?>')">删除</a>-->
-                            <!--            </td>-->
-                            <!--        </tr>-->
-                            <!--<?php endforeach; endif; else: echo "" ;endif; ?>-->
-
-                            <!--    </tbody>-->
-                            <!--</table>-->
-
-                            <!--<nav aria-label="Page navigation">-->
-                            <!--    <ul class="pagination"><?php echo ($list["show"]); ?></ul>-->
-                            <!--</nav>-->
-
-                        </div>
-                    </div>
-                </div>
             </div>
+                </div><!-- /.card.alert -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
 
-        </div>
     </section>
 
     <!-- Modal -->
@@ -444,10 +422,18 @@
                          <div style="display:flex;align-items:center">
                             <a style="display:flex;align-items:center;gap:8px;">
                                 <div style="width:150px;">
-                                    <select ng-change="onLabelCatChange()" class="form-control" ng-model="cate_form.label_cat">
-                                        <option value="">选择大类</option>
-                                        <option value="{{g.cate_label_id}}" ng-repeat="g in cate_form.label_groups">{{g.cat_name}}</option>
-                                    </select>
+                                    <div style="width:150px;">
+                                        <select ng-change="onLabelDirChange()" class="form-control" ng-model="cate_form.label_dir">
+                                            <option value="">选择目录</option>
+                                            <option value="{{d.id}}" ng-repeat="d in cate_form.directories">{{d.name}}</option>
+                                        </select>
+                                    </div>
+                                    <div style="width:150px;">
+                                        <select ng-change="onLabelCatChange()" class="form-control" ng-model="cate_form.label_cat">
+                                            <option value="">选择分类</option>
+                                            <option value="{{g.cate_label_id}}" ng-repeat="g in cate_form.label_groups">{{g.cat_name}}</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div style="width:200px;">
                                     <select ng-change="onChangeLabel()" class="form-control" ng-model="cate_form.infos.new_label_id">
@@ -477,6 +463,7 @@
                             <thead>
                                 <tr>
                                     <td width="50">#序号</td>
+                                    <td>材料名称</td>
                                     <td>规格</td>
                                     <td>重量(kg)</td>
                                     <td>单价</td>
@@ -490,6 +477,7 @@
 
                                 <tr ng-repeat=" x in cate_form.list">
                                     <td>{{x.number}}</td>
+                                    <td><input type="text" class="form-control input-sm" value="{{cate_form.cateFormName}}" disabled/></td>
                                     <td><input type="text" class="form-control input-sm" ng-model="x.name"/></td>
                                     <td><input type="text" class="form-control input-sm" ng-model="x.weight"/></td>
                                     <td><input type="text" class="form-control input-sm" ng-model="x.price" disabled/></td>
@@ -546,15 +534,61 @@
 </div>
 
 <style>
-    .highlight {
-    background-color: yellow; /* 或者其他你想要的高亮颜色 */
-}
+    .highlight { background-color: yellow; }
+
+    /* ===== section 样式（同 NewLabel）===== */
+    .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #333;
+        color: #fff;
+        padding: 8px 14px;
+        border-radius: 3px 3px 0 0;
+    }
+    .section-title {
+        font-size: 14px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+    .section-add-btn {
+        font-size: 12px !important;
+        padding: 3px 10px !important;
+        height: auto !important;
+        border: 1px solid rgba(255,255,255,0.4) !important;
+        background: rgba(255,255,255,0.15) !important;
+        color: #fff !important;
+    }
+    .section-add-btn:hover { background: rgba(255,255,255,0.28) !important; }
+    .section-add-btn-danger {
+        background: rgba(220,53,69,0.7) !important;
+        border-color: rgba(220,53,69,0.9) !important;
+    }
+
+    /* 三级选中高亮 */
+    .cate-level1-active {
+        background: #2c3e50 !important;
+        border-color: #2c3e50 !important;
+    }
+    .cate-level1-active span { color: #fff !important; }
+
+    .cate-level2-active {
+        background: #2980b9 !important;
+        border-color: #2980b9 !important;
+    }
+    .cate-level2-active span { color: #fff !important; }
+
+    .cate-level3-active {
+        background: #eaf3fd !important;
+        border-color: #2980b9 !important;
+        box-shadow: 0 0 0 2px rgba(41,128,185,0.2);
+    }
 </style>
 
 
 
 <script>
- $("#cate_form_new").hide();
+ 
 // $(document).on('show.bs.modal', '#cateForm', function (event) {
 //     console.log(111);
 //   // 获取触发元素，即打开模态框的按钮
@@ -592,16 +626,41 @@
         $scope.cate_form.list = [];
         $scope.cate_form.id = 0;
         $scope.cate_form.cateFormName = "";
-        
+
         $scope.cate =[];
         $scope.cate.pid = 0;
         $scope.cate_list = [];
-        
+
         $scope.cate_curr = [];
         $scope.cate_list_p = [];
-        
+
         $scope.three_cate_curr_id = [];
         $scope.cate_list_pp = [];
+
+        // 三级选中状态
+        $scope.selectedL1 = 0;
+        $scope.selectedL2 = 0;
+        $scope.cate_form_visible = false;
+
+        // 点击一级：加载二级，清空三级和管理表格
+        $scope.selectLevel1 = function(id) {
+            $scope.selectedL1 = id;
+            $scope.selectedL2 = 0;
+            $scope.cate_form_visible = false;
+            $scope.cate_list_pp = [];
+            $scope.cate.pid = id;
+            $scope.changeCate();
+        };
+
+        // 点击二级：加载三级，清空管理表格
+        $scope.selectedL2Name = '';
+        $scope.selectLevel2 = function(id) {
+            $scope.selectedL2 = id;
+            $scope.cate_form_visible = false;
+            var found = ($scope.cate_list_p || []).find(function(v){ return v.id == id; });
+            $scope.selectedL2Name = found ? found.name : '';
+            $scope.changeCateFirst2(id);
+        };
         ////////////////////////////////////////////////////////////////////////
         
             /**
@@ -622,10 +681,17 @@
             success: function (res) {
                 if (res.status != 1) {
                     return swal('提示', res.msg, "error");
-                }else{
+                } else {
                     $("#myModal").modal("hide");
-                    $scope.changeCateFirst2($scope.three_cate_curr_id);
-                    $scope.changeCate(); 
+                    var level = $scope._addLevel;
+                    if (level === 0) {
+                        $scope.changeCateFirst();          // 刷新一级列表
+                    } else if (level === 1) {
+                        $scope.changeCate();               // 刷新二级列表
+                    } else {
+                        $scope.changeCateFirst2($scope.selectedL2);  // 刷新三级列表
+                    }
+                    $scope.$apply();
                 }
                 // alert(33);
                 // window.location.reload();
@@ -649,14 +715,12 @@
 //   $scope.init();
 // });
 
-$scope.addForm = function(id){
-    console.log(55454);
-console.log(id)
-  // 设置模态框内容
-  
-  $('#pid').val(id);
-  
- $("#myModal").modal("show");
+$scope._addLevel = 0;  // 0=一级 1=二级 2=三级
+$scope.addForm = function(id, level) {
+    $scope._addLevel = level || 0;
+    $("form[name='ador']")[0].reset();
+    $('#pid').val(id);
+    $("#myModal").modal("show");
 }
         /**
          * 通讯操作
@@ -681,61 +745,32 @@ console.log(id)
                 success(response);
             });
         };
-        //切换导体
-         $scope.$watch('cate.pid', function(newVal,oldVal) {
-    
-              console.log(4323);
-              $scope.cate_form = [];
-                   $scope.cate_curr = [];
-                $scope.cate_list_p = [];
-                
-                $scope.three_cate_curr_id = [];
-                $scope.cate_list_pp = [];
-                 $("#cate_form_new").hide();
-              if(newVal != oldVal && newVal > 0){
-                    
-                  $scope.changeCate();
-                   
-                }else if(newVal == 0){
-                     $scope.changeCateFirst();
-                }
-    
-         });
-         
-         $scope.changeCateFirst = function () {
+        $scope.changeCateFirst = function () {
             var param = {id: 0};
-            //////
             $scope.commAjax("<?php echo U('NewCate/ajaxCateFirst');?>", param, function (res) {
                 if (res.status !== 1) {
                     return swal("错误", res.msg, "error");
                 }
-                
-                if (res.data.cate_list != null) {
+                if (res.data.cate_list != null && res.data.cate_list.length > 0) {
                     $scope.cate_list = res.data.cate_list;
-                    $scope.cate.pid = res.data.cate_list[0].id;
-                    $scope.cate.id = res.data.cate_list[0].id;
+                    // 首次自动选中第一个
+                    $scope.selectLevel1($scope.cate_list[0].id);
                 } else {
                     $scope.cate_list = [];
-  
                 }
             });
         };
         
         $scope.changeCateFirst2 = function (id) {
-            $scope.three_cate_curr_id = id
+            $scope.three_cate_curr_id = id;
             var param = {id: $scope.three_cate_curr_id};
-            //////
             $scope.commAjax("<?php echo U('NewCate/ajaxCateFirst2');?>", param, function (res) {
                 if (res.status !== 1) {
                     return swal("错误", res.msg, "error");
                 }
-                
                 if (res.data.cate_list != null) {
                     $scope.cate_list_pp = res.data.cate_list;
-
-                    //清空管理表格
-                    
-                    $("#cate_form_new").hide();
+                    $scope.cate_form_visible = false;
                 } 
             });
         };
@@ -761,49 +796,43 @@ console.log(id)
         
         $scope.changeShow = function (index) {
             $scope.cate_form.id = index;
-            $("#cate_form_new").show();
+            $scope.cate_form_visible = true;
             $scope.init();
-            
-             angular.forEach(document.querySelectorAll('[id^="row-"]'), function(row) {
-                row.classList.remove('highlight');
-            });
-        
-            // 获取当前点击的按钮元素
-            var button = event.target;
-        
-            // 查找父级元素（即当前行）
-            var row = button.closest('[id^="row-"]');
-        
-            // 为当前行添加高亮样式
-            if (row) {
-                row.classList.add('highlight');
-            }
         };
         
-        // 从 label_list 按 cate_label_id 分组，提取大类列表
-        $scope.buildLabelGroups = function(labelList) {
+        // 从 label_list 按 cate_label_id 分组，提取分类列表（可按 dir_id 过滤）
+        $scope.buildLabelGroups = function(labelList, dirId) {
             var seen = {}, groups = [];
             (labelList || []).forEach(function(item) {
+                if (dirId && String(item.dir_id) !== String(dirId)) return;
                 var catId = item.cate_label_id;
                 if (!seen[catId]) {
                     seen[catId] = true;
-                    var catName = item.cat_name || ('大类' + catId);
-                    groups.push({ cate_label_id: catId, cat_name: catName });
+                    groups.push({ cate_label_id: catId, cat_name: item.cat_name || ('分类' + catId) });
                 }
             });
             return groups;
         };
 
-        // 大类切换时过滤小类列表
+        // 一级：目录切换时过滤分类列表
+        $scope.onLabelDirChange = function() {
+            var dirId = $scope.cate_form.label_dir;
+            $scope.cate_form.label_groups    = $scope.buildLabelGroups($scope.cate_form.label_list, dirId);
+            $scope.cate_form.label_cat       = '';
+            $scope.cate_form.label_sub_list  = [];
+            $scope.cate_form.infos.new_label_id = '';
+        };
+
+        // 二级：分类切换时过滤材料列表
         $scope.onLabelCatChange = function() {
             var catId = $scope.cate_form.label_cat;
             $scope.cate_form.label_sub_list = ($scope.cate_form.label_list || []).filter(function(item) {
-                return String(item.cate_label_id) === String(catId) && Number(item.pid) > 0;
+                return String(item.cate_label_id) === String(catId);
             });
             $scope.cate_form.infos.new_label_id = '';
         };
 
-        // 编辑回显时根据 new_label_id 反查大类并初始化小类列表
+        // 编辑回显：根据 new_label_id 反查并恢复目录→分类→材料三级联动
         $scope.restoreLabelCat = function() {
             var curId = $scope.cate_form.infos.new_label_id;
             if (!curId) return;
@@ -811,9 +840,11 @@ console.log(id)
                 return String(item.id) === String(curId);
             });
             if (found) {
+                $scope.cate_form.label_dir = found.dir_id ? String(found.dir_id) : '';
+                $scope.cate_form.label_groups = $scope.buildLabelGroups($scope.cate_form.label_list, found.dir_id);
                 $scope.cate_form.label_cat = String(found.cate_label_id);
                 $scope.cate_form.label_sub_list = ($scope.cate_form.label_list || []).filter(function(item) {
-                    return String(item.cate_label_id) === String(found.cate_label_id) && Number(item.pid) > 0;
+                    return String(item.cate_label_id) === String(found.cate_label_id);
                 });
             }
         };
@@ -826,10 +857,11 @@ console.log(id)
                     return swal("错误", res.msg, "error");
                 }
                 $scope.cate_form.infos = res.data.info;
-                $scope.cate_form.label_list = (res.data.label_list || []).filter(function(item) {
-                    return item.pid !== 0;
-                });
-                $scope.cate_form.label_groups = $scope.buildLabelGroups($scope.cate_form.label_list);
+                $scope.cate_form.label_list = res.data.label_list || [];
+                $scope.cate_form.directories = res.data.directories || [];
+                $scope.cate_form.label_dir   = '';
+                $scope.cate_form.label_groups = [];
+                $scope.cate_form.label_sub_list = [];
                 $scope.cate_form.cateFormName = res.data.info.name;
                 $scope.restoreLabelCat();
                 if (res.data.info != null) {
@@ -979,6 +1011,9 @@ console.log(id)
                 // window.location.reload();
             });
         }
+
+        // 页面初始化：加载一级并自动选中第一个
+        $scope.changeCateFirst();
 
     });
 

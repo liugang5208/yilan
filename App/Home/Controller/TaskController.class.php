@@ -9,6 +9,7 @@ class TaskController extends CommController {
     public function index() {
         $model = M("task");
         #
+        $where = array();
         $list = boPage($model, $where, "id desc");
         $status = [1=>'待开始',2=>'进行中',3=>'已完成',4=>'作废'];
         foreach ($list['list'] as $k=>$v){

@@ -1,0 +1,667 @@
+[ 2026-07-03T19:03:08+08:00 ] 127.0.0.1 /Inter/Resps/task.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000158s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000073s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000126s ]
+SQL: SHOW COLUMNS FROM `users` [ RunTime:0.0102s ]
+SQL: SHOW COLUMNS FROM `task_log` [ RunTime:0.0064s ]
+SQL: SHOW COLUMNS FROM `task` [ RunTime:0.0054s ]
+SQL: UPDATE `task_log` SET `status`='1' WHERE ( hand_time <= 1783074788 ) AND `status` = 2 [ RunTime:0.0854s ]
+SQL: SELECT a.id,a.status,b.id as task_log_id,b.new_cate_id FROM task a INNER JOIN task_log b ON b.task_id = a.id  WHERE ( a.type=1 AND (a.status=1 OR a.status=2) AND b.status=1 ) ORDER BY a.id asc, b.id asc LIMIT 5   [ RunTime:0.0118s ]
+ERR: {"status":1,"msg":"OK","data":null}
+
+[ 2026-07-03T19:03:20+08:00 ] 127.0.0.1 /Inter/Resps/task.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000098s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000066s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000108s ]
+SQL: SHOW COLUMNS FROM `users` [ RunTime:0.0103s ]
+SQL: SHOW COLUMNS FROM `task_log` [ RunTime:0.0053s ]
+SQL: SHOW COLUMNS FROM `task` [ RunTime:0.0055s ]
+SQL: UPDATE `task_log` SET `status`='1' WHERE ( hand_time <= 1783074800 ) AND `status` = 2 [ RunTime:0.0513s ]
+SQL: SELECT a.id,a.status,b.id as task_log_id,b.new_cate_id FROM task a INNER JOIN task_log b ON b.task_id = a.id  WHERE ( a.type=1 AND (a.status=1 OR a.status=2) AND b.status=1 ) ORDER BY a.id asc, b.id asc LIMIT 5   [ RunTime:0.0186s ]
+ERR: {"status":1,"msg":"OK","data":null}
+
+[ 2026-07-03T19:07:20+08:00 ] 127.0.0.1 /Inter/Resps/task.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000009s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000149s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000063s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000120s ]
+SQL: SHOW COLUMNS FROM `users` [ RunTime:0.0062s ]
+SQL: SHOW COLUMNS FROM `task_log` [ RunTime:0.0025s ]
+SQL: SHOW COLUMNS FROM `task` [ RunTime:0.0038s ]
+SQL: UPDATE `task_log` SET `status`='1' WHERE ( hand_time <= 1783075040 ) AND `status` = 2 [ RunTime:0.0377s ]
+SQL: SELECT a.id,a.status,b.id as task_log_id,b.new_cate_id FROM task a INNER JOIN task_log b ON b.task_id = a.id  WHERE ( a.type=1 AND (a.status=1 OR a.status=2) AND b.status=1 ) ORDER BY a.id asc, b.id asc LIMIT 5   [ RunTime:0.0141s ]
+ERR: {"status":1,"msg":"OK","data":null}
+
+[ 2026-07-03T19:09:23+08:00 ] 127.0.0.1 /Inter/Resps/task.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000003s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000053s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000012s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000018s ]
+SQL: SHOW COLUMNS FROM `users` [ RunTime:0.0059s ]
+SQL: SHOW COLUMNS FROM `task_log` [ RunTime:0.0031s ]
+SQL: SHOW COLUMNS FROM `task` [ RunTime:0.0049s ]
+SQL: UPDATE `task_log` SET `status`='1' WHERE ( hand_time <= 1783075163 ) AND `status` = 2 [ RunTime:0.0367s ]
+SQL: SELECT a.id,a.status,b.id as task_log_id,b.new_cate_id FROM task a INNER JOIN task_log b ON b.task_id = a.id  WHERE ( a.type=1 AND (a.status=1 OR a.status=2) AND b.status=1 ) ORDER BY a.id asc, b.id asc LIMIT 5   [ RunTime:0.0104s ]
+ERR: {"status":1,"msg":"OK","data":null}
+
+[ 2026-07-03T19:09:23+08:00 ] 127.0.0.1 /Inter/Resps/task.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000002s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000038s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000010s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000016s ]
+SQL: SHOW COLUMNS FROM `users` [ RunTime:0.0024s ]
+SQL: SHOW COLUMNS FROM `task_log` [ RunTime:0.0012s ]
+SQL: SHOW COLUMNS FROM `task` [ RunTime:0.0013s ]
+SQL: UPDATE `task_log` SET `status`='1' WHERE ( hand_time <= 1783075163 ) AND `status` = 2 [ RunTime:0.0240s ]
+SQL: SELECT a.id,a.status,b.id as task_log_id,b.new_cate_id FROM task a INNER JOIN task_log b ON b.task_id = a.id  WHERE ( a.type=1 AND (a.status=1 OR a.status=2) AND b.status=1 ) ORDER BY a.id asc, b.id asc LIMIT 5   [ RunTime:0.0096s ]
+ERR: {"status":1,"msg":"OK","data":null}
+
+[ 2026-07-03T19:09:23+08:00 ] 127.0.0.1 /Inter/Resps/task.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000002s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000021s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000008s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000014s ]
+SQL: SHOW COLUMNS FROM `users` [ RunTime:0.0036s ]
+SQL: SHOW COLUMNS FROM `task_log` [ RunTime:0.0056s ]
+SQL: SHOW COLUMNS FROM `task` [ RunTime:0.0023s ]
+SQL: UPDATE `task_log` SET `status`='1' WHERE ( hand_time <= 1783075163 ) AND `status` = 2 [ RunTime:0.0281s ]
+SQL: SELECT a.id,a.status,b.id as task_log_id,b.new_cate_id FROM task a INNER JOIN task_log b ON b.task_id = a.id  WHERE ( a.type=1 AND (a.status=1 OR a.status=2) AND b.status=1 ) ORDER BY a.id asc, b.id asc LIMIT 5   [ RunTime:0.0074s ]
+ERR: {"status":1,"msg":"OK","data":null}
+
+[ 2026-07-03T19:09:24+08:00 ] 127.0.0.1 /Inter/Resps/task.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000005s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000035s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000016s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000026s ]
+SQL: SHOW COLUMNS FROM `users` [ RunTime:0.0104s ]
+SQL: SHOW COLUMNS FROM `task_log` [ RunTime:0.0041s ]
+SQL: SHOW COLUMNS FROM `task` [ RunTime:0.0043s ]
+SQL: UPDATE `task_log` SET `status`='1' WHERE ( hand_time <= 1783075164 ) AND `status` = 2 [ RunTime:0.0356s ]
+SQL: SELECT a.id,a.status,b.id as task_log_id,b.new_cate_id FROM task a INNER JOIN task_log b ON b.task_id = a.id  WHERE ( a.type=1 AND (a.status=1 OR a.status=2) AND b.status=1 ) ORDER BY a.id asc, b.id asc LIMIT 5   [ RunTime:0.0106s ]
+ERR: {"status":1,"msg":"OK","data":null}
+
+[ 2026-07-03T19:09:24+08:00 ] 127.0.0.1 /Inter/PriceSync/syncAuto
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000109s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000059s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000090s ]
+SQL: SHOW COLUMNS FROM `users` [ RunTime:0.0050s ]
+SQL: SHOW COLUMNS FROM `price_sync_config` [ RunTime:0.0036s ]
+SQL: SELECT * FROM `price_sync_config` WHERE `auto_sync` = 1 AND `status` = 1  [ RunTime:0.0022s ]
+SQL: SHOW COLUMNS FROM `new_label` [ RunTime:0.0043s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0011s ]
+SQL: UPDATE `new_label` SET `price`='102980.0000',`last_futures_price`='102980',`last_sync_ratio`='100.0000',`last_sync_time`='1783076963',`up_time`='1783076963' WHERE `id` = 160 [ RunTime:0.0136s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(160, pid_str) ) ORDER BY level asc, id asc  [ RunTime:0.0104s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0010s ]
+SQL: UPDATE `new_label` SET `price`='102.9800',`up_time`='1783076963' WHERE `id` = 195 [ RunTime:0.0057s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0008s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 163 LIMIT 1   [ RunTime:0.0007s ]
+SQL: UPDATE `new_label` SET `price`='207.9800',`up_time`='1783076963' WHERE `id` = 196 [ RunTime:0.0024s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0006s ]
+SQL: UPDATE `new_label` SET `price`='102.9800',`up_time`='1783076963' WHERE `id` = 197 [ RunTime:0.0028s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0030s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 163 LIMIT 1   [ RunTime:0.0007s ]
+SQL: UPDATE `new_label` SET `price`='207.9800',`up_time`='1783076963' WHERE `id` = 198 [ RunTime:0.0016s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0006s ]
+SQL: UPDATE `new_label` SET `price`='102980.0000',`up_time`='1783076963' WHERE `id` = 213 [ RunTime:0.0065s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(160, pid2_str) ) ORDER BY level2 asc, id asc  [ RunTime:0.0017s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(160, pid3_str) ) ORDER BY level3 asc, id asc  [ RunTime:0.0010s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0007s ]
+SQL: SHOW COLUMNS FROM `task` [ RunTime:0.0039s ]
+SQL: UPDATE `task` SET `status`='4' WHERE `type` = 1 AND `item_id` = 160 AND ( status=1 OR status=2 ) [ RunTime:0.0035s ]
+SQL: INSERT INTO `task` (`type`,`item_id`,`title`,`status`,`add_time`,`up_time`) VALUES ('1','160','期货同步更新沪铜','1','1783076963','1783076963') [ RunTime:0.0045s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0016s ]
+SQL: SHOW COLUMNS FROM `new_cate` [ RunTime:0.0065s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 160  [ RunTime:0.0122s ]
+SQL: UPDATE `new_cate` SET `price`='102980.0000' WHERE `new_label_id` = 160 [ RunTime:0.0009s ]
+SQL: SHOW COLUMNS FROM `new_cate_form` [ RunTime:0.0046s ]
+DEBUG: 22222222222
+DEBUG: 160
+DEBUG: 
+SQL: SHOW COLUMNS FROM `task_log` [ RunTime:0.0074s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 195 LIMIT 1   [ RunTime:0.0012s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 195  [ RunTime:0.0009s ]
+SQL: UPDATE `new_cate` SET `price`='102.9800' WHERE `new_label_id` = 195 [ RunTime:0.0008s ]
+DEBUG: 22222222222
+DEBUG: 195
+DEBUG: 
+SQL: SELECT * FROM `new_label` WHERE `id` = 196 LIMIT 1   [ RunTime:0.0006s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 196  [ RunTime:0.0006s ]
+SQL: UPDATE `new_cate` SET `price`='207.9800' WHERE `new_label_id` = 196 [ RunTime:0.0011s ]
+DEBUG: 22222222222
+DEBUG: 196
+DEBUG: 
+SQL: SELECT * FROM `new_label` WHERE `id` = 197 LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 197  [ RunTime:0.0010s ]
+SQL: UPDATE `new_cate` SET `price`='102.9800' WHERE `new_label_id` = 197 [ RunTime:0.0008s ]
+DEBUG: 22222222222
+DEBUG: 197
+DEBUG: 
+SQL: SELECT * FROM `new_label` WHERE `id` = 198 LIMIT 1   [ RunTime:0.0008s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 198  [ RunTime:0.0009s ]
+SQL: UPDATE `new_cate` SET `price`='207.9800' WHERE `new_label_id` = 198 [ RunTime:0.0007s ]
+DEBUG: 22222222222
+DEBUG: 198
+DEBUG: 
+SQL: SELECT * FROM `new_label` WHERE `id` = 213 LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 213  [ RunTime:0.0008s ]
+SQL: UPDATE `new_cate` SET `price`='102980.0000' WHERE `new_label_id` = 213 [ RunTime:0.0004s ]
+DEBUG: 22222222222
+DEBUG: 213
+DEBUG: 
+SQL: SHOW COLUMNS FROM `price_sync_log` [ RunTime:0.0067s ]
+SQL: INSERT INTO `price_sync_log` (`config_id`,`futures_code`,`futures_name`,`new_label_id`,`label_name`,`futures_price`,`old_price`,`new_price`,`sync_type`,`status`,`add_time`) VALUES ('1','cum','沪铜主连','160','沪铜','102980','105150.0000','102980.0000','2','1','1783076963') [ RunTime:0.0041s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 162 LIMIT 1   [ RunTime:0.0005s ]
+SQL: UPDATE `new_label` SET `price`='1273.8000',`last_futures_price`='127380',`last_sync_ratio`='1.0000',`last_sync_time`='1783076963',`up_time`='1783076963' WHERE `id` = 162 [ RunTime:0.0017s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(162, pid_str) ) ORDER BY level asc, id asc  [ RunTime:0.0023s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(162, pid2_str) ) ORDER BY level2 asc, id asc  [ RunTime:0.0004s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(162, pid3_str) ) ORDER BY level3 asc, id asc  [ RunTime:0.0003s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 162 LIMIT 1   [ RunTime:0.0002s ]
+SQL: UPDATE `task` SET `status`='4' WHERE `type` = 1 AND `item_id` = 162 AND ( status=1 OR status=2 ) [ RunTime:0.0005s ]
+SQL: INSERT INTO `task` (`type`,`item_id`,`title`,`status`,`add_time`,`up_time`) VALUES ('1','162','期货同步更新沪镍','1','1783076963','1783076963') [ RunTime:0.0013s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 162 LIMIT 1   [ RunTime:0.0002s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 162  [ RunTime:0.0002s ]
+SQL: UPDATE `new_cate` SET `price`='1273.8000' WHERE `new_label_id` = 162 [ RunTime:0.0002s ]
+DEBUG: 22222222222
+DEBUG: 162
+DEBUG: 
+SQL: INSERT INTO `price_sync_log` (`config_id`,`futures_code`,`futures_name`,`new_label_id`,`label_name`,`futures_price`,`old_price`,`new_price`,`sync_type`,`status`,`add_time`) VALUES ('2','nim','沪镍主连','162','沪镍','127380','1384.9000','1273.8000','2','1','1783076963') [ RunTime:0.0026s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 163 LIMIT 1   [ RunTime:0.0011s ]
+SQL: UPDATE `new_label` SET `price`='402180.0000',`last_futures_price`='402180',`last_sync_ratio`='100.0000',`last_sync_time`='1783076963',`up_time`='1783076963' WHERE `id` = 163 [ RunTime:0.0019s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(163, pid_str) ) ORDER BY level asc, id asc  [ RunTime:0.0008s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(163, pid2_str) ) ORDER BY level2 asc, id asc  [ RunTime:0.0008s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(163, pid3_str) ) ORDER BY level3 asc, id asc  [ RunTime:0.0006s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 163 LIMIT 1   [ RunTime:0.0006s ]
+SQL: UPDATE `task` SET `status`='4' WHERE `type` = 1 AND `item_id` = 163 AND ( status=1 OR status=2 ) [ RunTime:0.0009s ]
+SQL: INSERT INTO `task` (`type`,`item_id`,`title`,`status`,`add_time`,`up_time`) VALUES ('1','163','期货同步更新沪锡','1','1783076963','1783076963') [ RunTime:0.0038s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 163 LIMIT 1   [ RunTime:0.0006s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 163  [ RunTime:0.0005s ]
+SQL: UPDATE `new_cate` SET `price`='402180.0000' WHERE `new_label_id` = 163 [ RunTime:0.0005s ]
+DEBUG: 22222222222
+DEBUG: 163
+DEBUG: 
+SQL: INSERT INTO `price_sync_log` (`config_id`,`futures_code`,`futures_name`,`new_label_id`,`label_name`,`futures_price`,`old_price`,`new_price`,`sync_type`,`status`,`add_time`) VALUES ('3','snm','沪锡主连','163','沪锡','402180','437040.0000','402180.0000','2','1','1783076963') [ RunTime:0.0036s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 166 LIMIT 1   [ RunTime:0.0012s ]
+SQL: UPDATE `new_label` SET `price`='15256.0000',`last_futures_price`='15256',`last_sync_ratio`='100.0000',`last_sync_time`='1783076963',`up_time`='1783076963' WHERE `id` = 166 [ RunTime:0.0023s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(166, pid_str) ) ORDER BY level asc, id asc  [ RunTime:0.0016s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(166, pid2_str) ) ORDER BY level2 asc, id asc  [ RunTime:0.0011s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(166, pid3_str) ) ORDER BY level3 asc, id asc  [ RunTime:0.0012s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 166 LIMIT 1   [ RunTime:0.0008s ]
+SQL: UPDATE `task` SET `status`='4' WHERE `type` = 1 AND `item_id` = 166 AND ( status=1 OR status=2 ) [ RunTime:0.0016s ]
+SQL: INSERT INTO `task` (`type`,`item_id`,`title`,`status`,`add_time`,`up_time`) VALUES ('1','166','期货同步更新沪银','1','1783076963','1783076963') [ RunTime:0.0029s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 166 LIMIT 1   [ RunTime:0.0008s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 166  [ RunTime:0.0008s ]
+SQL: UPDATE `new_cate` SET `price`='15256.0000' WHERE `new_label_id` = 166 [ RunTime:0.0007s ]
+DEBUG: 22222222222
+DEBUG: 166
+DEBUG: 
+SQL: INSERT INTO `price_sync_log` (`config_id`,`futures_code`,`futures_name`,`new_label_id`,`label_name`,`futures_price`,`old_price`,`new_price`,`sync_type`,`status`,`add_time`) VALUES ('6','agm','沪银主连','166','沪银','15256','17528.0000','15256.0000','2','1','1783076963') [ RunTime:0.0026s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 191 LIMIT 1   [ RunTime:0.0015s ]
+SQL: UPDATE `new_label` SET `price`='819.0000',`last_futures_price`='819',`last_sync_ratio`='100.0000',`last_sync_time`='1783076964',`up_time`='1783076964' WHERE `id` = 191 [ RunTime:0.0033s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(191, pid_str) ) ORDER BY level asc, id asc  [ RunTime:0.0023s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(191, pid2_str) ) ORDER BY level2 asc, id asc  [ RunTime:0.0007s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(191, pid3_str) ) ORDER BY level3 asc, id asc  [ RunTime:0.0007s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 191 LIMIT 1   [ RunTime:0.0003s ]
+SQL: UPDATE `task` SET `status`='4' WHERE `type` = 1 AND `item_id` = 191 AND ( status=1 OR status=2 ) [ RunTime:0.0010s ]
+SQL: INSERT INTO `task` (`type`,`item_id`,`title`,`status`,`add_time`,`up_time`) VALUES ('1','191','期货同步更新备用3','1','1783076964','1783076964') [ RunTime:0.0015s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 191 LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 191  [ RunTime:0.0003s ]
+SQL: UPDATE `new_cate` SET `price`='819.0000' WHERE `new_label_id` = 191 [ RunTime:0.0002s ]
+DEBUG: 22222222222
+DEBUG: 191
+DEBUG: 
+SQL: INSERT INTO `price_sync_log` (`config_id`,`futures_code`,`futures_name`,`new_label_id`,`label_name`,`futures_price`,`old_price`,`new_price`,`sync_type`,`status`,`add_time`) VALUES ('7','lgm','原木主连','191','备用3','819','795.5000','819.0000','2','1','1783076964') [ RunTime:0.0023s ]
+ERR: {"status":1,"msg":"\u5b9a\u65f6\u540c\u6b65\u5b8c\u6210\uff1a\u6210\u529f 5 \u6761\uff0c\u5931\u8d25 0 \u6761","data":{"success":5,"fail":0}}
+
+[ 2026-07-03T19:09:24+08:00 ] 127.0.0.1 /Inter/Resps/task.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000005s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000040s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000017s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000038s ]
+SQL: SHOW COLUMNS FROM `users` [ RunTime:0.0059s ]
+SQL: SHOW COLUMNS FROM `task_log` [ RunTime:0.0236s ]
+SQL: SHOW COLUMNS FROM `task` [ RunTime:0.0042s ]
+SQL: UPDATE `task_log` SET `status`='1' WHERE ( hand_time <= 1783075164 ) AND `status` = 2 [ RunTime:0.0421s ]
+SQL: SELECT a.id,a.status,b.id as task_log_id,b.new_cate_id FROM task a INNER JOIN task_log b ON b.task_id = a.id  WHERE ( a.type=1 AND (a.status=1 OR a.status=2) AND b.status=1 ) ORDER BY a.id asc, b.id asc LIMIT 5   [ RunTime:0.0139s ]
+ERR: {"status":1,"msg":"OK","data":null}
+
+[ 2026-07-03T19:11:03+08:00 ] 127.0.0.1 /Inter/Resps/task.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000002s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000036s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000015s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000036s ]
+SQL: SHOW COLUMNS FROM `users` [ RunTime:0.0028s ]
+SQL: SHOW COLUMNS FROM `task_log` [ RunTime:0.0035s ]
+SQL: SHOW COLUMNS FROM `task` [ RunTime:0.0021s ]
+SQL: UPDATE `task_log` SET `status`='1' WHERE ( hand_time <= 1783075263 ) AND `status` = 2 [ RunTime:0.0367s ]
+SQL: SELECT a.id,a.status,b.id as task_log_id,b.new_cate_id FROM task a INNER JOIN task_log b ON b.task_id = a.id  WHERE ( a.type=1 AND (a.status=1 OR a.status=2) AND b.status=1 ) ORDER BY a.id asc, b.id asc LIMIT 5   [ RunTime:0.0118s ]
+ERR: {"status":1,"msg":"OK","data":null}
+
+[ 2026-07-03T19:11:03+08:00 ] 127.0.0.1 /Inter/Resps/task.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000002s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000024s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000011s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000016s ]
+SQL: SHOW COLUMNS FROM `users` [ RunTime:0.0060s ]
+SQL: SHOW COLUMNS FROM `task_log` [ RunTime:0.0017s ]
+SQL: SHOW COLUMNS FROM `task` [ RunTime:0.0021s ]
+SQL: UPDATE `task_log` SET `status`='1' WHERE ( hand_time <= 1783075263 ) AND `status` = 2 [ RunTime:0.0461s ]
+SQL: SELECT a.id,a.status,b.id as task_log_id,b.new_cate_id FROM task a INNER JOIN task_log b ON b.task_id = a.id  WHERE ( a.type=1 AND (a.status=1 OR a.status=2) AND b.status=1 ) ORDER BY a.id asc, b.id asc LIMIT 5   [ RunTime:0.0132s ]
+ERR: {"status":1,"msg":"OK","data":null}
+
+[ 2026-07-03T19:11:04+08:00 ] 127.0.0.1 /Inter/Resps/task.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000003s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000020s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000009s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000016s ]
+SQL: SHOW COLUMNS FROM `users` [ RunTime:0.0021s ]
+SQL: SHOW COLUMNS FROM `task_log` [ RunTime:0.0021s ]
+SQL: SHOW COLUMNS FROM `task` [ RunTime:0.0021s ]
+SQL: UPDATE `task_log` SET `status`='1' WHERE ( hand_time <= 1783075264 ) AND `status` = 2 [ RunTime:0.0366s ]
+SQL: SELECT a.id,a.status,b.id as task_log_id,b.new_cate_id FROM task a INNER JOIN task_log b ON b.task_id = a.id  WHERE ( a.type=1 AND (a.status=1 OR a.status=2) AND b.status=1 ) ORDER BY a.id asc, b.id asc LIMIT 5   [ RunTime:0.0125s ]
+ERR: {"status":1,"msg":"OK","data":null}
+
+[ 2026-07-03T19:11:04+08:00 ] 127.0.0.1 /Inter/Resps/task.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000002s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000019s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000009s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000013s ]
+SQL: SHOW COLUMNS FROM `users` [ RunTime:0.0034s ]
+SQL: SHOW COLUMNS FROM `task_log` [ RunTime:0.0013s ]
+SQL: SHOW COLUMNS FROM `task` [ RunTime:0.0026s ]
+SQL: UPDATE `task_log` SET `status`='1' WHERE ( hand_time <= 1783075264 ) AND `status` = 2 [ RunTime:0.0316s ]
+SQL: SELECT a.id,a.status,b.id as task_log_id,b.new_cate_id FROM task a INNER JOIN task_log b ON b.task_id = a.id  WHERE ( a.type=1 AND (a.status=1 OR a.status=2) AND b.status=1 ) ORDER BY a.id asc, b.id asc LIMIT 5   [ RunTime:0.0076s ]
+ERR: {"status":1,"msg":"OK","data":null}
+
+[ 2026-07-03T19:11:04+08:00 ] 127.0.0.1 /Inter/PriceSync/syncAuto
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000087s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000054s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000093s ]
+SQL: SHOW COLUMNS FROM `users` [ RunTime:0.0059s ]
+SQL: SHOW COLUMNS FROM `price_sync_config` [ RunTime:0.0063s ]
+SQL: SELECT * FROM `price_sync_config` WHERE `auto_sync` = 1 AND `status` = 1  [ RunTime:0.0014s ]
+SQL: SHOW COLUMNS FROM `new_label` [ RunTime:0.0039s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0007s ]
+SQL: UPDATE `new_label` SET `price`='102980.0000',`last_futures_price`='102980',`last_sync_ratio`='100.0000',`last_sync_time`='1783077063',`up_time`='1783077063' WHERE `id` = 160 [ RunTime:0.0052s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(160, pid_str) ) ORDER BY level asc, id asc  [ RunTime:0.0009s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0004s ]
+SQL: UPDATE `new_label` SET `price`='102.9800',`up_time`='1783077063' WHERE `id` = 195 [ RunTime:0.0018s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 163 LIMIT 1   [ RunTime:0.0003s ]
+SQL: UPDATE `new_label` SET `price`='207.9800',`up_time`='1783077063' WHERE `id` = 196 [ RunTime:0.0017s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0007s ]
+SQL: UPDATE `new_label` SET `price`='102.9800',`up_time`='1783077063' WHERE `id` = 197 [ RunTime:0.0014s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 163 LIMIT 1   [ RunTime:0.0005s ]
+SQL: UPDATE `new_label` SET `price`='207.9800',`up_time`='1783077063' WHERE `id` = 198 [ RunTime:0.0014s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0004s ]
+SQL: UPDATE `new_label` SET `price`='102980.0000',`up_time`='1783077063' WHERE `id` = 213 [ RunTime:0.0019s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(160, pid2_str) ) ORDER BY level2 asc, id asc  [ RunTime:0.0012s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(160, pid3_str) ) ORDER BY level3 asc, id asc  [ RunTime:0.0007s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0004s ]
+SQL: SHOW COLUMNS FROM `task` [ RunTime:0.0048s ]
+SQL: UPDATE `task` SET `status`='4' WHERE `type` = 1 AND `item_id` = 160 AND ( status=1 OR status=2 ) [ RunTime:0.0036s ]
+SQL: INSERT INTO `task` (`type`,`item_id`,`title`,`status`,`add_time`,`up_time`) VALUES ('1','160','期货同步更新沪铜','1','1783077063','1783077063') [ RunTime:0.0027s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0006s ]
+SQL: SHOW COLUMNS FROM `new_cate` [ RunTime:0.0029s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 160  [ RunTime:0.0015s ]
+SQL: UPDATE `new_cate` SET `price`='102980.0000' WHERE `new_label_id` = 160 [ RunTime:0.0008s ]
+SQL: SHOW COLUMNS FROM `new_cate_form` [ RunTime:0.0023s ]
+DEBUG: 22222222222
+DEBUG: 160
+DEBUG: 
+SQL: SHOW COLUMNS FROM `task_log` [ RunTime:0.0055s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 195 LIMIT 1   [ RunTime:0.0012s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 195  [ RunTime:0.0007s ]
+SQL: UPDATE `new_cate` SET `price`='102.9800' WHERE `new_label_id` = 195 [ RunTime:0.0008s ]
+DEBUG: 22222222222
+DEBUG: 195
+DEBUG: 
+SQL: SELECT * FROM `new_label` WHERE `id` = 196 LIMIT 1   [ RunTime:0.0006s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 196  [ RunTime:0.0004s ]
+SQL: UPDATE `new_cate` SET `price`='207.9800' WHERE `new_label_id` = 196 [ RunTime:0.0006s ]
+DEBUG: 22222222222
+DEBUG: 196
+DEBUG: 
+SQL: SELECT * FROM `new_label` WHERE `id` = 197 LIMIT 1   [ RunTime:0.0003s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 197  [ RunTime:0.0003s ]
+SQL: UPDATE `new_cate` SET `price`='102.9800' WHERE `new_label_id` = 197 [ RunTime:0.0007s ]
+DEBUG: 22222222222
+DEBUG: 197
+DEBUG: 
+SQL: SELECT * FROM `new_label` WHERE `id` = 198 LIMIT 1   [ RunTime:0.0007s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 198  [ RunTime:0.0003s ]
+SQL: UPDATE `new_cate` SET `price`='207.9800' WHERE `new_label_id` = 198 [ RunTime:0.0004s ]
+DEBUG: 22222222222
+DEBUG: 198
+DEBUG: 
+SQL: SELECT * FROM `new_label` WHERE `id` = 213 LIMIT 1   [ RunTime:0.0009s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 213  [ RunTime:0.0004s ]
+SQL: UPDATE `new_cate` SET `price`='102980.0000' WHERE `new_label_id` = 213 [ RunTime:0.0004s ]
+DEBUG: 22222222222
+DEBUG: 213
+DEBUG: 
+SQL: SHOW COLUMNS FROM `price_sync_log` [ RunTime:0.0038s ]
+SQL: INSERT INTO `price_sync_log` (`config_id`,`futures_code`,`futures_name`,`new_label_id`,`label_name`,`futures_price`,`old_price`,`new_price`,`sync_type`,`status`,`add_time`) VALUES ('1','cum','沪铜主连','160','沪铜','102980','102980.0000','102980.0000','2','1','1783077063') [ RunTime:0.0050s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 162 LIMIT 1   [ RunTime:0.0008s ]
+SQL: UPDATE `new_label` SET `price`='1273.8000',`last_futures_price`='127380',`last_sync_ratio`='1.0000',`last_sync_time`='1783077063',`up_time`='1783077063' WHERE `id` = 162 [ RunTime:0.0016s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(162, pid_str) ) ORDER BY level asc, id asc  [ RunTime:0.0008s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(162, pid2_str) ) ORDER BY level2 asc, id asc  [ RunTime:0.0006s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(162, pid3_str) ) ORDER BY level3 asc, id asc  [ RunTime:0.0006s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 162 LIMIT 1   [ RunTime:0.0004s ]
+SQL: UPDATE `task` SET `status`='4' WHERE `type` = 1 AND `item_id` = 162 AND ( status=1 OR status=2 ) [ RunTime:0.0021s ]
+SQL: INSERT INTO `task` (`type`,`item_id`,`title`,`status`,`add_time`,`up_time`) VALUES ('1','162','期货同步更新沪镍','1','1783077063','1783077063') [ RunTime:0.0011s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 162 LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 162  [ RunTime:0.0005s ]
+SQL: UPDATE `new_cate` SET `price`='1273.8000' WHERE `new_label_id` = 162 [ RunTime:0.0003s ]
+DEBUG: 22222222222
+DEBUG: 162
+DEBUG: 
+SQL: INSERT INTO `price_sync_log` (`config_id`,`futures_code`,`futures_name`,`new_label_id`,`label_name`,`futures_price`,`old_price`,`new_price`,`sync_type`,`status`,`add_time`) VALUES ('2','nim','沪镍主连','162','沪镍','127380','1273.8000','1273.8000','2','1','1783077063') [ RunTime:0.0039s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 163 LIMIT 1   [ RunTime:0.0325s ]
+SQL: UPDATE `new_label` SET `price`='402180.0000',`last_futures_price`='402180',`last_sync_ratio`='100.0000',`last_sync_time`='1783077063',`up_time`='1783077063' WHERE `id` = 163 [ RunTime:0.0020s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(163, pid_str) ) ORDER BY level asc, id asc  [ RunTime:0.0026s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(163, pid2_str) ) ORDER BY level2 asc, id asc  [ RunTime:0.0007s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(163, pid3_str) ) ORDER BY level3 asc, id asc  [ RunTime:0.0008s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 163 LIMIT 1   [ RunTime:0.0005s ]
+SQL: UPDATE `task` SET `status`='4' WHERE `type` = 1 AND `item_id` = 163 AND ( status=1 OR status=2 ) [ RunTime:0.0032s ]
+SQL: INSERT INTO `task` (`type`,`item_id`,`title`,`status`,`add_time`,`up_time`) VALUES ('1','163','期货同步更新沪锡','1','1783077063','1783077063') [ RunTime:0.0033s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 163 LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 163  [ RunTime:0.0004s ]
+SQL: UPDATE `new_cate` SET `price`='402180.0000' WHERE `new_label_id` = 163 [ RunTime:0.0003s ]
+DEBUG: 22222222222
+DEBUG: 163
+DEBUG: 
+SQL: INSERT INTO `price_sync_log` (`config_id`,`futures_code`,`futures_name`,`new_label_id`,`label_name`,`futures_price`,`old_price`,`new_price`,`sync_type`,`status`,`add_time`) VALUES ('3','snm','沪锡主连','163','沪锡','402180','402180.0000','402180.0000','2','1','1783077063') [ RunTime:0.0025s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 166 LIMIT 1   [ RunTime:0.0006s ]
+SQL: UPDATE `new_label` SET `price`='15256.0000',`last_futures_price`='15256',`last_sync_ratio`='100.0000',`last_sync_time`='1783077064',`up_time`='1783077064' WHERE `id` = 166 [ RunTime:0.0011s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(166, pid_str) ) ORDER BY level asc, id asc  [ RunTime:0.0006s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(166, pid2_str) ) ORDER BY level2 asc, id asc  [ RunTime:0.0004s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(166, pid3_str) ) ORDER BY level3 asc, id asc  [ RunTime:0.0005s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 166 LIMIT 1   [ RunTime:0.0003s ]
+SQL: UPDATE `task` SET `status`='4' WHERE `type` = 1 AND `item_id` = 166 AND ( status=1 OR status=2 ) [ RunTime:0.0020s ]
+SQL: INSERT INTO `task` (`type`,`item_id`,`title`,`status`,`add_time`,`up_time`) VALUES ('1','166','期货同步更新沪银','1','1783077064','1783077064') [ RunTime:0.0015s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 166 LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 166  [ RunTime:0.0004s ]
+SQL: UPDATE `new_cate` SET `price`='15256.0000' WHERE `new_label_id` = 166 [ RunTime:0.0003s ]
+DEBUG: 22222222222
+DEBUG: 166
+DEBUG: 
+SQL: INSERT INTO `price_sync_log` (`config_id`,`futures_code`,`futures_name`,`new_label_id`,`label_name`,`futures_price`,`old_price`,`new_price`,`sync_type`,`status`,`add_time`) VALUES ('6','agm','沪银主连','166','沪银','15256','15256.0000','15256.0000','2','1','1783077064') [ RunTime:0.0021s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 191 LIMIT 1   [ RunTime:0.0007s ]
+SQL: UPDATE `new_label` SET `price`='819.0000',`last_futures_price`='819',`last_sync_ratio`='100.0000',`last_sync_time`='1783077064',`up_time`='1783077064' WHERE `id` = 191 [ RunTime:0.0009s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(191, pid_str) ) ORDER BY level asc, id asc  [ RunTime:0.0007s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(191, pid2_str) ) ORDER BY level2 asc, id asc  [ RunTime:0.0005s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(191, pid3_str) ) ORDER BY level3 asc, id asc  [ RunTime:0.0005s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 191 LIMIT 1   [ RunTime:0.0004s ]
+SQL: UPDATE `task` SET `status`='4' WHERE `type` = 1 AND `item_id` = 191 AND ( status=1 OR status=2 ) [ RunTime:0.0024s ]
+SQL: INSERT INTO `task` (`type`,`item_id`,`title`,`status`,`add_time`,`up_time`) VALUES ('1','191','期货同步更新备用3','1','1783077064','1783077064') [ RunTime:0.0023s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 191 LIMIT 1   [ RunTime:0.0006s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 191  [ RunTime:0.0005s ]
+SQL: UPDATE `new_cate` SET `price`='819.0000' WHERE `new_label_id` = 191 [ RunTime:0.0005s ]
+DEBUG: 22222222222
+DEBUG: 191
+DEBUG: 
+SQL: INSERT INTO `price_sync_log` (`config_id`,`futures_code`,`futures_name`,`new_label_id`,`label_name`,`futures_price`,`old_price`,`new_price`,`sync_type`,`status`,`add_time`) VALUES ('7','lgm','原木主连','191','备用3','819','819.0000','819.0000','2','1','1783077064') [ RunTime:0.0029s ]
+ERR: {"status":1,"msg":"\u5b9a\u65f6\u540c\u6b65\u5b8c\u6210\uff1a\u6210\u529f 5 \u6761\uff0c\u5931\u8d25 0 \u6761","data":{"success":5,"fail":0}}
+
+[ 2026-07-03T19:11:04+08:00 ] 127.0.0.1 /Inter/Resps/task.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000003s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000044s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000017s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000031s ]
+SQL: SHOW COLUMNS FROM `users` [ RunTime:0.0029s ]
+SQL: SHOW COLUMNS FROM `task_log` [ RunTime:0.0105s ]
+SQL: SHOW COLUMNS FROM `task` [ RunTime:0.0104s ]
+SQL: UPDATE `task_log` SET `status`='1' WHERE ( hand_time <= 1783075264 ) AND `status` = 2 [ RunTime:0.0383s ]
+SQL: SELECT a.id,a.status,b.id as task_log_id,b.new_cate_id FROM task a INNER JOIN task_log b ON b.task_id = a.id  WHERE ( a.type=1 AND (a.status=1 OR a.status=2) AND b.status=1 ) ORDER BY a.id asc, b.id asc LIMIT 5   [ RunTime:0.0088s ]
+ERR: {"status":1,"msg":"OK","data":null}
+
+[ 2026-07-03T19:25:36+08:00 ] 127.0.0.1 /Inter/Resps/task.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000003s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000074s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000014s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000035s ]
+SQL: SHOW COLUMNS FROM `users` [ RunTime:0.0031s ]
+SQL: SHOW COLUMNS FROM `task_log` [ RunTime:0.0026s ]
+SQL: SHOW COLUMNS FROM `task` [ RunTime:0.0021s ]
+SQL: UPDATE `task_log` SET `status`='1' WHERE ( hand_time <= 1783076136 ) AND `status` = 2 [ RunTime:0.0327s ]
+SQL: SELECT a.id,a.status,b.id as task_log_id,b.new_cate_id FROM task a INNER JOIN task_log b ON b.task_id = a.id  WHERE ( a.type=1 AND (a.status=1 OR a.status=2) AND b.status=1 ) ORDER BY a.id asc, b.id asc LIMIT 5   [ RunTime:0.0081s ]
+ERR: {"status":1,"msg":"OK","data":null}
+
+[ 2026-07-03T19:25:36+08:00 ] 127.0.0.1 /Inter/Resps/task.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000002s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000072s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000013s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000020s ]
+SQL: SHOW COLUMNS FROM `users` [ RunTime:0.0045s ]
+SQL: SHOW COLUMNS FROM `task_log` [ RunTime:0.0019s ]
+SQL: SHOW COLUMNS FROM `task` [ RunTime:0.0031s ]
+SQL: UPDATE `task_log` SET `status`='1' WHERE ( hand_time <= 1783076136 ) AND `status` = 2 [ RunTime:0.0414s ]
+SQL: SELECT a.id,a.status,b.id as task_log_id,b.new_cate_id FROM task a INNER JOIN task_log b ON b.task_id = a.id  WHERE ( a.type=1 AND (a.status=1 OR a.status=2) AND b.status=1 ) ORDER BY a.id asc, b.id asc LIMIT 5   [ RunTime:0.0133s ]
+ERR: {"status":1,"msg":"OK","data":null}
+
+[ 2026-07-03T19:25:36+08:00 ] 127.0.0.1 /Inter/Resps/task.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000003s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000021s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000012s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000018s ]
+SQL: SHOW COLUMNS FROM `users` [ RunTime:0.0093s ]
+SQL: SHOW COLUMNS FROM `task_log` [ RunTime:0.0020s ]
+SQL: SHOW COLUMNS FROM `task` [ RunTime:0.0040s ]
+SQL: UPDATE `task_log` SET `status`='1' WHERE ( hand_time <= 1783076136 ) AND `status` = 2 [ RunTime:0.0286s ]
+SQL: SELECT a.id,a.status,b.id as task_log_id,b.new_cate_id FROM task a INNER JOIN task_log b ON b.task_id = a.id  WHERE ( a.type=1 AND (a.status=1 OR a.status=2) AND b.status=1 ) ORDER BY a.id asc, b.id asc LIMIT 5   [ RunTime:0.0123s ]
+ERR: {"status":1,"msg":"OK","data":null}
+
+[ 2026-07-03T19:25:36+08:00 ] 127.0.0.1 /Inter/Resps/task.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000004s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000024s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000013s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000021s ]
+SQL: SHOW COLUMNS FROM `users` [ RunTime:0.0036s ]
+SQL: SHOW COLUMNS FROM `task_log` [ RunTime:0.0016s ]
+SQL: SHOW COLUMNS FROM `task` [ RunTime:0.0022s ]
+SQL: UPDATE `task_log` SET `status`='1' WHERE ( hand_time <= 1783076136 ) AND `status` = 2 [ RunTime:0.0337s ]
+SQL: SELECT a.id,a.status,b.id as task_log_id,b.new_cate_id FROM task a INNER JOIN task_log b ON b.task_id = a.id  WHERE ( a.type=1 AND (a.status=1 OR a.status=2) AND b.status=1 ) ORDER BY a.id asc, b.id asc LIMIT 5   [ RunTime:0.0119s ]
+ERR: {"status":1,"msg":"OK","data":null}
+
+[ 2026-07-03T19:25:37+08:00 ] 127.0.0.1 /Inter/PriceSync/syncAuto
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000809s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000065s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000098s ]
+SQL: SHOW COLUMNS FROM `users` [ RunTime:0.1186s ]
+SQL: SHOW COLUMNS FROM `price_sync_config` [ RunTime:0.0040s ]
+SQL: SELECT * FROM `price_sync_config` WHERE `auto_sync` = 1 AND `status` = 1  [ RunTime:0.0039s ]
+SQL: SHOW COLUMNS FROM `new_label` [ RunTime:0.0034s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0010s ]
+SQL: UPDATE `new_label` SET `price`='102980.0000',`last_futures_price`='102980',`last_sync_ratio`='100.0000',`last_sync_time`='1783077936',`up_time`='1783077936' WHERE `id` = 160 [ RunTime:0.0208s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(160, pid_str) ) ORDER BY level asc, id asc  [ RunTime:0.0012s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0004s ]
+SQL: UPDATE `new_label` SET `price`='102.9800',`up_time`='1783077936' WHERE `id` = 195 [ RunTime:0.0011s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0007s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 163 LIMIT 1   [ RunTime:0.0004s ]
+SQL: UPDATE `new_label` SET `price`='207.9800',`up_time`='1783077936' WHERE `id` = 196 [ RunTime:0.0009s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0004s ]
+SQL: UPDATE `new_label` SET `price`='102.9800',`up_time`='1783077936' WHERE `id` = 197 [ RunTime:0.0012s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0005s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 163 LIMIT 1   [ RunTime:0.0004s ]
+SQL: UPDATE `new_label` SET `price`='207.9800',`up_time`='1783077936' WHERE `id` = 198 [ RunTime:0.0023s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0004s ]
+SQL: UPDATE `new_label` SET `price`='102980.0000',`up_time`='1783077936' WHERE `id` = 213 [ RunTime:0.0007s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(160, pid2_str) ) ORDER BY level2 asc, id asc  [ RunTime:0.0007s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(160, pid3_str) ) ORDER BY level3 asc, id asc  [ RunTime:0.0006s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0004s ]
+SQL: SHOW COLUMNS FROM `task` [ RunTime:0.0049s ]
+SQL: UPDATE `task` SET `status`='4' WHERE `type` = 1 AND `item_id` = 160 AND ( status=1 OR status=2 ) [ RunTime:0.0030s ]
+SQL: INSERT INTO `task` (`type`,`item_id`,`title`,`status`,`add_time`,`up_time`) VALUES ('1','160','期货同步更新沪铜','1','1783077936','1783077936') [ RunTime:0.0026s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 160 LIMIT 1   [ RunTime:0.0011s ]
+SQL: SHOW COLUMNS FROM `new_cate` [ RunTime:0.0035s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 160  [ RunTime:0.0023s ]
+SQL: UPDATE `new_cate` SET `price`='102980.0000' WHERE `new_label_id` = 160 [ RunTime:0.0009s ]
+SQL: SHOW COLUMNS FROM `new_cate_form` [ RunTime:0.0038s ]
+DEBUG: 22222222222
+DEBUG: 160
+DEBUG: 
+SQL: SHOW COLUMNS FROM `task_log` [ RunTime:0.0048s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 195 LIMIT 1   [ RunTime:0.0006s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 195  [ RunTime:0.0005s ]
+SQL: UPDATE `new_cate` SET `price`='102.9800' WHERE `new_label_id` = 195 [ RunTime:0.0006s ]
+DEBUG: 22222222222
+DEBUG: 195
+DEBUG: 
+SQL: SELECT * FROM `new_label` WHERE `id` = 196 LIMIT 1   [ RunTime:0.0007s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 196  [ RunTime:0.0006s ]
+SQL: UPDATE `new_cate` SET `price`='207.9800' WHERE `new_label_id` = 196 [ RunTime:0.0005s ]
+DEBUG: 22222222222
+DEBUG: 196
+DEBUG: 
+SQL: SELECT * FROM `new_label` WHERE `id` = 197 LIMIT 1   [ RunTime:0.0006s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 197  [ RunTime:0.0005s ]
+SQL: UPDATE `new_cate` SET `price`='102.9800' WHERE `new_label_id` = 197 [ RunTime:0.0004s ]
+DEBUG: 22222222222
+DEBUG: 197
+DEBUG: 
+SQL: SELECT * FROM `new_label` WHERE `id` = 198 LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 198  [ RunTime:0.0004s ]
+SQL: UPDATE `new_cate` SET `price`='207.9800' WHERE `new_label_id` = 198 [ RunTime:0.0003s ]
+DEBUG: 22222222222
+DEBUG: 198
+DEBUG: 
+SQL: SELECT * FROM `new_label` WHERE `id` = 213 LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 213  [ RunTime:0.0004s ]
+SQL: UPDATE `new_cate` SET `price`='102980.0000' WHERE `new_label_id` = 213 [ RunTime:0.0003s ]
+DEBUG: 22222222222
+DEBUG: 213
+DEBUG: 
+SQL: SELECT COUNT(*) AS tp_count FROM `task_log` WHERE `task_id` = 533 LIMIT 1   [ RunTime:0.0228s ]
+SQL: UPDATE `task` SET `status`='3',`ratio`='100' WHERE `id` = 533 [ RunTime:0.0018s ]
+SQL: SHOW COLUMNS FROM `price_sync_log` [ RunTime:0.0020s ]
+SQL: INSERT INTO `price_sync_log` (`config_id`,`futures_code`,`futures_name`,`new_label_id`,`label_name`,`futures_price`,`old_price`,`new_price`,`sync_type`,`status`,`add_time`) VALUES ('1','cum','沪铜主连','160','沪铜','102980','102980.0000','102980.0000','2','1','1783077936') [ RunTime:0.0022s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 162 LIMIT 1   [ RunTime:0.0007s ]
+SQL: UPDATE `new_label` SET `price`='1273.8000',`last_futures_price`='127380',`last_sync_ratio`='1.0000',`last_sync_time`='1783077936',`up_time`='1783077936' WHERE `id` = 162 [ RunTime:0.0013s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(162, pid_str) ) ORDER BY level asc, id asc  [ RunTime:0.0010s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(162, pid2_str) ) ORDER BY level2 asc, id asc  [ RunTime:0.0007s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(162, pid3_str) ) ORDER BY level3 asc, id asc  [ RunTime:0.0007s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 162 LIMIT 1   [ RunTime:0.0004s ]
+SQL: UPDATE `task` SET `status`='4' WHERE `type` = 1 AND `item_id` = 162 AND ( status=1 OR status=2 ) [ RunTime:0.0017s ]
+SQL: INSERT INTO `task` (`type`,`item_id`,`title`,`status`,`add_time`,`up_time`) VALUES ('1','162','期货同步更新沪镍','1','1783077936','1783077936') [ RunTime:0.0012s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 162 LIMIT 1   [ RunTime:0.0004s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 162  [ RunTime:0.0005s ]
+SQL: UPDATE `new_cate` SET `price`='1273.8000' WHERE `new_label_id` = 162 [ RunTime:0.0004s ]
+DEBUG: 22222222222
+DEBUG: 162
+DEBUG: 
+SQL: SELECT COUNT(*) AS tp_count FROM `task_log` WHERE `task_id` = 534 LIMIT 1   [ RunTime:0.0139s ]
+SQL: UPDATE `task` SET `status`='3',`ratio`='100' WHERE `id` = 534 [ RunTime:0.0012s ]
+SQL: INSERT INTO `price_sync_log` (`config_id`,`futures_code`,`futures_name`,`new_label_id`,`label_name`,`futures_price`,`old_price`,`new_price`,`sync_type`,`status`,`add_time`) VALUES ('2','nim','沪镍主连','162','沪镍','127380','1273.8000','1273.8000','2','1','1783077936') [ RunTime:0.0018s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 163 LIMIT 1   [ RunTime:0.0040s ]
+SQL: UPDATE `new_label` SET `price`='402180.0000',`last_futures_price`='402180',`last_sync_ratio`='100.0000',`last_sync_time`='1783077936',`up_time`='1783077936' WHERE `id` = 163 [ RunTime:0.0059s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(163, pid_str) ) ORDER BY level asc, id asc  [ RunTime:0.0021s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(163, pid2_str) ) ORDER BY level2 asc, id asc  [ RunTime:0.0017s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(163, pid3_str) ) ORDER BY level3 asc, id asc  [ RunTime:0.0028s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 163 LIMIT 1   [ RunTime:0.0009s ]
+SQL: UPDATE `task` SET `status`='4' WHERE `type` = 1 AND `item_id` = 163 AND ( status=1 OR status=2 ) [ RunTime:0.0033s ]
+SQL: INSERT INTO `task` (`type`,`item_id`,`title`,`status`,`add_time`,`up_time`) VALUES ('1','163','期货同步更新沪锡','1','1783077936','1783077936') [ RunTime:0.0038s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 163 LIMIT 1   [ RunTime:0.0012s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 163  [ RunTime:0.0010s ]
+SQL: UPDATE `new_cate` SET `price`='402180.0000' WHERE `new_label_id` = 163 [ RunTime:0.0007s ]
+DEBUG: 22222222222
+DEBUG: 163
+DEBUG: 
+SQL: SELECT COUNT(*) AS tp_count FROM `task_log` WHERE `task_id` = 535 LIMIT 1   [ RunTime:0.0174s ]
+SQL: UPDATE `task` SET `status`='3',`ratio`='100' WHERE `id` = 535 [ RunTime:0.0015s ]
+SQL: INSERT INTO `price_sync_log` (`config_id`,`futures_code`,`futures_name`,`new_label_id`,`label_name`,`futures_price`,`old_price`,`new_price`,`sync_type`,`status`,`add_time`) VALUES ('3','snm','沪锡主连','163','沪锡','402180','402180.0000','402180.0000','2','1','1783077936') [ RunTime:0.0019s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 166 LIMIT 1   [ RunTime:0.0008s ]
+SQL: UPDATE `new_label` SET `price`='15256.0000',`last_futures_price`='15256',`last_sync_ratio`='100.0000',`last_sync_time`='1783077936',`up_time`='1783077936' WHERE `id` = 166 [ RunTime:0.0037s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(166, pid_str) ) ORDER BY level asc, id asc  [ RunTime:0.0015s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(166, pid2_str) ) ORDER BY level2 asc, id asc  [ RunTime:0.0010s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(166, pid3_str) ) ORDER BY level3 asc, id asc  [ RunTime:0.0009s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 166 LIMIT 1   [ RunTime:0.0005s ]
+SQL: UPDATE `task` SET `status`='4' WHERE `type` = 1 AND `item_id` = 166 AND ( status=1 OR status=2 ) [ RunTime:0.0026s ]
+SQL: INSERT INTO `task` (`type`,`item_id`,`title`,`status`,`add_time`,`up_time`) VALUES ('1','166','期货同步更新沪银','1','1783077936','1783077936') [ RunTime:0.0021s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 166 LIMIT 1   [ RunTime:0.0013s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 166  [ RunTime:0.0005s ]
+SQL: UPDATE `new_cate` SET `price`='15256.0000' WHERE `new_label_id` = 166 [ RunTime:0.0003s ]
+DEBUG: 22222222222
+DEBUG: 166
+DEBUG: 
+SQL: SELECT COUNT(*) AS tp_count FROM `task_log` WHERE `task_id` = 536 LIMIT 1   [ RunTime:0.0203s ]
+SQL: UPDATE `task` SET `status`='3',`ratio`='100' WHERE `id` = 536 [ RunTime:0.0025s ]
+SQL: INSERT INTO `price_sync_log` (`config_id`,`futures_code`,`futures_name`,`new_label_id`,`label_name`,`futures_price`,`old_price`,`new_price`,`sync_type`,`status`,`add_time`) VALUES ('6','agm','沪银主连','166','沪银','15256','15256.0000','15256.0000','2','1','1783077936') [ RunTime:0.0030s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 191 LIMIT 1   [ RunTime:0.0010s ]
+SQL: UPDATE `new_label` SET `price`='819.0000',`last_futures_price`='819',`last_sync_ratio`='100.0000',`last_sync_time`='1783077937',`up_time`='1783077937' WHERE `id` = 191 [ RunTime:0.0035s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(191, pid_str) ) ORDER BY level asc, id asc  [ RunTime:0.0008s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(191, pid2_str) ) ORDER BY level2 asc, id asc  [ RunTime:0.0005s ]
+SQL: SELECT * FROM `new_label` WHERE ( FIND_IN_SET(191, pid3_str) ) ORDER BY level3 asc, id asc  [ RunTime:0.0007s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 191 LIMIT 1   [ RunTime:0.0004s ]
+SQL: UPDATE `task` SET `status`='4' WHERE `type` = 1 AND `item_id` = 191 AND ( status=1 OR status=2 ) [ RunTime:0.0015s ]
+SQL: INSERT INTO `task` (`type`,`item_id`,`title`,`status`,`add_time`,`up_time`) VALUES ('1','191','期货同步更新备用3','1','1783077937','1783077937') [ RunTime:0.0011s ]
+SQL: SELECT * FROM `new_label` WHERE `id` = 191 LIMIT 1   [ RunTime:0.0003s ]
+SQL: SELECT * FROM `new_cate` WHERE `new_label_id` = 191  [ RunTime:0.0003s ]
+SQL: UPDATE `new_cate` SET `price`='819.0000' WHERE `new_label_id` = 191 [ RunTime:0.0002s ]
+DEBUG: 22222222222
+DEBUG: 191
+DEBUG: 
+SQL: SELECT COUNT(*) AS tp_count FROM `task_log` WHERE `task_id` = 537 LIMIT 1   [ RunTime:0.0217s ]
+SQL: UPDATE `task` SET `status`='3',`ratio`='100' WHERE `id` = 537 [ RunTime:0.0022s ]
+SQL: INSERT INTO `price_sync_log` (`config_id`,`futures_code`,`futures_name`,`new_label_id`,`label_name`,`futures_price`,`old_price`,`new_price`,`sync_type`,`status`,`add_time`) VALUES ('7','lgm','原木主连','191','备用3','819','819.0000','819.0000','2','1','1783077937') [ RunTime:0.0019s ]
+ERR: {"status":1,"msg":"\u5b9a\u65f6\u540c\u6b65\u5b8c\u6210\uff1a\u6210\u529f 5 \u6761\uff0c\u5931\u8d25 0 \u6761","data":{"success":5,"fail":0}}
+
+[ 2026-07-03T19:25:37+08:00 ] 127.0.0.1 /Inter/Resps/task.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000003s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000024s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000012s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000021s ]
+SQL: SHOW COLUMNS FROM `users` [ RunTime:0.0210s ]
+SQL: SHOW COLUMNS FROM `task_log` [ RunTime:0.0188s ]
+SQL: SHOW COLUMNS FROM `task` [ RunTime:0.0046s ]
+SQL: UPDATE `task_log` SET `status`='1' WHERE ( hand_time <= 1783076137 ) AND `status` = 2 [ RunTime:0.0384s ]
+SQL: SELECT a.id,a.status,b.id as task_log_id,b.new_cate_id FROM task a INNER JOIN task_log b ON b.task_id = a.id  WHERE ( a.type=1 AND (a.status=1 OR a.status=2) AND b.status=1 ) ORDER BY a.id asc, b.id asc LIMIT 5   [ RunTime:0.0085s ]
+ERR: {"status":1,"msg":"OK","data":null}
+
