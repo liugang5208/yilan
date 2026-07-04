@@ -251,7 +251,7 @@
                                             <label class="edit2-label">分类:</label>
                                             <select ng-model="infos.cat1" ng-change="onCatChange(1)" class="form-control edit2-select">
                                                 <option value="">暂不选择</option>
-                                                <option value="{{g.id}}" ng-repeat="g in allCateGroups">{{g.name}}</option>
+                                                <option value="{{g.id}}" ng-repeat="g in filteredCateGroups">{{g.name}}</option>
                                             </select>
                                             <label class="edit2-label edit2-label-gap">材料:</label>
                                             <select name="pid" ng-model="infos.pid" ng-change="onChangeRatio()" class="form-control edit2-select">
@@ -269,7 +269,7 @@
                                             <label class="edit2-label">分类:</label>
                                             <select ng-model="infos.cat2" ng-change="onCatChange(2)" class="form-control edit2-select">
                                                 <option value="">暂不选择</option>
-                                                <option value="{{g.id}}" ng-repeat="g in allCateGroups">{{g.name}}</option>
+                                                <option value="{{g.id}}" ng-repeat="g in filteredCateGroups">{{g.name}}</option>
                                             </select>
                                             <label class="edit2-label edit2-label-gap">材料:</label>
                                             <select name="pid2" ng-model="infos.pid2" ng-change="onChangeRatio()" class="form-control edit2-select">
@@ -287,7 +287,7 @@
                                             <label class="edit2-label">分类:</label>
                                             <select ng-model="infos.cat3" ng-change="onCatChange(3)" class="form-control edit2-select">
                                                 <option value="">暂不选择</option>
-                                                <option value="{{g.id}}" ng-repeat="g in allCateGroups">{{g.name}}</option>
+                                                <option value="{{g.id}}" ng-repeat="g in filteredCateGroups">{{g.name}}</option>
                                             </select>
                                             <label class="edit2-label edit2-label-gap">材料:</label>
                                             <select name="pid3" ng-model="infos.pid3" ng-change="onChangeRatio()" class="form-control edit2-select">
@@ -872,7 +872,10 @@
       var target = autoId
           ? document.querySelector('.derived-catalog-item[data-cate-id="' + autoId + '"]')
           : document.querySelector('.derived-catalog-item');
-      if (target) target.click();
+      if (target) {
+          target.click();
+          target.scrollIntoView({behavior: 'smooth', block: 'center'});
+      }
   });
 
   function openAddCate(type) {
@@ -918,6 +921,9 @@
             success: function (res) {
                 if (res.status != 1) {
                     return swal('提示', res.msg, "error");
+                }
+                if (_selectedDirId) {
+                    sessionStorage.setItem('autoSelectDirId', _selectedDirId);
                 }
                 window.location.reload();
             },
@@ -1016,6 +1022,24 @@
 
         // 复制衍生分类状态
         $scope.clone = { source_id: '', new_name: '', materialCount: 0, loading: false };
+
+        // 添加材料弹窗用的过滤分类列表（衍生部分只含当前选中目录）
+        $scope.filteredCateGroups = [];
+        $scope.buildFilteredCateGroups = function(dirId) {
+            $scope.filteredCateGroups = [];
+            (PAGE_CATE_LIST || []).forEach(function(g) {
+                var t = Number(g.cate_type);
+                if (t === 0) {
+                    $scope.filteredCateGroups.push({ id: String(g.id), name: g.name, cate_type: t, children: g.children || [] });
+                } else if (t === 2 && String(g.id) === String(dirId)) {
+                    (g.children || []).forEach(function(cat) {
+                        if (Number(cat.cate_type) === 1) {
+                            $scope.filteredCateGroups.push({ id: String(cat.id), name: cat.name, cate_type: 1, children: cat.children || [] });
+                        }
+                    });
+                }
+            });
+        };
 
         // 大类切换时更新对应小类列表，并清空已选小类
         $scope.onCatChange = function(idx) {
@@ -1240,6 +1264,7 @@
                 var cateGroup = (PAGE_CATE_LIST || []).find(function(g){ return String(g.id) === String(id); });
                 $scope.infos.isBase = cateGroup ? cateGroup.cate_type == 0 : false;
                 $scope.buildFullCateList();
+                $scope.buildFilteredCateGroups(_selectedDirId);
                 $("#myModal2").modal("show");
             });
         }
