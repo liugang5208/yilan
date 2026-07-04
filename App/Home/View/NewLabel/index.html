@@ -358,7 +358,7 @@
                                             <label class="edit2-label">分类:</label>
                                             <select ng-model="infos.cat1" ng-change="onCatChange(1)" class="form-control edit2-select">
                                                 <option value="">暂不选择</option>
-                                                <option value="{{g.id}}" ng-repeat="g in allCateGroups">{{g.name}}</option>
+                                                <option value="{{g.id}}" ng-repeat="g in filteredCateGroups">{{g.name}}</option>
                                             </select>
                                             <label class="edit2-label edit2-label-gap">材料:</label>
                                             <select ng-model="infos.pid" ng-change="onChangeRatio()" class="form-control edit2-select">
@@ -376,7 +376,7 @@
                                             <label class="edit2-label">分类:</label>
                                             <select ng-model="infos.cat2" ng-change="onCatChange(2)" class="form-control edit2-select">
                                                 <option value="">暂不选择</option>
-                                                <option value="{{g.id}}" ng-repeat="g in allCateGroups">{{g.name}}</option>
+                                                <option value="{{g.id}}" ng-repeat="g in filteredCateGroups">{{g.name}}</option>
                                             </select>
                                             <label class="edit2-label edit2-label-gap">材料:</label>
                                             <select ng-model="infos.pid2" ng-change="onChangeRatio()" class="form-control edit2-select">
@@ -394,7 +394,7 @@
                                             <label class="edit2-label">分类:</label>
                                             <select ng-model="infos.cat3" ng-change="onCatChange(3)" class="form-control edit2-select">
                                                 <option value="">暂不选择</option>
-                                                <option value="{{g.id}}" ng-repeat="g in allCateGroups">{{g.name}}</option>
+                                                <option value="{{g.id}}" ng-repeat="g in filteredCateGroups">{{g.name}}</option>
                                             </select>
                                             <label class="edit2-label edit2-label-gap">材料:</label>
                                             <select ng-model="infos.pid3" ng-change="onChangeRatio()" class="form-control edit2-select">
@@ -1275,6 +1275,7 @@
                 var cateGroup = (PAGE_CATE_LIST || []).find(function(g){ return String(g.id) === String($scope.infos.cate_label_id); });
                 $scope.infos.isBase = cateGroup ? cateGroup.cate_type == 0 : false;
                 $scope.buildFullCateList();
+                $scope.buildFilteredCateGroups(_selectedDirId);
                 $scope.restoreCatSelections();
                 $("#myEdit2").modal("show");
                 $scope.onChangeRatio();
