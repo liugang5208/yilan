@@ -7,13 +7,33 @@ use Think\Log;
 class NewLabelController extends CommController {
 
     public function index() {
-        $model = M("new_label");
-        #
-        // $list = boPage($model, $where, "id asc");
-        $list = $model->order('id asc')->select();
-        $list = getTreeChildren($list,0,'id','cate_label_id');
-        // $list = flattenTreeWithPrefix($list,'','cate_label_id');//var_dump($list);
-        $this->assign("list", $list);
+        $model   = M("new_label");
+        $allList = $model->order('id asc')->select();
+        $tree        = getTreeChildren($allList, 0, 'id', 'cate_label_id');
+        $baseList    = array_values(array_filter($tree, function($r){ return $r['cate_type'] == 0; }));
+        // cate_type=2: 衍生材料目录（顶层目录）
+        $directoryList = array_values(array_filter($allList, function($r){ return $r['cate_type'] == 2; }));
+        // derivedList：cate_type=1 的分类（含材料明细 children）
+        // 分类现在是目录的子节点，需从 tree 目录的 children 中提取
+        $derivedList = [];
+        foreach ($tree as $node) {
+            if ($node['cate_type'] == 2) {
+                // 从目录子节点中取分类（cate_type=1）
+                foreach ($node['children'] as $cat) {
+                    if ($cat['cate_type'] == 1) {
+                        $derivedList[] = $cat;
+                    }
+                }
+            } elseif ($node['cate_type'] == 1) {
+                // 兼容旧数据：cate_label_id=0 的分类（未挂目录）
+                $derivedList[] = $node;
+            }
+        }
+        $derivedList = array_values($derivedList);
+        $this->assign("baseList",       $baseList);
+        $this->assign("directoryList",  $directoryList);
+        $this->assign("derivedList",    $derivedList);
+        $this->assign("allTree",        $tree);
         $this->display();
     }
     
@@ -24,51 +44,33 @@ class NewLabelController extends CommController {
        
         if($data['pid'] > 0){
             $pinfo = $db->where(['id'=>$data['pid']])->find();
-            if(!$pinfo){
-                 return get_op_put(0, '上级不存在');
-            }//var_dump($data['pid']);var_dump($pinfo);
-            $pid_str = '';
-            $pid_str = $pinfo['pid_str'];
-            if($pid_str){
-                 $pid_str = $pid_str.','.$pinfo['id'];
-            }else{
-                $pid_str = $pinfo['id'];
-            }
-           
-            $data['pid_str'] = $pid_str;//var_dump($pid_str);
-            $data['level'] = $pinfo['level']+1;;
+            if(!$pinfo) return get_op_put(0, '上级不存在');
+            $pid_str = $pinfo['pid_str'] ? $pinfo['pid_str'].','.$pinfo['id'] : $pinfo['id'];
+            $data['pid_str'] = $pid_str;
+            $data['level']   = $pinfo['level'] + 1;
+        } else {
+            $data['pid_str'] = '';
+            $data['level']   = 0;
         }
         if($data['pid2'] > 0){
             $pinfo2 = $db->where(['id'=>$data['pid2']])->find();
-            if(!$pinfo2){
-                 return get_op_put(0, '上级不存在');
-            }//var_dump($data['pid']);var_dump($pinfo);
-            $pid_str2 = '';
-            $pid_str2 = $pinfo2['pid_str2'];
-            if($pid_str2){
-                 $pid_str2 = $pid_str2.','.$pinfo2['id'];
-            }else{
-                $pid_str2 = $pinfo2['id'];
-            }
-           
-            $data['pid_str2'] = $pid_str2;//var_dump($pid_str);
-            $data['level2'] = $pinfo2['level2']+1;;
+            if(!$pinfo2) return get_op_put(0, '上级不存在');
+            $pid_str2 = $pinfo2['pid_str2'] ? $pinfo2['pid_str2'].','.$pinfo2['id'] : $pinfo2['id'];
+            $data['pid_str2'] = $pid_str2;
+            $data['level2']   = $pinfo2['level2'] + 1;
+        } else {
+            $data['pid_str2'] = '';
+            $data['level2']   = 0;
         }
         if($data['pid3'] > 0){
             $pinfo3 = $db->where(['id'=>$data['pid3']])->find();
-            if(!$pinfo3){
-                 return get_op_put(0, '上级不存在');
-            }//var_dump($data['pid']);var_dump($pinfo);
-            $pid_str3 = '';
-            $pid_str3 = $pinfo3['pid_str3'];
-            if($pid_str3){
-                 $pid_str3 = $pid_str3.','.$pinfo3['id'];
-            }else{
-                $pid_str3 = $pinfo3['id'];
-            }
-           
-            $data['pid_str3'] = $pid_str3;//var_dump($pid_str);
-            $data['level3'] = $pinfo3['level3']+1;;
+            if(!$pinfo3) return get_op_put(0, '上级不存在');
+            $pid_str3 = $pinfo3['pid_str3'] ? $pinfo3['pid_str3'].','.$pinfo3['id'] : $pinfo3['id'];
+            $data['pid_str3'] = $pid_str3;
+            $data['level3']   = $pinfo3['level3'] + 1;
+        } else {
+            $data['pid_str3'] = '';
+            $data['level3']   = 0;
         }
         #
         if (!$db->create($data, 1)) {
@@ -81,7 +83,7 @@ class NewLabelController extends CommController {
         
         
         #
-        return get_op_put(1, "添加成功");
+        return get_op_put(1, "添加成功", $id);
     }
     
     public function edit(){
@@ -200,40 +202,33 @@ class NewLabelController extends CommController {
               $up['pid_str'] = $temp;
               
             //   $_pinfo = $db->where(['id'=>$v['pid']])->find();
-              $price = bcmul($p['price'] ,$v['ratio'],2);
+              $price = bcmul($p['price'] ,$v['ratio'],6);
               $price = bcdiv($price ,100,2);
               $price2 = 0;
               if($v['pid2'] > 0){
                   $p2 = $db->where(['id'=>$v['pid2']])->find();
-                   $price2 = bcmul($p2['price'] ,$v['ratio2'],2);
+                   $price2 = bcmul($p2['price'] ,$v['ratio2'],6);
                    $price2 = bcdiv($price2 ,100,2);
               }
               $price3 = 0;
               if($v['pid3'] > 0){
                   $p3 = $db->where(['id'=>$v['pid3']])->find();
-                   $price3 = bcmul($p3['price'] ,$v['ratio3'],2);
+                   $price3 = bcmul($p3['price'] ,$v['ratio3'],6);
                    $price3 = bcdiv($price3 ,100,2);
               }
-              
+
               $price = bcadd($price,$price2,2);
-              $price =  bcadd($price,$price3,2);
-              $end_ratio_price = 0;
-             
-              if($v['end_ratio'] > 0 ){
-                  $price = bcmul($price,$v['end_ratio']/100,2);
-              }
-            //   $price =  bcadd($price,$end_ratio_price,2);
-              
-              
+              $price = bcadd($price,$price3,2);
+              $price = bcadd($price, $v['end_ratio'], 2);
               $up['price'] = $price;
-              
+
               $orgChildList[$k]['_price'] = $up['price'];
               $db->where(['id'=>$v['id']])->save($up);
-              
+
               array_push($new_label_ids,$v['id']);
-              
+
             }
-            
+
         $orgChildList2 = M('new_label')->where("FIND_IN_SET($id, pid2_str)")->order('level2 asc,id asc')->select();
         foreach ($orgChildList2 as $k=>$v){
               $p = $db->where(['id'=>$v['pid2']])->find();
@@ -246,84 +241,68 @@ class NewLabelController extends CommController {
               $up['level2'] = count(explode(',',$temp));
               $up['pid2_str'] = $temp;
 
-              $price = bcmul($p['price'] ,$v['ratio'],2);
+              $price = bcmul($p['price'] ,$v['ratio'],6);
               $price = bcdiv($price ,100,2);
               $price2 = 0;
               if($v['pid2'] > 0){
                   $p2 = $db->where(['id'=>$v['pid2']])->find();
-                  $price2 = bcmul($p2['price'] ,$v['ratio2'],2);
+                  $price2 = bcmul($p2['price'] ,$v['ratio2'],6);
                   $price2 = bcdiv($price2 ,100,2);
               }
               $price3 = 0;
               if($v['pid3'] > 0){
                   $p3 = $db->where(['id'=>$v['pid3']])->find();
-                  $price3 = bcmul($p3['price'] ,$v['ratio3'],2);
+                  $price3 = bcmul($p3['price'] ,$v['ratio3'],6);
                   $price3 = bcdiv($price3 ,100,2);
               }
-              
+
               $price = bcadd($price,$price2,2);
-              $price =  bcadd($price,$price3,2);
-              $end_ratio_price = 0;
-             
-              if($v['end_ratio'] > 0 ){
-                  $price = bcmul($price,$v['end_ratio']/100,2);
-              }
-            //   $price =  bcadd($price,$end_ratio_price,2);
-              
-              
+              $price = bcadd($price,$price3,2);
+              $price = bcadd($price, $v['end_ratio'], 2);
               $up['price'] = $price;
-              
+
               $orgChildList[$k]['_price'] = $up['price'];
               $db->where(['id'=>$v['id']])->save($up);
-              
+
               array_push($new_label_ids,$v['id']);
-              
+
             }
-            
+
         $orgChildList3 = M('new_label')->where("FIND_IN_SET($id, pid3_str)")->order('level3 asc,id asc')->select();
-  
+
         foreach ($orgChildList3 as $k=>$v){
-        
+
               $p = $db->where(['id'=>$v['pid3']])->find();
               if($p['pid3_str']){
                   $temp = $p['pid3_str'].','.$p['id'];
               }else{
                   $temp = $p['id'];
               }
-             
+
               $level = 1;
-              
+
               $up['level3'] = count(explode(',',$temp));
-              
+
               $up['pid3_str'] = $temp;
-              
-            //   $_pinfo = $db->where(['id'=>$v['pid']])->find();
-              $price = bcmul($p['price'] ,$v['ratio'],2);
+
+              $price = bcmul($p['price'] ,$v['ratio'],6);
               $price = bcdiv($price ,100,2);
               $price2 = 0;
               if($v['pid2'] > 0){
-                  $p = $db->where(['id'=>$v['pid2']])->find();
-                  $price2 = bcmul($p2['price'] ,$v['ratio2'],2);
+                  $p2 = $db->where(['id'=>$v['pid2']])->find();
+                  $price2 = bcmul($p2['price'] ,$v['ratio2'],6);
                   $price2 = bcdiv($price2 ,100,2);
               }
               $price3 = 0;
               if($v['pid3'] > 0){
                   $p3 = $db->where(['id'=>$v['pid3']])->find();
-                  $price3 = bcmul($p3['price'] ,$v['ratio3'],2);
+                  $price3 = bcmul($p3['price'] ,$v['ratio3'],6);
                   $price3 = bcdiv($price3 ,100,2);
               }
-              
+
               $price = bcadd($price,$price2,2);
-              $price =  bcadd($price,$price3,2);
-              $end_ratio_price = 0;
-             
-              if($v['end_ratio'] > 0 ){
-                  $end_ratio_price = bcmul($price,$v['end_ratio'],2);
-                  $end_ratio_price = bcdiv($end_ratio_price ,100,2);
-              }
-            //   $price =  bcadd($price,$end_ratio_price,2);
-              
-              
+              $price = bcadd($price,$price3,2);
+              $price = bcadd($price, $v['end_ratio'], 2);
               $up['price'] = $price;
               
               $orgChildList[$k]['_price'] = $up['price'];
@@ -369,7 +348,14 @@ class NewLabelController extends CommController {
                 $task->where(['type'=>1,'item_id'=>$id])->where('status=1 OR status=2')->save(['status'=>4]);
                 $taskId = $task->add(['type'=>1,'item_id'=>$id,'title'=>$title,'status'=>1,'add_time'=>time(),'up_time'=>time()]);
                 foreach ($new_label_ids as $k=>$v){
-                    $blwares->runs(['new_label_id'=>$v],$taskId);
+                    $blwares->runs(['new_label_id'=>$v], $taskId, false);
+                }
+                // 全部 task_log 写完后，一次触发消费
+                $blwares->triggerAsync();
+                // 若没有产生任何 task_log（label 未关联 new_cate），直接标记完成
+                $taskLogCount = M('task_log')->where(['task_id'=>$taskId])->count();
+                if (!$taskLogCount) {
+                    $task->where(['id'=>$taskId])->save(['status'=>3,'ratio'=>100]);
                 }
             }
          
@@ -378,24 +364,170 @@ class NewLabelController extends CommController {
     
     public function addGet(){
         $data = I("post.");
-        $cate_label_id = $data['cate_label_id'];
-        $data['cate_list'] = M('new_label')->where(['cate_label_id'=>$cate_label_id])->select();
+        $data['cate_list'] = M('new_label')->where(['cate_label_id' => array('gt', 0)])->select();
         $data['pid'] = 0;
-        //  $data['ratio'] = 100;
         return get_op_put(1, "修改成功",$data);
     }
-     public function editGet(){
+
+    public function editGet(){
         $param = I("post.");
-        $data =M('new_label')->where(['id'=>$param['id']])->find();
-        $cate_label_id = $data['cate_label_id'];
-        $where['id']  = array('neq',$data['id']);
-        $data['cate_list'] = M('new_label')->where($where)->where(['cate_label_id'=>$cate_label_id])->select();
-        $data['ratio'] = (float)$data['ratio'];
-        $data['ratio2'] = (float)$data['ratio2'];
-        $data['ratio3'] = (float)$data['ratio3'];
-        $data['end_ratio'] = (float)$data['end_ratio'];
+        $data = M('new_label')->where(['id'=>$param['id']])->find();
+        $where['id'] = array('neq', $data['id']);
+        $data['cate_list']          = M('new_label')->where($where)->where(['cate_label_id' => array('gt', 0)])->select();
+        $data['ratio']              = (float)$data['ratio'];
+        $data['ratio2']             = (float)$data['ratio2'];
+        $data['ratio3']             = (float)$data['ratio3'];
+        $data['end_ratio']          = (float)$data['end_ratio'];
+        $data['price']              = number_format((float)$data['price'], 2, '.', '');
+        $data['last_futures_price'] = number_format((float)$data['last_futures_price'], 2, '.', '');
+        $data['last_sync_ratio']    = (float)$data['last_sync_ratio'];
+        // 是否配置了自动同步（price_sync_config 中存在 auto_sync=1 的有效配置）
+        $syncConfig = M('price_sync_config')->where([
+            'new_label_id' => $data['id'],
+            'auto_sync'    => 1,
+            'status'       => 1,
+        ])->find();
+        $data['has_auto_sync']   = $syncConfig ? 1 : 0;
+        $data['sync_config_id']  = $syncConfig ? $syncConfig['id'] : 0;
         return get_op_put(1, "修改成功",$data);
     }
-    
+
+    public function cloneDerivedCate() {
+        $sourceId = (int)I('post.source_id');
+        $newName  = trim(I('post.new_name'));
+
+        if (!$sourceId) return get_op_put(0, '请选择源分类');
+        if (!$newName)  return get_op_put(0, '请输入新分类名称');
+
+        $db = M('new_label');
+
+        // 验证源分类存在且是衍生分类（cate_type=1，不限 cate_label_id，兼容挂目录和未挂目录的分类）
+        $source = $db->where(['id' => $sourceId, 'cate_type' => 1])->find();
+        if (!$source) return get_op_put(0, '源分类不存在或不是衍生分类');
+        if ($source['name'] === $newName) return get_op_put(0, '新分类名称不能与源分类名称相同');
+
+        // 1. 创建新根节点，cate_label_id 继承源分类所属目录
+        $newRootId = $db->add([
+            'name'         => $newName,
+            'cate_label_id'=> $source['cate_label_id'],
+            'cate_type'    => 1,
+            'pid'          => 0,
+            'status'       => 1,
+            'is_del'       => 1,
+            'add_time'     => time(),
+            'up_time'      => time(),
+        ]);
+        if (!$newRootId) return get_op_put(0, '创建新分类失败');
+
+        // 2. 查出源分类下所有材料，按 level asc 保证父节点先处理
+        $srcMaterials = $db->where(['cate_label_id' => $sourceId])
+                           ->order('level asc, id asc')
+                           ->select();
+        if (!$srcMaterials) {
+            return get_op_put(1, '复制完成（源分类无材料）', ['count' => 0]);
+        }
+
+        // 3. 构建同分类内的 old_id → new_id 映射
+        $srcIds = array_column($srcMaterials, 'id');
+        $idMap  = [];
+        $count  = 0;
+
+        foreach ($srcMaterials as $m) {
+            // 只处理 pid>0 的衍生材料（与页面展示一致）
+            if ((int)$m['pid'] === 0) continue;
+
+            // 重映射 pid/pid2/pid3：同分类内引用改为新副本，外部引用保持不变
+            $newPid  = in_array($m['pid'],  $srcIds) && isset($idMap[$m['pid']])  ? $idMap[$m['pid']]  : $m['pid'];
+            $newPid2 = in_array($m['pid2'], $srcIds) && isset($idMap[$m['pid2']]) ? $idMap[$m['pid2']] : $m['pid2'];
+            $newPid3 = in_array($m['pid3'], $srcIds) && isset($idMap[$m['pid3']]) ? $idMap[$m['pid3']] : $m['pid3'];
+
+            // 重建 pid_str
+            $newPidStr  = '';
+            $newPidStr2 = '';
+            $newPidStr3 = '';
+            if ($newPid > 0) {
+                $p1 = $db->where(['id' => $newPid])->find();
+                $newPidStr = $p1 ? ($p1['pid_str'] ? $p1['pid_str'].','.$p1['id'] : $p1['id']) : '';
+            }
+            if ($newPid2 > 0) {
+                $p2 = $db->where(['id' => $newPid2])->find();
+                $newPidStr2 = $p2 ? ($p2['pid2_str'] ? $p2['pid2_str'].','.$p2['id'] : $p2['id']) : '';
+            }
+            if ($newPid3 > 0) {
+                $p3 = $db->where(['id' => $newPid3])->find();
+                $newPidStr3 = $p3 ? ($p3['pid3_str'] ? $p3['pid3_str'].','.$p3['id'] : $p3['id']) : '';
+            }
+
+            // 重新计算价格
+            $price = 0;
+            if ($newPid > 0) {
+                $pp1   = $db->where(['id' => $newPid])->find();
+                $price = bcdiv(bcmul((string)$pp1['price'], (string)$m['ratio'], 6), '100', 2);
+            }
+            $price2 = 0;
+            if ($newPid2 > 0) {
+                $pp2    = $db->where(['id' => $newPid2])->find();
+                $price2 = bcdiv(bcmul((string)$pp2['price'], (string)$m['ratio2'], 6), '100', 2);
+            }
+            $price3 = 0;
+            if ($newPid3 > 0) {
+                $pp3    = $db->where(['id' => $newPid3])->find();
+                $price3 = bcdiv(bcmul((string)$pp3['price'], (string)$m['ratio3'], 6), '100', 2);
+            }
+            $totalPrice = bcadd(bcadd($price, $price2, 2), $price3, 2);
+            $totalPrice = bcadd($totalPrice, (string)$m['end_ratio'], 2);
+
+            $newId = $db->add([
+                'name'          => $m['name'],
+                'cate_label_id' => $newRootId,
+                'cate_type'     => 0,
+                'pid'           => $newPid,
+                'pid_str'       => $newPidStr,
+                'pid2'          => $newPid2,
+                'pid2_str'      => $newPidStr2,
+                'pid3'          => $newPid3,
+                'pid3_str'      => $newPidStr3,
+                'ratio'         => $m['ratio'],
+                'ratio2'        => $m['ratio2'],
+                'ratio3'        => $m['ratio3'],
+                'end_ratio'     => $m['end_ratio'],
+                'price'         => $totalPrice,
+                'level'         => $m['level'],
+                'level2'        => $m['level2'],
+                'level3'        => $m['level3'],
+                'status'        => 1,
+                'is_del'        => 1,
+                'add_time'      => time(),
+                'up_time'       => time(),
+            ]);
+
+            if ($newId) {
+                $idMap[$m['id']] = $newId;
+                $count++;
+            }
+        }
+
+        return get_op_put(1, '复制完成', ['count' => $count]);
+    }
+
+    public function dels() {
+        $id = I('post.id');
+        if (!$id) return get_op_put(0, '参数错误');
+
+        $record = M('new_label')->where(['id' => $id])->find();
+        if (!$record) return get_op_put(0, '记录不存在');
+
+        if (!M('new_label')->where(['id' => $id])->delete()) {
+            return get_op_put(0, '删除失败');
+        }
+
+        // 删除对应的期货同步配置（仅针对基础材料）
+        if ((int)$record['pid'] === 0 && (int)$record['cate_label_id'] > 0) {
+            M('price_sync_config')->where(['new_label_id' => $id])->delete();
+        }
+
+        return get_op_put(1, '删除成功');
+    }
+
 
 }

@@ -143,14 +143,53 @@ class NewCateController extends CommController {
         $id = I("post.id");
         $info = M('new_cate')->where(['id'=>$id])->find();
         $list = M('new_cate_form')->where(['new_cate_id'=>$id])->order('id asc')->select();
-        $label_list = M('new_label')->where('cate_label_id','>',0)->order('cate_label_id asc,id asc')->select();
-        
-        foreach ($label_list as $k=>$v){
-            $p =M('new_label')->where(['id'=>$v['cate_label_id']])->find();
-            $label_list[$k]['_name'] = $p['name'].'-'.$v['name'].'-'.$v['price'];
+
+        // 一级：衍生材料目录（cate_type=2）
+        $directories = M('new_label')->where(['cate_type' => 2])->order('id asc')->select();
+        $dir_map = [];
+        foreach ($directories as $d) { $dir_map[$d['id']] = $d['name']; }
+
+        // 二级：衍生材料分类（cate_type=1，挂在目录下）
+        $categories = empty($dir_map) ? [] :
+            M('new_label')->where(['cate_type' => 1, 'cate_label_id' => array('in', array_keys($dir_map))])->select();
+        $cat_map = [];
+        foreach ($categories as $c) {
+            $cat_map[$c['id']] = ['name' => $c['name'], 'dir_id' => (int)$c['cate_label_id']];
+        }
+
+        // 兼容旧结构（cate_type=1, cate_label_id=0）
+        $legacy_roots = M('new_label')->where(['cate_label_id' => 0, 'cate_type' => 1])->select();
+        foreach ($legacy_roots as $r) {
+            $cat_map[$r['id']] = ['name' => $r['name'], 'dir_id' => 0];
+        }
+
+        // 三级：材料（cate_label_id 指向分类）
+        $valid_cat_ids = array_keys($cat_map);
+        if (empty($valid_cat_ids)) {
+            $label_list = [];
+        } else {
+            $label_list = M('new_label')
+                ->where(['cate_label_id' => array('in', $valid_cat_ids)])
+                ->order('cate_label_id asc, id asc')
+                ->select();
+            foreach ($label_list as $k => $v) {
+                $cat   = $cat_map[$v['cate_label_id']];
+                $label_list[$k]['cat_name'] = $cat['name'];
+                $label_list[$k]['dir_id']   = $cat['dir_id'];
+                $label_list[$k]['price']    = number_format((float)$v['price'], 2, '.', '');
+                $label_list[$k]['_name']    = $cat['name'] . '-' . $v['name'] . '-' . $label_list[$k]['price'];
+            }
+        }
+        $data['directories'] = $directories;
+
+        foreach ($list as $k => $row) {
+            $list[$k]['price']           = number_format((float)$row['price'],           2, '.', '');
+            $list[$k]['calc_base_price'] = number_format((float)$row['calc_base_price'], 2, '.', '');
+            $list[$k]['end_price']       = number_format((float)$row['end_price'],       2, '.', '');
         }
         $data['list'] = $list;
         $data['info'] = $info;
+        $data['info']['price'] = number_format((float)$info['price'], 2, '.', '');
         $data['label_list'] = $label_list;
         return get_op_put(1, "获取成功",$data);
     }
@@ -192,7 +231,7 @@ class NewCateController extends CommController {
         $post = I("post.");
         #
         #导入数据
-        $file = uploadFile("tmps");
+        $file = uploadFile("tmps", isset($_FILES['file']) ? array('file' => $_FILES['file']) : null);
         $objPHPExcel = \PHPExcel_IOFactory::load("./././Public/uploads/tmps/" . $file["file"]["savename"]);
         $sheetSelected = 0;
         $objPHPExcel->setActiveSheetIndex($sheetSelected);
@@ -218,14 +257,15 @@ class NewCateController extends CommController {
         $price = $info['price'];
         $data = [];
         foreach ($list as $k=>$v){
+            // v[0]=材料名称（跳过），v[1]=规格，v[2]=重量，v[3]=工电费补偿
             $data[$k]['new_cate_id'] = $info['id'];
             $data[$k]['number'] = $k+1;
-            $data[$k]['name'] = $v[0];
-            $data[$k]['weight'] = $v[1];
-            $data[$k]['extra_ratio'] = $v[2]? round($v[2],2) :0;
+            $data[$k]['name'] = isset($v[1]) ? $v[1] : '';
+            $data[$k]['weight'] = isset($v[2]) ? $v[2] : 0;
+            $data[$k]['extra_ratio'] = (isset($v[3]) && $v[3] !== '') ? round($v[3], 2) : 0;
             $data[$k]['price'] = $price;
-            $data[$k]['calc_base_price'] = bcmul((string)$v[1],(string)$price,4);
-            $end_price = bcadd($data[$k]['calc_base_price'],(string)$data[$k]['extra_ratio'],4);
+            $data[$k]['calc_base_price'] = bcmul((string)$data[$k]['weight'], (string)$price, 4);
+            $end_price = bcadd($data[$k]['calc_base_price'], (string)$data[$k]['extra_ratio'], 4);
             $data[$k]['end_price'] = $end_price;
                 
         }

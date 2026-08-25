@@ -68,24 +68,30 @@ class CxmarkOpera {
         $number = $this->param['number'];
         $dratio = $this->param['dratio'];
         $plate_conts = M("plate_conts_price");
-        $price_list = $plate_conts->where(['plate_conts_id'=>$pid,'cat_index'=>$cat_index])->select();
+        // 优先用 blank_id 精准定位，兼容旧的 plate_conts_id+cat_index
+        if (!empty($this->param['blank_id'])) {
+            $price_list = $plate_conts->where(['blank_id' => (int)$this->param['blank_id'], 'is_del' => 1])->select();
+        } else {
+            $price_list = $plate_conts->where(['plate_conts_id' => $pid, 'cat_index' => $cat_index])->select();
+        }
         
-        $price = 0;
+        $price  = 0;
+        $weight = 0;
         $form_model = M('new_cate_form');
         foreach ($price_list as $k=>$v){
             $where['new_cate_id'] = $v['new_cate_three_id'];
             $where['number'] = $number;
             $form = $form_model->where($where)->find();
             if($form){
-                $temp = bcmul((string)$form['end_price'],(string)$v['ratio'],2);
-                $price = bcadd((string)$price,$temp,2);
+                $temp   = bcdiv(bcmul((string)$form['end_price'], (string)$v['ratio'], 6), '100', 2);
+                $price  = bcadd((string)$price, $temp, 2);
+                $wTemp  = bcdiv(bcmul((string)$form['weight'], (string)$v['ratio'], 8), '100', 4);
+                $weight = bcadd((string)$weight, $wTemp, 4);
             }
         }
-        $runPrice =bcmul((string)$price,(string)$dratio,2);
-        // $dratio_money = bcmul((string)$price,(string)$dratio,2);
-        // $runPrice =bcadd((string)$price,(string)$dratio,2);
-        
-        return get_op_res(1, null, ['market'=>$runPrice,'price'=>$price]);
+        $runPrice = bcmul((string)$price, (string)$dratio, 2);
+
+        return get_op_res(1, null, ['market'=>$runPrice, 'price'=>$price, 'weight'=>$weight]);
     }
 
     ////////////////////////////////////////////////////////////////////////////

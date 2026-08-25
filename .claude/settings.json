@@ -1,0 +1,49 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs ls *)",
+      "Bash(lsof -iTCP:9000 -sTCP:LISTEN)",
+      "Bash(php -r \"echo phpinfo\\(\\);\")",
+      "Bash(nginx -T)",
+      "Read(//proc/24391/**)",
+      "Bash(nginx -v)",
+      "Bash(/usr/local/bin/nginx -t)",
+      "Read(//opt/meituan/nginx/**)",
+      "Bash(kill 27328)",
+      "Bash(/usr/local/opt/php@8.1/bin/php -S localhost:8088 -t /Users/gangliu/data/catdesk_workspace/yilan /Users/gangliu/data/catdesk_workspace/yilan/router.php)",
+      "Bash(echo \"started, pid=$!\")",
+      "Bash(mysql -h 127.0.0.1 -u root -e \"ALTER TABLE \\\\`online_elccc_cn\\\\`.\\\\`new_label\\\\` ADD COLUMN \\\\`cate_type\\\\` tinyint\\(1\\) NOT NULL DEFAULT 0 COMMENT '0=基础材料分类 1=衍生材料分类' AFTER \\\\`name\\\\`;\")",
+      "Bash(mysql -h 127.0.0.1 -u root -e \"SHOW COLUMNS FROM \\\\`online_elccc_cn\\\\`.\\\\`new_label\\\\` LIKE 'cate_type';\")",
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"DESCRIBE new_label;\")",
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"SELECT id, name, cate_label_id, cate_type, is_del, status FROM new_label LIMIT 10;\")",
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"SELECT id, name, cate_label_id, cate_type, is_del FROM new_label WHERE is_del != 1 LIMIT 5;\")",
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"SELECT COLUMN_NAME, COLUMN_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME='new_label' AND COLUMN_NAME IN \\('ratio','ratio2','ratio3','end_ratio'\\);\")",
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e ' *)",
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"SELECT COLUMN_NAME, COLUMN_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME='new_label' AND COLUMN_NAME='price';\")",
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"ALTER TABLE \\\\`new_label\\\\` MODIFY COLUMN \\\\`price\\\\` decimal\\(14,4\\) NOT NULL DEFAULT 0.0000;\")",
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"SELECT COLUMN_NAME, COLUMN_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME='new_cate' AND COLUMN_NAME='price';\")",
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"ALTER TABLE \\\\`new_cate\\\\` MODIFY COLUMN \\\\`price\\\\` decimal\\(14,4\\) NOT NULL DEFAULT 0.0000;\")",
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"SELECT COLUMN_NAME, COLUMN_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME='new_cate_form' AND COLUMN_NAME IN \\('price','calc_base_price','end_price','extra_ratio','weight'\\);\")",
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"ALTER TABLE \\\\`new_cate_form\\\\` MODIFY COLUMN \\\\`price\\\\` decimal\\(14,4\\) NOT NULL DEFAULT 0.0000;\")",
+      "Bash(php -l /Users/gangliu/data/catdesk_workspace/yilan/App/Home/Controller/PriceSyncController.class.php)",
+      "Bash(git -C /Users/gangliu/data/catdesk_workspace/yilan log --oneline)",
+      "Bash(rm -f /Users/gangliu/data/catdesk_workspace/yilan/App/Runtime/Cache/Home/*.php)",
+      "Bash(php -l /Users/gangliu/data/catdesk_workspace/yilan/App/Home/Controller/NewLabelController.class.php)",
+      "Bash(php -l /Users/gangliu/data/catdesk_workspace/yilan/App/Home/Controller/NewCateController.class.php)",
+      "Bash(curl -s 'https://futsseapi.eastmoney.com/list/main/risk/__TRACKED_VAR__?orderBy=&sort=&pageSize=999&pageIndex=0&specificContract=false&platform=zbPC&field=name,p,zdf,zde,dm' -H 'Referer: https://qhweb.eastmoney.com/' -H 'User-Agent: Mozilla/5.0 Chrome/124.0.0.0 Safari/537.36' --max-time 8)",
+      "Bash(python3 -m json.tool)",
+      "Bash(python3 -m json.tool echo \"\" done)",
+      "Bash(curl -s 'https://futsseapi.eastmoney.com/list/main/risk/cffex?orderBy=&sort=&pageSize=999&pageIndex=0&specificContract=false&platform=zbPC&field=name,p,zdf,zde,dm' -H 'Referer: https://qhweb.eastmoney.com/' -H 'User-Agent: Mozilla/5.0 Chrome/124.0.0.0 Safari/537.36' --max-time 8)",
+      "Bash(python3 -c ' *)",
+      "Bash(curl -s https://qhweb.eastmoney.com/quote/global -H 'User-Agent: Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/124.0.0.0 Safari/537.36' --max-time 10)",
+      "WebFetch(domain:qhweb.eastmoney.com)",
+      "Bash(grep -oE '\"\\(shfe|dce|czce|gfex|ine|cffex|[a-z]{3,6}\\)\"')",
+      "Bash(curl -s 'https://futsseapi.eastmoney.com/list/trans/block/mk0792?orderBy=&sort=&pageSize=999&pageIndex=0&specificContract=false&platform=zbPC&field=name,p,zdf,vol,zde,dm,sc' -H 'Referer: https://qhweb.eastmoney.com/' -H 'User-Agent: Mozilla/5.0 Chrome/124.0.0.0 Safari/537.36' --max-time 10)",
+      "Bash(mysql -h 127.0.0.1 -u root online_elccc_cn -e \"SELECT id, futures_code, futures_name, new_label_id, label_name, ratio, auto_sync FROM price_sync_config WHERE status=1 ORDER BY id DESC LIMIT 5;\")",
+      "Bash(php -l /Users/gangliu/data/catdesk_workspace/yilan/App/Home/Controller/GoodsController.class.php)"
+    ],
+    "additionalDirectories": [
+      "/Users/gangliu/data/catdesk_workspace/yilan/App/Runtime/Cache/Home"
+    ]
+  }
+}
