@@ -1,97 +1,85 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-8 p-r-0 title-margin-right">
-            <div class="page-header">
-                <div class="page-title">
-                    <h1>登录统计</h1>
-                </div>
-            </div>
-        </div>
-        <!-- /# column -->
-        <div class="col-lg-4 p-l-0 title-margin-left">
-            <div class="page-header">
-                <div class="page-title">
-                    <!--ol class="breadcrumb text-right">
-                        <li><a href="#">Dashboard</a></li>
-                        <li class="active">UI-Blank</li>
-                    </ol-->
-                </div>
-            </div>
-        </div>
-        <!-- /# column -->
-    </div>
-    <!-- /# row -->
-    <section id="main-content">
+<div class="container-fluid" style="padding: 24px 20px; background-color: #f5f5f7; min-height: 100vh;">
+    <!-- 引入苹果风格的居中收敛容器，防止超宽屏下内容过度拉伸铺满屏幕 -->
+    <div style="max-width: 1280px; margin: 0 auto;">
+        
+        <section id="main-content">
+            <div class="row">
+                <div class="col-lg-12" style="padding: 0;">
+                    
+                    <!-- 苹果风格极简卡片：大圆角、轻量自然阴影、纯净背景 -->
+                    <div class="card alert" style="background: #ffffff; border-radius: 16px; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04); border: 1px solid rgba(0,0,0,0.02); margin-bottom: 0;">
+                        
+                        <div class="card-header" style="background: transparent; border-bottom: 1px solid #f2f2f7; padding: 20px 24px;">
+                            <h4 style="font-size: 17px; font-weight: 600; color: #1d1d1f; margin: 0; letter-spacing: -0.2px;">登录日志统计</h4>
+                        </div>
+                        
+                        <div class="card-body" style="padding: 24px;">
 
-        <div class="row">
+                            <!-- 优化搜索表单：收窄输入框长度，不让其铺满全屏，采用优雅的苹果交互间距 -->
+                            <form action="{:U('Users/logrs')}" class="form-inline" style="margin-bottom: 24px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+                                <div class="form-group" style="margin-bottom: 0; width: 300px; max-width: 100%;">
+                                    <input type="text" name="phone" class="form-control input-sm" placeholder="请输入用户手机号码" style="width: 100%; height: 38px; border-radius: 8px; border: 1px solid #d2d2d7; padding: 0 14px; font-size: 14px; box-shadow: none; transition: all 0.2s;"/>
+                                </div>
+                                <button type="submit" class="btn btn-sm btn-info" style="height: 38px; padding: 0 20px; border-radius: 8px; background-color: #0071e3; border-color: #0071e3; font-weight: 400; font-size: 14px; box-shadow: 0 2px 6px rgba(0, 113, 227, 0.2);">查找账号</button>
+                            </form>
 
-            <div class="col-lg-12">
-                <div class="card alert">
-                    <div class="card-header">
-                        <h4>登录统计</h4>
-                    </div>
-                    <div class="card-body">
+                            <!-- 表格响应式容器：保证手机端横向滑动流畅、不崩塌 -->
+                            <div class="table-responsive" style="border: none; overflow-x: auto;">
+                                <table class="table table-hover" style="margin-bottom: 20px; white-space: nowrap; vertical-align: middle;">
+                                    <thead>
+                                        <tr style="background-color: #fbfbfd; color: #86868b; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">
+                                            <th style="padding: 12px 16px; border-bottom: 1px solid #e5e5ea;">#</th>
+                                            <th style="padding: 12px 16px; border-bottom: 1px solid #e5e5ea;">登录账户</th>
+                                            <th style="padding: 12px 16px; border-bottom: 1px solid #e5e5ea;">账号备注</th>
+                                            <th style="padding: 12px 16px; border-bottom: 1px solid #e5e5ea;">IP</th>
+                                            <th style="padding: 12px 16px; border-bottom: 1px solid #e5e5ea;">省份</th>
+                                            <th style="padding: 12px 16px; border-bottom: 1px solid #e5e5ea;">城市</th>
+                                            <th style="padding: 12px 16px; border-bottom: 1px solid #e5e5ea;">地区</th>
+                                            <th width="15%" style="padding: 12px 16px; border-bottom: 1px solid #e5e5ea;">记录时间</th>
+                                            <!--th width="10%">管理</th-->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                        <form action="{:U('Users/logrs')}" class="form-inline">
-                            <div class="form-group">
-                                <input type="text" name="phone" class="form-control input-sm" placeholder="请输入用户手机号码"/>
+                                    <volist name="list.list" id="v">
+                                        <tr style="font-size: 13px; color: #1d1d1f; transition: background-color 0.15s;">
+                                            <th scope="row" style="padding: 14px 16px; border-top: 1px solid #f2f2f7; color: #86868b; font-weight: 400;">{$v.id}</th>
+                                            <td style="padding: 14px 16px; border-top: 1px solid #f2f2f7; font-weight: 500;">{$uid|getUsersName=$v['uid'],'phone',###}</td>
+                                            <td style="padding: 14px 16px; border-top: 1px solid #f2f2f7; color: #515154;">{$uid|getUsersName=$v['uid'],'tags',###}</td>
+                                            <td style="padding: 14px 16px; border-top: 1px solid #f2f2f7; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; color: #515154;">{$v.ip}</td>
+                                            <if condition = "$v['prov_name'] != ''">
+                                            <td style="padding: 14px 16px; border-top: 1px solid #f2f2f7;">{$v['prov_name']}</td>
+                                            <td style="padding: 14px 16px; border-top: 1px solid #f2f2f7;">{$v['city_name']}</td>
+                                            <td style="padding: 14px 16px; border-top: 1px solid #f2f2f7;">{$v['label_name']}</td>
+                                            <else/>
+                                            <td style="padding: 14px 16px; border-top: 1px solid #f2f2f7;">{$prov|getRegionName=$v['prov'],###}</td>
+                                            <td style="padding: 14px 16px; border-top: 1px solid #f2f2f7;">{$city|getRegionName=$v['city'],###}</td>
+                                            <td style="padding: 14px 16px; border-top: 1px solid #f2f2f7;">{$label|getRegionName=$v['label'],###}</td>
+                                            </if>
+                                            <td style="padding: 14px 16px; border-top: 1px solid #f2f2f7; color: #86868b;">{$v.times|date='Y/m/d H:i:s',###}</td>
+                                            <!--td style="padding: 14px 16px; border-top: 1px solid #f2f2f7;">
+                                                <a href="javascript:;" class="btn btn-danger btn-xs">删除</a>
+                                            </td-->
+                                        </tr>
+                                    </volist>
+
+                                    </tbody>
+                                </table>
+
+                                <!-- 分页组件靠右优雅对齐 -->
+                                <nav aria-label="Page navigation" style="text-align: right; margin-top: 20px;">
+                                    <ul class="pagination" style="margin: 0;">{$list.show}</ul>
+                                </nav>
+
                             </div>
-                            <button type="submit" class="btn btn-xs btn-info">查找账号</button>
-                        </form>
-
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>登录账户</th>
-                                        <th>账号备注</th>
-                                        <th>IP</th>
-                                        <th>省份</th>
-                                        <th>城市</th>
-                                        <th>地区</th>
-                                        <th width="15%">记录时间</th>
-                                        <!--th width="10%">管理</th-->
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                <volist name="list.list" id="v">
-                                    <tr>
-                                        <th scope="row">{$v.id}</th>
-                                        <td>{$uid|getUsersName=$v['uid'],'phone',###}</td>
-                                        <td>{$uid|getUsersName=$v['uid'],'tags',###}</td>
-                                        <td>{$v.ip}</td>
-                                        <if condition = "$v['prov_name'] != ''">
-                                        <td>{$v['prov_name']}</td>
-                                        <td>{$v['city_name']}</td>
-                                        <td>{$v['label_name']}</td>
-                                        <else/>
-                                        <td>{$prov|getRegionName=$v['prov'],###}</td>
-                                        <td>{$city|getRegionName=$v['city'],###}</td>
-                                        <td>{$label|getRegionName=$v['label'],###}</td>
-                                        </if>
-                                        <td>{$v.times|date='Y/m/d H:i:s',###}</td>
-                                        <!--td>
-                                            <a href="javascript:;" class="btn btn-danger btn-xs">删除</a>
-                                        </td-->
-                                    </tr>
-                                </volist>
-
-                                </tbody>
-                            </table>
-
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination">{$list.show}</ul>
-                            </nav>
-
                         </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
-    </section>
+            </div>
+        </section>
+        
+    </div>
 </div>
 
 <script>
@@ -123,5 +111,3 @@
     }
 
 </script>
-
-

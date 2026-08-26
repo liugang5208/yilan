@@ -1,177 +1,349 @@
 <?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>易缆管理中心</title>
-        <!-- ================= Favicon ================== -->
-        <!-- Styles -->
+        <title>易缆通APP后台管理中心</title>
+        <link rel="shortcut icon" href="/Public/assets/images/app_logo.png" type="image/png">
         <link href="/Public/assets/css/lib/font-awesome.min.css" rel="stylesheet">
         <link href="/Public/assets/css/lib/themify-icons.css" rel="stylesheet">
-        <link href="/Public/assets/css/lib/menubar/sidebar.css" rel="stylesheet">
         <link href="/Public/assets/css/lib/bootstrap.min.css" rel="stylesheet">
-        <link href="/Public/assets/css/lib/unix.css" rel="stylesheet">
         <link href="/Public/assets/css/style.css" rel="stylesheet">
-        <!-- jquery vendor -->
         <script src="/Public/assets/js/lib/jquery.min.js"></script>
-        <script src="/Public/assets/js/lib/jquery.nanoscroller.min.js"></script>
         <script src="/Public/assets/js/lib/bootstrap.min.js"></script>
-        <!-- Angularjs -->
         <script src="/Public/libs/angular/angular.min.js"></script>
-
-        <!-- sweetalert -->
         <link href="/Public/libs/sweet-alert2/sweetalert2.min.css" rel="stylesheet">
         <script src="/Public/libs/sweet-alert2/sweetalert2.min.js"></script>
-
-        <!----->
         <link href="/Public/libs/swiper/css/swiper.min.css" rel="stylesheet">
         <script src="/Public/libs/swiper/js/swiper.min.js"></script>
-
         <script src="/Public/libs/layer/layer.js"></script>
         <script src="/Public/libs/common.js"></script>
         <script src="/Public/libs/ajaxfileupload.js?v=3"></script>
         <style>
-            .table{
-                font-size:12px;
+            html, body {
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background-color: #f7f9fc !important;
+                color: #1e293b;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             }
-            .none{
-                display:none!important;
+
+            /* 优化：适当加深顶部导航背景色，使其与整体页面不再显得过度割裂，呈现更好的现代工业质感 */
+            .top-navbar-wrapper {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                background-color: #e8ecf2;
+                border-bottom: 2px solid #cbd5e1;
+                z-index: 1000;
+                padding: 10px 15px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.06);
             }
-            .sidebar .nano-content > ul li > a{
-                padding: 8px 20px;
+
+            /* 修复：移动端适配，解除导航对内容的强行遮挡 */
+            @media (max-width: 768px) {
+                .top-navbar-wrapper {
+                    position: relative;
+                }
+                .content-wrap {
+                    margin-top: 10px !important;
+                }
+            }
+
+            .navbar-container {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                max-width: 1920px;
+                margin: 0 auto;
+            }
+
+            .navbar-row-top {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding-bottom: 6px;
+                border-bottom: 1px solid #cbd5e1;
+            }
+
+            /* 右上角管理员菜单及下拉样式：修复修改密码与退出登录未显示的缺陷 */
+            .admin-menu-dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            .user-profile-btn {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                background: #ffffff;
+                border: 1px solid #cbd5e1;
+                padding: 5px 12px;
+                border-radius: 6px;
+                font-size: 13px;
+                font-weight: 600;
+                color: #334155;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+            }
+
+            .user-profile-btn:hover {
+                background: #f8fafc;
+                border-color: #94a3b8;
+            }
+
+            .admin-dropdown-menu {
+                display: none;
+                position: absolute;
+                right: 0;
+                top: 100%;
+                margin-top: 6px;
+                background: #ffffff;
+                min-width: 150px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+                border: 1px solid #e2e8f0;
+                z-index: 1100;
+                overflow: hidden;
+            }
+
+            .admin-dropdown-menu a {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 10px 16px;
+                font-size: 13px;
+                color: #475569;
+                text-decoration: none;
+                transition: background 0.15s ease;
+            }
+
+            .admin-dropdown-menu a:hover {
+                background: #f1f5f9;
+                color: #0f172a;
+                text-decoration: none;
+            }
+
+            .admin-menu-dropdown:hover .admin-dropdown-menu {
+                display: block;
+            }
+
+            .navbar-sub-row {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                width: 100%;
+            }
+
+            .nav-group-card {
+                background: #ffffff;
+                border-radius: 6px;
+                padding: 6px 10px;
+                border: 1px solid #cbd5e1;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                flex: 0 1 auto; 
+                box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+            }
+
+            .nav-group-card.ai-group {
+                border: 1px solid #0066cc;
+                background: #eff6ff;
+            }
+
+            .nav-group-title {
+                font-size: 11px;
+                font-weight: 700;
+                color: #475569;
+                border-right: 1px solid #cbd5e1;
+                padding-right: 8px;
+                white-space: nowrap;
+            }
+
+            .capsule-list {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                flex-wrap: wrap;
+            }
+
+            .nav-capsule {
+                padding: 4px 10px;
+                background-color: #f8fafc;
+                color: #475569;
+                font-size: 12px;
+                text-decoration: none;
+                border-radius: 4px;
+                border: 1px solid #cbd5e1;
+                white-space: nowrap;
+                transition: all 0.2s ease;
+            }
+
+            .nav-capsule:hover {
+                background-color: #e2e8f0;
+                color: #1e293b;
+                text-decoration: none;
+            }
+
+            .nav-capsule.active {
+                background-color: #0066cc !important;
+                color: #ffffff !important;
+                border-color: #0066cc !important;
+            }
+
+            .content-wrap {
+                margin-top: 155px !important;
+                padding: 15px;
+            }
+
+            .main {
+                background: #ffffff;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             }
         </style>
     </head>
 
     <body>
 
-        <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
-            <div class="nano">
-                <div class="nano-content">
-                    <ul>
-                        <li class="label">管理功能</li>
-                        <li><a href="<?php echo U('Bords/index');?>"><i class="ti-home"></i> 概览</a></li>
-                        <li class="active open">
-                            <a class="sidebar-sub-toggle">
-                                <i class="ti-harddrives"></i> 用户管理 <span class="sidebar-collapse-icon ti-angle-down"></span>
-                            </a>
-                            <ul>
-                                <li><a href="<?php echo U('Users/index');?>">注册用户</a></li>
-                                <li><a href="<?php echo U('Users/logrs');?>">登录统计</a></li>
-                                <li><a href="<?php echo U('Users/search');?>">搜索记录</a></li>
-                                <!--li><a href="<?php echo U('Users/label');?>">禁止区域</a></li-->
-                                <li><a href="<?php echo U('Users/levels');?>">用户等级</a></li>
-                                <!--li><a href="<?php echo U('Users/cnlogs');?>">账户操作记录</a></li-->
-                                <li><a href="<?php echo U('Users/mess');?>">消息管理</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="<?php echo U('Task/index');?>"><i class="ti-harddrives"></i> 材料价格任务执行更新</a></li>
-                        <li><a href="<?php echo U('NewLabel/index');?>"><i class="ti-harddrives"></i> 材料价格分类</a></li>
-                        <li><a href="<?php echo U('NewCate/index');?>"><i class="ti-harddrives"></i> 公式计算</a></li>
-                        <li><a href="<?php echo U('NewTax/index');?>"><i class="ti-harddrives"></i> 税率标签</a></li>
-                        <!--<li><a href="<?php echo U('Goods/cats_exc');?>"><i class="ti-harddrives"></i> 材料标签</a></li>-->
-                        <li><a href="<?php echo U('Goods/cats');?>"><i class="ti-harddrives"></i> 商品分类</a></li>
-                        <!--li><a href="<?php echo U('Goods/tmps');?>"><i class="ti-harddrives"></i> 商品模板</a></li-->
-                        <li><a href="<?php echo U('Goods/liner');?>"><i class="ti-harddrives"></i> 线缆板块</a></li>
-                        <li><a href="<?php echo U('Goods/peita');?>"><i class="ti-harddrives"></i> 配套板块</a></li>
-                        <li><a href="<?php echo U('Shops/index');?>"><i class="ti-harddrives"></i> 店铺管理</a></li>
-                        <li><a href="<?php echo U('Order/index');?>"><i class="ti-harddrives"></i> 订单管理</a></li>
-                        <!--li><a href="<?php echo U('Shops/buyer');?>"><i class="ti-harddrives"></i> 采购管理</a></li>
-                        <li><a href="<?php echo U('Shops/recyle');?>"><i class="ti-harddrives"></i> 回收管理</a></li-->
-                        <!--<li><a href="<?php echo U('Trans/citys');?>"><i class="ti-harddrives"></i> 物流板块</a></li>-->
-                        <!--li>
-                            <a class="sidebar-sub-toggle">
-                                <i class="ti-harddrives"></i> 知识板块 <span class="sidebar-collapse-icon ti-angle-down"></span>
-                            </a>
-                            <ul>
-                                <li><a href="<?php echo U('Know/cats');?>">知识分类</a></li>
-                                <li><a href="<?php echo U('Know/index');?>">知识文章</a></li>
-                            </ul>
-                        </li-->
-                        <li><a href="<?php echo U('Know/advs');?>"><i class="ti-harddrives"></i> 广告管理</a></li>
-                        <li><a href="<?php echo U('Know/helps');?>"><i class="ti-harddrives"></i> 帮助中心</a></li>
-                        <li><a href="<?php echo U('Know/sysc');?>"><i class="ti-harddrives"></i> 系统文本</a></li>
-                        <li><a href="<?php echo U('Sysc/banks');?>"><i class="ti-harddrives"></i> 银行卡号</a></li>
-                        <li><a href="<?php echo U('Version/index');?>"><i class="ti-harddrives"></i> 系统版本</a></li>
-                        <li><a href="<?php echo U('Bar/index');?>"><i class="ti-harddrives"></i> tab栏控制</a></li>
-                         <li><a href="<?php echo U('ReportInfo/index');?>"><i class="ti-harddrives"></i>报价单管理</a></li>
-                         <!--<li><a href="<?php echo U('Config/customer_config');?>"><i class="ti-harddrives"></i>客服配置</a></li>-->
+        <div class="top-navbar-wrapper">
+            <div class="navbar-container">
+                <div class="navbar-row-top">
+                    <div class="top-logo">
+                        <a href="<?php echo U('Bords/index');?>" style="font-weight:700; color:#1e293b; text-decoration:none; display:flex; align-items:center; gap:8px;">
+                            <img src="/Public/assets/images/app_logo.png" alt="易缆通Logo" style="height:22px; width:auto; border-radius:3px; object-fit:contain;">
+                            <span>易缆管理中心</span>
+                        </a>
+                    </div>
+                    <div class="top-user-area">
+                        <!-- 修复：补全管理员账号下拉菜单，显式提供修改密码与安全退出功能入口 -->
+                        <div class="admin-menu-dropdown">
+                            <div class="user-profile-btn">
+                                <i class="ti-user"></i> 管理员 <i class="ti-angle-down"></i>
+                            </div>
+                            <div class="admin-dropdown-menu">
+                                <a href="<?php echo U('Login/update_pwd');?>"><i class="ti-key"></i> 修改密码</a>
+                                <a href="<?php echo U('Login/logout');?>" style="color: #dc2626;"><i class="ti-power-off"></i> 退出登录</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                        <li><a href="<?php echo U('Index/index');?>"><i class="ti-close"></i> 退出登录</a></li>
-                    </ul>
+                <div class="navbar-row-bottom">
+                    <div class="navbar-sub-row">
+                        <div class="nav-group-card">
+                            <div class="nav-group-title">用户管理</div>
+                            <div class="capsule-list">
+                                <a href="<?php echo U('Users/index');?>" class="nav-capsule"><i class="ti-user"></i> 用户管理</a>
+                                <a href="<?php echo U('Users/logrs');?>" class="nav-capsule"><i class="ti-stats-alt"></i> 登录统计</a>
+                                <a href="<?php echo U('Users/search');?>" class="nav-capsule"><i class="ti-search"></i> 搜索记录</a>
+                                <a href="<?php echo U('Users/levels');?>" class="nav-capsule"><i class="ti-medall"></i> 用户等级</a>
+                            </div>
+                        </div>
+
+                        <div class="nav-group-card">
+                            <div class="nav-group-title">计算配置</div>
+                            <div class="capsule-list">
+                                <a href="<?php echo U('Task/index');?>" class="nav-capsule"><i class="ti-reload"></i> 价格任务</a>
+                                <a href="<?php echo U('NewLabel/index');?>" class="nav-capsule"><i class="ti-layout-grid2"></i> 材料分类</a>
+                                <a href="<?php echo U('NewCate/index');?>" class="nav-capsule"><i class="ti-calculator"></i> 公式计算</a>
+                                <a href="<?php echo U('NewTax/index');?>" class="nav-capsule"><i class="ti-receipt"></i> 税率标签</a>
+                            </div>
+                        </div>
+
+                        <div class="nav-group-card">
+                            <div class="nav-group-title">商品管理</div>
+                            <div class="capsule-list">
+                                <a href="<?php echo U('Goods/cats');?>" class="nav-capsule"><i class="ti-folder"></i> 商品分类</a>
+                                <a href="<?php echo U('Goods/liner');?>" class="nav-capsule"><i class="ti-plug"></i> 线缆板块</a>
+                                <a href="<?php echo U('Goods/peita');?>" class="nav-capsule"><i class="ti-package"></i> 配套板块</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="navbar-sub-row" style="margin-top: 6px;">
+                        <div class="nav-group-card">
+                            <div class="nav-group-title">交易管理</div>
+                            <div class="capsule-list">
+                                <a href="<?php echo U('Shops/index');?>" class="nav-capsule"><i class="ti-shopping-cart"></i> 店铺管理</a>
+                                <a href="<?php echo U('Order/index');?>" class="nav-capsule"><i class="ti-receipt"></i> 订单管理</a>
+                                <a href="<?php echo U('ReportInfo/index');?>" class="nav-capsule"><i class="ti-files"></i> 报价单</a>
+                            </div>
+                        </div>
+
+                        <div class="nav-group-card">
+                            <div class="nav-group-title">系统配置</div>
+                            <div class="capsule-list">
+                                <a href="<?php echo U('Know/advs');?>" class="nav-capsule"> 广告管理</a>
+                                <a href="<?php echo U('Know/helps');?>" class="nav-capsule"> 帮助中心</a>
+                                <a href="<?php echo U('Know/sysc');?>" class="nav-capsule"> 系统文本</a>
+                                <a href="<?php echo U('Sysc/banks');?>" class="nav-capsule"> 银行卡号</a>
+                                <a href="<?php echo U('Version/index');?>" class="nav-capsule"> 系统版本</a>
+                                <a href="<?php echo U('Bar/index');?>" class="nav-capsule"> Tab栏控制</a>
+                                <a href="<?php echo U('Config/customer_config');?>" class="nav-capsule"> 客服配置</a>
+                            </div>
+                        </div>
+
+                        <div class="nav-group-card ai-group">
+                            <div class="nav-group-title" style="color:#0066cc;">AI智能中心</div>
+                            <div class="capsule-list">
+                                <a href="<?php echo U('Ai/index');?>" class="nav-capsule"><i class="ti-settings"></i> AI助手设置</a>
+                                <a href="<?php echo U('Ai/knowledge');?>" class="nav-capsule"><i class="ti-book"></i> 纪律模版管理</a>
+                                <a href="<?php echo U('Ai/searchWords');?>" class="nav-capsule"><i class="ti-search"></i> 搜索词管理</a>
+                                <a href="<?php echo U('Ai/historyList');?>" class="nav-capsule"><i class="ti-list"></i> AI历史报价</a>
+                                <a href="<?php echo U('Ai/print_quote');?>" class="nav-capsule"><i class="ti-file"></i> 报价单样式</a>
+                                <a href="<?php echo U('Ai/testConnect');?>" class="nav-capsule" style="background:#e0f2fe; color:#0369a1; border-color:#bae6fd;"><i class="ti-pulse"></i> 测试专区</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <!-- /# sidebar -->
-
-        <div class="header">
-            <div class="pull-left">
-                <div class="logo"><a href="<?php echo U('Bords/index');?>"><span>易缆管理中心</span></a></div>
-            </div>
-
-            <div class="pull-right p-r-15">
-                <ul>
-
-                    <li class="header-icon dib">
-                        <img class="avatar-img" src="/Public/assets/images/avatar/1.jpg" alt="" />
-                        <span class="user-avatar">管理员 <i class="ti-angle-down f-s-10"></i></span>
-
-                        <div class="drop-down dropdown-profile">
-                            <div class="dropdown-content-body">
-                                <ul>
-                                    <li><a href="javascript:;"><i class="ti-user"></i> <span>密码管理</span></a></li>
-                                    <li><a href="<?php echo U('Index/index');?>"><i class="ti-power-off"></i> <span>退出登录</span></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-
-
 
         <div class="content-wrap">
             <div class="main">
-
-                <div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
+                <div class="container-fluid apple-admin-container" ng-app="myApp" ng-controller="myCtrl">
 
     <!-- 基础材料管理 -->
-    <section id="section-base">
+    <section id="section-base" class="apple-section-box">
         <div class="row">
             <div class="col-lg-12">
-                <div class="card alert" style="width:100%">
+                <div class="card alert apple-card-box">
                     <div class="section-header">
                         <span class="section-title">基础材料管理</span>
-                        <div style="display:flex;gap:6px;">
-                            <a class="btn btn-xs section-add-btn" style="background:#333;color:#fff;border-color:#333;" onclick="openAddCate(0)">+ 添加基础材料分类</a>
-                            <a href="/Home/PriceSync/index" class="btn btn-xs section-add-btn" style="background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.4);">⇄ 期货价格同步</a>
+                        <div class="section-header-actions">
+                            <a class="btn btn-xs section-add-btn" onclick="openAddCate(0)">+ 添加基础材料分类</a>
+                            <a href="/Home/PriceSync/index" class="btn btn-xs section-add-btn-sub">⇄ 期货价格同步</a>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
+                    <div class="card-body apple-card-body">
+                        <div class="table-responsive apple-table-responsive">
                             <?php if(is_array($baseList)): $i = 0; $__LIST__ = $baseList;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?><div class="cate-block">
                                     <div class="cate-title-row">
                                         <div class="cate-title-name"><?php echo ($v["name"]); ?></div>
                                         <div class="cate-title-btns">
-                                            <a ng-click="updateinfo('<?php echo ($v["id"]); ?>')" class="btn btn-info btn-xs">分类编辑</a>
-                                            <a ng-click="updateinfo2('<?php echo ($v["id"]); ?>')" class="btn btn-info btn-xs">添加材料</a>
-                                            <a class="btn btn-danger btn-xs" ng-click="dels('<?php echo ($v["id"]); ?>')">删除分类</a>
+                                            <a ng-click="updateinfo('<?php echo ($v["id"]); ?>')" class="btn btn-info btn-xs apple-btn-action">分类编辑</a>
+                                            <a ng-click="updateinfo2('<?php echo ($v["id"]); ?>')" class="btn btn-info btn-xs apple-btn-action">添加材料</a>
+                                            <a class="btn btn-danger btn-xs apple-btn-action" ng-click="dels('<?php echo ($v["id"]); ?>')">删除分类</a>
                                         </div>
                                     </div>
                                     <div class="material-grid">
                                         <?php if(is_array($v["children"])): $i = 0; $__LIST__ = $v["children"];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v2): $mod = ($i % 2 );++$i; if($v2['pid'] == 0): ?><div class="material-card">
                                                 <div class="material-row material-row-top">
-                                                    <div class="material-name"><?php echo ($v2["name"]); ?></div>
-                                                    <a class="btn btn-danger btn-xs material-btn" ng-click="dels('<?php echo ($v2["id"]); ?>')">删除</a>
+                                                    <div class="material-name" title="<?php echo ($v2["name"]); ?>"><?php echo ($v2["name"]); ?></div>
+                                                    <a class="btn btn-danger btn-xs material-btn apple-btn-action" ng-click="dels('<?php echo ($v2["id"]); ?>')">删除</a>
                                                 </div>
                                                 <div class="material-row material-row-bottom">
                                                     <?php if($v2['last_futures_price'] > 0): ?><div class="material-futures-price"><?php echo number_format((float)$v2['last_futures_price'],2,'.','' );?></div><?php endif; ?>
                                                     <div class="material-price"><?php echo number_format((float)$v2['price'],2,'.','' );?></div>
-                                                    <a ng-click="updateinfo3('<?php echo ($v2["id"]); ?>')" class="btn btn-info btn-xs material-btn">编辑</a>
+                                                    <a ng-click="updateinfo3('<?php echo ($v2["id"]); ?>')" class="btn btn-info btn-xs material-btn apple-btn-action">编辑</a>
                                                 </div>
                                             </div><?php endif; endforeach; endif; else: echo "" ;endif; ?>
                                     </div>
@@ -184,30 +356,26 @@
     </section>
 
     <!-- 衍生材料目录 -->
-    <section id="section-derived-catalog" style="margin-bottom:20px;">
+    <section id="section-derived-catalog" class="apple-section-box">
         <div class="row">
             <div class="col-lg-12">
-                <div class="card alert" style="width:100%">
-                    <div class="section-header" style="background:#27ae60;">
+                <div class="card alert apple-card-box">
+                    <div class="section-header section-header-green">
                         <span class="section-title">衍生材料目录</span>
-                        <div style="display:flex;gap:6px;">
-                            <a class="btn btn-xs section-add-btn" style="background:#1a8a50;color:#fff;border-color:#1a8a50;" onclick="openAddCate(2)">+ 添加衍生目录</a>
+                        <div class="section-header-actions">
+                            <a class="btn btn-xs section-add-btn" onclick="openAddCate(2)">+ 添加衍生目录</a>
                         </div>
                     </div>
-                    <div class="card-body" style="padding:12px 16px;">
-                        <div style="display:grid;grid-template-columns:repeat(10,1fr);gap:8px;">
-                            <?php if(is_array($directoryList)): $ki = 0; $__LIST__ = $directoryList;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vc): $mod = ($ki % 2 );++$ki;?><div class="derived-catalog-item" data-cate-id="<?php echo ($vc["id"]); ?>"
-                                 onclick="selectDerivedCatalog('<?php echo ($vc["id"]); ?>', this)"
-                                 style="border:1px solid #dce3ea;border-radius:4px;background:#f8f9fa;cursor:pointer;overflow:hidden;">
-                                <!-- 第一行：序号 + 删除 -->
-                                <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 6px;border-bottom:1px solid #eee;">
-                                    <span style="color:#999;font-size:11px;"><?php echo ($ki); ?></span>
-                                    <a ng-click="dels('<?php echo ($vc["id"]); ?>');$event.stopPropagation()" class="btn btn-danger btn-xs" style="padding:0px 5px;font-size:11px;line-height:18px;">删除</a>
+                    <div class="card-body apple-card-body">
+                        <div class="derived-catalog-grid">
+                            <?php if(is_array($directoryList)): $ki = 0; $__LIST__ = $directoryList;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vc): $mod = ($ki % 2 );++$ki;?><div class="derived-catalog-item" data-cate-id="<?php echo ($vc["id"]); ?>" onclick="selectDerivedCatalog('<?php echo ($vc["id"]); ?>', this)">
+                                <div class="derived-catalog-top">
+                                    <span class="derived-catalog-index"><?php echo ($ki); ?></span>
+                                    <a ng-click="dels('<?php echo ($vc["id"]); ?>');$event.stopPropagation()" class="btn btn-danger btn-xs apple-btn-action">删除</a>
                                 </div>
-                                <!-- 第二行：类名称 + 编辑 -->
-                                <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 6px;">
-                                    <span class="catalog-name" style="font-size:12px;font-weight:bold;color:#333;flex:1;word-break:break-all;line-height:1.4;"><?php echo ($vc["name"]); ?></span>
-                                    <a ng-click="updateinfo('<?php echo ($vc["id"]); ?>');$event.stopPropagation()" class="btn btn-info btn-xs" style="padding:0px 5px;font-size:11px;line-height:18px;margin-left:4px;flex-shrink:0;">编辑</a>
+                                <div class="derived-catalog-bottom">
+                                    <span class="catalog-name"><?php echo ($vc["name"]); ?></span>
+                                    <a ng-click="updateinfo('<?php echo ($vc["id"]); ?>');$event.stopPropagation()" class="btn btn-info btn-xs apple-btn-action">编辑</a>
                                 </div>
                             </div><?php endforeach; endif; else: echo "" ;endif; ?>
                         </div>
@@ -218,26 +386,26 @@
     </section>
 
     <!-- 衍生材料管理 -->
-    <section id="section-derived">
+    <section id="section-derived" class="apple-section-box">
         <div class="row">
             <div class="col-lg-12">
-                <div class="card alert" style="width:100%">
+                <div class="card alert apple-card-box">
                     <div class="section-header section-header-derived">
                         <span class="section-title">衍生材料管理</span>
-                        <div style="display:flex;gap:6px;">
+                        <div class="section-header-actions">
                             <a class="btn btn-xs section-add-btn" ng-click="openCloneCate()">复制衍生分类</a>
                             <a class="btn btn-xs section-add-btn" style="background:#1a6fc4;color:#fff;border-color:#1a6fc4;" onclick="openAddDerivedMaterial()">+ 添加衍生材料分类</a>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
+                    <div class="card-body apple-card-body">
+                        <div class="table-responsive apple-table-responsive">
                             <?php if(is_array($derivedList)): $i = 0; $__LIST__ = $derivedList;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?><div class="cate-block" id="derived-cate-<?php echo ($v["id"]); ?>" data-dir-id="<?php echo ($v["cate_label_id"]); ?>">
                                     <div class="cate-title-row">
                                         <div class="cate-title-name"><?php echo ($v["name"]); ?></div>
                                         <div class="cate-title-btns">
-                                            <a ng-click="updateinfo('<?php echo ($v["id"]); ?>')" class="btn btn-info btn-xs">分类编辑</a>
-                                            <a ng-click="updateinfo2('<?php echo ($v["id"]); ?>')" class="btn btn-info btn-xs">添加材料</a>
-                                            <a class="btn btn-danger btn-xs" ng-click="dels('<?php echo ($v["id"]); ?>')">删除分类</a>
+                                            <a ng-click="updateinfo('<?php echo ($v["id"]); ?>')" class="btn btn-info btn-xs apple-btn-action">分类编辑</a>
+                                            <a ng-click="updateinfo2('<?php echo ($v["id"]); ?>')" class="btn btn-info btn-xs apple-btn-action">添加材料</a>
+                                            <a class="btn btn-danger btn-xs apple-btn-action" ng-click="dels('<?php echo ($v["id"]); ?>')">删除分类</a>
                                         </div>
                                     </div>
                                     <div class="material-grid">
@@ -245,14 +413,14 @@
                                                 <div class="material-row material-row-top">
                                                     <?php
  static $children_pid_map = null; if ($children_pid_map === null) { $children_pid_map = []; foreach ($allTree as $_v) { foreach ($_v['children'] as $_c) { $children_pid_map[$_c['id']] = $_c['pid']; } } } $ref1_is_derived = $v2['pid'] > 0 && isset($children_pid_map[$v2['pid']]) && $children_pid_map[$v2['pid']] > 0; $ref1_is_base = $v2['pid'] > 0 && isset($children_pid_map[$v2['pid']]) && $children_pid_map[$v2['pid']] == 0; $ref2_is_derived = $v2['pid2'] > 0 && isset($children_pid_map[$v2['pid2']]) && $children_pid_map[$v2['pid2']] > 0; $ref2_is_base = $v2['pid2'] > 0 && isset($children_pid_map[$v2['pid2']]) && $children_pid_map[$v2['pid2']] == 0; $ref3_is_derived = $v2['pid3'] > 0 && isset($children_pid_map[$v2['pid3']]) && $children_pid_map[$v2['pid3']] > 0; $ref3_is_base = $v2['pid3'] > 0 && isset($children_pid_map[$v2['pid3']]) && $children_pid_map[$v2['pid3']] == 0; $v2_is_mixed = (($ref1_is_base || $ref2_is_base || $ref3_is_base) && ($ref1_is_derived || $ref2_is_derived || $ref3_is_derived)); ?>
-                                                    <?php if($v2_is_mixed): ?><div class="material-name" style="color:red;"><?php echo ($v2["name"]); ?></div>
+                                                    <?php if($v2_is_mixed): ?><div class="material-name material-name-mixed" title="<?php echo ($v2["name"]); ?>"><?php echo ($v2["name"]); ?></div>
                                                     <?php else: ?>
-                                                    <div class="material-name material-name-blue"><?php echo ($v2["name"]); ?></div><?php endif; ?>
-                                                    <a class="btn btn-danger btn-xs material-btn" ng-click="dels('<?php echo ($v2["id"]); ?>')">删除</a>
+                                                    <div class="material-name material-name-blue" title="<?php echo ($v2["name"]); ?>"><?php echo ($v2["name"]); ?></div><?php endif; ?>
+                                                    <a class="btn btn-danger btn-xs material-btn apple-btn-action" ng-click="dels('<?php echo ($v2["id"]); ?>')">删除</a>
                                                 </div>
                                                 <div class="material-row material-row-bottom">
                                                     <div class="material-price"><?php echo number_format((float)$v2['price'],2,'.','' );?></div>
-                                                    <a ng-click="updateinfo3('<?php echo ($v2["id"]); ?>')" class="btn btn-info btn-xs material-btn">编辑</a>
+                                                    <a ng-click="updateinfo3('<?php echo ($v2["id"]); ?>')" class="btn btn-info btn-xs material-btn apple-btn-action">编辑</a>
                                                 </div>
                                             </div><?php endif; endforeach; endif; else: echo "" ;endif; ?>
                                     </div>
@@ -264,265 +432,245 @@
         </div>
     </section>
 
-    <!-- Modal -->
+    <!-- 弹窗：添加分类 -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document" style="width:35%;">
-            <div class="modal-content">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content apple-modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="关闭"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">添加</h4>
                 </div>
                 <div class="modal-body">
-
                     <form name="ador">
                         <input type="hidden" name="cate_type" id="addCateType" value="0"/>
                         <input type="hidden" name="cate_label_id" id="addCateLabelId" value="0"/>
                         <div class="form-group">
                             <label>名称</label>
-                            <input type="text" name="name" class="form-control"/>
+                            <input type="text" name="name" class="form-control apple-form-control"/>
                         </div>
                         <div class="form-group">
                             <label>分类类型</label>
-                            <input type="text" class="form-control" id="addCateTypeLabel" readonly style="background:#f5f5f5;color:#666;"/>
+                            <input type="text" class="form-control apple-form-control" id="addCateTypeLabel" readonly style="background:#f5f5f5;color:#666;"/>
                         </div>
                     </form>
-
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" onclick="addor()">添加</button>
+                    <button type="button" class="btn btn-default apple-btn-cancel" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary apple-btn-submit" onclick="addor()">添加</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- 弹窗：更新分类名称 -->
     <div class="modal fade" id="myEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document" style="width:35%;">
-            <div class="modal-content">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content apple-modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="关闭"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">更新</h4>
                 </div>
                 <div class="modal-body">
-
                     <form>
                         <div class="form-group">
                             <label>名称</label>
-                            <input type="text" name="name" class="form-control" ng-model="infos.name"/>
+                            <input type="text" name="name" class="form-control apple-form-control" ng-model="infos.name"/>
                         </div>
                     </form>
-
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" ng-click="updateCats()">更新</button>
+                    <button type="button" class="btn btn-default apple-btn-cancel" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary apple-btn-submit" ng-click="updateCats()">更新</button>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- Modal 添加下级 -->
+    <!-- 弹窗：添加下级材料 -->
     <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document" style="width:60%;">
-            <div class="modal-content">
+        <div class="modal-dialog modal-lg apple-modal-lg" role="document">
+            <div class="modal-content apple-modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="关闭"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">添加材料</h4>
                 </div>
                 <div class="modal-body">
-
                     <form name="ador2">
                         <input ng-hide="true" name="cate_label_id" class="form-control" ng-model="infos.cate_label_id"/>
 
                         <div class="form-group">
                             <label>材料名称</label>
-                            <input type="text" name="name" class="form-control"/>
+                            <input type="text" name="name" class="form-control apple-form-control"/>
                         </div>
 
-                        <!-- 三列材料选择表格（衍生材料才显示） -->
-                        <table ng-hide="infos.isBase" class="table table-bordered edit2-material-table">
-                            <thead>
-                                <tr>
-                                    <th class="edit2-th edit2-th-1">材料一选择</th>
-                                    <th class="edit2-th edit2-th-2">材料二选择</th>
-                                    <th class="edit2-th edit2-th-3">材料三选择</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="edit2-td edit2-td-1">
-                                        <div class="edit2-select-row">
-                                            <label class="edit2-label">分类:</label>
-                                            <select ng-model="infos.cat1" ng-change="onCatChange(1)" class="form-control edit2-select">
-                                                <option value="">暂不选择</option>
-                                                <option value="{{g.id}}" ng-repeat="g in filteredCateGroups">{{g.name}}</option>
-                                            </select>
-                                            <label class="edit2-label edit2-label-gap">材料:</label>
-                                            <select name="pid" ng-model="infos.pid" ng-change="onChangeRatio()" class="form-control edit2-select">
-                                                <option value="0">暂不选择</option>
-                                                <option value="{{v.id}}" ng-repeat="v in infos.subList1">{{v.name}}</option>
-                                            </select>
-                                        </div>
-                                        <div class="edit2-ratio-row">
-                                            <label class="edit2-label">关联比例:</label>
-                                            <input type="number" ng-change="onChangeRatio()" name="ratio" ng-model="infos.ratio" step="0.01" class="form-control edit2-ratio-input"/>
-                                        </div>
-                                    </td>
-                                    <td class="edit2-td edit2-td-2">
-                                        <div class="edit2-select-row">
-                                            <label class="edit2-label">分类:</label>
-                                            <select ng-model="infos.cat2" ng-change="onCatChange(2)" class="form-control edit2-select">
-                                                <option value="">暂不选择</option>
-                                                <option value="{{g.id}}" ng-repeat="g in filteredCateGroups">{{g.name}}</option>
-                                            </select>
-                                            <label class="edit2-label edit2-label-gap">材料:</label>
-                                            <select name="pid2" ng-model="infos.pid2" ng-change="onChangeRatio()" class="form-control edit2-select">
-                                                <option value="0">暂不选择</option>
-                                                <option value="{{v.id}}" ng-repeat="v in infos.subList2">{{v.name}}</option>
-                                            </select>
-                                        </div>
-                                        <div class="edit2-ratio-row">
-                                            <label class="edit2-label">关联比例:</label>
-                                            <input type="number" ng-change="onChangeRatio()" name="ratio2" ng-model="infos.ratio2" step="0.01" class="form-control edit2-ratio-input"/>
-                                        </div>
-                                    </td>
-                                    <td class="edit2-td edit2-td-3">
-                                        <div class="edit2-select-row">
-                                            <label class="edit2-label">分类:</label>
-                                            <select ng-model="infos.cat3" ng-change="onCatChange(3)" class="form-control edit2-select">
-                                                <option value="">暂不选择</option>
-                                                <option value="{{g.id}}" ng-repeat="g in filteredCateGroups">{{g.name}}</option>
-                                            </select>
-                                            <label class="edit2-label edit2-label-gap">材料:</label>
-                                            <select name="pid3" ng-model="infos.pid3" ng-change="onChangeRatio()" class="form-control edit2-select">
-                                                <option value="0">暂不选择</option>
-                                                <option value="{{v.id}}" ng-repeat="v in infos.subList3">{{v.name}}</option>
-                                            </select>
-                                        </div>
-                                        <div class="edit2-ratio-row">
-                                            <label class="edit2-label">关联比例:</label>
-                                            <input type="number" ng-change="onChangeRatio()" name="ratio3" ng-model="infos.ratio3" step="0.01" class="form-control edit2-ratio-input"/>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="edit2-material-container" ng-hide="infos.isBase">
+                            <div class="edit2-material-group">
+                                <div class="edit2-group-title">材料一选择</div>
+                                <div class="edit2-select-row">
+                                    <label class="edit2-label">分类:</label>
+                                    <select ng-model="infos.cat1" ng-change="onCatChange(1)" class="form-control apple-form-control edit2-select">
+                                        <option value="">暂不选择</option>
+                                        <option value="{{g.id}}" ng-repeat="g in filteredCateGroups">{{g.name}}</option>
+                                    </select>
+                                    <label class="edit2-label edit2-label-gap">材料:</label>
+                                    <select name="pid" ng-model="infos.pid" ng-change="onChangeRatio()" class="form-control apple-form-control edit2-select">
+                                        <option value="0">暂不选择</option>
+                                        <option value="{{v.id}}" ng-repeat="v in infos.subList1">{{v.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="edit2-ratio-row">
+                                    <label class="edit2-label">关联比例:</label>
+                                    <input type="number" ng-change="onChangeRatio()" name="ratio" ng-model="infos.ratio" step="0.01" class="form-control apple-form-control edit2-ratio-input"/>
+                                </div>
+                            </div>
+
+                            <div class="edit2-material-group">
+                                <div class="edit2-group-title">材料二选择</div>
+                                <div class="edit2-select-row">
+                                    <label class="edit2-label">分类:</label>
+                                    <select ng-model="infos.cat2" ng-change="onCatChange(2)" class="form-control apple-form-control edit2-select">
+                                        <option value="">暂不选择</option>
+                                        <option value="{{g.id}}" ng-repeat="g in filteredCateGroups">{{g.name}}</option>
+                                    </select>
+                                    <label class="edit2-label edit2-label-gap">材料:</label>
+                                    <select name="pid2" ng-model="infos.pid2" ng-change="onChangeRatio()" class="form-control apple-form-control edit2-select">
+                                        <option value="0">暂不选择</option>
+                                        <option value="{{v.id}}" ng-repeat="v in infos.subList2">{{v.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="edit2-ratio-row">
+                                    <label class="edit2-label">关联比例:</label>
+                                    <input type="number" ng-change="onChangeRatio()" name="ratio2" ng-model="infos.ratio2" step="0.01" class="form-control apple-form-control edit2-ratio-input"/>
+                                </div>
+                            </div>
+
+                            <div class="edit2-material-group">
+                                <div class="edit2-group-title">材料三选择</div>
+                                <div class="edit2-select-row">
+                                    <label class="edit2-label">分类:</label>
+                                    <select ng-model="infos.cat3" ng-change="onCatChange(3)" class="form-control apple-form-control edit2-select">
+                                        <option value="">暂不选择</option>
+                                        <option value="{{g.id}}" ng-repeat="g in filteredCateGroups">{{g.name}}</option>
+                                    </select>
+                                    <label class="edit2-label edit2-label-gap">材料:</label>
+                                    <select name="pid3" ng-model="infos.pid3" ng-change="onChangeRatio()" class="form-control apple-form-control edit2-select">
+                                        <option value="0">暂不选择</option>
+                                        <option value="{{v.id}}" ng-repeat="v in infos.subList3">{{v.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="edit2-ratio-row">
+                                    <label class="edit2-label">关联比例:</label>
+                                    <input type="number" ng-change="onChangeRatio()" name="ratio3" ng-model="infos.ratio3" step="0.01" class="form-control apple-form-control edit2-ratio-input"/>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="edit2-bottom-fields">
                             <div ng-hide="infos.isBase" class="form-group">
                                 <label>组合工费比例</label>
-                                <input type="number" name="end_ratio" ng-change="onChangeRatio2()" ng-model="infos.end_ratio" step="0.01" class="form-control"/>
+                                <input type="number" name="end_ratio" ng-change="onChangeRatio2()" ng-model="infos.end_ratio" step="0.01" class="form-control apple-form-control"/>
                             </div>
                             <div class="form-group">
                                 <label>执行价格</label>
-                                <input type="text" name="price" ng-model="infos.price" class="form-control chang_price"/>
+                                <input type="text" name="price" ng-model="infos.price" class="form-control apple-form-control chang_price"/>
                             </div>
                         </div>
                     </form>
-
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" onclick="addor2()">添加</button>
+                    <button type="button" class="btn btn-default apple-btn-cancel" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary apple-btn-submit" onclick="addor2()">添加</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- 弹窗：调价 / 编辑材料 -->
     <div class="modal fade" id="myEdit2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document" style="width:60%;">
-            <div class="modal-content">
+        <div class="modal-dialog modal-lg apple-modal-lg" role="document">
+            <div class="modal-content apple-modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="关闭"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">调价</h4>
                 </div>
                 <div class="modal-body">
-
                     <form>
                         <input ng-hide="true" name="cate_label_id" class="form-control" ng-model="infos.cate_label_id"/>
                         
                         <div class="form-group">
                             <label>名称</label>
-                            <input type="text" name="name" class="form-control" ng-model="infos.name"/>
+                            <input type="text" name="name" class="form-control apple-form-control" ng-model="infos.name"/>
                         </div>
 
-                        <!-- 三列材料选择表格（衍生材料才显示） -->
-                        <table ng-hide="infos.isBase" class="table table-bordered edit2-material-table">
-                            <thead>
-                                <tr>
-                                    <th class="edit2-th edit2-th-1">材料一选择</th>
-                                    <th class="edit2-th edit2-th-2">材料二选择</th>
-                                    <th class="edit2-th edit2-th-3">材料三选择</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="edit2-td edit2-td-1">
-                                        <div class="edit2-select-row">
-                                            <label class="edit2-label">分类:</label>
-                                            <select ng-model="infos.cat1" ng-change="onCatChange(1)" class="form-control edit2-select">
-                                                <option value="">暂不选择</option>
-                                                <option value="{{g.id}}" ng-repeat="g in filteredCateGroups">{{g.name}}</option>
-                                            </select>
-                                            <label class="edit2-label edit2-label-gap">材料:</label>
-                                            <select ng-model="infos.pid" ng-change="onChangeRatio()" class="form-control edit2-select">
-                                                <option value="0">暂不选择</option>
-                                                <option value="{{v.id}}" ng-repeat="v in infos.subList1">{{v.name}}</option>
-                                            </select>
-                                        </div>
-                                        <div class="edit2-ratio-row">
-                                            <label class="edit2-label">关联比例:</label>
-                                            <input type="number" ng-change="onChangeRatio()" name="ratio" ng-model="infos.ratio" step="0.01" class="form-control edit2-ratio-input"/>
-                                        </div>
-                                    </td>
-                                    <td class="edit2-td edit2-td-2">
-                                        <div class="edit2-select-row">
-                                            <label class="edit2-label">分类:</label>
-                                            <select ng-model="infos.cat2" ng-change="onCatChange(2)" class="form-control edit2-select">
-                                                <option value="">暂不选择</option>
-                                                <option value="{{g.id}}" ng-repeat="g in filteredCateGroups">{{g.name}}</option>
-                                            </select>
-                                            <label class="edit2-label edit2-label-gap">材料:</label>
-                                            <select ng-model="infos.pid2" ng-change="onChangeRatio()" class="form-control edit2-select">
-                                                <option value="0">暂不选择</option>
-                                                <option value="{{v.id}}" ng-repeat="v in infos.subList2">{{v.name}}</option>
-                                            </select>
-                                        </div>
-                                        <div class="edit2-ratio-row">
-                                            <label class="edit2-label">关联比例:</label>
-                                            <input type="number" ng-change="onChangeRatio()" name="ratio2" ng-model="infos.ratio2" step="0.01" class="form-control edit2-ratio-input"/>
-                                        </div>
-                                    </td>
-                                    <td class="edit2-td edit2-td-3">
-                                        <div class="edit2-select-row">
-                                            <label class="edit2-label">分类:</label>
-                                            <select ng-model="infos.cat3" ng-change="onCatChange(3)" class="form-control edit2-select">
-                                                <option value="">暂不选择</option>
-                                                <option value="{{g.id}}" ng-repeat="g in filteredCateGroups">{{g.name}}</option>
-                                            </select>
-                                            <label class="edit2-label edit2-label-gap">材料:</label>
-                                            <select ng-model="infos.pid3" ng-change="onChangeRatio()" class="form-control edit2-select">
-                                                <option value="0">暂不选择</option>
-                                                <option value="{{v.id}}" ng-repeat="v in infos.subList3">{{v.name}}</option>
-                                            </select>
-                                        </div>
-                                        <div class="edit2-ratio-row">
-                                            <label class="edit2-label">关联比例:</label>
-                                            <input type="number" ng-change="onChangeRatio()" name="ratio3" ng-model="infos.ratio3" step="0.01" class="form-control edit2-ratio-input"/>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="edit2-material-container" ng-hide="infos.isBase">
+                            <div class="edit2-material-group">
+                                <div class="edit2-group-title">材料一选择</div>
+                                <div class="edit2-select-row">
+                                    <label class="edit2-label">分类:</label>
+                                    <select ng-model="infos.cat1" ng-change="onCatChange(1)" class="form-control apple-form-control edit2-select">
+                                        <option value="">暂不选择</option>
+                                        <option value="{{g.id}}" ng-repeat="g in filteredCateGroups">{{g.name}}</option>
+                                    </select>
+                                    <label class="edit2-label edit2-label-gap">材料:</label>
+                                    <select ng-model="infos.pid" ng-change="onChangeRatio()" class="form-control apple-form-control edit2-select">
+                                        <option value="0">暂不选择</option>
+                                        <option value="{{v.id}}" ng-repeat="v in infos.subList1">{{v.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="edit2-ratio-row">
+                                    <label class="edit2-label">关联比例:</label>
+                                    <input type="number" ng-change="onChangeRatio()" name="ratio" ng-model="infos.ratio" step="0.01" class="form-control apple-form-control edit2-ratio-input"/>
+                                </div>
+                            </div>
+
+                            <div class="edit2-material-group">
+                                <div class="edit2-group-title">材料二选择</div>
+                                <div class="edit2-select-row">
+                                    <label class="edit2-label">分类:</label>
+                                    <select ng-model="infos.cat2" ng-change="onCatChange(2)" class="form-control apple-form-control edit2-select">
+                                        <option value="">暂不选择</option>
+                                        <option value="{{g.id}}" ng-repeat="g in filteredCateGroups">{{g.name}}</option>
+                                    </select>
+                                    <label class="edit2-label edit2-label-gap">材料:</label>
+                                    <select ng-model="infos.pid2" ng-change="onChangeRatio()" class="form-control apple-form-control edit2-select">
+                                        <option value="0">暂不选择</option>
+                                        <option value="{{v.id}}" ng-repeat="v in infos.subList2">{{v.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="edit2-ratio-row">
+                                    <label class="edit2-label">关联比例:</label>
+                                    <input type="number" ng-change="onChangeRatio()" name="ratio2" ng-model="infos.ratio2" step="0.01" class="form-control apple-form-control edit2-ratio-input"/>
+                                </div>
+                            </div>
+
+                            <div class="edit2-material-group">
+                                <div class="edit2-group-title">材料三选择</div>
+                                <div class="edit2-select-row">
+                                    <label class="edit2-label">分类:</label>
+                                    <select ng-model="infos.cat3" ng-change="onCatChange(3)" class="form-control apple-form-control edit2-select">
+                                        <option value="">暂不选择</option>
+                                        <option value="{{g.id}}" ng-repeat="g in filteredCateGroups">{{g.name}}</option>
+                                    </select>
+                                    <label class="edit2-label edit2-label-gap">材料:</label>
+                                    <select ng-model="infos.pid3" ng-change="onChangeRatio()" class="form-control apple-form-control edit2-select">
+                                        <option value="0">暂不选择</option>
+                                        <option value="{{v.id}}" ng-repeat="v in infos.subList3">{{v.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="edit2-ratio-row">
+                                    <label class="edit2-label">关联比例:</label>
+                                    <input type="number" ng-change="onChangeRatio()" name="ratio3" ng-model="infos.ratio3" step="0.01" class="form-control apple-form-control edit2-ratio-input"/>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="edit2-bottom-fields">
                             <div ng-hide="infos.isBase" class="form-group">
                                 <label>组合工费比例</label>
-                                <input type="number" name="end_ratio" ng-change="onChangeRatio2()" ng-model="infos.end_ratio" step="0.01" class="form-control"/>
+                                <input type="number" name="end_ratio" ng-change="onChangeRatio2()" ng-model="infos.end_ratio" step="0.01" class="form-control apple-form-control"/>
                             </div>
-                            <!-- 自动同步状态：只读展示，不可手动修改 -->
                             <div ng-if="infos.has_auto_sync == 1" class="edit2-autosync-block">
-                                <div class="edit2-autosync-tip">⚠ 该材料已配置期货自动同步，价格不可手动修改</div>
+                                <div class="edit2-autosync-tip">提示：该材料已配置期货自动同步，价格不可手动修改</div>
                                 <div class="edit2-autosync-fields">
                                     <div class="edit2-autosync-item">
                                         <div class="edit2-autosync-label">期货现价</div>
@@ -538,18 +686,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- 非自动同步：正常可编辑 -->
                             <div ng-if="infos.has_auto_sync != 1" class="form-group">
                                 <label>执行价格</label>
-                                <input type="text" name="price" class="form-control chang_price" ng-model="infos.price"/>
+                                <input type="text" name="price" class="form-control apple-form-control chang_price" ng-model="infos.price"/>
                             </div>
                         </div>
                     </form>
-
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" ng-click="edit()"
+                    <button type="button" class="btn btn-default apple-btn-cancel" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary apple-btn-submit" ng-click="edit()"
                             ng-disabled="isRequesting || infos.has_auto_sync == 1"
                             title="{{infos.has_auto_sync == 1 ? '已启用期货自动同步，价格不可手动修改' : ''}}">
                         <span ng-if="isRequesting" class="spinner"></span>
@@ -560,10 +706,10 @@
         </div>
     </div>
 
-    <!-- Modal：复制衍生分类 -->
+    <!-- 弹窗：复制衍生分类 -->
     <div class="modal fade" id="modalCloneCate" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document" style="width:420px;">
-            <div class="modal-content">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content apple-modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                     <h4 class="modal-title">复制衍生分类</h4>
@@ -571,23 +717,23 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>源分类 <span style="color:#e74c3c;">*</span></label>
-                        <div style="font-size:11px;color:#27ae60;margin-bottom:6px;" ng-if="clone.dirName">当前目录：<strong>{{clone.dirName}}</strong></div>
-                        <select class="form-control" ng-model="clone.source_id" ng-change="onCloneSourceChange()" ng-disabled="!clone.filteredGroups.length">
+                        <div style="font-size:12px;color:#27ae60;margin-bottom:6px;" ng-if="clone.dirName">当前目录：<strong>{{clone.dirName}}</strong></div>
+                        <select class="form-control apple-form-control" ng-model="clone.source_id" ng-change="onCloneSourceChange()" ng-disabled="!clone.filteredGroups.length">
                             <option value="">{{clone.filteredGroups.length ? '请选择要复制的衍生分类' : '当前目录下暂无衍生分类'}}</option>
                             <option value="{{g.id}}" ng-repeat="g in clone.filteredGroups">{{g.name}}</option>
                         </select>
-                        <div style="font-size:11px;color:#888;margin-top:4px;" ng-if="clone.source_id">
+                        <div style="font-size:12px;color:#888;margin-top:4px;" ng-if="clone.source_id">
                             包含 <strong>{{clone.materialCount}}</strong> 条材料
                         </div>
                     </div>
                     <div class="form-group">
                         <label>新分类名称 <span style="color:#e74c3c;">*</span></label>
-                        <input type="text" class="form-control" ng-model="clone.new_name" placeholder="输入新分类名称"/>
+                        <input type="text" class="form-control apple-form-control" ng-model="clone.new_name" placeholder="请输入新分类名称"/>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" ng-click="submitCloneCate()" ng-disabled="clone.loading">
+                    <button type="button" class="btn btn-default apple-btn-cancel" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary apple-btn-submit" ng-click="submitCloneCate()" ng-disabled="clone.loading">
                         <span ng-if="clone.loading">复制中...</span>
                         <span ng-if="!clone.loading">确认复制</span>
                     </button>
@@ -601,15 +747,51 @@
 
 <style>
 
-/* ===== section 标题栏 ===== */
+/* ===== 全局容器与苹果高级商务风底层重构 ===== */
+.apple-admin-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box;
+    background-color: #f5f7fa;
+}
+
+.apple-section-box {
+    margin-bottom: 20px;
+}
+
+.apple-card-box {
+    width: 100% !important;
+    border: none !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04) !important;
+    background: #ffffff !important;
+    margin-bottom: 0 !important;
+}
+
+.apple-card-body {
+    padding: 12px 14px !important;
+}
+
+.apple-table-responsive {
+    border: none !important;
+    overflow-x: visible !important;
+}
+
+/* ===== 区域标题栏 ===== */
 .section-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #333;
-    color: #fff;
-    padding: 8px 14px;
-    border-radius: 3px 3px 0 0;
+    background: #2c3e50;
+    color: #ffffff;
+    padding: 12px 16px;
+    border-radius: 12px 12px 0 0;
+}
+
+.section-header-green {
+    background: #27ae60;
 }
 
 .section-header-derived {
@@ -617,243 +799,358 @@
 }
 
 .section-title {
-    font-size: 14px;
-    font-weight: bold;
-    letter-spacing: 1px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
-.section-add-btn {
+.section-header-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.section-add-btn, .section-add-btn-sub {
     font-size: 12px !important;
-    padding: 3px 10px !important;
-    height: auto !important;
+    padding: 6px 12px !important;
+    height: 32px !important;
+    line-height: 18px !important;
+    border-radius: 6px !important;
     border: 1px solid rgba(255,255,255,0.4) !important;
     background: rgba(255,255,255,0.15) !important;
     color: #fff !important;
+    transition: all 0.2s ease;
 }
 
-.section-add-btn:hover {
-    background: rgba(255,255,255,0.28) !important;
+.section-add-btn:hover, .section-add-btn-sub:hover {
+    background: rgba(255,255,255,0.3) !important;
+    color: #fff;
 }
 
-/* ===== 分类块：整体浅灰背景 ===== */
+/* ===== 分类块 ===== */
 .cate-block {
-    background-color: #e8e8e8;
-    border-radius: 3px;
-    padding: 6px 8px 8px 8px;
-    margin-bottom: 8px;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 10px 12px 12px 12px;
+    margin-bottom: 12px;
 }
 
-/* 分类标题行：无额外背景，继承灰色 */
 .cate-title-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 28px;
-    margin-bottom: 6px;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #eef2f5;
 }
 
 .cate-title-name {
     font-size: 14px;
-    font-weight: bold;
-    color: #333;
+    font-weight: 600;
+    color: #2c3e50;
 }
 
 .cate-title-btns {
     display: flex;
-    gap: 4px;
+    gap: 6px;
     align-items: center;
 }
 
-/* 分隔线 */
-.cate-divider {
-    margin: 8px 0;
-    border-top: 1px solid #e0e0e0;
-}
-
-/* ===== 材料卡片网格 ===== */
+/* ===== 网格样式 ===== */
 .material-grid {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 2px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
 }
 
-/* 每个材料卡片：固定每行7个，两行结构 */
 .material-card {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    width: calc(100% / 7);
-    padding: 2px 0 4px 0;
-    margin-bottom: 6px;
-    padding-right: 28px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 8px 10px;
+    transition: all 0.2s ease;
 }
 
-/* 每行：名称+删除 / 价格+编辑 */
+.material-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
 .material-row {
     display: flex;
     align-items: center;
+    gap: 6px;
 }
 
 .material-row-top {
-    margin-bottom: 2px;
+    margin-bottom: 6px;
 }
 
-/* 材料名称：白色input框样式 */
 .material-name {
-    font-size: 12px;
-    color: #333;
+    font-size: 13px;
+    color: #334155;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     flex: 1;
     min-width: 0;
-    line-height: 1;
-    background: #fff;
-    border: 1px solid #d9d9d9;
-    border-radius: 3px;
-    padding: 3px 5px;
-    height: 22px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 4px 8px;
+    height: 28px;
+    line-height: 18px;
     box-sizing: border-box;
 }
 
-/* 派生材料名称：蓝色文字 */
 .material-name-blue {
     color: #1a6fc4;
+    background: #f0f7ff;
+    border-color: #bae6fd;
 }
 
-/* 期货现价（与材料价格同行显示） */
+.material-name-mixed {
+    color: #e74c3c;
+    background: #fdf2f2;
+    border-color: #f5c6cb;
+}
+
 .material-futures-price {
-    font-size: 11px;
+    font-size: 12px;
     color: #1a6fc4;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     flex: 1;
     min-width: 0;
-    line-height: 1;
     background: #eaf3fd;
     border: 1px solid #b8d9f5;
-    border-radius: 3px;
-    padding: 3px 5px;
-    height: 22px;
+    border-radius: 4px;
+    padding: 4px 8px;
+    height: 28px;
+    line-height: 18px;
     box-sizing: border-box;
-    margin-right: 2px;
 }
 
-/* 价格：白色input框样式 */
 .material-price {
-    font-size: 12px;
-    color: #333;
+    font-size: 13px;
+    font-weight: 500;
+    color: #0f172a;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     flex: 1;
     min-width: 0;
-    line-height: 1;
-    background: #fff;
-    border: 1px solid #d9d9d9;
-    border-radius: 3px;
-    padding: 3px 5px;
-    height: 22px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 4px 8px;
+    height: 28px;
+    line-height: 18px;
     box-sizing: border-box;
 }
 
 .material-btn {
-    height: 22px !important;
-    line-height: 22px !important;
-    padding: 0 6px !important;
-    font-size: 11px !important;
-    display: inline-block;
-    text-align: center;
+    height: 28px !important;
+    line-height: 18px !important;
+    padding: 4px 10px !important;
+    font-size: 12px !important;
+    border-radius: 4px !important;
     flex-shrink: 0;
-    margin-left: 2px;
 }
 
-/* 每张卡片右侧留出间距，与下一个卡片拉开距离 */
-.material-card + .material-card {
-    padding-left: 4px;
+.derived-catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
 }
 
-/* ===== myEdit2 三列材料表格 ===== */
-.edit2-material-table {
-    width: 100%;
-    table-layout: fixed;
+.derived-catalog-item {
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background: #f8fafc;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    padding: 8px 10px;
+}
+
+.derived-catalog-item:hover {
+    border-color: #27ae60;
+    background: #eafaf1;
+}
+
+.derived-catalog-item.active {
+    border-color: #27ae60 !important;
+    background: #27ae60 !important;
+    box-shadow: 0 2px 6px rgba(39,174,96,0.3);
+}
+
+.derived-catalog-item.active .catalog-name,
+.derived-catalog-item.active span {
+    color: #fff !important;
+}
+
+.derived-catalog-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.derived-catalog-index {
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.derived-catalog-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.catalog-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ===== 弹窗与表单样式优化（彻底解决电脑端弹窗过窄缺陷） ===== */
+.apple-modal-content {
+    border-radius: 12px !important;
+    border: none !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15) !important;
+}
+
+/* 扩展大型弹窗宽度，确保三列材料选择器完整展开不缺失 */
+@media screen and (min-width: 768px) {
+    .apple-modal-lg {
+        width: 950px !important;
+        max-width: 950px !important;
+    }
+}
+
+.apple-form-control {
+    border-radius: 6px !important;
+    border: 1px solid #cbd5e1 !important;
+    height: 38px !important;
+    box-shadow: none !important;
+}
+
+.apple-btn-cancel {
+    border-radius: 6px !important;
+    height: 38px !important;
+    padding: 6px 16px !important;
+}
+
+.apple-btn-submit {
+    border-radius: 6px !important;
+    height: 38px !important;
+    padding: 6px 20px !important;
+    background-color: #2563eb !important;
+    border-color: #2563eb !important;
+}
+
+.apple-btn-action {
+    border-radius: 4px !important;
+    padding: 4px 10px !important;
+    font-size: 12px !important;
+}
+
+/* ===== 响应式材料选择容器 ===== */
+.edit2-material-container {
+    display: flex;
+    gap: 10px;
     margin-bottom: 12px;
 }
 
-.edit2-th {
-    text-align: center !important;
-    font-weight: bold;
-    padding: 8px 10px;
+.edit2-material-group {
+    flex: 1;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.edit2-group-title {
     font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: center;
+    background: #f1f5f9;
+    border-radius: 4px;
+    padding-top: 4px;
 }
-
-.edit2-th-1, .edit2-th-2, .edit2-th-3 { background-color: #f0f0f0; }
-
-.edit2-td {
-    padding: 10px 12px;
-    vertical-align: top;
-    background-color: #f7f7f7;
-}
-
-.edit2-td-1 {}
-.edit2-td-2 {}
-.edit2-td-3 {}
 
 .edit2-select-row {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
-    flex-wrap: nowrap;
+    margin-bottom: 8px;
+    gap: 4px;
 }
 
 .edit2-ratio-row {
     display: flex;
     align-items: center;
+    gap: 4px;
 }
 
 .edit2-label {
     white-space: nowrap;
     margin: 0;
     font-weight: normal;
-    font-size: 13px;
+    font-size: 12px;
+    color: #475569;
 }
 
 .edit2-label-gap {
-    margin-left: 8px;
+    margin-left: 4px;
 }
 
 .edit2-select {
     flex: 1;
     min-width: 0;
-    margin-left: 4px;
-    height: 30px !important;
-    padding: 2px 6px !important;
+    height: 34px !important;
+    padding: 2px 4px !important;
     font-size: 12px !important;
 }
 
 .edit2-ratio-input {
     flex: 1;
     min-width: 0;
-    margin-left: 4px;
-    height: 30px !important;
+    height: 34px !important;
     padding: 2px 6px !important;
     font-size: 12px !important;
 }
 
 .edit2-bottom-fields {
-    padding: 0 4px;
+    padding: 0 2px;
 }
 
-/* 自动同步只读展示块 */
 .edit2-autosync-block {
     margin-bottom: 12px;
 }
 .edit2-autosync-tip {
     font-size: 12px;
-    color: #e67e22;
-    background: #fef9ec;
-    border: 1px solid #f5c97a;
-    border-radius: 3px;
-    padding: 5px 10px;
+    color: #d97706;
+    background: #fef3c7;
+    border: 1px solid #fde68a;
+    border-radius: 6px;
+    padding: 6px 10px;
     margin-bottom: 8px;
 }
 .edit2-autosync-fields {
@@ -865,19 +1162,19 @@
 }
 .edit2-autosync-label {
     font-size: 11px;
-    color: #888;
+    color: #64748b;
     margin-bottom: 3px;
 }
 .edit2-autosync-value {
     font-size: 13px;
     font-weight: 600;
-    color: #333;
-    background: #f5f5f5;
-    border: 1px solid #d9d9d9;
-    border-radius: 3px;
+    color: #0f172a;
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
     padding: 4px 8px;
-    height: 30px;
-    line-height: 22px;
+    height: 34px;
+    line-height: 24px;
     box-sizing: border-box;
 }
 .edit2-autosync-price {
@@ -886,7 +1183,6 @@
     border-color: #b8d9f5;
 }
 
-/* ===== 按钮样式修正 ===== */
 .btn-primary.disabled,
 .btn-primary[disabled] {
     cursor: not-allowed;
@@ -894,13 +1190,14 @@
 
 .spinner {
     display: inline-block;
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     border: 2px solid #ccc;
-    border-top-color: #333;
+    border-top-color: #fff;
     border-radius: 50%;
     animation: spin 1s linear infinite;
-    margin-right: 8px;
+    margin-right: 6px;
+    vertical-align: middle;
 }
 
 @keyframes spin {
@@ -908,30 +1205,116 @@
     100% { transform: rotate(360deg); }
 }
 
-/* 衍生材料管理：默认隐藏所有子块，由 JS 按选中目录控制显示 */
 #section-derived .cate-block { display: none; }
 
-/* 衍生材料目录 */
-.derived-catalog-item {
-    transition: all 0.2s;
-}
-.derived-catalog-item:hover {
-    border-color: #27ae60 !important;
-    background: #eafaf1 !important;
-}
-.derived-catalog-item.active {
-    border-color: #27ae60 !important;
-    background: #27ae60 !important;
-    box-shadow: 0 2px 6px rgba(39,174,96,0.3);
-}
-.derived-catalog-item.active .catalog-name,
-.derived-catalog-item.active span {
-    color: #fff !important;
-}
-/* 衍生材料管理中被高亮的大类块 */
 .cate-block.catalog-highlight {
     border: 2px solid #27ae60 !important;
     box-shadow: 0 0 0 3px rgba(39,174,96,0.15);
+}
+
+/* ===== 移动端绝对贴边铺满穿透规则（强行抹平后台外壳父级白边） ===== */
+@media screen and (max-width: 768px) {
+    /* 强制穿透：把后台框架可能存在的左右间距全部归零 */
+    .content, .content-wrapper, .right-side, .main-sidebar + .content-wrapper {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .apple-admin-container {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        margin-left: calc(-50vw + 50%) !important;
+        padding-left: 4px !important;
+        padding-right: 4px !important;
+        box-sizing: border-box;
+    }
+    
+    .row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+    
+    .col-lg-12 {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    
+    .apple-card-box {
+        border-radius: 0 !important;
+        border-left: none !important;
+        border-right: none !important;
+        width: 100% !important;
+    }
+    
+    .apple-card-body {
+        padding: 8px 6px !important;
+    }
+    
+    .apple-section-box {
+        margin-bottom: 10px !important;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 10px 10px;
+        border-radius: 0 !important;
+    }
+    
+    .section-header-actions {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+    
+    .material-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 6px !important;
+    }
+    
+    /* 修复手机端衍生材料目录被挤压变形的问题（由3列改为宽松的2列） */
+    .derived-catalog-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 6px !important;
+    }
+    
+    .material-card {
+        padding: 6px 6px !important;
+    }
+    
+    .material-name, .material-price, .material-futures-price {
+        font-size: 11px !important;
+        padding: 2px 4px !important;
+        height: 24px !important;
+        line-height: 16px !important;
+    }
+    
+    .material-btn {
+        height: 24px !important;
+        line-height: 14px !important;
+        padding: 2px 6px !important;
+        font-size: 11px !important;
+    }
+    
+    .edit2-material-container {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .cate-title-row {
+        height: auto;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+    
+    .cate-title-btns {
+        width: 100%;
+        justify-content: flex-end;
+    }
 }
 
 </style>
@@ -941,10 +1324,8 @@
 
   }
 
-  // 衍生材料目录 — 选中并定位
-  var _selectedDirId = 0;  // 当前选中的衍生材料目录 id
+  var _selectedDirId = 0;
 
-  // 添加属于当前目录的衍生材料分类（cate_type=1, cate_label_id=目录id）
   function openAddDerivedMaterial() {
       if (!_selectedDirId) {
           return swal('提示', '请先在「衍生材料目录」中选择一个目录', 'warning');
@@ -958,19 +1339,16 @@
 
   function selectDerivedCatalog(dirId, el) {
       _selectedDirId = dirId;
-      // 切换目录选中态
       document.querySelectorAll('.derived-catalog-item').forEach(function(item) {
           item.classList.remove('active');
       });
       el.classList.add('active');
 
-      // 按 data-dir-id 过滤：只显示属于当前目录的分类块
       document.querySelectorAll('#section-derived .cate-block').forEach(function(b) {
           b.style.display = (b.getAttribute('data-dir-id') == dirId) ? 'block' : 'none';
       });
   }
 
-  // 页面加载后：优先选中新建的目录，否则默认第一项
   document.addEventListener('DOMContentLoaded', function() {
       var autoId = sessionStorage.getItem('autoSelectDirId');
       sessionStorage.removeItem('autoSelectDirId');
@@ -979,7 +1357,6 @@
           : document.querySelector('.derived-catalog-item');
       if (target) {
           target.click();
-          target.scrollIntoView({behavior: 'smooth', block: 'center'});
       }
   });
 
@@ -992,11 +1369,9 @@
       $('#myModal').modal('show');
   }
   
- function addor2() {
-        // 从 Angular scope 取值，避免 serializeArray 读不到动态 option 的 value
+  function addor2() {
         var scope = angular.element(document.querySelector('[ng-controller="myCtrl"]')).scope();
         var infos = scope.infos || {};
-        // 衍生材料分类下必须选择至少一个材料
         if (!infos.isBase) {
             var pid  = Number(infos.pid  || 0);
             var pid2 = Number(infos.pid2 || 0);
@@ -1007,7 +1382,6 @@
         }
         var temp = $("form[name='ador2']").serializeArray();
         var data = objToArray(temp);
-        // 用 scope 里的值覆盖 pid/pid2/pid3，确保是正确的数字 id
         data.pid   = infos.pid   || 0;
         data.pid2  = infos.pid2  || 0;
         data.pid3  = infos.pid3  || 0;
@@ -1017,7 +1391,7 @@
         data.end_ratio = infos.end_ratio || 0;
         data.price  = infos.price  || 0;
         var baseurl = "<?php echo U('NewLabel/add','model=new_label');?>";
-        //////
+        
         $.ajax({
             url: baseurl,
             type: "post",
@@ -1037,10 +1411,7 @@
             },
         });
     }
-    /**
-     * 添加
-     * @returns {undefined}
-     */
+
     function addor() {
         var temp = $("form[name='ador']").serializeArray();
         var data = objToArray(temp);
@@ -1055,7 +1426,6 @@
                 if (res.status != 1) {
                     return swal('提示', res.msg, "error");
                 }
-                // 新建衍生材料目录后，记录 id 供重载后自动选中
                 if (cateType === 2 && res.data) {
                     sessionStorage.setItem('autoSelectDirId', res.data);
                 }
@@ -1065,14 +1435,11 @@
         });
     }
 
-    // 全量分类树（ThinkPHP 渲染时注入，每项含 id/name/children）
     var PAGE_CATE_LIST = <?php echo json_encode($allTree);?>;
 
-    // 全量子项扁平列表（带所属大类信息，供价格计算用）
     var PAGE_CATE_FLAT = [];
     (PAGE_CATE_LIST || []).forEach(function(g) {
         if (Number(g.cate_type) === 2) {
-            // 衍生材料目录：需两层深（目录→分类→材料）
             (g.children || []).forEach(function(cat) {
                 (cat.children || []).forEach(function(item) {
                     item.cate_group_id   = cat.id;
@@ -1081,7 +1448,6 @@
                 });
             });
         } else {
-            // 基础材料分类：一层深（分类→材料）
             (g.children || []).forEach(function(item) {
                 item.cate_group_id   = g.id;
                 item.cate_group_name = g.name;
@@ -1095,15 +1461,12 @@
         $scope.isRequesting = false;
         $scope.infos;
 
-        // 分类列表（用于「添加材料」弹窗中的分类下拉）
         $scope.allCateGroups = [];
         (PAGE_CATE_LIST || []).forEach(function(g) {
             var t = Number(g.cate_type);
             if (t === 0) {
-                // 基础材料分类：直接在根层，保留
                 $scope.allCateGroups.push({ id: String(g.id), name: g.name, cate_type: t, children: g.children || [] });
             } else if (t === 2) {
-                // 衍生材料目录：从其 children 提取 cate_type=1 的分类
                 (g.children || []).forEach(function(cat) {
                     if (Number(cat.cate_type) === 1) {
                         $scope.allCateGroups.push({ id: String(cat.id), name: cat.name, cate_type: Number(cat.cate_type), children: cat.children || [] });
@@ -1112,8 +1475,6 @@
             }
         });
 
-        // 衍生分类列表（用于复制衍生分类的源下拉）
-        // 复制衍生分类的源下拉：从目录子节点提取 cate_type=1 的分类（同 allCateGroups 过滤逻辑）
         $scope.derivedCateGroups = [];
         (PAGE_CATE_LIST || []).forEach(function(g) {
             if (Number(g.cate_type) === 2) {
@@ -1125,10 +1486,8 @@
             }
         });
 
-        // 复制衍生分类状态
         $scope.clone = { source_id: '', new_name: '', materialCount: 0, loading: false };
 
-        // 添加材料弹窗用的过滤分类列表（衍生部分只含当前选中目录）
         $scope.filteredCateGroups = [];
         $scope.buildFilteredCateGroups = function(dirId) {
             $scope.filteredCateGroups = [];
@@ -1146,7 +1505,6 @@
             });
         };
 
-        // 大类切换时更新对应小类列表，并清空已选小类
         $scope.onCatChange = function(idx) {
             var catId = $scope.infos['cat' + idx];
             var group = ($scope.allCateGroups || []).find(function(g) { return String(g.id) === String(catId); });
@@ -1155,14 +1513,12 @@
             $scope.infos['subList' + idx] = children.filter(function(c) {
                 return groupIsDerived ? Number(c.pid) > 0 : Number(c.pid) === 0;
             });
-            // 清空已选小类，ratio 重置为 100
             if (idx === 1) { $scope.infos.pid  = 0; $scope.infos.ratio  = 100; }
             if (idx === 2) { $scope.infos.pid2 = 0; $scope.infos.ratio2 = 100; }
             if (idx === 3) { $scope.infos.pid3 = 0; $scope.infos.ratio3 = 100; }
             $scope.onChangeRatio();
         };
 
-        // 编辑回显时，根据已选 pid 反查大类并初始化小类列表
         $scope.restoreCatSelections = function() {
             [[1,'pid'], [2,'pid2'], [3,'pid3']].forEach(function(pair) {
                 var idx = pair[0], pidKey = pair[1];
@@ -1184,126 +1540,97 @@
             });
         };
 
-        // 覆盖 cate_list 为全量扁平列表，保证价格联动计算跨大类可用
         $scope.buildFullCateList = function() {
             $scope.infos.cate_list = PAGE_CATE_FLAT;
         };
     
-    $scope.onChangeRatio = function(){
-        if($scope.infos.pid > 0 || $scope.infos.pid2 > 0 || $scope.infos.pid3 > 0){
+        $scope.onChangeRatio = function(){
+            if($scope.infos.pid > 0 || $scope.infos.pid2 > 0 || $scope.infos.pid3 > 0){
                 var cate = '';
-            $scope.infos.cate_list.forEach(function(item) {
+                $scope.infos.cate_list.forEach(function(item) {
+                    if(item.id == $scope.infos.pid){
+                        cate = item;
+                    }
+                });
                 
-                if(item.id == $scope.infos.pid){
-                    cate = item;
-                }
-            });
-            
-            var cate2 = '';
-            $scope.infos.cate_list.forEach(function(item) {
-                
-                if(item.id == $scope.infos.pid2){
-                    cate2 = item;
-                }
-            });
-            var cate3 = '';
-            $scope.infos.cate_list.forEach(function(item) {
-                
-                if(item.id == $scope.infos.pid3){
-                    cate3 = item;
-                }
-            });
-             
-            if(cate || cate2 || cate3){
-                
-                $(".chang_price").attr("disabled", "disabled");
-           
-    
-                var price = 0;
-                
-                if (cate) {
-                    price = (price * 100 + (cate.price * $scope.infos.ratio)) / 100;
-                }
-                if (cate2) {
-                    price = (price * 100 + (cate2.price * $scope.infos.ratio2)) / 100;
-                }
-                if (cate3) {
-                    price = (price * 100 + (cate3.price * $scope.infos.ratio3)) / 100;
-                }
-                
-                price = price + ($scope.infos.end_ratio || 0);
-                
-                price = Math.round((price + Number.EPSILON) * 100) / 100;
-
-                $scope.infos.price = parseFloat(price.toFixed(2));
-            }else{
-                $(".chang_price").removeAttr("disabled");
-            }
-        }else{
-            $(".chang_price").removeAttr("disabled");
-        }
-               
-        
-    };
-    
-    $scope.onChangeRatio2 = function(){
-        console.log(1777771);
-         var price = $scope.infos.price;
-         
-         if($scope.infos.pid > 0 || $scope.infos.pid2 > 0 || $scope.infos.pid3 > 0){
-                var cate = '';
-            $scope.infos.cate_list.forEach(function(item) {
-                
-                if(item.id == $scope.infos.pid){
-                    cate = item;
-                }
-            });
-            
-            var cate2 = '';
-            $scope.infos.cate_list.forEach(function(item) {
-                
-                if(item.id == $scope.infos.pid2){
-                    cate2 = item;
-                }
-            });
-            var cate3 = '';
-            $scope.infos.cate_list.forEach(function(item) {
-                
-                if(item.id == $scope.infos.pid3){
-                    cate3 = item;
-                }
-            });
-             
-            if(cate || cate2 || cate3){
-                
-                $(".chang_price").attr("disabled", "disabled");
-           
-    
-                var price = 0;
-                
-                if (cate) {
-                    price = (price * 100 + (cate.price * $scope.infos.ratio)) / 100;
-                }
-                if (cate2) {
-                    price = (price * 100 + (cate2.price * $scope.infos.ratio2)) / 100;
-                }
-                if (cate3) {
-                    price = (price * 100 + (cate3.price * $scope.infos.ratio3)) / 100;
-                }
-                
-                price = price + ($scope.infos.end_ratio || 0);
-                
-                price = Math.round((price + Number.EPSILON) * 100) / 100;
-
+                var cate2 = '';
+                $scope.infos.cate_list.forEach(function(item) {
+                    if(item.id == $scope.infos.pid2){
+                        cate2 = item;
+                    }
+                });
+                var cate3 = '';
+                $scope.infos.cate_list.forEach(function(item) {
+                    if(item.id == $scope.infos.pid3){
+                        cate3 = item;
+                    }
+                });
+                 
+                if(cate || cate2 || cate3){
+                    $(".chang_price").attr("disabled", "disabled");
+                    var price = 0;
+                    if (cate) {
+                        price = (price * 100 + (cate.price * $scope.infos.ratio)) / 100;
+                    }
+                    if (cate2) {
+                        price = (price * 100 + (cate2.price * $scope.infos.ratio2)) / 100;
+                    }
+                    if (cate3) {
+                        price = (price * 100 + (cate3.price * $scope.infos.ratio3)) / 100;
+                    }
+                    price = price + ($scope.infos.end_ratio || 0);
+                    price = Math.round((price + Number.EPSILON) * 100) / 100;
                     $scope.infos.price = parseFloat(price.toFixed(2));
-            }else{
+                } else {
+                    $(".chang_price").removeAttr("disabled");
+                }
+            } else {
                 $(".chang_price").removeAttr("disabled");
             }
-        }
-         
-         
+        };
         
-    };
+        $scope.onChangeRatio2 = function(){
+            var price = $scope.infos.price;
+            if($scope.infos.pid > 0 || $scope.infos.pid2 > 0 || $scope.infos.pid3 > 0){
+                var cate = '';
+                $scope.infos.cate_list.forEach(function(item) {
+                    if(item.id == $scope.infos.pid){
+                        cate = item;
+                    }
+                });
+                var cate2 = '';
+                $scope.infos.cate_list.forEach(function(item) {
+                    if(item.id == $scope.infos.pid2){
+                        cate2 = item;
+                    }
+                });
+                var cate3 = '';
+                $scope.infos.cate_list.forEach(function(item) {
+                    if(item.id == $scope.infos.pid3){
+                        cate3 = item;
+                    }
+                });
+                 
+                if(cate || cate2 || cate3){
+                    $(".chang_price").attr("disabled", "disabled");
+                    var price = 0;
+                    if (cate) {
+                        price = (price * 100 + (cate.price * $scope.infos.ratio)) / 100;
+                    }
+                    if (cate2) {
+                        price = (price * 100 + (cate2.price * $scope.infos.ratio2)) / 100;
+                    }
+                    if (cate3) {
+                        price = (price * 100 + (cate3.price * $scope.infos.ratio3)) / 100;
+                    }
+                    price = price + ($scope.infos.end_ratio || 0);
+                    price = Math.round((price + Number.EPSILON) * 100) / 100;
+                    $scope.infos.price = parseFloat(price.toFixed(2));
+                } else {
+                    $(".chang_price").removeAttr("disabled");
+                }
+            }
+        };
 
         $scope.commAjax = function (url, data, success) {
             $http({
@@ -1332,7 +1659,6 @@
 
         $scope.updateCats = function () {
             var param = { ids: $scope.infos.id, name: $scope.infos.name };
-            /////////
             $.ajax({
                 url: "<?php echo U('Core/edits','model=new_label');?>",
                 type: "post",
@@ -1391,7 +1717,6 @@
             var param = $scope.infos;
             param.ids = param.id;
             $scope.isRequesting = true;
-            /////////
             $.ajax({
                 url: "<?php echo U('NewLabel/edit','model=new_label');?>",
                 type: "post",
@@ -1401,17 +1726,16 @@
                     if (data.status !== 1) {
                         return swal("错误", data.msg, "error");
                     }
-                     $scope.isRequesting = false;
+                    $scope.isRequesting = false;
                     window.location.reload();
                 },
                 error: function (data) {
-                     $scope.isRequesting = false;
+                    $scope.isRequesting = false;
                     console.log(data);
                 }
             });
         }
 
-        // ===================== 复制衍生分类 =====================
         $scope.openCloneCate = function() {
             var dirId = window._selectedDirId || 0;
             var dirNode = (PAGE_CATE_LIST || []).find(function(g) { return String(g.id) === String(dirId); });
@@ -1427,7 +1751,6 @@
             var g = ($scope.clone.filteredGroups || []).find(function(x) {
                 return String(x.id) === String($scope.clone.source_id);
             });
-            // 只统计 pid>0 的材料（衍生材料，与页面展示一致）
             $scope.clone.materialCount = g ? g.children.filter(function(c) {
                 return Number(c.pid) > 0;
             }).length : 0;
@@ -1473,25 +1796,68 @@
                         }
                         window.location.reload();
                     });
-                }else{
+                } else {
                     
                 }
-            
             })   
         }
 
     });
 
 </script>
-
-
             </div>
         </div>
-        <!-- nano scroller -->
-        <script src="/Public/assets/js/lib/menubar/sidebar.js"></script>
-        <script src="/Public/assets/js/lib/preloader/pace.min.js"></script>
-        <!-- scripit init-->
-        <script type="text/javascript" src="/Public/assets/js/scripts.js"></script>
-    </body>
 
+        <script>
+            $(document).ready(function() {
+                var currentUrl = window.location.href.toLowerCase();
+                var currentPath = window.location.pathname.toLowerCase();
+                
+                $('.nav-capsule').removeClass('active');
+                
+                var matched = false;
+                $('.nav-capsule').each(function() {
+                    var hrefVal = $(this).attr('href');
+                    if (hrefVal) {
+                        var cleanHref = hrefVal.toLowerCase().replace(/['"()]/g, '');
+                        var segments = cleanHref.split('/');
+                        var lastSegment = segments[segments.length - 1]; 
+                        var secondLast = segments.length > 1 ? segments[segments.length - 2] : ''; 
+                        var compositeKey = secondLast && lastSegment ? (secondLast + '/' + lastSegment) : '';
+
+                        if (compositeKey && (currentUrl.indexOf(compositeKey) !== -1 || currentPath.indexOf(compositeKey) !== -1)) {
+                            $(this).addClass('active');
+                            matched = true;
+                            return false; 
+                        }
+                    }
+                });
+
+                if (!matched) {
+                    var $capsules = $('.nav-capsule').toArray();
+                    $capsules.sort(function(a, b) {
+                        return $(b).attr('href').length - $(a).attr('href').length;
+                    });
+
+                    for (var i = 0; i < $capsules.length; i++) {
+                        var $item = $($capsules[i]);
+                        var hrefVal = $item.attr('href');
+                        if (hrefVal) {
+                            var cleanHref = hrefVal.toLowerCase().replace(/['"()]/g, '');
+                            var segments = cleanHref.split('/');
+                            var lastSegment = segments[segments.length - 1];
+                            
+                            if (lastSegment && lastSegment.length > 2) {
+                                if (currentUrl.indexOf('/' + lastSegment) !== -1 || currentPath.indexOf('/' + lastSegment) !== -1 || currentUrl.endsWith(lastSegment)) {
+                                    $item.addClass('active');
+                                    matched = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+    </body>
 </html>

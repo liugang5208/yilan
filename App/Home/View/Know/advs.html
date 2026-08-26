@@ -1,65 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>广告管理</title>
+    <style>
+        /* 苹果极简商务风全局与组件样式重构 */
+        :root {
+            --apple-bg: #f5f5f7;
+            --apple-card-bg: #ffffff;
+            --apple-text-main: #1d1d1f;
+            --apple-text-secondary: #86868b;
+            --apple-border: #d2d2d7;
+            --apple-primary: #0071e3;
+            --apple-primary-hover: #0077ed;
+            --apple-danger: #ff3b30;
+            --apple-radius-sm: 8px;
+            --apple-radius-md: 12px;
+            --apple-radius-lg: 16px;
+            --apple-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+            --apple-shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            background-color: var(--apple-bg);
+            color: var(--apple-text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        .container-fluid {
+            width: 100%;
+            padding: 24px;
+            margin: 0 auto;
+        }
+
+        /* 顶部标题栏重构：去除多余留空，将添加按钮融入标题栏右侧 */
+        .apple-header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            background: var(--apple-card-bg);
+            padding: 20px 24px;
+            border-radius: var(--apple-radius-md);
+            box-shadow: var(--apple-shadow);
+        }
+
+        .apple-header-bar h1 {
+            font-size: 22px;
+            font-weight: 600;
+            margin: 0;
+            color: var(--apple-text-main);
+        }
+
+        /* 卡片容器：全屏铺开、细腻阴影与大圆角 */
+        .card.alert {
+            background: var(--apple-card-bg);
+            border: none;
+            border-radius: var(--apple-radius-lg);
+            box-shadow: var(--apple-shadow);
+            margin-bottom: 0;
+            transition: all 0.3s ease;
+        }
+
+        .card-header {
+            background: transparent;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            padding: 20px 24px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        /* 苹果风格按钮 */
+        .btn-apple-primary {
+            background-color: var(--apple-primary);
+            color: #ffffff;
+            border: none;
+            border-radius: var(--apple-radius-sm);
+            padding: 10px 20px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 113, 227, 0.3);
+        }
+
+        .btn-apple-primary:hover {
+            background-color: var(--apple-primary-hover);
+            color: #ffffff;
+        }
+
+        .btn-apple-danger {
+            background-color: rgba(255, 59, 48, 0.1);
+            color: var(--apple-danger);
+            border: none;
+            border-radius: var(--apple-radius-sm);
+            padding: 6px 14px;
+            font-weight: 500;
+            font-size: 13px;
+            transition: all 0.2s ease;
+            min-height: 36px;
+        }
+
+        .btn-apple-danger:hover {
+            background-color: var(--apple-danger);
+            color: #ffffff;
+        }
+
+        /* 表格样式美化与奇偶行底色 */
+        .table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: var(--apple-text-main);
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .table th {
+            border-bottom: 2px solid var(--apple-border);
+            color: var(--apple-text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            padding: 12px 16px;
+        }
+
+        .table td {
+            padding: 16px;
+            vertical-align: middle;
+            border-top: 1px solid rgba(0, 0, 0, 0.04);
+            font-size: 14px;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.015);
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(0, 113, 227, 0.02);
+        }
+
+        /* 媒体预览缩略图（支持图片与视频图标提示） */
+        .media-thumb-container {
+            position: relative;
+            width: 72px;
+            height: 48px;
+            border-radius: var(--apple-radius-sm);
+            overflow: hidden;
+            background: #000;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            display: inline-block;
+        }
+
+        .media-thumb-container img, .media-thumb-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .media-thumb-container:hover img, .media-thumb-container:hover video {
+            transform: scale(1.05);
+        }
+
+        .media-badge {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            font-size: 10px;
+            padding: 1px 4px;
+            border-radius: 4px;
+        }
+
+        /* 弹窗毛玻璃与圆角高档感 */
+        .modal-content {
+            border: none;
+            border-radius: var(--apple-radius-lg);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: #fafafa;
+            border-bottom: 1px solid var(--apple-border);
+            padding: 20px 24px;
+        }
+
+        .modal-title {
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--apple-text-main);
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-footer {
+            background: #fafafa;
+            border-top: 1px solid var(--apple-border);
+            padding: 16px 24px;
+        }
+
+        .form-control {
+            border-radius: var(--apple-radius-sm);
+            border: 1px solid var(--apple-border);
+            padding: 10px 14px;
+            font-size: 14px;
+            height: auto;
+            box-shadow: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--apple-primary);
+            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
+        }
+
+        /* 大图/大视频预览弹窗专属样式：尽量宽大展示实际内容 */
+        #previewModal .modal-dialog {
+            width: 80% !important;
+            max-width: 1000px;
+        }
+
+        .preview-large-box {
+            text-align: center;
+            background: #000;
+            border-radius: var(--apple-radius-md);
+            overflow: hidden;
+            max-height: 75vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .preview-large-box img, .preview-large-box video {
+            max-width: 100%;
+            max-height: 75vh;
+            object-fit: contain;
+        }
+
+        /* 手机端零溢出与卡片式折叠降级处理 (屏幕宽度小于 768px 时自动生效) */
+        @media (max-width: 768px) {
+            .container-fluid {
+                padding: 12px;
+            }
+            .apple-header-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+                padding: 16px;
+            }
+            .apple-header-bar .btn-apple-primary {
+                width: 100%;
+                text-align: center;
+                min-height: 44px; /* 符合移动端拇指点击高度 */
+            }
+            /* 隐藏传统表格头 */
+            .table thead {
+                display: none;
+            }
+            .table, .table tbody, .table tr, .table td {
+                display: block;
+                width: 100%;
+            }
+            /* 将每一行转为独立的高档卡片 */
+            .table tr {
+                background: var(--apple-card-bg) !important;
+                margin-bottom: 16px;
+                border-radius: var(--apple-radius-md);
+                box-shadow: var(--apple-shadow);
+                padding: 16px;
+                border: 1px solid rgba(0,0,0,0.04);
+            }
+            .table td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 0;
+                border-top: none;
+                border-bottom: 1px solid rgba(0,0,0,0.04);
+                text-align: right;
+            }
+            .table td:last-child {
+                border-bottom: none;
+                padding-top: 14px;
+            }
+            /* 增加移动端字段标签显式引导 */
+            .table td::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: var(--apple-text-secondary);
+                text-align: left;
+                font-size: 13px;
+            }
+            .btn-apple-danger {
+                width: 100%;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            #previewModal .modal-dialog {
+                width: 95% !important;
+                margin: 10px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-8 p-r-0 title-margin-right">
-            <div class="page-header">
-                <div class="page-title">
-                    <h1>广告管理</h1>
-                </div>
-            </div>
-        </div>
-        <!-- /# column -->
-        <div class="col-lg-4 p-l-0 title-margin-left">
-            <div class="page-header">
-                <div class="page-title">
-                    <!--ol class="breadcrumb text-right">
-                        <li><a href="#">Dashboard</a></li>
-                        <li class="active">UI-Blank</li>
-                    </ol-->
-                </div>
-            </div>
-        </div>
-        <!-- /# column -->
+    <!-- 顶部标题栏：去除多余留空，上传按钮直接内置在标题栏右侧 -->
+    <div class="apple-header-bar">
+        <h1>广告管理中心</h1>
+        <button type="button" class="btn btn-apple-primary" data-toggle="modal" data-target="#myModal">
+            + 添加广告内容
+        </button>
     </div>
-    <!-- /# row -->
+
+    <!-- 主内容卡片区域 -->
     <section id="main-content">
-
-
         <div class="row">
-
             <div class="col-lg-12">
                 <div class="card alert">
                     <div class="card-header">
-                        <h4>广告管理</h4>
-                        <div class="card-header-right-icon">
-                            <ul>
-                                <li class="doc-link">
-                                    <a class="btn btn-xs btn-info" data-toggle="modal" data-target="#myModal">添加广告</a>
-                                </li>
-                            </ul>
-                        </div>
+                        <span>广告列表与实时状态</span>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th style="text-align:center;">图片</th>
-                                        <th>状态</th>
-                                        <th width="15%">记录时间</th>
-                                        <th width="10%">管理</th>
+                                        <th># 编号</th>
+                                        <th style="text-align:center;">媒体预览 (支持图片/视频)</th>
+                                        <th>运行状态</th>
+                                        <th width="20%">记录时间</th>
+                                        <th width="12%">管理操作</th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
                                 <volist name="list.list" id="v">
                                     <tr>
-                                        <th scope="row">{$v.id}</th>
-                                        <td align="center"><img src="__PUBLIC__/uploads/ads/{$v.imgurl}" height="40"/></td>
-                                        <td>{$v['status']>0?'正常':'暂停使用'}</td>
-                                        <td>{$v.times|date='Y/m/d H:i:s',###}</td>
-                                        <td>
-                                            <a href="javascript:dels('{$v.id}');" class="btn btn-danger btn-xs">删除</a>
+                                        <td scope="row" data-label="编号">#{$v.id}</td>
+                                        <td align="center" data-label="媒体预览">
+                                            <!-- 点击图片或视频即可弹窗看大图/大视频，不写死类型 -->
+                                            <div class="media-thumb-container" onclick="openLargePreview('__PUBLIC__/uploads/ads/{$v.imgurl}')">
+                                                <php>
+                                                    $ext = strtolower(pathinfo($v['imgurl'], PATHINFO_EXTENSION));
+                                                    $isVideo = in_array($ext, ['mp4', 'webm', 'mov', 'ogg']);
+                                                </php>
+                                                <if condition="$isVideo">
+                                                    <video src="__PUBLIC__/uploads/ads/{$v.imgurl}" muted></video>
+                                                    <span class="media-badge">视频</span>
+                                                <else/>
+                                                    <img src="__PUBLIC__/uploads/ads/{$v.imgurl}" alt="广告媒体"/>
+                                                    <span class="media-badge">图片</span>
+                                                </if>
+                                            </div>
+                                        </td>
+                                        <td data-label="状态">
+                                            <span style="font-weight: 500; color: {$v['status']>0?'#34c759':'#ff9f0a'};">
+                                                {$v['status']>0?'● 正常运行':'● 暂停使用'}
+                                            </span>
+                                        </td>
+                                        <td data-label="记录时间">{$v.times|date='Y/m/d H:i:s',###}</td>
+                                        <td data-label="管理">
+                                            <a href="javascript:dels('{$v.id}');" class="btn btn-apple-danger btn-xs">删除记录</a>
                                         </td>
                                     </tr>
                                 </volist>
@@ -67,7 +382,7 @@
                                 </tbody>
                             </table>
 
-                            <nav aria-label="Page navigation">
+                            <nav aria-label="Page navigation" style="margin-top: 20px;">
                                 <ul class="pagination">{$list.show}</ul>
                             </nav>
 
@@ -75,54 +390,92 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
     </section>
 </div>
 
-<!-- Modal -->
+<!-- 添加广告弹窗 -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document" style="width:35%;">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">添加广告</h4>
+                <h4 class="modal-title" id="myModalLabel">添加广告文件</h4>
             </div>
             <div class="modal-body">
-
-                <form>
+                <form id="addAdForm">
                     <input type="hidden" name="types" value="1"/>
                     <input type="hidden" name="loc" value="1"/>
                     <input type="hidden" name="target_url" value="#"/>
-                    <div class="form-group">
-                        <label>图片文件</label>
-                        <input type="file" name="file" id="file" class="form-control"/>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="font-weight: 500; margin-bottom: 8px; display: block;">选择上传文件（支持图片或视频格式，不能写死）</label>
+                        <!-- accept 属性放开图片与视频，不限制死 -->
+                        <input type="file" name="file" id="file" class="form-control" accept="image/*,video/mp4,video/webm,video/ogg,video/quicktime"/>
+                        <small style="color: var(--apple-text-secondary); margin-top: 6px; display: block;">提示：支持常见的图片及高清视频文件上传，请确保服务器已调大上传大小限制。</small>
                     </div>
-                    <div class="form-group">
-                        <label>状态</label>
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label style="font-weight: 500; margin-bottom: 8px; display: block;">运行状态</label>
                         <select name="status" class="form-control">
-                            <option value="1">使用</option>
-                            <option value="0">暂停</option>
+                            <option value="1">立即使用</option>
+                            <option value="0">暂时停用</option>
                         </select>
                     </div>
                 </form>
-
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" onclick="addor()">添加</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="border-radius: 8px; padding: 10px 20px;">取消</button>
+                <button type="button" class="btn btn-apple-primary" onclick="addor()">确认添加并上传</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 大图/大视频弹窗预览组件：尽量宽大展示实际内容 -->
+<div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="previewModalLabel">媒体大图与视频详细预览</h4>
+            </div>
+            <div class="modal-body">
+                <div class="preview-large-box" id="previewContainer">
+                    <!-- 动态嵌入大图或可播放的大视频 -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="border-radius: 8px; padding: 8px 16px;">关闭预览</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+    /**
+     * 打开超大预览弹窗（自动识别图片或视频）
+     */
+    function openLargePreview(url) {
+        var ext = url.split('.').pop().toLowerCase();
+        var isVideo = ['mp4', 'webm', 'mov', 'ogg'].indexOf(ext) !== -1;
+        var container = document.getElementById('previewContainer');
+        
+        if (isVideo) {
+            container.innerHTML = '<video src="' + url + '" controls autoplay style="max-width:100%; max-height:75vh;"></video>';
+        } else {
+            container.innerHTML = '<img src="' + url + '" alt="高清大图预览" style="max-width:100%; max-height:75vh; object-fit:contain;">';
+        }
+        
+        // 调用 Bootstrap 弹窗展示
+        $('#previewModal').modal('show');
+    }
 
+    /**
+     * 添加广告异步提交
+     */
     function addor() {
-        var temp = $("form").serializeArray();
+        var temp = $("form#addAdForm").serializeArray();
         var data = objToArray(temp);
-        /////////
+        
         $.ajaxFileUpload({
             url: "{:U('Core/addon','model=sys_banner')}",
             secureuri: false,
@@ -131,24 +484,24 @@
             data: data,
             success: function (data) {
                 if (data.status !== 1) {
-                    return swal("错误", data.msg, "error");
+                    return swal("错误提示", data.msg, "error");
                 }
                 window.location.reload();
             },
             error: function (data) {
                 console.log(data);
+                swal("系统提示", "上传发生错误，请检查文件大小或网络连接", "error");
             }
         });
     }
 
     /**
-     * 删除
-     * @returns {undefined}
+     * 删除广告记录
      */
     function dels(id) {
         var data = {id: id};
         var baseurl = "{:U('Core/dels','model=sys_banner')}";
-        //////
+        
         $.ajax({
             url: baseurl,
             type: "post",
@@ -161,9 +514,10 @@
                 window.location.reload();
             },
             error: function () {
-
-            },
-        })
+                swal('提示', '删除请求失败', "error");
+            }
+        });
     }
-
 </script>
+</body>
+</html>

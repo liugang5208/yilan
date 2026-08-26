@@ -1,128 +1,811 @@
 <style>
-    .disitem{
-        box-sizing:border-box;
-        height:160px;
-        line-height:160px;
-        overflow:hidden;
-        padding:5px;
-        text-align:center;
+    /* ===== 苹果极简商务风：全局容器与排版样式 ===== */
+    .apple-backend-container {
+        background-color: #f5f5f7;
+        padding: 20px 24px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        color: #1d1d1f;
+        min-height: 100vh;
+        width: 100%;
+        max-width: 1440px;
+        margin: 0 auto;
+        box-sizing: border-box;
     }
-    .disitem img{ vertical-align:middle; height:100%;}
 
-    .disitemright{
-        box-sizing:border-box;
-        flex:1;
-        height:160px;
-        line-height:30px;
-        padding:60px 5px 5px;
-        text-align:right;
+    .apple-row {
+        margin-bottom: 0;
+        width: 100%;
     }
-    .disblok p{ margin:0px;}
+
+    /* ===== 页面顶部标题与面包屑导航 ===== */
+    .apple-page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        background: #ffffff;
+        padding: 14px 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        border: 1px solid rgba(0, 0, 0, 0.04);
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .apple-page-title h1 {
+        font-size: 18px;
+        font-weight: 700;
+        color: #1d1d1f;
+        margin: 0;
+    }
+
+    .apple-breadcrumb {
+        margin: 0;
+        padding: 0;
+        background: transparent;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        font-size: 13px;
+    }
+
+    .apple-breadcrumb li + li:before {
+        content: "/";
+        padding: 0 8px;
+        color: #86868b;
+    }
+
+    .apple-breadcrumb a {
+        color: #0071e3;
+        text-decoration: none;
+    }
+    .apple-breadcrumb a:hover {
+        text-decoration: underline;
+    }
+
+    .apple-breadcrumb .active {
+        color: #86868b;
+    }
+
+    /* ===== 苹果高档质感大卡片 ===== */
+    .apple-card {
+        background: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        border: 1px solid rgba(0, 0, 0, 0.04);
+        margin-bottom: 0;
+        overflow: hidden;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .apple-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #2c3e50;
+        color: #fff;
+        padding: 16px 20px;
+        border-bottom: none;
+    }
+
+    .card-title-text {
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        margin: 0;
+    }
+
+    .apple-header-add-btn {
+        font-size: 13px !important;
+        padding: 6px 14px !important;
+        height: auto !important;
+        border-radius: 8px !important;
+        border: 1px solid rgba(255, 255, 255, 0.4) !important;
+        background: rgba(255, 255, 255, 0.15) !important;
+        color: #fff !important;
+        transition: all 0.2s ease;
+        text-decoration: none !important;
+    }
+    .apple-header-add-btn:hover {
+        background: rgba(255, 255, 255, 0.3) !important;
+    }
+
+    .apple-card-body {
+        padding: 20px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* ==========================================
+       叠罗汉式单列长条商品列表布局
+       ========================================== */
+    .apple-data-list-container {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        width: 100%;
+    }
+
+    .apple-item-card {
+        position: relative;
+        border-radius: 12px;
+        padding: 22px 24px 20px 24px;
+        display: grid;
+        grid-template-columns: 165px 1.2fr 1.6fr 1fr; 
+        align-items: center;
+        gap: 24px;
+        transition: all 0.25s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #dcdde2;
+    }
+
+    .apple-item-card:nth-of-type(odd) {
+        background-color: #ffffff;
+        border-color: #d2d2d7;
+    }
+    .apple-item-card:nth-of-type(even) {
+        background-color: #f0f2f5;
+        border-color: #c7c7cc;
+    }
+
+    .apple-item-card:hover {
+        transform: translateY(-2px);
+        border-color: #0071e3;
+        box-shadow: 0 10px 24px rgba(0, 113, 227, 0.08), 0 2px 6px rgba(0, 0, 0, 0.03);
+    }
+
+    /* 外层卡片左上角序号角标 */
+    .apple-card-index-badge {
+        position: absolute;
+        top: 10px;
+        left: 12px;
+        background: #48484a;
+        color: #ffffff;
+        font-size: 11.5px;
+        font-weight: 700;
+        padding: 2.5px 9px;
+        border-radius: 6px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        letter-spacing: 0.5px;
+        z-index: 2;
+    }
+
+    .apple-col-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin-top: 6px;
+    }
+
+    .apple-col-title-label {
+        font-size: 11.5px;
+        font-weight: 600;
+        color: #86868b;
+        margin-bottom: 6px;
+        text-align: left;
+        width: 100%;
+    }
+
+    .table-large-img {
+        width: 150px;
+        height: 150px;
+        object-fit: contain;
+        border-radius: 10px;
+        background: #f8f8fa;
+        border: 1px solid #d2d2d7;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        padding: 6px;
+    }
+    .table-large-img:hover {
+        transform: scale(1.03);
+        border-color: #0071e3;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    }
+
+    /* ==========================================
+       商品卡片信息展示区
+       ========================================== */
+    .apple-col-info {
+        width: 100%;
+        background: #fafafc;
+        border: 1px solid #dce0e6;
+        border-radius: 10px;
+        padding: 14px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        box-sizing: border-box;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.01);
+    }
+
+    .apple-col-info p {
+        margin: 0 !important;
+        font-size: 12.5px;
+        line-height: 1.5;
+        color: #1d1d1f;
+        word-break: break-all;
+        display: flex;
+        justify-content: flex-start;
+        align-items: baseline;
+        border-bottom: none;
+        padding-bottom: 0;
+        gap: 6px;
+    }
+
+    .apple-col-info p span:first-child {
+        color: #606266;
+        font-weight: 500; 
+        flex-shrink: 0;
+        width: 72px;
+        text-align: left;
+    }
+
+    .apple-col-info p span:last-child {
+        font-weight: 400; 
+        text-align: left;
+        flex: 1;
+        color: #2c2c2e;
+    }
+
+    /* ==========================================
+       【精准功能色彩定制】：严格按照您的要求调整
+       ========================================== */
+    /* 1. 商品分类：高雅科技蓝（明亮清晰） */
+    .info-val-category { 
+        color: #0066cc !important; 
+        font-weight: 600 !important;
+    } 
+    
+    /* 商品 ID 角标：醒目活力橙背景，白色加粗字体 */
+    .info-val-id { 
+        background: #FF9500 !important; 
+        color: #ffffff !important;      
+        font-weight: 700 !important; 
+        font-size: 11px;
+        margin-left: 6px;
+        padding: 1px 6px;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(255, 149, 0, 0.3);
+    } 
+
+    /* 2. 商品名称：沉稳高级深炭黑加粗（突显核心标题） */
+    .info-val-name { 
+        color: #111827 !important; 
+        font-weight: 700 !important;
+        letter-spacing: 0.2px;
+    } 
+
+    /* 3. 型号内容：远山青/靛蓝色（技术参数特有色） */
+    .info-val-qq { 
+        color: #0d9488 !important; 
+        font-weight: 600 !important;
+        font-family: SFMono-Regular, Consolas, monospace;
+    } 
+
+    /* 4. 模块属性：高贵紫（区分属性标签） */
+    .info-val-attr { 
+        color: #7c3aed !important; 
+        font-weight: 600 !important;
+    } 
+
+    /* 5. 占位比例：翠绿色（清晰标示展示比例） */
+    .info-val-show { 
+        color: #059669 !important; 
+        font-weight: 600 !important;
+    } 
+
+    /* 6. 搜索配词：玫瑰红/品红（让检索词条醒目独立） */
+    .info-val-keys { 
+        color: #db2777 !important; 
+        font-weight: 500 !important;
+    } 
+
+    /* ==========================================
+       AI 检索区：紧凑行内网格布局
+       ========================================== */
+    .apple-ai-connector-box {
+        width: 100%;
+        background: rgba(240, 246, 255, 0.85);
+        border: 1px solid #c2d7fd;
+        border-radius: 8px;
+        padding: 12px 14px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .ai-box-title {
+        font-size: 11.5px;
+        font-weight: 700;
+        color: #0071e3;
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #d4e3fd;
+        padding-bottom: 4px;
+    }
+
+    .ai-tier-stack {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 5px;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
+    .ai-tier-row {
+        background: #ffffff;
+        border: 1px solid #d8e6fd;
+        border-radius: 4px;
+        padding: 3px 6px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .ai-tier-label {
+        font-size: 10px;
+        font-weight: 600;
+        color: #5856d6;
+        width: 55px;
+        flex-shrink: 0;
+        margin-bottom: 0;
+        text-align: right;
+    }
+
+    .ai-tier-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 3px;
+        flex: 1;
+        align-items: center;
+    }
+
+    .ai-tag-badge {
+        background: #f0f6ff;
+        color: #0071e3;
+        border: 1px solid #cce0ff;
+        font-size: 10px;
+        padding: 1px 4px;
+        border-radius: 3px;
+        font-weight: 500;
+    }
+
+    .ai-empty-text {
+        font-size: 10px;
+        color: #86868b;
+        font-style: italic;
+    }
+
+    .ai-config-btn {
+        width: 100%;
+        background: #0071e3 !important;
+        color: #fff !important;
+        border: none !important;
+        border-radius: 5px !important;
+        padding: 6px 8px !important;
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .ai-config-btn:hover {
+        background: #0077ed !important;
+        opacity: 0.9;
+    }
+
+    /* 管理操作区 */
+    .apple-card-actions {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        background: rgba(255, 255, 255, 0.85);
+        border: 1px solid #dce0e6;
+        border-radius: 8px;
+        padding: 12px 14px;
+        box-sizing: border-box;
+    }
+
+    .disitemright {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 5px;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .disitemright .btn {
+        border: none !important;
+        border-radius: 4px !important;
+        padding: 4px 8px !important;
+        font-weight: 500 !important;
+        color: #fff !important;
+        height: 27px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10.5px;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .disitemright .btn-info { background-color: #0071E3 !important; }
+    .disitemright .btn-info:nth-of-type(1) { background-color: #34C759 !important; }
+    .disitemright .btn-info:nth-of-type(2) { background-color: #FF9500 !important; }
+    .disitemright .btn-danger { background-color: #FF3B30 !important; }
+
+    .disitemright .btn:hover { opacity: 0.85; filter: brightness(1.05); }
+
+    /* 底部标准分页功能容器 */
+    .apple-pagination-box {
+        margin-top: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #ffffff;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #e5e5ea;
+    }
+    .apple-pagination-box .pagination {
+        margin: 0;
+    }
+
+    /* 公共目录点选添加弹窗样式 */
+    .public-selector-box {
+        background: #fafafc;
+        border: 1px solid #d2d2d7;
+        border-radius: 10px;
+        padding: 14px;
+        margin-bottom: 14px;
+    }
+
+    .public-selector-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: #1d1d1f;
+        margin-bottom: 8px;
+    }
+
+    .public-selector-row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .selected-tags-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        min-height: 36px;
+        background: #ffffff;
+        border: 1px solid #e5e5ea;
+        border-radius: 8px;
+        padding: 6px 8px;
+        align-items: center;
+    }
+
+    .selected-removable-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #f0f4f8;
+        color: #0071e3;
+        border: 1px solid #cce0ff;
+        padding: 2px 8px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .selected-removable-tag .remove-tag-x {
+        cursor: pointer;
+        color: #ff3b30;
+        font-weight: bold;
+        font-size: 13px;
+        line-height: 1;
+    }
+    .selected-removable-tag .remove-tag-x:hover {
+        color: #d70015;
+    }
+
+    /* 现代高级感弹窗 (Modal) */
+    .apple-modal .modal-dialog {
+        max-width: 750px;
+        margin: 30px auto;
+    }
+
+    .apple-modal .modal-content {
+        border-radius: 14px;
+        border: none;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        background: #ffffff;
+        overflow: hidden;
+    }
+
+    .apple-modal .modal-header {
+        background: #fafafc;
+        border-bottom: 1px solid #e5e5ea;
+        padding: 16px 20px;
+    }
+
+    .apple-modal .modal-title {
+        font-weight: 600;
+        color: #1d1d1f;
+        font-size: 15px;
+        margin: 0;
+    }
+
+    .apple-modal .modal-body {
+        padding: 20px;
+        max-height: 68vh;
+        overflow-y: auto;
+    }
+
+    .apple-modal .form-group {
+        margin-bottom: 14px;
+    }
+
+    .apple-modal .form-group label {
+        font-weight: 600;
+        color: #1d1d1f;
+        font-size: 12.5px;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .apple-input {
+        border-radius: 8px !important;
+        border: 1px solid #d2d2d7 !important;
+        height: 38px !important;
+        box-shadow: none !important;
+        transition: all 0.2s;
+        width: 100%;
+        padding: 6px 10px;
+        font-size: 13.5px;
+        box-sizing: border-box;
+    }
+    .apple-input:focus {
+        border-color: #0071e3 !important;
+        box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.12) !important;
+    }
+    select.apple-input {
+        height: 38px !important;
+    }
+
+    .apple-modal .modal-footer {
+        background: #fafafc;
+        border-top: 1px solid #e5e5ea;
+        padding: 12px 20px;
+        display: flex !important;
+        align-items: center;
+        justify-content: flex-end !important;
+        gap: 10px;
+    }
+
+    .apple-btn-primary {
+        background: #0071e3 !important;
+        border: none !important;
+        border-radius: 8px !important;
+        padding: 6px 18px !important;
+        font-weight: 500 !important;
+        color: #fff !important;
+        height: 38px;
+    }
+    .apple-btn-primary:hover { background: #0077ed !important; }
+
+    .apple-btn-default {
+        border-radius: 8px !important;
+        border: 1px solid #d2d2d7 !important;
+        background: #ffffff !important;
+        color: #1d1d1f !important;
+        padding: 6px 18px !important;
+        height: 38px;
+    }
+    .apple-btn-default:hover {
+        background: #f0f0f5 !important;
+        border-color: #c7c7cc !important;
+    }
+
+    /* 移动端响应式降级 */
+    @media (max-width: 1024px) {
+        .apple-item-card {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .apple-backend-container {
+            padding: 10px;
+        }
+
+        .apple-card-body {
+            padding: 10px;
+        }
+
+        .apple-page-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 12px;
+        }
+
+        .apple-item-card {
+            grid-template-columns: 1fr !important;
+            padding: 14px;
+        }
+
+        .table-large-img {
+            width: 120px;
+            height: 120px;
+        }
+
+        .disitemright .btn {
+            height: 34px !important;
+            padding: 5px 10px !important;
+            font-size: 11px !important;
+        }
+
+        .apple-modal .modal-dialog {
+            width: 92% !important;
+            margin: 15px auto !important;
+        }
+    }
 </style>
 
-<div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
-    <div class="row">
-        <div class="col-lg-8 p-r-0 title-margin-right">
-            <div class="page-header">
-                <div class="page-title">
+<div class="container-fluid apple-backend-container" ng-app="myApp" ng-controller="myCtrl">
+    <div class="row apple-row">
+        <div class="col-lg-12">
+            <div class="apple-page-header">
+                <div class="apple-page-title">
                     <h1>细分商品</h1>
                 </div>
-            </div>
-        </div>
-        <!-- /# column -->
-        <div class="col-lg-4 p-l-0 title-margin-left">
-            <div class="page-header">
-                <div class="page-title">
-                    <ol class="breadcrumb text-right">
+                <div class="apple-page-breadcrumb">
+                    <ul class="apple-breadcrumb">
                         <li><a href="{:U('Goods/plate_infos','id='.$info['pid'].'&type='.$info['type_id'])}">板块分类条管理</a></li>
                         <li class="active">细分商品</li>
-                    </ol>
+                    </ul>
                 </div>
             </div>
         </div>
-        <!-- /# column -->
     </div>
-    <!-- /# row -->
+
     <section id="main-content">
-        <div class="row">
+        <div class="row apple-row">
             <div class="col-lg-12">
-                <div class="card alert">
-                    <div class="card-header">
-                        <h4>板块详情</h4>
+                <div class="apple-card">
+                    <div class="card-header apple-card-header">
+                        <h4 class="card-title-text">板块详情</h4>
                         <div class="card-header-right-icon">
                             <ul>
-                                <li class="doc-link">
-                                    <a class="btn btn-xs btn-info" data-toggle="modal" data-target="#myModal">添加细分商品</a>
+                                <li class="doc-link" style="list-style: none;">
+                                    <a class="btn btn-xs apple-header-add-btn" data-toggle="modal" data-target="#myModal">添加细分商品</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <div class="card-body p-t-10">
+                    <div class="card-body apple-card-body">
+                        
+                        <!-- 叠罗汉式单列长条商品列表容器 -->
+                        <div class="apple-data-list-container">
 
+                            <volist name="list.list" id="v" key="k">
+                                <div class="apple-item-card">
+                                    <!-- 外层卡片左上角序号标签 -->
+                                    <div class="apple-card-index-badge">NO. {: (I('get.p', 1, 'intval') > 0 ? I('get.p', 1, 'intval') : 1) * 10 - 10 + $k }</div>
 
+                                    <!-- 1. 展位图板块 -->
+                                    <div class="apple-col-box">
+                                        <img src="__PUBLIC__/uploads/ads/{$v.source}" class="table-large-img" onclick="showBigImage('__PUBLIC__/uploads/ads/{$v.source}')" title="点击查看大图"/>
+                                    </div>
 
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th width="10%">展位图</th>
-                                        <th width="10%">搜索图</th>
-                                        <th width="30%">详情信息</th>
-                                        <th>管理</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                                    <!-- 2. 详情信息板块：【架构师修复】各项指标文字严格独立赋色，告别千篇一律 -->
+                                    <div class="apple-col-info">
+                                        <p><span>商品分类：</span><span class="info-val-category">{$catid|getCatsName=$v['catid'],'name',###} <span class="info-val-id">ID: {$v.id}</span></span></p>
+                                        <p><span>商品名称：</span><span class="info-val-name">{$v.g_name}</span></p>
+                                        <p><span>型号内容：</span><span class="info-val-qq">{$v.g_qq}</span></p>
+                                        <p><span>模块属性：</span><span class="info-val-attr">{$v.price_type|priceType=$v['price_type'],###}</span></p>
+                                        <p><span>占位比例：</span><span class="info-val-show">{$show_type|showType=$v['show_type'],###}</span></p>
+                                        <p><span>搜索配词：</span><span class="info-val-keys">{$v.g_keys}</span></p>
+                                    </div>
 
-                                <volist name="list.list" id="v">
-                                    <tr>
-                                        <td class="disflex">
-                                            <div class="disitem"><img src="__PUBLIC__/uploads/ads/{$v.source}"/></div>
-                                        </td>
-                                        <td class="disflex">
-                                            <div class="disitem"><img src="__PUBLIC__/uploads/ads/{$v.source_display}"/></div>
-                                        </td>
-                                        <td class="disblok">
-                                            <p>商品分类：{$catid|getCatsName=$v['catid'],'name',###}<font color='red'>[{$v.id}]</font></p>
-                                            <p>商品名称：{$v.g_name}</p>
-                                            <p>型号内容：{$v.g_qq}</p>
-                                            <p>模块属性：{$v.price_type|priceType=$v['price_type'],###}</p>
-                                            <p>占位比例：{$show_type|showType=$v['show_type'],###}</p>
-                                            <p>商品单位：{$v.g_unit}</p>
-                                            <p>关键词：{$v.g_keys}</p>
-                                            <p>客服电话：{$v.g_phone}</p>
-                                        </td>
-                                        <td>
-                                            <div class="disitemright">
-                                                <a ng-click="changeid('{$v.id}', 1)" class="btn btn-info btn-xs">上调顺序</a>
-                                                <a ng-click="changeid('{$v.id}', 0)" class="btn btn-info btn-xs">下调顺序</a>
-                                                <eq name="v.price_type" value="1">
-                                                <a href="{:U('Goods/plate_conts_more','id='.$v['id'])}" class="btn btn-info btn-xs">商品列表</a>
-                                                </eq>
-                                                <eq name="v.price_type" value="2">
-                                                <a href="{:U('Goods/plate_conts_list','id='.$v['id'])}" class="btn btn-info btn-xs">商品列表</a>
-                                                </eq>
-                                                <lt name="v.price_type" value="3">
-                                                <a href="{:U('Goods/plate_conts_info','id='.$v['id'].'&tar=g_attr')}" class="btn btn-info btn-xs">商品参数</a>
-                                                <a href="{:U('Goods/plate_conts_info','id='.$v['id'].'&tar=g_desc')}" class="btn btn-info btn-xs">商品详情</a>
-                                                </lt>
-                                                <a href="javascript:addShowImg('{$v.id}');" class="btn btn-info btn-xs">占位图片</a>
-                                                <a href="javascript:addShowSrImg('{$v.id}');" class="btn btn-info btn-xs">搜索图片</a>
-
-                                                <a ng-click="updateInfo('{$v.id}')" class="btn btn-info btn-xs">编辑</a>
-                                                <a ng-click="dels('{$v.id}')" class="btn btn-danger btn-xs">删除</a>
+                                    <!-- 3. AI 检索区 -->
+                                    <div class="apple-ai-connector-box">
+                                        <div class="ai-box-title">
+                                            <span>✨ AI 联通器检索区</span>
+                                        </div>
+                                        
+                                        <div class="ai-tier-stack">
+                                            <!-- 材质层 -->
+                                            <div class="ai-tier-row">
+                                                <span class="ai-tier-label">导体材质:</span>
+                                                <div class="ai-tier-tags">
+                                                    <span class="ai-tag-badge" ng-repeat="item in splitComma('{$v.ai_material}')">{{item}}</span>
+                                                    <span class="ai-empty-text" ng-if="!('{$v.ai_material}')">未设定</span>
+                                                </div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                </volist>
+                                            <!-- 电压层 -->
+                                            <div class="ai-tier-row">
+                                                <span class="ai-tier-label">电压等级:</span>
+                                                <div class="ai-tier-tags">
+                                                    <span class="ai-tag-badge" ng-repeat="item in splitComma('{$v.ai_voltage}')">{{item}}</span>
+                                                    <span class="ai-empty-text" ng-if="!('{$v.ai_voltage}')">未设定</span>
+                                                </div>
+                                            </div>
+                                            <!-- 质量标准层 -->
+                                            <div class="ai-tier-row">
+                                                <span class="ai-tier-label">质量标准:</span>
+                                                <div class="ai-tier-tags">
+                                                    <span class="ai-tag-badge" ng-repeat="item in splitComma('{$v.ai_quality}')">{{item}}</span>
+                                                    <span class="ai-empty-text" ng-if="!('{$v.ai_quality}')">未设定</span>
+                                                </div>
+                                            </div>
+                                            <!-- 型号前缀层 -->
+                                            <div class="ai-tier-row">
+                                                <span class="ai-tier-label">型号前缀:</span>
+                                                <div class="ai-tier-tags">
+                                                    <span class="ai-tag-badge" ng-repeat="item in splitComma('{$v.ai_model_prefix}')">{{item}}</span>
+                                                    <span class="ai-empty-text" ng-if="!('{$v.ai_model_prefix}')">未设定</span>
+                                                </div>
+                                            </div>
+                                            <!-- 执行标准层 -->
+                                            <div class="ai-tier-row">
+                                                <span class="ai-tier-label">执行标准:</span>
+                                                <div class="ai-tier-tags">
+                                                    <span class="ai-tag-badge" ng-repeat="item in splitComma('{$v.ai_exec_standard}')">{{item}}</span>
+                                                    <span class="ai-empty-text" ng-if="!('{$v.ai_exec_standard}')">未设定</span>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                </tbody>
-                            </table>
+                                        <button type="button" class="ai-config-btn" ng-click="openAiConnector('{$v.id}')">配置 AI 多选检索暗号</button>
+                                    </div>
 
+                                    <!-- 4. 管理操作区 -->
+                                    <div class="apple-card-actions">
+                                        <div class="apple-col-title-label">管理操作</div>
+                                        <div class="disitemright">
+                                            <a ng-click="changeid('{$v.id}', 1)" class="btn btn-info btn-xs">上调顺序</a>
+                                            <a ng-click="changeid('{$v.id}', 0)" class="btn btn-info btn-xs">下调顺序</a>
+                                            <eq name="v.price_type" value="1">
+                                            <a href="{:U('Goods/plate_conts_more','id='.$v['id'])}" class="btn btn-info btn-xs">商品列表</a>
+                                            </eq>
+                                            <eq name="v.price_type" value="2">
+                                            <a href="{:U('Goods/plate_conts_list','id='.$v['id'])}" class="btn btn-info btn-xs">商品列表</a>
+                                            </eq>
+                                            <lt name="v.price_type" value="3">
+                                            <a href="{:U('Goods/plate_conts_info','id='.$v['id'].'&tar=g_attr')}" class="btn btn-info btn-xs">商品参数</a>
+                                            <a href="{:U('Goods/plate_conts_info','id='.$v['id'].'&tar=g_desc')}" class="btn btn-info btn-xs">商品详情</a>
+                                            </lt>
+                                            <a href="javascript:addShowImg('{$v.id}');" class="btn btn-info btn-xs">占位图片</a>
+                                            <a ng-click="updateInfo('{$v.id}')" class="btn btn-info btn-xs">编辑信息</a>
+                                            <a ng-click="dels('{$v.id}')" class="btn btn-danger btn-xs">删除商品</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </volist>
+
+                        </div>
+
+                        <!-- 底部标准分页功能容器 -->
+                        <div class="apple-pagination-box">
                             <nav aria-label="Page navigation">
                                 <ul class="pagination">{$list.show}</ul>
                             </nav>
-
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -130,8 +813,8 @@
     </section>
 
 
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <!-- Modal：添加细分商品 -->
+    <div class="modal fade apple-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -146,10 +829,9 @@
 
                         <div class="row">
                             <div class="col-md-4">
-
                                 <div class="form-group">
                                     <label>商品分类</label>
-                                    <select name="catid" class="form-control input-sm">
+                                    <select name="catid" class="form-control apple-input">
                                         <option value="0">暂不分类</option>
                                         <volist name="cats" id="v">
                                             <option value="{$v.id}">{$v.name}</option>
@@ -158,34 +840,25 @@
                                 </div>
                                 <div class="form-group">
                                     <label>名称</label>
-                                    <input type="text" name="name" class="form-control input-sm"/>
+                                    <input type="text" name="name" class="form-control apple-input" placeholder="请输入名称"/>
                                 </div>
                                 <div class="form-group">
-                                    <label>显示图</label>
-                                    <input type="file" name="file" id="file" class="form-control input-sm"/>
+                                    <label>商品主图（展位图）</label>
+                                    <input type="file" name="file" id="file" class="form-control apple-input" style="padding-top: 5px;"/>
                                 </div>
-                                <div class="form-group">
-                                    <label>搜索图</label>
-                                    <input type="file" name="search" id="searchr" class="form-control input-sm"/>
-                                </div>
-                                <!--div class="form-group">
-                                    <label>排序</label>
-                                    <input type="number" name="sorts" class="form-control input-sm" value="0"/>
-                                </div-->
                             </div>
                             <div class="col-md-4">
-
                                 <div class="form-group">
                                     <label>价格样式</label>
-                                    <select name="price_type" class="form-control input-sm">
+                                    <select name="price_type" class="form-control apple-input">
                                         <option value="1">多属性商品</option>
                                         <option value="2">商品列表</option>
                                         <option value="3">店铺</option>
                                     </select>
                                 </div>
-                                <div class="form-group none">
+                                <div class="form-group none" style="display:none;">
                                     <label>关联店铺</label>
-                                    <select name="price_id" class="form-control input-sm">
+                                    <select name="price_id" class="form-control apple-input">
                                         <option value="0">请选择</option>
                                         <volist name="shop" id="v">
                                             <option value="{$v.id}">{$v.name}</option>
@@ -194,52 +867,38 @@
                                 </div>
                                 <div class="form-group">
                                     <label>占位样式</label>
-                                    <select name="show_type" class="form-control input-sm">
+                                    <select name="show_type" class="form-control apple-input">
                                         <option value="1">三分之一占位</option>
                                         <option value="4">二分之一占位</option>
                                         <option value="2">三分之二占位</option>
                                         <option value="3">整块占位</option>
-                                        <!--option value="4">四分之四占位</option-->
                                     </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>商品单位</label>
-                                    <input type="text" name="g_unit" class="form-control input-sm"/>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>商品关键词</label>
-                                    <input type="text" name="g_keys" class="form-control input-sm"/>
+                                    <label>搜索配词</label>
+                                    <input type="text" name="g_keys" class="form-control apple-input" placeholder="请输入搜索配词"/>
                                 </div>
-                                <!--div class="form-group">
-                                    <label>搜索商品名称</label>
-                                    <input type="text" name="g_name" class="form-control input-sm"/>
-                                </div-->
                                 <div class="form-group">
                                     <label>型号内容</label>
-                                    <input type="text" name="g_qq" class="form-control input-sm"/>
+                                    <input type="text" name="g_qq" class="form-control apple-input" placeholder="请输入型号"/>
                                 </div>
-                                <div class="form-group">
-                                    <label>电话</label>
-                                    <input type="text" name="g_phone" class="form-control input-sm"/>
-                                </div>
-
                             </div>
                         </div>
                     </form>
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" onclick="addor()">添加</button>
+                    <button type="button" class="btn btn-default apple-btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary apple-btn-primary" onclick="addor()">添加</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="myEdits" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <!-- Modal：修改细分商品 -->
+    <div class="modal fade apple-modal" id="myEdits" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -249,12 +908,11 @@
                 <div class="modal-body">
 
                     <form name="edit">
-
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>商品分类</label>
-                                    <select name="catid" class="form-control input-sm" ng-model="lininfo.catid">
+                                    <select name="catid" class="form-control apple-input" ng-model="lininfo.catid">
                                         <option value="0">暂不分类</option>
                                         <volist name="cats" id="v">
                                             <option value="{$v.id}">{$v.name}</option>
@@ -263,169 +921,248 @@
                                 </div>
                                 <div class="form-group">
                                     <label>名称</label>
-                                    <input type="text" name="name" class="form-control input-sm" ng-model="lininfo.name"/>
+                                    <input type="text" name="name" class="form-control apple-input" ng-model="lininfo.name"/>
                                 </div>
-                                <div class="form-group">
-                                    <label>显示图</label>
-                                    <input type="file" name="file" id="filedit" class="form-control input-sm"/>
-                                    <p class="m-t-10">
-                                        <img ng-src="__PUBLIC__/uploads/ads/{{lininfo.source}}" height='50'/>
-                                    </p>
-                                </div>
-                                <div class="form-group">
-                                    <label>搜索图</label>
-                                    <input type="file" name="search" id="searchredit" class="form-control input-sm"/>
-                                    <p class="m-t-10">
-                                        <img ng-src="__PUBLIC__/uploads/ads/{{lininfo.source_display}}" height='50'/>
-                                    </p>
-                                </div>
-                                <!--div class="form-group">
-                                    <label>排序</label>
-                                    <input type="text" name="sorts" class="form-control input-sm" ng-model="lininfo.sorts"/>
-                                </div-->
-                            </div>
-                            <div class="col-md-4">
-
                                 <div class="form-group">
                                     <label>价格样式</label>
-                                    <select name="price_type" class="form-control input-sm" ng-model="lininfo.price_type">
+                                    <select name="price_type" class="form-control apple-input" ng-model="lininfo.price_type">
                                         <option value="1">多属性商品</option>
                                         <option value="2">商品列表</option>
                                         <option value="3">店铺</option>
                                     </select>
                                 </div>
-                                <div class="form-group none">
-                                    <label>关联店铺</label>
-                                    <select name="price_id" class="form-control input-sm" ng-model="lininfo.price_id">
-                                        <option value="0">请选择</option>
-                                        <volist name="shop" id="v">
-                                            <option value="{$v.id}">{$v.name}</option>
-                                        </volist>
-                                    </select>
-                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>占位样式</label>
-                                    <select name="show_type" class="form-control input-sm" ng-model="lininfo.show_type">
+                                    <select name="show_type" class="form-control apple-input" ng-model="lininfo.show_type">
                                         <option value="1">三分之一占位</option>
                                         <option value="4">二分之一占位</option>
                                         <option value="2">三分之二占位</option>
                                         <option value="3">整块占位</option>
-                                        <!--option value="4">四分之四占位</option-->
                                     </select>
                                 </div>
-
                                 <div class="form-group">
-                                    <label>商品单位</label>
-                                    <input type="text" name="g_unit" class="form-control input-sm" ng-model="lininfo.g_unit"/>
+                                    <label>搜索配词（支持高级编辑）</label>
+                                    <div style="display: flex; gap: 8px; align-items: center;">
+                                        <input type="text" name="g_keys" class="form-control apple-input" ng-model="lininfo.g_keys" style="flex: 1;"/>
+                                        <button type="button" class="btn btn-primary apple-btn-primary" ng-click="openKeywordEdit()" style="height: 38px; padding: 0 12px; white-space: nowrap; flex-shrink: 0;">高级编辑</button>
+                                    </div>
                                 </div>
-
-
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>商品关键词</label>
-                                    <input type="text" name="g_keys" class="form-control input-sm" ng-model="lininfo.g_keys"/>
-                                </div>
-                                <!--div class="form-group">
-                                    <label>搜索商品名称</label>
-                                    <input type="text" name="g_name" class="form-control input-sm" ng-model="lininfo.g_name"/>
-                                </div-->
                                 <div class="form-group">
                                     <label>型号内容</label>
-                                    <input type="text" name="g_qq" class="form-control input-sm" ng-model="lininfo.g_qq"/>
+                                    <input type="text" name="g_qq" class="form-control apple-input" ng-model="lininfo.g_qq"/>
                                 </div>
-                                <div class="form-group">
-                                    <label>电话</label>
-                                    <input type="text" name="g_phone" class="form-control input-sm" ng-model="lininfo.g_phone"/>
-                                </div>
-
                             </div>
                         </div>
                     </form>
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" ng-click="updateOp()">更新</button>
+                    <button type="button" class="btn btn-default apple-btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary apple-btn-primary" ng-click="updateOp()">更新</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="shows" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document" style="width:25%;">
+    <!-- Modal：商品关键词高级文本编辑独立弹窗 -->
+    <div class="modal fade apple-modal" id="keywordEditModal" tabindex="-1" role="dialog" aria-labelledby="keywordEditModalLabel">
+        <div class="modal-dialog" role="document" style="max-width: 600px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="keywordEditModalLabel">商品搜索配词高级文本写入窗</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>在此处进行高精度、大文本量的搜索词编辑（多个关键词请用逗号分隔）</label>
+                        <textarea class="form-control apple-input" ng-model="lininfo.g_keys" rows="8" style="height: auto !important; resize: vertical; padding: 10px;" placeholder="请输入或粘贴大量商品搜索关键词..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default apple-btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary apple-btn-primary" ng-click="saveKeywordModal()">确认应用</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal：AI 检索区公共目录联动选择配置弹窗 -->
+    <div class="modal fade apple-modal" id="aiConnectorModal" tabindex="-1" role="dialog" aria-labelledby="aiConnectorModalLabel">
+        <div class="modal-dialog" role="document" style="max-width: 650px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="aiConnectorModalLabel">配置 AI 检索暗号与联通参数（公共目录联动点选）</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="aiconfig">
+                        <input type="hidden" ng-model="aiData.id"/>
+                        
+                        <!-- 1. 导体材质联动添加 -->
+                        <div class="public-selector-box">
+                            <div class="public-selector-title">① 导体材质管理 (Conductor Material)</div>
+                            <div class="public-selector-row">
+                                <select class="form-control apple-input" ng-model="tempMaterial" ng-options="item for item in publicDicts.materials">
+                                    <option value="">-- 从公共目录选择导体材质 --</option>
+                                </select>
+                                <button type="button" class="btn btn-primary apple-btn-primary" style="height: 38px; padding: 0 14px; white-space: nowrap;" ng-click="addTag('ai_material_arr', tempMaterial)">选择添加</button>
+                            </div>
+                            <div class="selected-tags-container">
+                                <span class="selected-removable-tag" ng-repeat="tag in aiData.ai_material_arr">
+                                    {{tag}} <span class="remove-tag-x" ng-click="removeTag('ai_material_arr', $index)">×</span>
+                                </span>
+                                <span style="color: #86868b; font-size: 12px;" ng-if="!aiData.ai_material_arr || aiData.ai_material_arr.length === 0">尚未添加任何材质，请从上方选择</span>
+                            </div>
+                        </div>
+
+                        <!-- 2. 电压等级联动添加 -->
+                        <div class="public-selector-box">
+                            <div class="public-selector-title">② 电压等级管理 (Voltage Level)</div>
+                            <div class="public-selector-row">
+                                <select class="form-control apple-input" ng-model="tempVoltage" ng-options="item for item in publicDicts.voltages">
+                                    <option value="">-- 从公共目录选择电压等级 --</option>
+                                </select>
+                                <button type="button" class="btn btn-primary apple-btn-primary" style="height: 38px; padding: 0 14px; white-space: nowrap;" ng-click="addTag('ai_voltage_arr', tempVoltage)">选择添加</button>
+                            </div>
+                            <div class="selected-tags-container">
+                                <span class="selected-removable-tag" ng-repeat="tag in aiData.ai_voltage_arr">
+                                    {{tag}} <span class="remove-tag-x" ng-click="removeTag('ai_voltage_arr', $index)">×</span>
+                                </span>
+                                <span style="color: #86868b; font-size: 12px;" ng-if="!aiData.ai_voltage_arr || aiData.ai_voltage_arr.length === 0">尚未添加任何电压等级，请从上方选择</span>
+                            </div>
+                        </div>
+
+                        <!-- 3. 质量标准联动添加 -->
+                        <div class="public-selector-box">
+                            <div class="public-selector-title">③ 质量标准管理 (Quality Standard)</div>
+                            <div class="public-selector-row">
+                                <select class="form-control apple-input" ng-model="tempQuality" ng-options="item for item in publicDicts.qualities">
+                                    <option value="">-- 从公共目录选择质量标准 --</option>
+                                </select>
+                                <button type="button" class="btn btn-primary apple-btn-primary" style="height: 38px; padding: 0 14px; white-space: nowrap;" ng-click="addTag('ai_quality_arr', tempQuality)">选择添加</button>
+                            </div>
+                            <div class="selected-tags-container">
+                                <span class="selected-removable-tag" ng-repeat="tag in aiData.ai_quality_arr">
+                                    {{tag}} <span class="remove-tag-x" ng-click="removeTag('ai_quality_arr', $index)">×</span>
+                                </span>
+                                <span style="color: #86868b; font-size: 12px;" ng-if="!aiData.ai_quality_arr || aiData.ai_quality_arr.length === 0">尚未添加任何质量标准，请从上方选择</span>
+                            </div>
+                        </div>
+
+                        <!-- 4. 型号前缀母本联动添加 -->
+                        <div class="public-selector-box">
+                            <div class="public-selector-title">④ 产品型号前缀母本 (Product Model)</div>
+                            <div class="public-selector-row">
+                                <select class="form-control apple-input" ng-model="tempPrefix" ng-options="item for item in publicDicts.prefixes">
+                                    <option value="">-- 从公共目录选择型号前缀 --</option>
+                                </select>
+                                <button type="button" class="btn btn-primary apple-btn-primary" style="height: 38px; padding: 0 14px; white-space: nowrap;" ng-click="addTag('ai_model_prefix_arr', tempPrefix)">选择添加</button>
+                            </div>
+                            <div class="selected-tags-container">
+                                <span class="selected-removable-tag" ng-repeat="tag in aiData.ai_model_prefix_arr">
+                                    {{tag}} <span class="remove-tag-x" ng-click="removeTag('ai_model_prefix_arr', $index)">×</span>
+                                </span>
+                                <span style="color: #86868b; font-size: 12px;" ng-if="!aiData.ai_model_prefix_arr || aiData.ai_model_prefix_arr.length === 0">尚未添加任何型号前缀，请从上方选择</span>
+                            </div>
+                        </div>
+
+                        <!-- 5. 执行标准标准号联动添加 -->
+                        <div class="public-selector-box">
+                            <div class="public-selector-title">⑤ 执行标准标准号管理 (Execution Standard)</div>
+                            <div class="public-selector-row">
+                                <select class="form-control apple-input" ng-model="tempStandard" ng-options="item for item in publicDicts.standards">
+                                    <option value="">-- 从公共目录选择执行标准 --</option>
+                                </select>
+                                <button type="button" class="btn btn-primary apple-btn-primary" style="height: 38px; padding: 0 14px; white-space: nowrap;" ng-click="addTag('ai_exec_standard_arr', tempStandard)">选择添加</button>
+                            </div>
+                            <div class="selected-tags-container">
+                                <span class="selected-removable-tag" ng-repeat="tag in aiData.ai_exec_standard_arr">
+                                    {{tag}} <span class="remove-tag-x" ng-click="removeTag('ai_exec_standard_arr', $index)">×</span>
+                                </span>
+                                <span style="color: #86868b; font-size: 12px;" ng-if="!aiData.ai_exec_standard_arr || aiData.ai_exec_standard_arr.length === 0">尚未添加任何执行标准，请从上方选择</span>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default apple-btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary apple-btn-primary" ng-click="saveAiConnector()">保存配置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal：更新板块展位图 -->
+    <div class="modal fade apple-modal" id="shows" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="max-width: 420px;">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">更新板块展位图</h4>
                 </div>
                 <div class="modal-body">
-
                     <form name="source">
                         <input type="hidden" name="ids" value="0" id="showID"/>
                         <div class="form-group">
-                            <label>展位图</label>
-                            <input type="file" name="source" id="source" class="form-control input-sm"/>
+                            <label>展位图文件</label>
+                            <input type="file" name="source" id="source" class="form-control apple-input" style="padding-top: 5px;"/>
                         </div>
                     </form>
-
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" onclick="addImg()">添加</button>
+                    <button type="button" class="btn btn-default apple-btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary apple-btn-primary" onclick="addImg()">添加</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 搜索图 -->
-    <div class="modal fade" id="showdis" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document" style="width:25%;">
+    <!-- Modal：查看高清大图弹窗 -->
+    <div class="modal fade apple-modal" id="bigImgModal" tabindex="-1" role="dialog" aria-labelledby="bigImgModalLabel">
+        <div class="modal-dialog" role="document" style="max-width: 700px; text-align: center;">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">更新板块搜索图</h4>
+                    <h4 class="modal-title" id="bigImgModalLabel">查看高清大图</h4>
                 </div>
-                <div class="modal-body">
-
-                    <form name="source_display">
-                        <input type="hidden" name="ids" value="0" id="showdisID"/>
-                        <div class="form-group">
-                            <label>搜索图</label>
-                            <input type="file" name="source_display" id="source_display" class="form-control input-sm"/>
-                        </div>
-                    </form>
-
+                <div class="modal-body" style="padding: 20px; background: #fafafc; display: flex; justify-content: center; align-items: center;">
+                    <img id="previewBigImg" src="" style="max-width: 100%; max-height: 72vh; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.12); object-fit: contain;" />
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" onclick="addImgSr()">添加</button>
+                    <button type="button" class="btn btn-default apple-btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>
         </div>
     </div>
-
 
 </div>
 
 <script>
+    var app = angular.module('myApp', []);
 
     function addShowShop(id) {
-        if (id == "3") {
+        if (id == "3") {}
+    }
 
+    function showBigImage(imgSrc) {
+        if (!imgSrc || imgSrc.indexOf("undefined") !== -1 || imgSrc.indexOf("null") !== -1) {
+            return;
         }
+        $("#previewBigImg").attr("src", imgSrc);
+        $("#bigImgModal").modal("show");
     }
 
     function addor() {
         var temp = $("form[name='item']").serializeArray();
         var data = objToArray(temp);
         data.g_name = data.name;
-        /////////
         $.ajaxFileUpload({
             url: "{:U('Core/addon','model=plate_conts')}",
             secureuri: false,
-            fileElementId: ["file", "searchr"],
+            fileElementId: "file",
             dataType: 'json',
             data: data,
             success: function (data) {
@@ -448,7 +1185,6 @@
     function addImg() {
         var temp = $("form[name='source']").serializeArray();
         var data = objToArray(temp);
-        /////////
         $.ajaxFileUpload({
             url: "{:U('Goods/plate_conts_upfile')}",
             secureuri: false,
@@ -467,46 +1203,44 @@
         });
     }
 
-    function addShowSrImg(id) {
-        $("#showdisID").val(id);
-        $("#showdis").modal("show");
-    }
-
-    function addImgSr() {
-        var temp = $("form[name='source_display']").serializeArray();
-        var data = objToArray(temp);
-        /////////
-        $.ajaxFileUpload({
-            url: "{:U('Goods/plate_conts_search')}",
-            secureuri: false,
-            fileElementId: "source_display",
-            dataType: 'json',
-            data: data,
-            success: function (data) {
-                if (data.status !== 1) {
-                    return swal("错误", data.msg, "error");
-                }
-                window.location.reload();
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
-
-    var app = angular.module('myApp', []);
     app.controller('myCtrl', function ($scope, $http) {
+        $scope.publicDicts = {
+            materials: ["铜芯", "铝芯", "镀锡铜芯", "合金铜芯"],
+            voltages: ["0.6/1kV", "450/750V", "8.7/15kV", "26/35kV", "AC 380V"],
+            qualities: ["国标", "企标", "国网标准", "南网标准", "军工标准"],
+            prefixes: ["YJV", "YJLV", "ZC-YJV", "WDZBN-HYAC", "NH-KVV"],
+            standards: ["GB/T 12706.1-2020", "GB/T 5023-2008", "JB/T 8734-2016", "GB/T 9330-2008"]
+        };
 
-        ////////////////////////////////////////////////////////////////////////
+        $scope.splitComma = function (str) {
+            if (!str || str.trim() === '') return [];
+            return str.split(',');
+        };
 
-        /**
-         * 通讯操作
-         * @param {type} url
-         * @param {type} data
-         * @returns {undefined}
-         */
+        $scope.addTag = function (arrayName, selectedVal) {
+            if (!selectedVal || selectedVal.trim() === '') return;
+            if (!$scope.aiData[arrayName]) {
+                $scope.aiData[arrayName] = [];
+            }
+            if ($scope.aiData[arrayName].indexOf(selectedVal) === -1) {
+                $scope.aiData[arrayName].push(selectedVal);
+            }
+        };
+
+        $scope.removeTag = function (arrayName, index) {
+            if ($scope.aiData[arrayName]) {
+                $scope.aiData[arrayName].splice(index, 1);
+            }
+        };
+
+        $scope.openKeywordEdit = function () {
+            $("#keywordEditModal").modal("show");
+        };
+
+        $scope.saveKeywordModal = function () {
+            $("#keywordEditModal").modal("hide");
+        };
+
         $scope.commAjax = function (url, data, success) {
             $http({
                 method: "POST",
@@ -525,8 +1259,6 @@
             });
         };
 
-        ////////////////////////////////////////////////////////////////////////
-
         $scope.deleteimgs = function (id) {
             $scope.commAjax("{:U('Core/dels','model=plate_conts_imgs')}", {id: id}, function (res) {
                 if (res.status !== 1) {
@@ -534,51 +1266,98 @@
                 }
                 window.location.reload();
             });
-        }
-
-        ////////////////////////////////////////////////////////////////////////
+        };
 
         $scope.updateInfo = function (id) {
             $scope.commAjax("{:U('Core/infos','model=plate_conts')}", {ids: id}, function (res) {
                 $scope.lininfo = res.data;
                 $("#myEdits").modal("show");
             });
-        }
+        };
 
         $scope.updateOp = function () {
             var param = $scope.lininfo;
             param.ids = param.id;
             param.g_name = param.name;
-            /////////
-            $.ajaxFileUpload({
-                url: "{:U('Core/edits','model=plate_conts')}",
-                secureuri: false,
-                fileElementId: ["filedit", "searchredit"],
-                dataType: 'json',
-                data: param,
-                success: function (data) {
-                    if (data.status !== 1) {
-                        return swal("错误", data.msg, "error");
-                    }
-                    window.location.reload();
-                },
-                error: function (data) {
-                    console.log(data);
-                }
-            });
-        }
-
-        $scope.dels = function (ids) {
-            var param = {id: ids};
-            layer.load(2);
-            $scope.commAjax("{:U('Core/dels','model=plate_conts')}", param, function (res) {
-                layer.closeAll('loading');
+            
+            $scope.commAjax("{:U('Core/edits','model=plate_conts')}", param, function (res) {
                 if (res.status !== 1) {
                     return swal("错误", res.msg, "error");
                 }
                 window.location.reload();
             });
-        }
+        };
+
+        $scope.openAiConnector = function (id) {
+            $scope.commAjax("{:U('Core/infos','model=plate_conts')}", {ids: id}, function (res) {
+                $scope.aiData = res.data;
+                $scope.aiData.ids = res.data.id;
+                
+                $scope.aiData.ai_material_arr = $scope.aiData.ai_material ? $scope.aiData.ai_material.split(',') : [];
+                $scope.aiData.ai_voltage_arr = $scope.aiData.ai_voltage ? $scope.aiData.ai_voltage.split(',') : [];
+                $scope.aiData.ai_quality_arr = $scope.aiData.ai_quality ? $scope.aiData.ai_quality.split(',') : [];
+                $scope.aiData.ai_model_prefix_arr = $scope.aiData.ai_model_prefix ? $scope.aiData.ai_model_prefix.split(',') : [];
+                $scope.aiData.ai_exec_standard_arr = $scope.aiData.ai_exec_standard ? $scope.aiData.ai_exec_standard.split(',') : [];
+
+                $scope.tempMaterial = "";
+                $scope.tempVoltage = "";
+                $scope.tempQuality = "";
+                $scope.tempPrefix = "";
+                $scope.tempStandard = "";
+
+                $("#aiConnectorModal").modal("show");
+            });
+        };
+
+        $scope.saveAiConnector = function () {
+            var param = {
+                ids: $scope.aiData.id,
+                ai_material: $scope.aiData.ai_material_arr ? $scope.aiData.ai_material_arr.join(',') : '',
+                ai_voltage: $scope.aiData.ai_voltage_arr ? $scope.aiData.ai_voltage_arr.join(',') : '',
+                ai_quality: $scope.aiData.ai_quality_arr ? $scope.aiData.ai_quality_arr.join(',') : '',
+                ai_model_prefix: $scope.aiData.ai_model_prefix_arr ? $scope.aiData.ai_model_prefix_arr.join(',') : '',
+                ai_exec_standard: $scope.aiData.ai_exec_standard_arr ? $scope.aiData.ai_exec_standard_arr.join(',') : ''
+            };
+
+            $scope.commAjax("{:U('Core/edits','model=plate_conts')}", param, function (res) {
+                if (res.status !== 1) {
+                    return swal("错误", res.msg, "error");
+                }
+                $("#aiConnectorModal").modal("hide");
+                window.location.reload();
+            });
+        };
+
+        $scope.dels = function (ids) {
+            var param = {id: ids};
+            swal({
+                title: "确认删除该商品吗？",
+                text: "删除后将无法恢复，请谨慎操作！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "确认删除",
+                cancelButtonText: "取消",
+                closeOnConfirm: false
+            }, function () {
+                layer.load(2);
+                $scope.commAjax("{:U('Core/dels','model=plate_conts')}", param, function (res) {
+                    layer.closeAll('loading');
+                    if (res.status !== 1) {
+                        return swal("错误", res.msg, "error");
+                    }
+                    swal({
+                        title: "删除成功",
+                        text: "该商品记录已成功移除。",
+                        type: "success",
+                        timer: 1500,
+                        showConfirmButton: false
+                    }, function () {
+                        window.location.reload();
+                    });
+                });
+            });
+        };
 
         $scope.changeid = function (id, type) {
             var param = {id: id, redi: type};
@@ -588,9 +1367,6 @@
                 }
                 window.location.reload();
             });
-        }
-
-
+        };
     });
-
 </script>

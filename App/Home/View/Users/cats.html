@@ -1,89 +1,127 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-8 p-r-0 title-margin-right">
-            <div class="page-header">
-                <div class="page-title">
-                    <h1>分类比例</h1>
-                </div>
-            </div>
-        </div>
-        <!-- /# column -->
-        <div class="col-lg-4 p-l-0 title-margin-left">
-            <div class="page-header">
-                <div class="page-title">
-                    <div class="page-header">
-                            <div class="page-title">
-                                <ol class="breadcrumb text-right">
-                                    <li><a href="{:U('Users/levels')}">用户等级</a></li>
-                                    <li class="active">分类比例</li>
-                                </ol>
+<div class="container-fluid" style="width: 100% !important; max-width: 100% !important; margin: 0 !important; padding: 15px 24px !important; box-sizing: border-box;">
+    
+    <!-- 主内容卡片区域：修复超宽屏空白过大问题，电脑端限制最大宽度并居中收缩，使名称与数值更紧凑便于管理 -->
+    <section id="main-content" style="width: 100% !important; margin: 0 !important;">
+        <div class="row" style="margin-left: 0; margin-right: 0;">
+            <div class="col-lg-12" style="padding-left: 0; padding-right: 0;">
+                <div class="card alert desktop-centered-card" style="border-radius: 16px; border: none; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04); background: #ffffff; overflow: hidden; margin-bottom: 30px; width: 100%; max-width: 1000px; margin-left: auto !important; margin-right: auto !important; box-sizing: border-box;">
+                    
+                    <!-- 卡片头部标题与操作区 -->
+                    <div class="card-header" style="background: #ffffff; border-bottom: 1px solid #f2f2f7; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center;">
+                        <h4 style="font-size: 18px; font-weight: 600; color: #1d1d1f; margin: 0; display: flex; align-items: center; gap: 8px;">
+                            <i class="ti-settings" style="color: #00b050;"></i> 分类比例设置
+                        </h4>
+                        <button type="button" class="btn btn-primary" onclick="addor()" style="background-color: #00b050; border: none; border-radius: 10px; font-weight: 500; padding: 8px 22px; color: #fff; box-shadow: 0 4px 12px rgba(0, 176, 80, 0.2); cursor: pointer; height: 40px; font-size: 14px; transition: all 0.2s ease;">立即保存</button>
+                    </div>
+
+                    <!-- 数据展示主体区域 -->
+                    <div class="card-body" style="padding: 15px 24px; width: 100%; box-sizing: border-box;">
+                        
+                        <form name="ador" style="width: 100%;">
+                            <input hidden name="ac_level" value="{$ac_level}" />
+
+                            <!-- 电脑端标准高清表格视图：收缩间距、奇偶行交替色 -->
+                            <div class="table-responsive desktop-table-view" style="border: none; overflow-x: visible; width: 100%;">
+                                <table class="table table-hover desktop-search-table" style="margin-bottom: 0; vertical-align: middle; width: 100%; table-layout: fixed; border-collapse: collapse;">
+                                    <thead style="background-color: #fbfbfd; border-bottom: 1px solid #f2f2f7;">
+                                        <tr>
+                                            <th style="padding: 14px 12px; font-weight: 600; color: #86868b; width: 15%; font-size: 13px; text-align: center;">序号</th>
+                                            <th style="padding: 14px 16px; font-weight: 600; color: #86868b; width: 55%; font-size: 13px;">比例名称</th>
+                                            <th style="padding: 14px 16px; font-weight: 600; color: #86868b; width: 30%; font-size: 13px; text-align: right;">比例数值</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <volist name="list" id="v" key="k">
+                                        <input hidden name="form_data[{$k}][plate_cats_id]" value="{$v.id}" />
+                                        <tr style="transition: background-color 0.15s ease; border-bottom: 1px solid #f2f2f7;">
+                                            <td style="padding: 14px 12px; color: #86868b; font-weight: 500; font-size: 14px; text-align: center; vertical-align: middle;">{$k}</td>
+                                            <td style="padding: 14px 16px; color: #1d1d1f; font-weight: 600; font-size: 14px; word-break: break-all; line-height: 1.4; vertical-align: middle;">{$v.name}</td>
+                                            <td style="padding: 14px 16px; text-align: right; vertical-align: middle;">
+                                                <input name="form_data[{$k}][cats_up]" type="number" class="form-control" onkeydown="handleBlur(event,this,{$ac_level},{$v.id},{$v.users_cats_up})" value="{$v.users_cats_up}" style="width: 100%; max-width: 110px; display: inline-block; text-align: center; border-radius: 8px; border: 1px solid #d2d2d7; padding: 6px 8px; font-size: 15px; height: 38px; background-color: #fff;" />
+                                            </td>
+                                        </tr>
+                                    </volist>
+                                    </tbody>
+                                </table>
                             </div>
-                        </div>
-                </div>
-            </div>
-        </div>
-        <!-- /# column -->
-    </div>
-    <!-- /# row -->
-    <section id="main-content">
 
-        <div class="row">
-
-            <div class="col-lg-12">
-                <div class="card alert">
-                    <div class="card-header">
-                        <h4>分类比例</h4>
-                        <button type="button" style="float: right;" class="btn btn-primary" onclick="addor()">保存</button>
-                    </div>
-                    <div class="card-body">
-
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>名称</th>
-                                        <th style="color:red">调整比例(调整比例后直接回车将保存数据)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    
-                                <form name="ador">
-                                 <input hidden name="ac_level" value="{$ac_level}" />
+                            <!-- 手机端专属卡片堆叠视图（严格左对齐、主分类名称高亮、输入框触控热区放大） -->
+                            <div class="mobile-card-view" style="display: none; flex-direction: column; gap: 12px; width: 100%;">
                                 <volist name="list" id="v" key="k">
-                                    <input hidden name="form_data[{$k}][plate_cats_id]" value="{$v.id}" />
-                                    <tr>
-                                        <td>{$k}</td>
-                                        <td>{$v.name}</td>
-                                     
-                                        <td><input name="form_data[{$k}][cats_up]" type="number" onkeydown="handleBlur(event,this,{$ac_level},{$v.id},{$v.users_cats_up})"  width="100px" value="{$v.users_cats_up}" /></td>
-                                    </tr>
-                                </volist>
-                                </form>
-                                </tbody>
-                            </table>
+                                    <div class="search-record-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02); display: flex; flex-direction: column; gap: 12px;">
+                                        <!-- 卡片头部：序号与分类名称 -->
+                                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
+                                            <div style="font-size: 15px; font-weight: 600; color: #1d1d1f; display: flex; align-items: center; gap: 8px; word-break: break-all;">
+                                                <span style="background: #e8f5e9; color: #00b050; padding: 2px 8px; border-radius: 6px; font-size: 12px;">#{$k}</span>
+                                                <span>{$v.name}</span>
+                                            </div>
+                                        </div>
 
-                        </div>
+                                        <!-- 卡片数值调整区：严格左右对齐 -->
+                                        <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 4px;">
+                                            <span style="color: #64748b; font-size: 13px; font-weight: 400;">比例数值设置：</span>
+                                            <input name="form_data[{$k}][cats_up]" type="number" class="form-control" onkeydown="handleBlur(event,this,{$ac_level},{$v.id},{$v.users_cats_up})" value="{$v.users_cats_up}" style="width: 130px; text-align: center; border-radius: 8px; border: 1px solid #d2d2d7; padding: 8px 10px; font-size: 16px; height: 42px; background-color: #fff;" />
+                                        </div>
+                                    </div>
+                                </volist>
+                            </div>
+
+                        </form>
+
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
-
-
 </div>
+
+<!-- 响应式与苹果极简商务风样式控制 -->
+<style>
+    .form-control:focus {
+        border-color: #00b050 !important;
+        box-shadow: 0 0 0 3px rgba(0, 176, 80, 0.15) !important;
+        outline: none;
+    }
+    .table-hover tbody tr:nth-of-type(odd) {
+        background-color: #fbfbfd;
+    }
+    .table-hover tbody tr:hover {
+        background-color: #f5f5f7 !important;
+    }
+
+    /* 响应式断点切换（屏幕宽度小于等于 768px 时触发手机端卡片布局） */
+    @media (max-width: 768px) {
+        .desktop-table-view {
+            display: none !important;
+        }
+        .mobile-card-view {
+            display: flex !important;
+        }
+        .container-fluid {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+        }
+        .card.alert.desktop-centered-card {
+            max-width: 100% !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            border-radius: 12px !important;
+        }
+        .card-header {
+            padding: 14px 16px !important;
+        }
+        .card-body {
+            padding: 12px !important;
+        }
+    }
+</style>
 
 <script>
     function handleBlur(event,e,ac_level,plate_cats_id,old_value){
-        return false;
-        // console.log(event.key);return;
-        // console.log(1112);console.log(e.value);console.log(ac_level);console.log(plate_cats_id);
-        if (event.key  != 'Enter') return false;
+        if (event.key != 'Enter') return false;
         var cats_up = e.value;
-        // if(cats_up != old_value){
-            var data = {ac_level: ac_level, plate_cats_id: plate_cats_id,cats_up:cats_up};
-            console.log(data);
+        var data = {ac_level: ac_level, plate_cats_id: plate_cats_id, cats_up: cats_up};
+        console.log(data);
         $.ajax({
             url: "{:U('Users/cats_op')}",
             type: "post",
@@ -95,23 +133,21 @@
                 }else{
                      return swal('提示', res.msg);
                 }
-                // window.location.reload();
             },
             error: function () {
-
             },
         });
-        // }
     }
+
     /**
-     * 添加
+     * 添加 / 保存
      * @returns {undefined}
      */
     function addor() {
         var temp = $("form[name='ador']").serializeArray();
         var data = objToArray(temp);
         var baseurl = "{:U('Users/cats_op_form')}";
-        //////
+        
         $.ajax({
             url: baseurl,
             type: "post",
@@ -129,7 +165,6 @@
                 
             },
             error: function () {
-
             },
         });
     }
@@ -140,7 +175,7 @@
      */
     function change(id, st) {
         var data = {ids: id, status: st};
-        //////
+        
         $.ajax({
             url: "{:U('Core/edits','model=sys_version')}",
             type: "post",
@@ -153,11 +188,7 @@
                 window.location.reload();
             },
             error: function () {
-
             },
         });
     }
-
 </script>
-
-

@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>易缆通商城 · AI联调测试专区</title>
+    <script src="https://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <style>
+        :root {
+            --apple-bg: #f5f5f7;
+            --apple-card-bg: #ffffff;
+            --apple-text-main: #1d1d1f;
+            --apple-text-sub: #86868b;
+            --apple-border: rgba(0, 0, 0, 0.08);
+            --apple-border-focus: #0071e3;
+            --apple-primary: #0071e3;
+            --apple-primary-hover: #0077ed;
+            --apple-radius: 12px;
+            --apple-radius-sm: 8px;
+            --apple-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+            --apple-transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+        
+        body { 
+            background-color: var(--apple-bg); 
+            color: var(--apple-text-main); 
+            -webkit-font-smoothing: antialiased; 
+            padding: 16px; 
+        }
+
+        .container-fluid { width: 100%; max-width: 1600px; margin: 0 auto; }
+        
+        /* 顶部导航与页头设计：支持超宽屏自适应与子页面快速切换 */
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--apple-border); padding: 16px 20px; background: #fff; border-radius: var(--apple-radius); box-shadow: var(--apple-shadow); flex-wrap: wrap; gap: 12px; }
+        .page-title h1 { font-size: 18px; font-weight: 600; color: var(--apple-text-main); letter-spacing: -0.5px; }
+        .page-title p { font-size: 12px; color: var(--apple-text-sub); margin-top: 4px; }
+        
+        /* 子页面快速导航栏样式 */
+        .sub-nav-links { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+        .nav-chip { background: #f2f2f7; color: var(--apple-text-main); padding: 6px 12px; border-radius: 20px; font-size: 11px; text-decoration: none; font-weight: 500; transition: var(--apple-transition); border: 1px solid var(--apple-border); }
+        .nav-chip:hover, .nav-chip.active { background: var(--apple-primary); color: #fff; border-color: var(--apple-primary); }
+
+        .card { 
+            background-color: var(--apple-card-bg); 
+            border-radius: var(--apple-radius); 
+            box-shadow: var(--apple-shadow); 
+            border: 1px solid var(--apple-border); 
+            overflow: hidden; 
+            margin-bottom: 0;
+            transition: var(--apple-transition); 
+        }
+        .card:hover { box-shadow: 0 8px 32px rgba(0, 0, 0, 0.07); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid var(--apple-border); background-color: rgba(255, 255, 255, 0.95); flex-wrap: wrap; gap: 8px; }
+        .card-header h4 { font-size: 13px; font-weight: 600; color: var(--apple-text-main); margin: 0; }
+        .card-body { padding: 18px; }
+
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 11px; font-weight: 500; color: var(--apple-text-sub); margin-bottom: 6px; }
+        .form-control { display: block; width: 100%; padding: 10px 12px; font-size: 12px; line-height: 1.5; color: var(--apple-text-main); background-color: #fafafc; border: 1px solid var(--apple-border); border-radius: var(--apple-radius-sm); transition: var(--apple-transition); }
+        .form-control:focus { border-color: var(--apple-border-focus); outline: 0; background-color: #fff; box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.08); }
+        
+        textarea.form-control { resize: vertical; min-height: 72px; max-height: 160px; }
+
+        .btn { display: inline-flex; align-items: center; justify-content: center; font-weight: 500; text-align: center; border: 1px solid transparent; padding: 6px 14px; font-size: 11px; border-radius: var(--apple-radius-sm); transition: var(--apple-transition); cursor: pointer; text-decoration: none; height: 34px; }
+        .btn:hover { transform: translateY(-1px); }
+        .btn-primary { background-color: var(--apple-primary); color: #fff; border-color: var(--apple-primary); }
+        .btn-primary:hover { background-color: var(--apple-primary-hover); box-shadow: 0 2px 8px rgba(0, 113, 227, 0.3); }
+        .btn-success { background-color: #34c759; color: #fff; border-color: #34c759; }
+        .btn-success:hover { background-color: #2db84c; box-shadow: 0 2px 8px rgba(52, 199, 89, 0.3); }
+        .btn-danger { background-color: #ff3b30; color: #fff; border-color: #ff3b30; padding: 2px 8px; font-size: 10px; height: 24px; display: inline-block; margin-left: 4px; vertical-align: middle; }
+        .btn-danger:hover { background-color: #e03228; }
+
+        .capsule-upload-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f2f2f7;
+            border: 1px dashed var(--apple-border);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--apple-primary);
+            cursor: pointer;
+            position: relative;
+            transition: var(--apple-transition);
+            text-decoration: none;
+            flex: 1;
+            min-width: 120px;
+            height: 38px;
+            user-select: none;
+        }
+        .capsule-upload-btn:hover { background-color: rgba(0, 113, 227, 0.08); border-color: var(--apple-primary); }
+        .capsule-upload-btn input[type="file"] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+
+        /* 录音中动画状态指示 */
+        .recording-active {
+            background-color: #ff3b30 !important;
+            color: #fff !important;
+            border-color: #ff3b30 !important;
+            animation: pulseRecord 1.5s infinite;
+        }
+        @keyframes pulseRecord {
+            0% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.4); }
+            70% { opacity: 0.85; transform: scale(0.99); box-shadow: 0 0 0 8px rgba(255, 59, 48, 0); }
+            100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); }
+        }
+
+        /* 待发送附件预览卡片样式 */
+        .pending-attachment-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f2f2f7;
+            border: 1px solid var(--apple-border);
+            padding: 8px 12px;
+            border-radius: var(--apple-radius-sm);
+            margin-bottom: 8px;
+        }
+        .pending-attachment-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .pending-attachment-thumb {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid var(--apple-border);
+        }
+
+        .test-result-box-wrapper {
+            width: 100% !important;
+            margin-top: 6px !important;
+        }
+
+        /* 现代化聊天视窗 */
+        .test-result-box {
+            background: #ffffff !important;
+            border: 1px solid var(--apple-border) !important;
+            border-radius: var(--apple-radius-sm) !important;
+            padding: 16px !important;
+            font-size: 12px !important;
+            line-height: 1.6 !important;
+            width: 100% !important;
+            height: 380px !important;
+            min-height: 260px !important;
+            max-height: 520px !important;
+            overflow-y: auto !important; 
+            font-family: inherit !important;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .chat-message-row {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        .chat-message-row.user {
+            align-items: flex-end;
+        }
+        .chat-message-row.assistant {
+            align-items: flex-start;
+        }
+
+        .chat-bubble-header {
+            font-size: 10px;
+            color: var(--apple-text-sub);
+            margin-bottom: 4px;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .chat-bubble-content {
+            max-width: 75%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            word-break: break-all;
+            white-space: pre-wrap;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+        }
+
+        .chat-message-row.user .chat-bubble-content {
+            background-color: #0071e3;
+            color: #fff;
+            border-top-right-radius: 2px;
+            margin-left: auto;
+        }
+
+        .chat-message-row.assistant .chat-bubble-content {
+            background-color: #f5f5f7;
+            color: var(--apple-text-main);
+            border: 1px solid var(--apple-border);
+            border-top-left-radius: 2px;
+        }
+
+        .chat-media-card {
+            display: block;
+            margin-bottom: 6px;
+        }
+        .chat-media-thumb {
+            width: 72px;
+            height: 72px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid rgba(0,0,0,0.12);
+            cursor: pointer;
+            transition: var(--apple-transition);
+            display: block;
+        }
+        .chat-media-thumb:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* 当前页面内嵌高斯模糊大图预览 Lightbox 弹窗组件 */
+        .image-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeIn 0.2s ease-out;
+        }
+        .image-modal-container {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            background: #fff;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .image-modal-container img {
+            max-width: 85vw;
+            max-height: 80vh;
+            display: block;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+        .image-modal-close {
+            position: absolute;
+            top: -14px;
+            right: -14px;
+            background: #ff3b30;
+            color: #fff;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: var(--apple-transition);
+        }
+        .image-modal-close:hover { transform: scale(1.1); background: #e03228; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (min-width: 1200px) {
+            .card-body { padding: 24px; }
+        }
+    </style>
+</head>
+<body ng-app="testApp" ng-controller="testCtrl">
+
+<div class="container-fluid">
+    <!-- 顶部主标题与子页面独立路由导航解耦区 -->
+    <div class="page-header">
+        <div class="page-title">
+            <h1>易缆通商城 · AI 联调测试专区</h1>
+            <p>全通道实时连通性诊断、多模态视觉文件上传与多轮上下文记忆测试。</p>
+        </div>
+        <div class="sub-nav-links">
+            <a href="index.html" class="nav-chip">总控面板</a>
+            <a href="knowledge.html" class="nav-chip">专家规则</a>
+            <a href="historyList.html" class="nav-chip">历史报价</a>
+            <a href="searchWords.html" class="nav-chip">搜索母本</a>
+            <a href="print_quote.html" class="nav-chip">合同打印</a>
+            <a href="testConnect.html" class="nav-chip active">测试专区</a>
+        </div>
+    </div>
+
+    <!-- 独立分离出的测试专区卡片组件 -->
+    <div class="card" style="border: 1px solid var(--apple-primary);">
+        <div class="card-header" style="background: rgba(0, 113, 227, 0.03);">
+            <h4 style="color: var(--apple-primary);">[ 独立测试区：全通道实时联调测试（支持多轮上下文记忆与语音合成） ]</h4>
+            <button type="button" class="btn btn-danger" ng-click="clearChatHistory()">清空对话上下文</button>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label>测试发送内容（支持文字、麦克风实时录音转写、Ctrl+V 截图粘贴、多媒体识图）</label>
+                
+                <!-- 独立精美的待发送多媒体附件预览条 -->
+                <div ng-if="attachedMedia" class="pending-attachment-card">
+                    <div class="pending-attachment-info">
+                        <img ng-src="{{attachedMedia.thumbUrl}}" class="pending-attachment-thumb" alt="缩略图" />
+                        <div>
+                            <div style="font-weight: 600; font-size: 11px; color: var(--apple-text-main);">🖼️ [已就绪视觉附件]</div>
+                            <div style="font-size: 10px; color: var(--apple-text-sub);">{{attachedMedia.name}}</div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-danger" ng-click="removeAttachedMedia()" style="height: 24px; font-size: 10px; padding: 0 8px;">移除附件</button>
+                </div>
+
+                <!-- 优化输入区容器：完美支持剪贴板粘贴与响应式布局 -->
+                <div style="display:flex; gap:8px; margin-bottom:8px; flex-wrap: wrap; align-items: stretch;">
+                    <textarea class="form-control" id="testTextarea" ng-model="testText" placeholder="输入电缆规格、按 Ctrl+V 直接粘贴屏幕截图、或点击右侧语音实时转写..." style="flex: 2; min-width: 280px;"></textarea>
+                    
+                    <!-- 麦克风实时录音转写按钮 -->
+                    <div class="capsule-upload-btn" ng-class="{'recording-active': isRecording}" ng-click="toggleMicrophoneRecord()" style="background:#e8f4fd;" title="点击开始麦克风录音说话，再次点击结束并自动转写为文字">
+                        <span>{{isRecording ? '🔴 正在录音(点击结束)...' : '🎤 语音实时转写'}}</span>
+                    </div>
+
+                    <div class="capsule-upload-btn">
+                        <span>+ 传图/音媒体</span>
+                        <input type="file" onchange="angular.element(this).scope().uploadTestMedia(this)">
+                    </div>
+                </div>
+            </div>
+            <div style="display:flex; gap:4px; margin-bottom:8px;">
+                <button type="button" class="btn btn-success" ng-click="runAiTest()" style="width:100%; height:38px; font-size: 12px;">⚡ 发起多模态联调（携带历史上下文 + 语音合成实物播放）</button>
+            </div>
+            
+            <!-- 响应结果与多轮对话渲染挂载区 -->
+            <div class="form-group test-result-box-wrapper">
+                <label>千问大模型响应文本结果 (服务器高速中转 & 多轮记忆)</label>
+                <div class="test-result-box">
+                    <div ng-if="chatHistory.length === 0" style="color:var(--apple-text-sub); text-align:center; margin:auto;">点击上方按钮发起联调，支持连续追问多轮对话...</div>
+                    <div ng-repeat="msg in chatHistory" ng-class="{'user': msg.role === 'user', 'assistant': msg.role === 'assistant'}" class="chat-message-row">
+                        <div class="chat-bubble-header" ng-style="{'margin-left': msg.role === 'user' ? 'auto' : '0'}">
+                            <span ng-style="{'color': msg.role === 'user' ? 'var(--apple-primary)' : '#2e7d32', 'font-weight': '600'}">
+                                {{msg.role === 'user' ? '👤 开发者/用户' : '🤖 千问AI专家'}}
+                            </span>
+                            <span>{{msg.time}}</span>
+                        </div>
+                        <div class="chat-bubble-content">
+                            <!-- 气泡内纯净精简的多媒体缩略图卡片展示（严格增加 msg.thumbUrl 非空校验） -->
+                            <div ng-if="msg.hasMedia && msg.thumbUrl" class="chat-media-card">
+                                <img ng-src="{{msg.thumbUrl}}" class="chat-media-thumb" ng-click="openPreview(msg.fileUrl)" title="点击在当前页面查看大图" alt="缩略图" />
+                            </div>
+                            <span>{{msg.displayContent}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 语音合成播放测试组件 -->
+            <div ng-if="audioPlayUrl" style="background:#e8f4fd; border: 1px solid rgba(0,113,227,0.2); padding:10px 14px; border-radius:8px; display:flex; align-items:center; justify-content:space-between; margin-top: 10px;">
+                <span style="font-size:11px; color:var(--apple-primary); font-weight:600;">🔊 合成语音实物播放测试：</span>
+                <audio controls autoplay style="height:30px; width:82%;" ng-src="{{trustUrl(audioPlayUrl)}}"></audio>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 当前页面内嵌高斯模糊大图预览 Lightbox 弹窗组件 -->
+<div class="image-modal-overlay" ng-if="previewModalUrl" ng-click="closePreview()">
+    <div class="image-modal-container" ng-click="$event.stopPropagation()">
+        <button type="button" class="image-modal-close" ng-click="closePreview()">×</button>
+        <img ng-src="{{previewModalUrl}}" alt="高清大图预览" />
+    </div>
+</div>
+
+<script>
+var app = angular.module('testApp', []);
+
+app.controller('testCtrl', function($scope, $http, $sce, $timeout) {
+    $scope.testText = '请帮我查询YJV4*50+1电缆';
+    $scope.chatHistory = [];
+    $scope.audioPlayUrl = '';
+    $scope.attachedMedia = null; 
+    $scope.previewModalUrl = ''; 
+    $scope.isRecording = false;  
+
+    var mediaRecorder = null;
+    var audioChunks = [];
+
+    var rawConfig = <?php echo !empty($config_json) ? $config_json : '{"ai_model":"qwen-max","base_url":"https://dashscope.aliyuncs.com/compatible-mode/v1","api_key":"","temperature":0.20,"max_tokens":2048,"prompt_rule":"","voice_type":"vivi"}'; ?>;
+    $scope.config = rawConfig;
+
+    function getCurrentTimeString() {
+        var now = new Date();
+        var hours = String(now.getHours()).padStart(2, '0');
+        var minutes = String(now.getMinutes()).padStart(2, '0');
+        var seconds = String(now.getSeconds()).padStart(2, '0');
+        return hours + ':' + minutes + ':' + seconds;
+    }
+
+    $scope.openPreview = function(url) {
+        if(url) {
+            $scope.previewModalUrl = url;
+        }
+    };
+
+    $scope.closePreview = function() {
+        $scope.previewModalUrl = '';
+    };
+
+    $scope.removeAttachedMedia = function() {
+        $scope.attachedMedia = null;
+    };
+
+    // 剪贴板粘贴监听：支持在输入框中直接 Ctrl+V 粘贴屏幕截图
+    $timeout(function() {
+        var textareaElem = document.getElementById('testTextarea');
+        if (textareaElem) {
+            textareaElem.addEventListener('paste', function(e) {
+                var items = (e.clipboardData || e.originalEvent.clipboardData).items;
+                for (var i = 0; i < items.length; i++) {
+                    if (items[i].type.indexOf('image') !== -1) {
+                        var blob = items[i].getAsFile();
+                        var formData = new FormData();
+                        formData.append('file', blob, 'clipboard_screenshot.png');
+                        
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('POST', '{:U("Ai/uploadTestMedia")}', true);
+                        xhr.onload = function() {
+                            var res = JSON.parse(xhr.responseText);
+                            if(res.code == 200) {
+                                $scope.$apply(function() {
+                                    var filename = res.data && res.data.filename ? res.data.filename : 'clipboard_screenshot.png';
+                                    var fileUrl = res.data && res.data.file_path ? res.data.file_path : '';
+                                    var thumbUrl = res.data && res.data.thumb_path ? res.data.thumb_path : fileUrl;
+                                    if (fileUrl) {
+                                        $scope.attachedMedia = {
+                                            name: filename,
+                                            fileUrl: fileUrl,
+                                            thumbUrl: thumbUrl
+                                        };
+                                    }
+                                });
+                            } else {
+                                alert("截图粘贴上传失败: " + res.msg);
+                            }
+                        };
+                        xhr.send(formData);
+                        e.preventDefault();
+                        break;
+                    }
+                }
+            });
+        }
+    }, 500);
+
+    // 网页端麦克风语音录制与实时转写逻辑
+    $scope.toggleMicrophoneRecord = function() {
+        if (!$scope.isRecording) {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                alert("您的浏览器或当前运行环境不支持麦克风录音权限！");
+                return;
+            }
+            navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(function(stream) {
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+                mediaRecorder.ondataavailable = function(e) {
+                    if (e.data.size > 0) audioChunks.push(e.data);
+                };
+                mediaRecorder.onstop = function() {
+                    var audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                    var fd = new FormData();
+                    fd.append('audio_file', audioBlob, 'mic_record.webm');
+                    
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '{:U("Ai/runVolcAsr")}', true);
+                    xhr.onload = function() {
+                        try {
+                            var res = JSON.parse(xhr.responseText);
+                            if(res.code == 200 || res.status == 200 || res.success) {
+                                var recognizedText = "";
+                                if (res.data && res.data.text) {
+                                    recognizedText = res.data.text;
+                                } else if (res.text) {
+                                    recognizedText = res.text;
+                                } else if (typeof res.data === 'string') {
+                                    recognizedText = res.data;
+                                } else {
+                                    recognizedText = JSON.stringify(res.data);
+                                }
+
+                                $scope.$apply(function() {
+                                    if ($scope.testText) {
+                                        $scope.testText += " " + recognizedText;
+                                    } else {
+                                        $scope.testText = recognizedText;
+                                    }
+                                });
+                            } else {
+                                alert("语音识别解析失败: " + (res.msg || "未知错误"));
+                            }
+                        } catch(e) {
+                            alert("解析语音识别返回数据格式异常！");
+                        }
+                    };
+                    xhr.send(fd);
+                    stream.getTracks().forEach(track => track.stop());
+                };
+                mediaRecorder.start();
+                $scope.$apply(function() {
+                    $scope.isRecording = true;
+                });
+            })
+            .catch(function(err) {
+                alert("无法获取麦克风权限！");
+            });
+        } else {
+            if (mediaRecorder) {
+                mediaRecorder.stop();
+            }
+            $scope.isRecording = false;
+        }
+    };
+
+    $scope.uploadTestMedia = function(element) {
+        var file = element.files[0];
+        if(!file) return;
+        var fd = new FormData();
+        fd.append('file', file);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '{:U("Ai/uploadTestMedia")}', true);
+        xhr.onload = function() {
+            var res = JSON.parse(xhr.responseText);
+            if(res.code == 200) {
+                $scope.$apply(function() {
+                    var filename = res.data && res.data.filename ? res.data.filename : file.name;
+                    var fileUrl = res.data && res.data.file_path ? res.data.file_path : '';
+                    var thumbUrl = res.data && res.data.thumb_path ? res.data.thumb_path : fileUrl;
+                    if (fileUrl) {
+                        $scope.attachedMedia = {
+                            name: filename,
+                            fileUrl: fileUrl,
+                            thumbUrl: thumbUrl
+                        };
+                    }
+                });
+                element.value = '';
+            } else {
+                alert("上传失败: " + res.msg);
+                element.value = '';
+            }
+        };
+        xhr.send(fd);
+    };
+
+    $scope.trustUrl = function(url) {
+        return $sce.trustAsResourceUrl(url);
+    };
+
+    $scope.clearChatHistory = function() {
+        $scope.chatHistory = [];
+        $scope.audioPlayUrl = '';
+        $scope.attachedMedia = null;
+        $scope.previewModalUrl = '';
+        $scope.isRecording = false;
+    };
+
+    $scope.runAiTest = function() {
+        if(!$scope.config.api_key) {
+            alert("请先在总控面板配置并保存 API Key！");
+            return;
+        }
+        if(!$scope.testText && !$scope.attachedMedia) {
+            alert("请输入测试内容或上传视觉图片附件！");
+            return;
+        }
+
+        var currentPrompt = $scope.testText || "请精准识别表格中的电缆型号和规格";
+        var currentTime = getCurrentTimeString();
+        $scope.audioPlayUrl = '';
+
+        var hasMediaFlag = false;
+        var extractedFileUrl = '';
+        var extractedThumbUrl = '';
+        var extractedFileName = '';
+
+        if ($scope.attachedMedia) {
+            hasMediaFlag = true;
+            extractedFileName = $scope.attachedMedia.name;
+            extractedFileUrl = $scope.attachedMedia.fileUrl;
+            extractedThumbUrl = $scope.attachedMedia.thumbUrl;
+        }
+        
+        // 生成绝对路径 URL（必须保证公网可访问，若为本地开发，需确保 PHP 后端能正确转为带公网域名或图床 URL）
+        var absoluteImageUrl = "";
+        var apiPromptPayload = currentPrompt;
+        if (extractedFileUrl) {
+            absoluteImageUrl = extractedFileUrl.indexOf('http') === 0 ? extractedFileUrl : (window.location.origin + extractedFileUrl);
+            apiPromptPayload = currentPrompt + " [视觉指令：请100%忠实提取附图表格内文字，严禁编造虚构。图片公网绝对地址: " + absoluteImageUrl + "]";
+        }
+
+        var postPayload = {
+            prompt: apiPromptPayload,
+            messages: $scope.chatHistory,
+            api_key: $scope.config.api_key,
+            base_url: $scope.config.base_url,
+            ai_model: $scope.config.ai_model,
+            temperature: $scope.config.temperature,
+            system_rule: $scope.config.prompt_rule,
+            voice_type: $scope.config.voice_type,
+            need_tts: true
+        };
+        if (absoluteImageUrl) {
+            postPayload.image_path = absoluteImageUrl;
+        }
+
+        $http.post('{:U("Ai/runAiChat")}', postPayload)
+        .success(function(res) {
+            if(res.code == 200) {
+                var aiReply = res.data && res.data.text ? String(res.data.text).trim() : "【返回文本为空】";
+                var replyTime = getCurrentTimeString();
+                
+                $scope.chatHistory.push({ 
+                    role: 'user', 
+                    content: apiPromptPayload, 
+                    displayContent: currentPrompt, 
+                    hasMedia: hasMediaFlag, 
+                    fileName: extractedFileName,
+                    fileUrl: extractedFileUrl,
+                    thumbUrl: extractedThumbUrl,
+                    time: currentTime 
+                });
+                $scope.chatHistory.push({ 
+                    role: 'assistant', 
+                    content: aiReply, 
+                    displayContent: aiReply, 
+                    hasMedia: false, 
+                    time: replyTime 
+                });
+
+                if(res.data && res.data.audio_url) {
+                    $scope.audioPlayUrl = res.data.audio_url;
+                }
+                $scope.testText = '';
+                $scope.attachedMedia = null;
+            } else {
+                alert("【联调出错】\n" + (res.msg || "未知错误"));
+            }
+        })
+        .error(function(err) {
+            alert("【网络异常或服务器响应超时】");
+        });
+    };
+});
+</script>
+
+</body>
+</html>

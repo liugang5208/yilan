@@ -1,248 +1,469 @@
 <style>
-    .form-horizontal .control-label{ padding-top:5px;}
-    .form-group{ margin-bottom:2px;}
-    .border-dark{ border:1px solid #e7e7e7; padding:5px 0px;}
-    label{ vertical-align:middle; margin-bottom:0px;}
+    /* ===== 苹果极简商务风与响应式全局架构优化 ===== */
+    :root {
+        --apple-bg: #f5f5f7;
+        --apple-card-bg: #ffffff;
+        --apple-text-main: #1d1d1f;
+        --apple-text-secondary: #86868b;
+        --apple-border: #d2d2d7;
+        --apple-blue: #0071e3;
+        --apple-blue-hover: #0077ed;
+        --apple-red: #ff3b30;
+        --apple-green: #34c759;
+        --apple-radius: 12px;
+        --apple-radius-sm: 8px;
+        --apple-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+        --apple-shadow-hover: 0 6px 32px rgba(0, 0, 0, 0.08);
+    }
 
-    .form-block{ cursor:pointer; height:64px; line-height:64px;}
-    .nav-tabs li{ cursor:pointer;}
+    body {
+        background-color: var(--apple-bg);
+        color: var(--apple-text-main);
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        overflow-x: hidden;
+    }
 
-    .table>thead>tr>th{ padding:4px; text-align:center;}
-    .table>thead>tr>td{ padding:4px; text-align:center;}
-    .table>tbody>tr>td{ padding:4px; text-align:center;}
-    .table>thead>tr>td .form-control{ text-align:center;}
-    .table>tbody>tr>td .form-control{ text-align:center;}
+    /* 超宽屏完美100%铺满，告别两边大面积留白，两侧仅留微小舒适边距 */
+    .container-fluid {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+        box-sizing: border-box;
+    }
 
-    .form-width label{ display:inline-block; width:24%!important;}
-    .form-width input{ display:inline-block; width:70%!important;}
+    .row {
+        margin-left: -8px !important;
+        margin-right: -8px !important;
+    }
 
-    .myTempBody{ height:500px; overflow-y:scroll;}
+    .col-lg-12, .col-lg-8, .col-lg-4, .col-md-6, .col-md-4, .col-sm-4, .col-sm-8 {
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+        box-sizing: border-box;
+    }
 
-    /* ===== cate-block 样式（参考 NewLabel）===== */
+    /* 卡片容器统一苹果极简商务风美化 */
+    .card.alert {
+        background: var(--apple-card-bg);
+        border: 1px solid rgba(0, 0, 0, 0.04);
+        border-radius: var(--apple-radius);
+        box-shadow: var(--apple-shadow);
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .page-header {
+        border-bottom: none;
+        margin: 15px 0 20px 0;
+    }
+
+    .page-title h1 {
+        font-size: 22px;
+        font-weight: 600;
+        color: var(--apple-text-main);
+        letter-spacing: -0.5px;
+    }
+
+    .breadcrumb {
+        background: transparent;
+        padding: 0;
+        margin-bottom: 0;
+    }
+
+    .breadcrumb > li > a {
+        color: var(--apple-blue);
+    }
+
+    /* 表单与控件基础样式重构 */
+    .form-control {
+        border-radius: var(--apple-radius-sm);
+        border: 1px solid var(--apple-border);
+        box-shadow: none;
+        height: 38px;
+        font-size: 13px;
+        color: var(--apple-text-main);
+        transition: border-color 0.2s, box-shadow 0.2s;
+        box-sizing: border-box;
+    }
+
+    .form-control:focus {
+        border-color: var(--apple-blue);
+        box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
+    }
+
+    /* 按钮通用温润圆角与微交互升级 */
+    .btn {
+        border-radius: var(--apple-radius-sm);
+        font-weight: 500;
+        transition: all 0.2s ease;
+        box-shadow: none;
+    }
+
+    .btn-primary {
+        background-color: var(--apple-blue);
+        border-color: var(--apple-blue);
+    }
+
+    .btn-primary:hover, .btn-primary:focus {
+        background-color: var(--apple-blue-hover);
+        border-color: var(--apple-blue-hover);
+    }
+
+    .btn-danger {
+        background-color: var(--apple-red);
+        border-color: var(--apple-red);
+    }
+
+    .btn-xs {
+        border-radius: 6px;
+        padding: 4px 10px;
+        font-size: 12px;
+    }
+
+    .form-horizontal .control-label{ padding-top:7px;}
+    .form-group{ margin-bottom:12px;}
+    label{ vertical-align:middle; margin-bottom:4px; font-weight:500; color:var(--apple-text-main);}
+
+    /* ===== 四大功能板块骨架区块样式升级 ===== */
+    .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #1d1d1f;
+        color: #fff;
+        padding: 12px 18px;
+        border-radius: var(--apple-radius) var(--apple-radius) 0 0;
+        margin-top: 16px;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .section-header-blue { background: var(--apple-blue); }
+    .section-title {
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: -0.2px;
+    }
+    .section-add-btn {
+        font-size: 12px !important;
+        padding: 5px 12px !important;
+        height: auto !important;
+        border: 1px solid rgba(255,255,255,0.3) !important;
+        background: rgba(255,255,255,0.15) !important;
+        color: #fff !important;
+        border-radius: 6px !important;
+    }
+    .section-add-btn:hover { background: rgba(255,255,255,0.3) !important; }
+    
+    .section-body { 
+        padding: 16px; 
+        background: var(--apple-card-bg); 
+        border: 1px solid #e5e5ea; 
+        border-top: none; 
+        border-radius: 0 0 var(--apple-radius) var(--apple-radius); 
+        margin-bottom: 20px; 
+    }
+
+    /* 分类与选项卡片（网格铺满） */
+    .price-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
     .cate-block {
-        background-color: #e8e8e8;
-        border-radius: 3px;
-        padding: 6px 8px 8px 8px;
-        margin-bottom: 8px;
+        background-color: #f2f2f7;
+        border-radius: var(--apple-radius-sm);
+        padding: 12px 14px;
+        margin-bottom: 0;
         display: inline-block;
-        min-width: 140px;
-        margin-right: 8px;
+        min-width: 160px;
+        flex: 1 1 180px;
         vertical-align: top;
+        border: 2px solid transparent;
+        transition: all 0.2s ease;
+        box-sizing: border-box;
+    }
+    .cate-block:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     }
     .cate-title-row {
         display: flex;
         justify-content: space-between;
         align-items: center;
         min-height: 28px;
-        margin-bottom: 4px;
+        margin-bottom: 6px;
     }
     .cate-title-name {
-        font-size: 13px;
-        font-weight: bold;
-        color: #333;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--apple-text-main);
         cursor: pointer;
-    }
-    .cate-title-btns {
-        display: flex;
-        gap: 4px;
-        align-items: center;
+        word-break: break-all;
     }
     .cate-ratio {
-        font-size: 11px;
-        color: #888;
-        margin-top: 2px;
-    }
-    .price-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0;
+        font-size: 12px;
+        color: var(--apple-text-secondary);
+        margin-top: 4px;
     }
 
-    /* ===== 商品属性详情面板（新版）===== */
+    /* ===== 商品属性详情面板优化（修复缩略图过大与完整显示问题） ===== */
     .goods-detail-panel {
-        margin-top: 14px;
-        border-top: 2px solid #e8e8e8;
+        margin-top: 18px;
+        border-top: 2px solid #f0f0f2;
         padding-top: 0;
     }
-    /* 顶部标题 + 操作按钮 header */
     .gd-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background: #f0f4f8;
-        border: 1px solid #dce3ea;
-        border-radius: 4px 4px 0 0;
-        padding: 7px 14px;
-        margin-top: 14px;
+        background: #f5f5f7;
+        border: 1px solid #e5e5ea;
+        border-radius: var(--apple-radius-sm) var(--apple-radius-sm) 0 0;
+        padding: 10px 16px;
+        margin-top: 16px;
+        flex-wrap: wrap;
+        gap: 8px;
     }
     .gd-header-label {
-        font-size: 12px;
-        color: #666;
+        font-size: 13px;
+        color: var(--apple-text-secondary);
     }
     .gd-header-label span {
-        color: #2980b9;
-        font-weight: bold;
-        font-size: 13px;
+        color: var(--apple-blue);
+        font-weight: 600;
+        font-size: 14px;
     }
     .gd-header-label em {
-        color: #aaa;
-        font-size: 11px;
+        color: #86868b;
+        font-size: 12px;
         margin-left: 10px;
         font-style: normal;
     }
     .gd-header-actions {
         display: flex;
-        gap: 6px;
+        gap: 8px;
+        flex-wrap: wrap;
     }
-    /* 表单主体 */
     .gd-body {
-        border: 1px solid #dce3ea;
+        border: 1px solid #e5e5ea;
         border-top: none;
-        border-radius: 0 0 4px 4px;
+        border-radius: 0 0 var(--apple-radius-sm) var(--apple-radius-sm);
         background: #fff;
-        padding: 14px 16px;
+        padding: 18px;
     }
-    /* 两列网格 */
-    .gd-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px 20px;
-        margin-bottom: 12px;
-    }
-    /* input-group 风格字段 */
     .gd-field {
         display: flex;
         align-items: center;
+        margin-bottom: 12px;
     }
     .gd-field-label {
         font-size: 12px;
-        color: #555;
+        color: var(--apple-text-secondary);
         white-space: nowrap;
-        background: #f5f7fa;
-        border: 1px solid #dce3ea;
+        background: #f2f2f7;
+        border: 1px solid var(--apple-border);
         border-right: none;
-        border-radius: 3px 0 0 3px;
-        padding: 4px 10px;
-        height: 30px;
-        line-height: 22px;
-        min-width: 68px;
+        border-radius: var(--apple-radius-sm) 0 0 var(--apple-radius-sm);
+        padding: 6px 12px;
+        height: 38px;
+        line-height: 24px;
+        min-width: 80px;
         text-align: center;
         flex-shrink: 0;
+        box-sizing: border-box;
     }
     .gd-field .form-control {
-        border-radius: 0 3px 3px 0;
-        height: 30px;
-        font-size: 12px;
-        border-color: #dce3ea;
+        border-radius: 0 var(--apple-radius-sm) var(--apple-radius-sm) 0;
+        height: 38px;
+        font-size: 13px;
     }
-    .gd-field .form-control:focus {
-        border-color: #2980b9;
-        box-shadow: 0 0 0 2px rgba(41,128,185,0.12);
-    }
-    /* 图片上传区 */
-    .gd-upload-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px 20px;
-    }
-    .gd-upload-item {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-    }
-    .gd-upload-input-row {
-        display: flex;
-        align-items: center;
-    }
-    .gd-upload-input-row .gd-field-label {
-        border-radius: 3px 0 0 3px;
-    }
-    .gd-upload-input-row input[type="file"] {
-        flex: 1;
-        height: 30px;
-        font-size: 12px;
-        border: 1px solid #dce3ea;
-        border-left: none;
-        border-radius: 0 3px 3px 0;
-        padding: 3px 6px;
-        background: #fff;
-        line-height: 22px;
-    }
-    /* 图片预览 */
-    .gd-thumb-row {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding-left: 68px;
-    }
+    
+    /* 缩略图自适应优化：使用 contain 保证整张图完美呈现不被裁剪过大 */
     .gd-thumb {
-        width: 120px;
-        height: 88px;
-        object-fit: cover;
-        border-radius: 3px;
-        border: 1px solid #dce3ea;
-        background: #f5f7fa;
+        width: 100%;
+        max-width: 220px;
+        height: 110px;
+        object-fit: contain;
+        border-radius: var(--apple-radius-sm);
+        border: 1px solid var(--apple-border);
+        background: #fafafa;
         cursor: pointer;
         transition: border-color 0.2s;
+        display: block;
+        margin: 0 auto;
     }
-    .gd-thumb:hover { border-color: #2980b9; }
+    .gd-thumb:hover { border-color: var(--apple-blue); }
     .gd-thumb-placeholder {
-        width: 120px;
-        height: 88px;
-        border-radius: 3px;
-        border: 1px dashed #ccc;
+        width: 100%;
+        max-width: 220px;
+        height: 110px;
+        border-radius: var(--apple-radius-sm);
+        border: 1px dashed var(--apple-border);
         background: #fafafa;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #ccc;
-        font-size: 20px;
-        flex-shrink: 0;
+        color: #86868b;
+        font-size: 24px;
+        margin: 0 auto;
     }
     .gd-thumb-tip {
-        font-size: 11px;
-        color: #aaa;
-        line-height: 1.6;
-    }
-    /* 分割线 */
-    .gd-divider {
-        border: none;
-        border-top: 1px dashed #eee;
-        margin: 0 0 12px 0;
+        font-size: 12px;
+        color: var(--apple-text-secondary);
+        line-height: 1.5;
+        margin-top: 6px;
+        text-align: center;
     }
 
-    /* ===== section 样式（参考 NewLabel）===== */
-    .section-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: #333;
-        color: #fff;
-        padding: 8px 14px;
-        border-radius: 3px 3px 0 0;
+    /* ===== 商品设置表格与手机端智能降级（极致防溢出优化） ===== */
+    .table-responsive-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
-    .section-header-blue { background: #2980b9; }
-    .section-title {
-        font-size: 14px;
-        font-weight: bold;
-        letter-spacing: 1px;
+
+    .table > thead > tr > th,
+    .table > thead > tr > td,
+    .table > tbody > tr > td {
+        padding: 8px 6px;
+        vertical-align: middle;
+        text-align: center;
+        font-size: 13px;
     }
-    .section-add-btn {
-        font-size: 12px !important;
-        padding: 3px 10px !important;
-        height: auto !important;
-        border: 1px solid rgba(255,255,255,0.4) !important;
-        background: rgba(255,255,255,0.15) !important;
-        color: #fff !important;
+
+    .table-bordered {
+        border: 1px solid #e5e5ea;
     }
-    .section-add-btn:hover { background: rgba(255,255,255,0.28) !important; }
-    .section-body { padding: 12px; background: #fff; border: 1px solid #e0e0e0; border-top: none; border-radius: 0 0 3px 3px; margin-bottom: 14px; }
+
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: #fafafc;
+    }
+    .table-striped > tbody > tr:hover {
+        background-color: #f0f0f5;
+    }
+
+    /* 手机端专用卡片容器（默认在电脑端隐藏） */
+    .mobile-card-list {
+        display: none;
+    }
+
+    /* 响应式媒体查询：平板与手机端完美适配 (max-width: 768px) */
+    @media (max-width: 768px) {
+        .desktop-table-view {
+            display: none !important;
+        }
+        .mobile-card-list {
+            display: block !important;
+        }
+
+        .container-fluid {
+            padding-left: 8px !important;
+            padding-right: 8px !important;
+        }
+
+        .card.alert {
+            padding: 12px;
+        }
+
+        /* 手机端单条独立卡片极简美化与绝对防溢出 */
+        .m-card-item {
+            background: #ffffff;
+            border: 1px solid #e5e5ea;
+            border-radius: var(--apple-radius);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+            padding: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .m-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0f0f2;
+            padding-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--apple-text-main);
+        }
+
+        .m-card-body {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .m-card-field {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .m-card-field-label {
+            font-size: 12px;
+            color: var(--apple-text-secondary);
+            font-weight: 500;
+        }
+
+        .m-card-field input, .m-card-field .form-control {
+            height: 40px;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* 手机端触控热区放大：按钮高度40px以上，防止误触 */
+        .m-card-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 6px;
+            border-top: 1px solid #f0f0f2;
+            padding-top: 10px;
+        }
+        .m-card-actions .btn {
+            flex: 1;
+            height: 40px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--apple-radius-sm);
+        }
+
+        /* 弹窗在手机端自适应宽度 */
+        .modal-dialog {
+            width: 92% !important;
+            margin: 20px auto !important;
+        }
+    }
+
+    /* 弹窗圆角与苹果化升级 */
+    .modal-content {
+        border-radius: var(--apple-radius);
+        border: none;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    .modal-header {
+        border-bottom: 1px solid #f0f0f2;
+        padding: 16px 20px;
+    }
+    .modal-footer {
+        border-top: 1px solid #f0f0f2;
+        padding: 12px 20px;
+    }
 </style>
 
 <div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
 
     <div class="row">
-        <div class="col-lg-8 p-r-0 title-margin-right">
+        <div class="col-lg-8 col-md-8 p-r-0 title-margin-right">
             <div class="page-header">
                 <div class="page-title">
                     <h1>属性分类商品管理</h1>
@@ -250,7 +471,7 @@
             </div>
         </div>
         <!-- /# column -->
-        <div class="col-lg-4 p-l-0 title-margin-left">
+        <div class="col-lg-4 col-md-4 p-l-0 title-margin-left">
             <div class="page-header">
                 <div class="page-title">
                     <ol class="breadcrumb text-right">
@@ -267,27 +488,24 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card alert">
-                    <!--<div class="card-header">-->
-                    <!--    <h4>属性分类商品管理</h4>-->
-                    <!--</div>-->
                     <div class="card-body p-t-10">
 
                         <!-- ===== 标准选项管理 ===== -->
                         <div class="section-header" style="background:#555;">
                             <span class="section-title">标准选项管理</span>
-                            <div style="display:flex;gap:6px;">
+                            <div style="display:flex;gap:6px;flex-wrap:wrap;">
                                 <a class="btn btn-xs section-add-btn" ng-click="openCopyGroupContent()" ng-show="active_group_id > 0">复制标准内容</a>
-                                <a class="btn btn-xs section-add-btn" ng-click="clearGroupContent()" ng-show="active_group_id > 0" style="background:rgba(220,53,69,0.7)!important;border-color:rgba(220,53,69,0.9)!important;">清空标准内容</a>
+                                <a class="btn btn-xs section-add-btn" ng-click="clearGroupContent()" ng-show="active_group_id > 0" style="background:rgba(255,59,48,0.8)!important;border-color:rgba(255,59,48,0.9)!important;">清空标准内容</a>
                             </div>
                         </div>
                         <div class="section-body">
                             <div class="price-grid">
                                 <div class="cate-block" ng-repeat="g in group_list"
-                                     ng-style="{'border': active_group_id == g.id ? '2px solid #555' : '2px solid transparent', 'cursor': 'pointer'}"
+                                     ng-style="{'border': active_group_id == g.id ? '2px solid var(--apple-blue)' : '2px solid transparent', 'cursor': 'pointer'}"
                                      ng-click="selectGroup(g)">
                                     <div class="cate-title-row">
-                                        <div class="cate-title-name" style="display:flex;align-items:center;gap:5px;">
-                                            <span ng-if="active_group_id == g.id" style="width:7px;height:7px;border-radius:50%;background:#555;display:inline-block;"></span>
+                                        <div class="cate-title-name" style="display:flex;align-items:center;gap:6px;">
+                                            <span ng-if="active_group_id == g.id" style="width:8px;height:8px;border-radius:50%;background:var(--apple-blue);display:inline-block;"></span>
                                             {{g.name}}
                                         </div>
                                         <a class="btn btn-info btn-xs" ng-click="openEditGroup(g); $event.stopPropagation()">编辑</a>
@@ -302,16 +520,16 @@
                         <!-- ===== 商品属性管理 ===== -->
                         <div class="section-header section-header-blue">
                             <span class="section-title">商品属性管理</span>
-                            <div style="display:flex;gap:6px;">
+                            <div style="display:flex;gap:6px;flex-wrap:wrap;">
                                 <a class="btn btn-xs section-add-btn" ng-click="openAddBlock()">+ 添加</a>
                                 <a class="btn btn-xs section-add-btn" ng-click="openCopyBlock()">复制商品内容</a>
-                                <a class="btn btn-xs section-add-btn" style="background:rgba(220,53,69,0.7)!important;border-color:rgba(220,53,69,0.9)!important;" ng-click="goodsClear()">清空商品内容</a>
+                                <a class="btn btn-xs section-add-btn" style="background:rgba(255,59,48,0.8)!important;border-color:rgba(255,59,48,0.9)!important;" ng-click="goodsClear()">清空商品内容</a>
                             </div>
                         </div>
                         <div class="section-body">
                             <div class="price-grid">
                                 <div class="cate-block" ng-repeat="b in filteredBlanks"
-                                     ng-style="{'border': cat_index == b.cat_index ? '2px solid #2980b9' : '2px solid transparent'}"
+                                     ng-style="{'border': cat_index == b.cat_index ? '2px solid var(--apple-blue)' : '2px solid transparent'}"
                                      ng-click="changeType(b.cat_index, b.id)" style="cursor:pointer;">
                                     <div class="cate-title-row">
                                         <div class="cate-title-name">{{b.catname || ('商品' + b.cat_index)}}</div>
@@ -322,7 +540,7 @@
                                         <a class="btn btn-danger btn-xs" ng-click="deleteBlock(b); $event.stopPropagation()">删除</a>
                                     </div>
                                 </div>
-                                <div ng-if="filteredBlanks.length === 0" style="color:#aaa;font-size:12px;padding:8px;">
+                                <div ng-if="filteredBlanks.length === 0" style="color:var(--apple-text-secondary);font-size:13px;padding:10px;">
                                     {{active_group_id > 0 ? '该选项下暂无商品' : '暂无商品，点击"+ 添加"'}}
                                 </div>
                             </div>
@@ -330,139 +548,31 @@
 
                         <div>
 
-                        <!-- ===== 商品价格组成 ===== -->
-                        <div class="section-header" style="background:#27ae60;">
+                        <!-- ===== 属性价格管理 ===== -->
+                        <div class="section-header" style="background:#34c759;">
                             <span class="section-title">
                                 属性价格管理
-                                <span ng-if="blank && blank.catname" style="font-size:11px;font-weight:normal;opacity:0.85;margin-left:8px;">— 【{{(group_list | filter:{id:active_group_id}:true)[0].name}}】-【{{blank.catname}}】</span>
+                                <span ng-if="blank && blank.catname" style="font-size:12px;font-weight:normal;opacity:0.9;margin-left:8px;">— 【{{(group_list | filter:{id:active_group_id}:true)[0].name}}】-【{{blank.catname}}】</span>
                             </span>
-                            <div style="display:flex;gap:6px;">
+                            <div style="display:flex;gap:6px;flex-wrap:wrap;">
                                 <a class="btn btn-xs section-add-btn" ng-click="priceAdd()">+ 添加</a>
-                                <a class="btn btn-xs section-add-btn" style="background:rgba(220,53,69,0.7)!important;border-color:rgba(220,53,69,0.9)!important;" ng-click="delAllPrice()">一键删除</a>
+                                <a class="btn btn-xs section-add-btn" style="background:rgba(255,59,48,0.8)!important;border-color:rgba(255,59,48,0.9)!important;" ng-click="delAllPrice()">一键删除</a>
                             </div>
                         </div>
                         <div class="section-body">
-                                    <!--<div class="col-md-2">-->
-
-                                    <!--    <form class="form-horizontal">-->
-                                    <!--        <div class="form-group">-->
-                                    <!--            <label class="col-sm-4 control-label">上调</label>-->
-                                    <!--            <div class="col-sm-8">-->
-                                    <!--                <input type="text" class="form-control input-sm" ng-model="blank.up_a" value="0">-->
-                                    <!--            </div>-->
-                                    <!--        </div>-->
-                                    <!--        <div class="form-group">-->
-                                    <!--            <label class="col-sm-4 control-label">下调</label>-->
-                                    <!--            <div class="col-sm-8">-->
-                                    <!--                <input type="text" class="form-control input-sm" ng-model="blank.down_a" value="0">-->
-                                    <!--            </div>-->
-                                    <!--        </div>-->
-                                    <!--    </form>-->
-
-                                    <!--</div>-->
-                                    <!--<div class="col-md-2">-->
-
-                                    <!--    <form class="form-horizontal">-->
-                                    <!--        <div class="form-group">-->
-                                    <!--            <label class="col-sm-4 control-label">上调</label>-->
-                                    <!--            <div class="col-sm-8">-->
-                                    <!--                <input type="text" class="form-control input-sm" ng-model="blank.up_b" value="0">-->
-                                    <!--            </div>-->
-                                    <!--        </div>-->
-                                    <!--        <div class="form-group">-->
-                                    <!--            <label class="col-sm-4 control-label">下调</label>-->
-                                    <!--            <div class="col-sm-8">-->
-                                    <!--                <input type="text" class="form-control input-sm" ng-model="blank.down_b" value="0">-->
-                                    <!--            </div>-->
-                                    <!--        </div>-->
-                                    <!--    </form>-->
-
-                                    <!--</div>-->
-                                    <!--<div class="col-md-2">-->
-
-                                    <!--    <form class="form-horizontal">-->
-                                    <!--        <div class="form-group">-->
-                                    <!--            <label class="col-sm-4 control-label">上调</label>-->
-                                    <!--            <div class="col-sm-8">-->
-                                    <!--                <input type="text" class="form-control input-sm" ng-model="blank.up_c" value="0">-->
-                                    <!--            </div>-->
-                                    <!--        </div>-->
-                                    <!--        <div class="form-group">-->
-                                    <!--            <label class="col-sm-4 control-label">下调</label>-->
-                                    <!--            <div class="col-sm-8">-->
-                                    <!--                <input type="text" class="form-control input-sm" ng-model="blank.down_c" value="0">-->
-                                    <!--            </div>-->
-                                    <!--        </div>-->
-                                    <!--    </form>-->
-
-                                    <!--</div>-->
-                                    <!--<div class="col-md-2">-->
-
-                                    <!--    <form class="form-horizontal">-->
-                                    <!--        <div class="form-group">-->
-                                    <!--            <label class="col-sm-4 control-label">上调</label>-->
-                                    <!--            <div class="col-sm-8">-->
-                                    <!--                <input type="text" class="form-control input-sm" ng-model="blank.up_d" value="0">-->
-                                    <!--            </div>-->
-                                    <!--        </div>-->
-                                    <!--        <div class="form-group">-->
-                                    <!--            <label class="col-sm-4 control-label">下调</label>-->
-                                    <!--            <div class="col-sm-8">-->
-                                    <!--                <input type="text" class="form-control input-sm" ng-model="blank.down_d" value="0">-->
-                                    <!--            </div>-->
-                                    <!--        </div>-->
-                                    <!--    </form>-->
-
-                                    <!--</div>-->
-                                    <!--<div class="col-md-2">-->
-
-                                    <!--    <form class="form-horizontal">-->
-                                    <!--        <div class="form-group">-->
-                                    <!--            <label class="col-sm-4 control-label">上调</label>-->
-                                    <!--            <div class="col-sm-8">-->
-                                    <!--                <input type="text" class="form-control input-sm" ng-model="blank.up_e" value="0">-->
-                                    <!--            </div>-->
-                                    <!--        </div>-->
-                                    <!--        <div class="form-group">-->
-                                    <!--            <label class="col-sm-4 control-label">下调</label>-->
-                                    <!--            <div class="col-sm-8">-->
-                                    <!--                <input type="text" class="form-control input-sm" ng-model="blank.down_e" value="0">-->
-                                    <!--            </div>-->
-                                    <!--        </div>-->
-                                    <!--    </form>-->
-
-                                    <!--</div>-->
-                                    <!--<div class="col-md-2">-->
-
-                                    <!--    <form class="form-horizontal">-->
-                                    <!--        <div class="form-group">-->
-                                    <!--            <label class="col-sm-4 control-label">上调</label>-->
-                                    <!--            <div class="col-sm-8">-->
-                                    <!--                <input type="text" class="form-control input-sm" ng-model="blank.up_f" value="0">-->
-                                    <!--            </div>-->
-                                    <!--        </div>-->
-                                    <!--        <div class="form-group">-->
-                                    <!--            <label class="col-sm-4 control-label">下调</label>-->
-                                    <!--            <div class="col-sm-8">-->
-                                    <!--                <input type="text" class="form-control input-sm" ng-model="blank.down_f" value="0">-->
-                                    <!--            </div>-->
-                                    <!--        </div>-->
-                                    <!--    </form>-->
-
-                                    <!--</div>-->
                             <!-- 属性价格列表 -->
                             <div class="price-grid">
-                                <div class="cate-block" ng-repeat="v in price_list" style="background:#fef3cd;border-left:3px solid #f39c12;">
+                                <div class="cate-block" ng-repeat="v in price_list" style="background:#fff9e6;border-left:3px solid #ff9500;">
                                     <div class="cate-title-row">
-                                        <div class="cate-title-name" ng-click="priceEdit(v.id)">{{v.name}}</div>
+                                        <div class="cate-title-name" ng-click="priceEdit(v.id)" style="cursor:pointer;color:#1c1c1e;">{{v.name}}</div>
                                         <a class="btn btn-info btn-xs" ng-click="priceEdit(v.id)">编辑</a>
                                     </div>
                                     <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
-                                        <div class="cate-ratio">比例值：{{v.ratio}}%</div>
+                                        <div class="cate-ratio" style="color:#8a6d3b;">比例值：{{v.ratio}}%</div>
                                         <a class="btn btn-danger btn-xs" ng-click="delsPrice(v.id)">删除</a>
                                     </div>
                                 </div>
-                                <div ng-if="price_list.length === 0" style="color:#aaa;font-size:12px;padding:8px;">暂无数据，点击"+ 添加"</div>
+                                <div ng-if="price_list.length === 0" style="color:var(--apple-text-secondary);font-size:13px;padding:10px;">暂无数据，点击"+ 添加"</div>
                             </div>
 
                             <!-- 当前选中商品的图片/名称设置 -->
@@ -484,10 +594,10 @@
                                 <div class="gd-body">
 
                                     <!-- 左右布局：左侧三个字段对齐，右侧图片预览 -->
-                                    <div style="display:flex;align-items:flex-start;gap:16px;">
+                                    <div class="row" style="display:flex;align-items:flex-start;flex-wrap:wrap;gap:0;">
 
                                         <!-- 左列：商品名称 / 执行税率 / Banner图上传 -->
-                                        <div style="flex:0 0 60%;min-width:0;height:140px;display:flex;flex-direction:column;justify-content:space-between;">
+                                        <div class="col-md-7" style="padding-right:15px;">
                                             <div class="gd-field">
                                                 <span class="gd-field-label">商品名称</span>
                                                 <input type="text" class="form-control" ng-model="blank.gnames" placeholder="请输入商品名称"/>
@@ -499,21 +609,19 @@
                                                     <option value="{{v.id}}" ng-repeat="v in tax_list">{{v.name}}</option>
                                                 </select>
                                             </div>
-                                            <div class="gd-field">
+                                            <div class="gd-field" style="margin-bottom:0;">
                                                 <span class="gd-field-label">Banner图</span>
-                                                <input type="file" id="banner" name="banner" accept="image/*" class="form-control"/>
+                                                <input type="file" id="banner" name="banner" accept="image/*" class="form-control" style="line-height:24px;padding:3px 8px;"/>
                                             </div>
                                         </div>
 
                                         <!-- 右列：Banner图预览 -->
-                                        <div class="gd-thumb-row" style="flex:1;padding-left:0;">
+                                        <div class="col-md-5" style="padding-left:15px;margin-top:10px;">
                                             <a href="javascript:;" ng-if="blank.source && blank.source[0]">
-                                                <img class="gd-thumb" src="__PUBLIC__/uploads/banner/{{blank.source[0]}}" onclick="showimage(this)"
-                                                     style="width:100%;height:140px;"/>
+                                                <img class="gd-thumb" src="__PUBLIC__/uploads/banner/{{blank.source[0]}}" onclick="showimage(this)"/>
                                             </a>
-                                            <div class="gd-thumb-placeholder" ng-if="!blank.source || !blank.source[0]"
-                                                 style="width:100%;height:140px;">🖼</div>
-                                            <div class="gd-thumb-tip">点击图片可放大预览<br>建议尺寸 750×300</div>
+                                            <div class="gd-thumb-placeholder" ng-if="!blank.source || !blank.source[0]">🖼</div>
+                                            <div class="gd-thumb-tip">点击图片可放大预览 · 建议尺寸 750×300</div>
                                         </div>
 
                                     </div>
@@ -527,61 +635,118 @@
                         </div><!-- /section-body 属性价格管理 -->
 
                         <!-- ===== 商品设置 ===== -->
-                        <div class="section-header" style="background:#7f8c8d;">
+                        <div class="section-header" style="background:#8e8e93;">
                             <span class="section-title">商品设置</span>
-                            <div style="display:flex;gap:6px;">
+                            <div style="display:flex;gap:6px;flex-wrap:wrap;">
                                 <a class="btn btn-xs section-add-btn" ng-click="upGoodsAll()">更新商品</a>
                                 <a class="btn btn-xs section-add-btn" data-toggle="modal" data-target="#myImport">导入商品数据</a>
-                                <a class="btn btn-xs section-add-btn" style="background:rgba(220,53,69,0.7)!important;border-color:rgba(220,53,69,0.9)!important;" ng-click="clearLogsOnly()">清空商品数据</a>
+                                <a class="btn btn-xs section-add-btn" style="background:rgba(255,59,48,0.8)!important;border-color:rgba(255,59,48,0.9)!important;" ng-click="clearLogsOnly()">清空商品数据</a>
                             </div>
                         </div>
-                        <div class="section-body" style="padding:0;border-top:1px solid #e0e0e0;">
+                        <div class="section-body" style="padding:0;border-top:1px solid #e5e5ea;">
 
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr style="background:#1a3a5c;color:#fff;font-weight:bold;font-size:13px;">
-                                    <td>#</td>
-                                    <td><input type="text" class="form-control input-sm" ng-model="keys.keya" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;"/></td>
-                                    <td><input type="text" class="form-control input-sm" ng-model="keys.keyb" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;"/></td>
-                                    <td><input type="text" class="form-control input-sm" ng-model="keys.keyc" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;"/></td>
-                                    <td><input type="text" class="form-control input-sm" ng-model="keys.keyd" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;"/></td>
-                                    <td>参考重量(kg)</td>
-                                    <td><input type="text" class="form-control input-sm" ng-model="keys.keye" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;"/></td>
-                                    <td><input type="text" class="form-control input-sm" ng-model="keys.keyf" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;"/></td>
-                                    <td><input type="text" class="form-control input-sm" ng-model="keys.keyg" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;"/></td>
-                                    <td><input type="text" class="form-control input-sm" ng-model="keys.keyh" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;"/></td>
-                                    <td>综合价格</td>
-                                    <td>溢价率</td>
-                                    <td>执行价格</td>
-                                    <td><input type="text" class="form-control input-sm" ng-model="keys.keyi" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;"/></td>
-                                </tr>
-                            </thead>
-                            <tbody>
+                            <!-- 电脑端大表格展示（带横向滚动及奇偶行交叉底色优化） -->
+                            <div class="table-responsive-wrapper desktop-table-view">
+                                <table class="table table-bordered table-striped" style="margin-bottom:0;">
+                                    <thead>
+                                        <tr style="background:#1d1d1f;color:#fff;font-weight:600;font-size:13px;">
+                                            <td style="width:50px;">#</td>
+                                            <td><input type="text" class="form-control input-sm" ng-model="keys.keya" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;text-align:center;"/></td>
+                                            <td><input type="text" class="form-control input-sm" ng-model="keys.keyb" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;text-align:center;"/></td>
+                                            <td><input type="text" class="form-control input-sm" ng-model="keys.keyc" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;text-align:center;"/></td>
+                                            <td><input type="text" class="form-control input-sm" ng-model="keys.keyd" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;text-align:center;"/></td>
+                                            <td style="width:90px;">参考重量(kg)</td>
+                                            <td><input type="text" class="form-control input-sm" ng-model="keys.keye" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;text-align:center;"/></td>
+                                            <td><input type="text" class="form-control input-sm" ng-model="keys.keyf" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;text-align:center;"/></td>
+                                            <td><input type="text" class="form-control input-sm" ng-model="keys.keyg" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;text-align:center;"/></td>
+                                            <td><input type="text" class="form-control input-sm" ng-model="keys.keyh" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;text-align:center;"/></td>
+                                            <td>综合价格</td>
+                                            <td>溢价率</td>
+                                            <td>执行价格</td>
+                                            <td><input type="text" class="form-control input-sm" ng-model="keys.keyi" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);font-weight:bold;text-align:center;"/></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="x in list">
+                                            <td>{{ $index + 1}}</td>
+                                            <td><input type="text" class="form-control input-sm" ng-model="x.value_0"/></td>
+                                            <td><input type="text" class="form-control input-sm" ng-model="x.value_1"/></td>
+                                            <td><input type="text" class="form-control input-sm" ng-model="x.value_2"/></td>
+                                            <td><input type="text" class="form-control input-sm" ng-model="x.value_3"/></td>
+                                            <td><input type="text" class="form-control input-sm" value="{{x.weight}}" disabled style="background:#f2f2f7;"/></td>
+                                            <td><input type="text" class="form-control input-sm" ng-model="x.value_4"/></td>
+                                            <td><input type="text" class="form-control input-sm" ng-model="x.value_5"/></td>
+                                            <td><input type="text" class="form-control input-sm" ng-model="x.value_6"/></td>
+                                            <td><input type="text" class="form-control input-sm" ng-model="x.value_7"/></td>
+                                            <td><input type="text" class="form-control input-sm" ng-model="x.price" disabled style="background:#f2f2f7;"/></td>
+                                            <td><input type="text" class="form-control input-sm" ng-model="x.dratio"/></td>
+                                            <td><input type="text" class="form-control input-sm" value="{{x.market}}" disabled style="background:#f2f2f7;font-weight:600;color:var(--apple-blue);"/></td>
+                                            <td><input type="text" class="form-control input-sm" ng-model="x.value_8" placeholder="{{x.trans}}"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
 
-                                <tr ng-repeat=" x in list">
-                                    <td>{{ $index + 1}}</td>
-                                    <td><input type="text" class="form-control input-sm" ng-model="x.value_0"/></td>
-                                    <td><input type="text" class="form-control input-sm" ng-model="x.value_1"/></td>
-                                    <td><input type="text" class="form-control input-sm" ng-model="x.value_2"/></td>
-                                    <td><input type="text" class="form-control input-sm" ng-model="x.value_3"/></td>
-                                    <td><input type="text" class="form-control input-sm" value="{{x.weight}}" disabled/></td>
-                                    <td><input type="text" class="form-control input-sm" ng-model="x.value_4"/></td>
-                                    <td><input type="text" class="form-control input-sm" ng-model="x.value_5"/></td>
-                                    <td><input type="text" class="form-control input-sm" ng-model="x.value_6"/></td>
-                                    <td><input type="text" class="form-control input-sm" ng-model="x.value_7"/></td>
-                                    <td><input type="text" class="form-control input-sm" ng-model="x.price" disabled/></td>
-                                    <td><input type="text" class="form-control input-sm" ng-model="x.dratio"/></td>
-                                    <td><input type="text" class="form-control input-sm" value="{{x.market}}" disabled/></td>
-                                    <td><input type="text" class="form-control input-sm" ng-model="x.value_8" placeholder="{{x.trans}}"/></td>
-                                    <!--<td>-->
-                                    <!--    <a ng-click="changelogs(x.id, 1)" class="btn btn-info btn-xs">上调顺序</a>-->
-                                    <!--    <a ng-click="changelogs(x.id, 0)" class="btn btn-info btn-xs">下调顺序</a>-->
-                                    <!--    <a ng-click="dels(x.id)" class="btn btn-danger btn-xs">删除</a>-->
-                                    <!--</td>-->
-                                </tr>
-
-                            </tbody>
-                        </table>
+                            <!-- 移动端智能降级：卡片式折叠布局（零信息丢失、绝不溢出容器、触控按钮放大） -->
+                            <div class="mobile-card-list" style="padding: 12px;">
+                                <div class="m-card-item" ng-repeat="x in list">
+                                    <div class="m-card-header">
+                                        <span>序号 #{{ $index + 1 }}</span>
+                                        <span style="color:var(--apple-blue); font-size:13px;">执行价: {{x.market}}</span>
+                                    </div>
+                                    <div class="m-card-body">
+                                        <div class="m-card-field">
+                                            <span class="m-card-field-label">{{keys.keya || '参数1'}}</span>
+                                            <input type="text" class="form-control" ng-model="x.value_0"/>
+                                        </div>
+                                        <div class="m-card-field">
+                                            <span class="m-card-field-label">{{keys.keyb || '参数2'}}</span>
+                                            <input type="text" class="form-control" ng-model="x.value_1"/>
+                                        </div>
+                                        <div class="m-card-field">
+                                            <span class="m-card-field-label">{{keys.keyc || '参数3'}}</span>
+                                            <input type="text" class="form-control" ng-model="x.value_2"/>
+                                        </div>
+                                        <div class="m-card-field">
+                                            <span class="m-card-field-label">{{keys.keyd || '参数4'}}</span>
+                                            <input type="text" class="form-control" ng-model="x.value_3"/>
+                                        </div>
+                                        <div class="m-card-field">
+                                            <span class="m-card-field-label">参考重量(kg)</span>
+                                            <input type="text" class="form-control" value="{{x.weight}}" disabled style="background:#f2f2f7;"/>
+                                        </div>
+                                        <div class="m-card-field">
+                                            <span class="m-card-field-label">{{keys.keye || '参数5'}}</span>
+                                            <input type="text" class="form-control" ng-model="x.value_4"/>
+                                        </div>
+                                        <div class="m-card-field">
+                                            <span class="m-card-field-label">{{keys.keyf || '参数6'}}</span>
+                                            <input type="text" class="form-control" ng-model="x.value_5"/>
+                                        </div>
+                                        <div class="m-card-field">
+                                            <span class="m-card-field-label">{{keys.keyg || '参数7'}}</span>
+                                            <input type="text" class="form-control" ng-model="x.value_6"/>
+                                        </div>
+                                        <div class="m-card-field">
+                                            <span class="m-card-field-label">{{keys.keyh || '参数8'}}</span>
+                                            <input type="text" class="form-control" ng-model="x.value_7"/>
+                                        </div>
+                                        <div class="m-card-field">
+                                            <span class="m-card-field-label">综合价格</span>
+                                            <input type="text" class="form-control" ng-model="x.price" disabled style="background:#f2f2f7;"/>
+                                        </div>
+                                        <div class="m-card-field">
+                                            <span class="m-card-field-label">溢价率</span>
+                                            <input type="text" class="form-control" ng-model="x.dratio"/>
+                                        </div>
+                                        <div class="m-card-field">
+                                            <span class="m-card-field-label">{{keys.keyi || '备注/发货'}}</span>
+                                            <input type="text" class="form-control" ng-model="x.value_8" placeholder="{{x.trans}}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-if="list.length === 0" style="text-align:center; color:var(--apple-text-secondary); padding:20px; font-size:13px;">暂无规格数据</div>
+                            </div>
 
                         </div><!-- /section-body 商品设置 -->
 
@@ -593,7 +758,7 @@
         </div>
     </section>
     
-        <!-- 图片放大Modal -->
+    <!-- 图片放大Modal -->
     <div class="modal fade bs-example-modal-lg text-center" id="imgModal" tabindex="-1" role="dialog" data-toggle="modal" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" style="display:inline-block;width:auto;">
             <div class="modal-content">
@@ -604,24 +769,24 @@
 
     <!-- 复制标准内容弹窗 -->
     <div class="modal fade" id="modalCopyGroup" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document" style="width:380px;">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                     <h4 class="modal-title">复制标准内容</h4>
                 </div>
                 <div class="modal-body">
-                    <div style="margin-bottom:10px;font-size:12px;color:#555;">
-                        目标选项：<strong style="color:#555;">{{getActiveGroupName()}}</strong>
+                    <div style="margin-bottom:10px;font-size:13px;color:var(--apple-text-main);">
+                        目标选项：<strong style="color:var(--apple-text-main);">{{getActiveGroupName()}}</strong>
                     </div>
                     <div class="form-group">
-                        <label style="font-size:12px;">选择复制源</label>
+                        <label style="font-size:13px;">选择复制源</label>
                         <select class="form-control" ng-model="copyGroupFromId">
                             <option value="">请选择复制源选项</option>
                             <option value="{{g.id}}" ng-repeat="g in group_list" ng-if="g.id != active_group_id">{{g.name}}</option>
                         </select>
                     </div>
-                    <div style="font-size:11px;color:#e74c3c;margin-top:6px;">⚠ 将覆盖目标选项下所有商品属性的设置、属性价格及规格数据</div>
+                    <div style="font-size:12px;color:var(--apple-red);margin-top:8px;">⚠ 将覆盖目标选项下所有商品属性的设置、属性价格及规格数据</div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -633,7 +798,7 @@
 
     <!-- 标准选项管理 - 添加/编辑弹窗 -->
     <div class="modal fade" id="modalGroup" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document" style="width:360px;">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
@@ -663,7 +828,7 @@
 
     <!-- 商品属性管理 - 添加/编辑弹窗 -->
     <div class="modal fade" id="modalBlock" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document" style="width:360px;">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
@@ -693,18 +858,18 @@
 
     <!-- 复制商品内容弹窗 -->
     <div class="modal fade" id="modalCopyBlock" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document" style="width:380px;">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                     <h4 class="modal-title">复制商品内容</h4>
                 </div>
                 <div class="modal-body">
-                    <div style="margin-bottom:10px;font-size:12px;color:#555;">
-                        目标商品：<strong style="color:#2980b9;">{{blank.catname || ('板块' + cat_index)}}</strong>
+                    <div style="margin-bottom:10px;font-size:13px;color:var(--apple-text-main);">
+                        目标商品：<strong style="color:var(--apple-blue);">{{blank.catname || ('板块' + cat_index)}}</strong>
                     </div>
                     <div class="form-group">
-                        <label style="font-size:12px;">选择复制源</label>
+                        <label style="font-size:13px;">选择复制源</label>
                         <select class="form-control" ng-model="copyFromCatIndex">
                             <option value="">请选择复制源商品</option>
                             <option value="{{b.cat_index}}" ng-repeat="b in filteredBlanks" ng-if="b.cat_index != cat_index">
@@ -712,7 +877,7 @@
                             </option>
                         </select>
                     </div>
-                    <div style="font-size:11px;color:#e74c3c;margin-top:6px;">⚠ 将覆盖目标商品的设置、属性价格及全部规格数据</div>
+                    <div style="font-size:12px;color:var(--apple-red);margin-top:8px;">⚠ 将覆盖目标商品的设置、属性价格及全部规格数据</div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -724,48 +889,44 @@
 
     <!-- 价格组成Modal -->
     <div class="modal fade" id="myModalPrice" tabindex="-1" role="dialog" aria-labelledby="myModalPrice">
-        <div class="modal-dialog" role="document" style="width:35%;">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">添加</h4>
+                    <h4 class="modal-title" id="myModalLabel">添加属性价格</h4>
                 </div>
                 <div class="modal-body">
-
                     <form name="ador">
                         <div class="form-group">
                             <label>名称</label>
                             <input type="text" name="name" ng-model="price.infos.name" class="form-control"/>
                         </div>
-
                         <div class="form-group">
                              <label>一级分类</label>
-                            <select  name="price.infos.new_cate_one_id" ng-model="price.infos.new_cate_one_id" class="form-control">
+                            <select name="price.infos.new_cate_one_id" ng-model="price.infos.new_cate_one_id" class="form-control">
                                 <option value="0">暂不选择</option>
-                                 <option  value="{{v.id}}" ng-repeat="v in price.new_cate_one_list">{{v.name}}</option>
+                                <option value="{{v.id}}" ng-repeat="v in price.new_cate_one_list">{{v.name}}</option>
                             </select>
                         </div>
                         <div class="form-group">
                              <label>二级分类</label>
                             <select name="price.infos.new_cate_two_id" ng-model="price.infos.new_cate_two_id" class="form-control">
                                 <option value="0">暂不选择</option>
-                                 <option  value="{{v.id}}" ng-repeat="v in price.new_cate_two_list">{{v.name}}</option>
+                                <option value="{{v.id}}" ng-repeat="v in price.new_cate_two_list">{{v.name}}</option>
                             </select>
                         </div>
                         <div class="form-group">
                              <label>详细材料</label>
-                            <select name="pprice.infos.new_cate_three_id"  ng-model="price.infos.new_cate_three_id" class="form-control">
+                            <select name="price.infos.new_cate_three_id" ng-model="price.infos.new_cate_three_id" class="form-control">
                                 <option value="0">暂不选择</option>
-                                 <option  value="{{v.id}}" ng-repeat="v in price.new_cate_three_list">{{v.name}}</option>
+                                <option value="{{v.id}}" ng-repeat="v in price.new_cate_three_list">{{v.name}}</option>
                             </select>
                         </div>
-                        
                         <div class="form-group">
                             <label>比例值</label>
                             <input type="number" name="ratio" ng-model="price.infos.ratio" class="form-control"/>
                         </div>
                     </form>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -775,50 +936,46 @@
         </div>
     </div>
     
-        <!-- 价格组成Modaledit -->
+    <!-- 价格组成Modaledit -->
     <div class="modal fade" id="myModalPriceEdit" tabindex="-1" role="dialog" aria-labelledby="myModalPriceEdit">
-        <div class="modal-dialog" role="document" style="width:35%;">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">编辑</h4>
+                    <h4 class="modal-title" id="myModalLabel">编辑属性价格</h4>
                 </div>
                 <div class="modal-body">
-
                     <form name="ador">
                         <div class="form-group">
                             <label>名称</label>
                             <input type="text" name="name" ng-model="price.infos.name" class="form-control"/>
                         </div>
-
                         <div class="form-group">
                              <label>一级分类</label>
-                            <select  name="price.infos.new_cate_one_id" ng-model="price.infos.new_cate_one_id" class="form-control">
+                            <select name="price.infos.new_cate_one_id" ng-model="price.infos.new_cate_one_id" class="form-control">
                                 <option value="0">暂不选择</option>
-                                 <option  value="{{v.id}}" ng-repeat="v in price.new_cate_one_list">{{v.name}}</option>
+                                <option value="{{v.id}}" ng-repeat="v in price.new_cate_one_list">{{v.name}}</option>
                             </select>
                         </div>
                         <div class="form-group">
                              <label>二级分类</label>
                             <select name="price.infos.new_cate_two_id" ng-model="price.infos.new_cate_two_id" class="form-control">
                                 <option value="0">暂不选择</option>
-                                 <option  value="{{v.id}}" ng-repeat="v in price.new_cate_two_list">{{v.name}}</option>
+                                <option value="{{v.id}}" ng-repeat="v in price.new_cate_two_list">{{v.name}}</option>
                             </select>
                         </div>
                         <div class="form-group">
                              <label>详细材料</label>
-                            <select name="pprice.infos.new_cate_three_id"  ng-model="price.infos.new_cate_three_id" class="form-control">
+                            <select name="price.infos.new_cate_three_id" ng-model="price.infos.new_cate_three_id" class="form-control">
                                 <option value="0">暂不选择</option>
-                                 <option  value="{{v.id}}" ng-repeat="v in price.new_cate_three_list">{{v.name}}</option>
+                                <option value="{{v.id}}" ng-repeat="v in price.new_cate_three_list">{{v.name}}</option>
                             </select>
                         </div>
-                        
                         <div class="form-group">
                             <label>百分比率</label>
                             <input type="number" name="ratio" ng-model="price.infos.ratio" class="form-control"/>
                         </div>
                     </form>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -828,70 +985,22 @@
         </div>
     </div>
 
-    <!-- 添加商品模板 -->
-    <div class="modal fade" id="myTemp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document" style="width:50%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">添加商品模板数据</h4>
-                </div>
-                <div class="modal-body myTempBody">
-
-
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>名称</th>
-                                <th>模板类型</th>
-                                <th>状态</th>
-                                <th width="15%">添加时间</th>
-                                <th width="30%">管理</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        <volist name="list" id="v" key="k">
-                            <tr>
-                                <th scope="row">{$k}</th>
-                                <td>{$v.name}</td>
-                                <td>{$v['types']<2?'多商品模板':'单商品模板'}</td>
-                                <td>{$v['status']>0?'正常':'暂停使用'}</td>
-                                <td>{$v.times|date='Y/m/d H:i:s',###}</td>
-                                <td>
-                                    <a ng-click="addGoodsMol('{$v.id}')" class="btn btn-danger btn-xs">添加</a>
-                                </td>
-                            </tr>
-                        </volist>
-
-                        </tbody>
-                    </table>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- 导入商品-->
     <div class="modal fade" id="myImport" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document" style="width:50%;">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">导入商品数据</h4>
                 </div>
                 <div class="modal-body">
-
-
                     <div class="form-group">
                         <label>上传文件</label>
-                        <input type="file" name="file" id='file' class="form-control"/>
+                        <input type="file" name="file" id='file' class="form-control" style="height:38px;line-height:24px;padding:6px 12px;"/>
                     </div>
-                    <div class="form-group">
-                        <a href="//app.elccc.cn/Public/file/导入商品模板.xlsx">点击下载模板</a>
+                    <div class="form-group" style="margin-top:10px;">
+                        <a href="//app.elccc.cn/Public/file/导入商品模板.xlsx" style="color:var(--apple-blue);">点击下载模板</a>
                     </div>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -901,132 +1010,15 @@
         </div>
     </div>
 
-    <!-- 添加商品-多 -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document" style="width:50%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">添加商品</h4>
-                </div>
-                <div class="modal-body">
-
-                    <form class="row" name="goods">
-                        <input type="hidden" name="pid" value="{$id}"/>
-                        <input type="hidden" name="ptype" value="2"/>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>参数名称1</label>
-                                <input type="text" name="key_0" class="form-control input-sm">
-                            </div>
-                            <div class="form-group">
-                                <label>参数名称1内容</label>
-                                <input type="text" name="value_0" class="form-control input-sm">
-                            </div>
-                            <div class="form-group">
-                                <label>参数名称2</label>
-                                <input type="text" name="key_1" class="form-control input-sm">
-                            </div>
-                            <div class="form-group">
-                                <label>参数名称2内容</label>
-                                <input type="text" name="value_1" class="form-control input-sm">
-                            </div>
-                            <div class="form-group">
-                                <label>商品导体比例</label>
-                                <input type="text" name="dratio" class="form-control input-sm">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>参数名称3</label>
-                                <input type="text" name="key_2" class="form-control input-sm">
-                            </div>
-                            <div class="form-group">
-                                <label>参数名称3内容</label>
-                                <input type="text" name="value_2" class="form-control input-sm">
-                            </div>
-                            <div class="form-group">
-                                <label>基础价格</label>
-                                <input type="text" name="price" class="form-control input-sm">
-                            </div>
-                            <div class="form-group">
-                                <label>发货时间</label>
-                                <input type="text" name="trans" class="form-control input-sm">
-                            </div>
-                        </div>
-
-                    </form>
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" ng-click="addGoods()">保存</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="myBlank" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document" style="top:30%; width:50%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">设置商品板块轮播图</h4>
-                </div>
-                <div class="modal-body">
-
-                    <!-- 板块图片上传暂时屏蔽
-                    <form class="form-inline m-b-10 row">
-                        <div class="form-group form-width col-md-4">
-                            <label>板块图片</label>
-                            <input type="file" id="filer" class="form-control input-sm">
-                        </div>
-                        <button type="button" class="btn btn-default btn-sm" ng-click="changeImgs()">添加板块图片</button>
-                    </form>
-                    -->
-
-                    <table class="table">
-                        <caption>板块图片</caption>
-                        <thead>
-                            <tr class="text-center">
-                                <th>#</th>
-                                <th>图片</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            <tr  class="text-left" ng-repeat="x in blank.source">
-                                <td>1</td>
-                                <td><img src="__PUBLIC__/uploads/banner/{{x}}" style=" width:50px;"/></td>
-                                <td><a class="btn btn-xs btn-danger"  ng-click="deleteImgs($index)">删除</a></td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
 
 <script>
-
-   function showimage(e)
-     {
+   function showimage(e) {
          var src = $(e).attr('src');
-         
          $("#imgModal").find("#imgshow").html("<img src='"+src+"' class='carousel-inner img-responsive img-rounded' data-dismiss='modal'>");
          $("#imgModal").modal('show');
+   }
 
-     }
-
-    //轮播
-    var swiper = new Swiper('.swiper-container', {slidesPerView: 3, spaceBetween: 10});
     var app = angular.module('myApp', []);
     app.controller('myCtrl', function ($scope, $http) {
 
@@ -1049,19 +1041,14 @@
         $scope.groupForm       = { name: '', ratio: 100, sort: 0 };
         $scope.active_group_id = 0;
         $scope.filteredBlanks  = [];
-        ////////////////////////////////////////////////////////////////////////
+        
         $scope.price = [];
         $scope.price.infos = [];
         $scope.price.infos.ratio = 100;
         $scope.price.new_cate_one_list = [];
         $scope.price.new_cate_two_list = [];
         $scope.price.new_cate_three_list = [];
-        /**
-         * 通讯操作
-         * @param {type} url
-         * @param {type} data
-         * @returns {undefined}
-         */
+
         $scope.commAjax = function (url, data, success) {
             $http({
                 method: "POST",
@@ -1079,12 +1066,7 @@
                 success(response);
             });
         };
-        /**
-         * 通讯操作
-         * @param {type} url
-         * @param {type} data
-         * @returns {undefined}
-         */
+
         $scope.commAjax2 = function (url, data, success) {
             $http({
                 method: "POST",
@@ -1109,40 +1091,30 @@
                $("#myModalPrice").modal("show");
             });
         }
+
         $scope.priceEdit = function (id) {
-             var cat_index = $scope.cat_index;
+            var cat_index = $scope.cat_index;
             $scope.commAjax("{:U('goodsPrice/priceEditGet')}", {id:id}, function (res) {
                $scope.price.infos = res.data.info;
                $scope.priceCateList();
                $("#myModalPriceEdit").modal("show");
             });
         }
-             //监听切换
+
         $scope.$watch('price.infos.new_cate_one_id', function(newVal,oldVal) {
-            console.log(2233);
-             console.log(oldVal);
-            console.log(newVal);
-    
           if(newVal != oldVal && newVal > 0){
               $scope.priceCateList(newVal)
           }
-        
         });
+
         $scope.$watch('price.infos.new_cate_two_id', function(newVal,oldVal) {
-            console.log(2233);
-             console.log(oldVal);
-            console.log(newVal);
-    
           if(newVal != oldVal && newVal > 0){
               $scope.priceCateList(newVal)
           }
-        
         });
-       
         
         $scope.priceCateList = function (pid = 0) {
             var param = {pid: pid};
-            //////
             $scope.commAjax("{:U('goodsPrice/priceCateList')}", param, function (res) {
                 if (res.status !== 1) {
                     return swal("错误", res.msg, "error");
@@ -1155,18 +1127,12 @@
                     }else{
                         $scope.price.new_cate_three_list = res.data.cate_list;
                     }
-                 
-
-                } else {
-                    
                 }
             });
         };
         
         $scope.priceAddPost = function () {
             var param = $scope.price.infos;
-            
-            /////////
             $.ajax({
                 url: "{:U('goodsPrice/priceAddPost')}",
                 type: "post",
@@ -1178,7 +1144,6 @@
                     }
                      $("#myModalPrice").modal("hide");
                      $scope.init();
-                    // window.location.reload();
                 },
                 error: function (data) {
                     console.log(data);
@@ -1188,8 +1153,6 @@
         
         $scope.priceEditPost = function () {
             var param = $scope.price.infos;
-            
-            /////////
             $.ajax({
                 url: "{:U('goodsPrice/priceEditPost')}",
                 type: "post",
@@ -1201,7 +1164,6 @@
                     }
                      $("#myModalPriceEdit").modal("hide");
                     $scope.init();
-                    // window.location.reload();
                 },
                 error: function (data) {
                     console.log(data);
@@ -1216,20 +1178,13 @@
                     return swal("错误", res.msg, "error");
                 }
                 $scope.init();
-                // window.location.reload();
             });
         }
         
-        
-        /**
-         * 调整比例
-         * @returns {undefined}
-         */
         $scope.current_blank_id = 0;
 
         $scope.init = function () {
             var param = {pid: $scope.pid, cat_index: $scope.cat_index, blank_id: $scope.current_blank_id};
-            //////
             $scope.commAjax("{:U('Goods/plate_conts_blankr')}", param, function (res) {
                 if (res.status !== 1) {
                     return swal("错误", res.msg, "error");
@@ -1237,12 +1192,10 @@
                 $scope.tax_list   = res.data.tax_list   || [];
                 $scope.all_blanks = res.data.all_blanks || [];
                 $scope.group_list = res.data.group_list || [];
-                // 默认选中第一个标准选项（仅首次加载时）
                 if ($scope.active_group_id === 0 && $scope.group_list.length > 0) {
                     $scope.active_group_id = $scope.group_list[0].id;
                 }
                 recomputeFilteredBlanks();
-                // 首次加载时同步 current_blank_id（与当前 info 对应）
                 if ($scope.current_blank_id === 0 && res.data.info && res.data.info.id) {
                     $scope.current_blank_id = parseInt(res.data.info.id);
                 }
@@ -1258,20 +1211,13 @@
             });
         };
         $scope.init();
-        ////////////////////////////////////////////////////////////////////////
 
-        /**
-         * 更换类型
-         * @param {type} index
-         * @returns {undefined}
-         */
         $scope.changeType = function (index, blankId) {
-            $scope.cat_index       = index;
+            $scope.cat_index        = index;
             $scope.current_blank_id = blankId || 0;
             $scope.init();
         };
 
-        // ===================== 标准选项管理 =====================
         function recomputeFilteredBlanks() {
             $scope.filteredBlanks = ($scope.all_blanks || []).filter(function(b) {
                 return parseInt(b.group_id) === parseInt($scope.active_group_id);
@@ -1281,7 +1227,6 @@
         $scope.selectGroup = function (g) {
             $scope.active_group_id = g.id;
             recomputeFilteredBlanks();
-            // 当前分组没有商品属性，清空所有联动数据
             if ($scope.filteredBlanks.length === 0) {
                 $scope.cat_index        = 0;
                 $scope.current_blank_id = 0;
@@ -1290,7 +1235,6 @@
                 $scope.blank            = {catname:'',source:'',up_a:0,up_b:0,up_c:0,up_d:0,up_e:0,up_f:0,down_a:0,down_b:0,down_c:0,down_d:0,down_e:0,down_f:0};
                 return;
             }
-            // 若当前 cat_index 不在该分组内，切换到该分组第一个 blank
             var inGroup = $scope.filteredBlanks.some(function(b) {
                 return parseInt(b.cat_index) === parseInt($scope.cat_index);
             });
@@ -1331,10 +1275,8 @@
                     layer.closeAll('loading');
                     if (res.status !== 1) return swal('错误', res.msg, 'error');
                     $('#modalCopyGroup').modal('hide');
-                    // 重置旧 blank 选中状态，让 init 重新从目标分组第一个 blank 加载
                     $scope.current_blank_id = 0;
                     $scope.cat_index        = 0;
-                    // 先拉最新 all_blanks，再 selectGroup 定位到目标分组第一个 blank
                     $scope.commAjax("{:U('Goods/plate_conts_blankr')}", {pid: $scope.pid, cat_index: 0, blank_id: 0}, function (r) {
                         if (r.status !== 1) return;
                         $scope.all_blanks = r.data.all_blanks || [];
@@ -1386,7 +1328,6 @@
             });
         };
 
-        // ===================== 商品属性管理 =====================
         $scope.openAddBlock = function () {
             var maxIdx = 0;
             ($scope.all_blanks || []).forEach(function(b){ if (b.cat_index > maxIdx) maxIdx = parseInt(b.cat_index); });
@@ -1428,7 +1369,6 @@
             });
         };
 
-        // ===================== 复制商品内容 =====================
         $scope.copyFromCatIndex = '';
 
         $scope.openCopyBlock = function () {
@@ -1467,70 +1407,19 @@
             });
         };
 
-        /**
-         * 调整板块图片
-         * @returns {undefined}
-         */
-        $scope.changeImgs = function () {
-            var param = new FormData();
-            param.append('file', document.getElementById("filer").files[0]);
-            param.append('pid', $scope.pid);
-            param.append('cat_index', $scope.cat_index);
-            //////
-            $scope.commAjax2("{:U('Goods/plate_conts_upload')}", param, function (res) {
-                if (res.status !== 1) {
-                    return swal("错误", res.msg, "error");
-                }
-                $scope.init();
-                return swal("提示", res.msg, "success");
-            });
-        };
-
-        /**
-         * 删除板块图片
-         * @returns {undefined}
-         */
-        $scope.deleteImgs = function (i) {
-            var param = {pid: $scope.pid, cat_index: $scope.cat_index, index: i};
-            $scope.commAjax("{:U('Goods/plate_conts_del')}", param, function (res) {
-                if (res.status !== 1) {
-                    return swal("错误", res.msg, "error");
-                }
-                $scope.init();
-            });
-        }
-
-        /**
-         * 调整板块比例及基本信息
-         * @returns {undefined}
-         */
-        $scope.changeBlank = function () {
-            var param = $scope.blank;
-            param.pid = $scope.pid;
-            param.cat_index = $scope.cat_index;
-            //////
-            $scope.commAjax("{:U('Goods/plate_conts_blank')}", param, function (res) {
-                if (res.status !== 1) {
-                    return swal("错误", res.msg, "error");
-                }
-                $scope.init();
-                return swal("提示", res.msg, "success");
-            });
-        };
-        /**
-         * 调整板块商品图片
-         * @returns {undefined}
-         */
         $scope.changeGoodsImgs = function () {
             var param = new FormData();
-            param.append('file', document.getElementById("goods").files[0]);
-            param.append('banner', document.getElementById("banner").files[0]);
+            if (document.getElementById("goods").files[0]) {
+                param.append('file', document.getElementById("goods").files[0]);
+            }
+            if (document.getElementById("banner").files[0]) {
+                param.append('banner', document.getElementById("banner").files[0]);
+            }
             param.append('pid', $scope.pid);
             param.append('cat_index', $scope.cat_index);
             angular.forEach($scope.blank, function (key, value) {
                 param.append(value, key);
             });
-            //////
             $scope.commAjax2("{:U('Goods/plate_conts_gimgs')}", param, function (res) {
                 if (res.status !== 1) {
                     return swal("错误", res.msg, "error");
@@ -1539,34 +1428,10 @@
                 return swal("提示", res.msg, "success");
             });
         };
-        ////////////////////////////////////////////////////////////////////////
 
-        /**
-         * 添加模板参数
-         * @returns {undefined}
-         */
-        $scope.addGoodsMol = function (i) {
-            var param = {pid: $scope.pid, cat_index: $scope.cat_index, ptype: 2, ids: i};
-            ///
-            layer.load(2);
-            $scope.commAjax("{:U('Goods/plate_conts_list_temp')}", param, function (res) {
-                layer.closeAll();
-                if (res.status !== 1) {
-                    return swal("错误", res.msg, "error");
-                }
-                $("#myTemp").modal("hide");
-                $scope.init();
-            });
-        }
-
-        /**
-         * 导入商品数据
-         * @returns {undefined}
-         */
         $scope.addGoodsTmp = function () {
             var param = {pid: "{$id}", blank_id: $scope.blank ? $scope.blank.id : 0, cat_index: $scope.cat_index, ptype: 2};
             layer.load(2);
-            /////////
             $.ajaxFileUpload({
                 url: "{:U('Goods/plate_conts_import')}",
                 secureuri: false,
@@ -1587,54 +1452,6 @@
             });
         }
 
-        $scope.addGoodsPre = function () {
-            var param = {pid: "{$id}", cat_index: $scope.cat_index, ptype: 2};
-            layer.load(2);
-            $scope.commAjax("{:U('Goods/plate_conts_listCov')}", param, function (res) {
-                layer.closeAll('loading');
-                if (res.status !== 1) {
-                    return swal("错误", res.msg, "error");
-                }
-                if (res.data > 0) {
-                    return $scope.init();
-                }
-                return $("#myModal").modal("show");
-            });
-        }
-
-        /**
-         * 添加商品
-         * @returns {undefined}
-         */
-        $scope.addGoods = function () {
-            var temp = $("form[name='goods']").serializeArray();
-            var data = objToArray(temp);
-            data.market = data.price;
-            data.cat_index = $scope.cat_index;
-            /////////
-            layer.load(2);
-            $.ajaxFileUpload({
-                url: "{:U('Core/addon','model=plate_conts_logs')}",
-                secureuri: false,
-                fileElementId: "filer",
-                dataType: 'json',
-                data: data,
-                success: function (data) {
-                    layer.closeAll('loading');
-                    if (data.status !== 1) {
-                        return swal("错误", data.msg, "error");
-                    }
-                    window.location.reload();
-                },
-                error: function (data) {
-                    console.log(data);
-                }
-            });
-        };
-        /**
-         * 批量更新
-         * @returns {undefined}
-         */
         $scope.upGoodsAll = function () {
             layer.load(2);
             var param = {
@@ -1658,44 +1475,9 @@
                     return swal("错误", res.msg, "error");
                 }
                 return $scope.init();
-                //return swal("提示", "更新成功", "success");
             });
         }
 
-        $scope.dels = function (ids) {
-            var param = {id: ids};
-            layer.load(2);
-            $scope.commAjax("{:U('Core/dels','model=plate_conts_logs')}", param, function (res) {
-                layer.closeAll('loading');
-                if (res.status !== 1) {
-                    return swal("错误", res.msg, "error");
-                }
-                return $scope.init();
-            });
-        }
-
-        ////////////////////////////////////////////////////////////////////////
-
-        /**
-         * 清空板块
-         * @returns {undefined}
-         */
-        $scope.blankClear = function () {
-            var param = {pid: "{$id}", cat_index: $scope.cat_index, ptype: 2};
-            layer.load(2);
-            $scope.commAjax("{:U('Goods/plate_conts_clearblank')}", param, function (res) {
-                layer.closeAll('loading');
-                if (res.status !== 1) {
-                    return swal("错误", res.msg, "error");
-                }
-                return $scope.init();
-            });
-        }
-        
-        /**
-         * 清空商品
-         * @returns {undefined}
-         */
         $scope.goodsClear = function () {
             if (!$scope.active_group_id) return swal('提示', '请先选择一个标准选项', 'warning');
             var g = ($scope.group_list || []).find(function(x){ return x.id == $scope.active_group_id; });
@@ -1731,43 +1513,6 @@
             });
         };
 
-        $scope.changelogs = function (id, type) {
-            var param = {id: id, redi: type};
-            $scope.commAjax("{:U('Core/uplogs')}", param, function (res) {
-                if (res.status !== 1) {
-                    return swal("错误", res.msg, "error");
-                }
-                $scope.init();
-            });
-        }
-        
-        $scope.copyPrice = function (ids) {
-            swal({
-                title: '确认',
-                text: "确认复制上一版块的内容吗？",
-                icon: 'warning',
-                // buttons: true,
-                showCancelButton: true, // 显示取消按钮
-                confirmButtonText: '确认', // 确认按钮文本
-                cancelButtonText: '取消', // 取消按钮文本
-                // dangerMode: true,
-           }).then((willDelete) => {
-                if (willDelete) {
-                    if (!$scope.blank || !$scope.blank.id) return swal('提示', '请先选择商品属性', 'warning');
-                    var param = {blank_id: $scope.blank.id};
-                    $scope.commAjax("{:U('GoodsPrice/copyPrice')}", param, function (res) {
-                        if (res.status !== 1) {
-                            return swal("错误", res.msg, "error");
-                        }
-                        $scope.init();
-                    });
-                }else{
-
-                }
-
-            })
-        }
-
         $scope.delAllPrice = function (ids) {
             swal({
                 title: '确认',
@@ -1785,16 +1530,10 @@
                             return swal("错误", res.msg, "error");
                         }
                         $scope.init();
-                        // window.location.reload();
                     });
-                }else{
-                    
                 }
-            
             })   
         }
 
     });
-
-
 </script>

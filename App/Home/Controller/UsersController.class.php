@@ -25,34 +25,42 @@ class UsersController extends CommController {
     public function index_posi() {
         $users = M("users");
         #
-        $list = $users->where('id','>',0)->where('locate IS NULL or locate = ""')->field('id,phone')->select();//var_dump($list);die;
-        foreach ($list as $k => $v) {
-            // $area = getPhoneArea($v["phone"]);
-            $pos = strpos($v['phone'], "注销");
-            if ($pos !== false) {
-                continue;
+        // 精准查询：只获取手机归属地为空或没有归属地信息的注册用户
+        $list = $users->where('id > 0 AND (locate IS NULL OR locate = "")')->field('id,phone')->select();
+        
+        $successCount = 0; // 统计成功更新的用户数量
+        
+        if (!empty($list)) {
+            foreach ($list as $k => $v) {
+                $pos = strpos($v['phone'], "注销");
+                if ($pos !== false) {
+                    continue;
+                }
+                $area = $this->_check($v['phone']);
+                if ($area) {
+                    $save = ["locate" => $area, "uptimes" => time()];
+                    $res = $users->where(["id" => $v["id"]])->save($save);
+                    if ($res !== false) {
+                        $successCount++;
+                    }
+                }
             }
-            $area = $this->_check($v['phone']);
-            if($area){
-                $save = ["locate" => $area, "uptimes" => time()];
-            #
-                $users->where(["id" => $v["id"]])->save($save);
-            }
-            
         }
-        echo '更新成功';
-        // return get_op_put(1, null);
+        
+        // 弹出确切的提示窗告知更新了多少个用户
+        echo "<script>alert('更新完成！本次共成功为 {$successCount} 位没有归属地的注册用户补全了手机归属地。');history.go(-1);</script>";
+        exit;
     }
     
     public function _check($mobile=''){
         error_reporting(E_ALL || ~E_NOTICE);
-        $host = "http://plocn.market.alicloudapi.com";
-        $path = "/plocn";
+        $host = "https://jisusjhmcx.market.alicloudapi.com";
+        $path = "/shouji/query";
         $method = "GET";
         $appcode = "1c571be5cf5a46ce883b8637a7a7d3b6";//开通服务后 买家中心-查看AppCode
         $headers = array();
         array_push($headers, "Authorization:APPCODE " . $appcode);
-        $querys = "n=$mobile";
+        $querys = "shouji=$mobile";
         $bodys = "";
         $url = $host . $path . "?" . $querys;
         
@@ -73,43 +81,24 @@ class UsersController extends CommController {
         
         list($header, $body) = explode("\r\n\r\n", $out_put, 2);
         if ($httpCode == 200) {
-            // print("正常请求计费(其他均不计费)<br>");
-            // print($body);
             $data = json_decode($body,true);
-            if($data['code'] == 1){
-                 return $data['city'];
+            if(isset($data['status']) && $data['status'] == '0' && isset($data['result'])){
+                 $province = isset($data['result']['province']) ? $data['result']['province'] : '';
+                 $city = isset($data['result']['city']) ? $data['result']['city'] : '';
+                 
+                 // 按照要求：省份后面两个空格加个中心点再是两个空格后面再显示城市的名字
+                 if(!empty($province) && !empty($city)){
+                     return $province . "  ·  " . $city;
+                 }elseif(!empty($province)){
+                     return $province;
+                 }elseif(!empty($city)){
+                     return $city;
+                 }
+                 return '';
             }
-            print($mobile.'-'.$data['tips']);
             return '';
-            print($data['tips']);
         } else {
-            if ($httpCode == 400 && strpos($header, "Invalid Param Location") !== false) {
-                print("参数错误");
-            } elseif ($httpCode == 400 && strpos($header, "Invalid AppCode") !== false) {
-                print("AppCode错误");
-            } elseif ($httpCode == 400 && strpos($header, "Invalid Url") !== false) {
-                print("请求的 Method、Path 或者环境错误");
-            } elseif ($httpCode == 403 && strpos($header, "Unauthorized") !== false) {
-                print("服务未被授权（或URL和Path不正确）");
-            } elseif ($httpCode == 403 && strpos($header, "Quota Exhausted") !== false) {
-                print("套餐包次数用完");
-            } elseif ($httpCode == 403 && strpos($header, "Api Market Subscription quota exhausted") !== false) {
-                print("套餐包次数用完，请续购套餐");
-            } elseif ($httpCode == 500) {
-                print("API网关错误");
-            } elseif ($httpCode == 0) {
-                print("URL错误");
-            } else {
-                print("参数名错误 或 其他错误");
-                print($httpCode);
-                $headers = explode("\r\n", $header);
-                $headList = array();
-                foreach ($headers as $head) {
-                    $value = explode(':', $head);
-                    $headList[$value[0]] = $value[1];
-                }
-                print($headList['x-ca-error-message']);
-            }
+            return '';
         }
     }
 

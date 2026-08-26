@@ -1,174 +1,483 @@
-<div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
+<div class="container-fluid apple-backend-container" ng-app="myApp" ng-controller="myCtrl">
+    <!-- 页面头部 -->
     <div class="row">
-        <div class="col-lg-8 p-r-0 title-margin-right">
+        <div class="col-lg-12 title-margin-right">
             <div class="page-header">
                 <div class="page-title">
-                    <h1>税率标签</h1>
+                    <h1>发票税率设置</h1>
+                    <p class="page-subtitle">高效快速调整商品税率；实时变动</p>
                 </div>
             </div>
         </div>
-        <!-- /# column -->
-        <div class="col-lg-4 p-l-0 title-margin-left">
-            <div class="page-header">
-                <div class="page-title">
-                    <!--ol class="breadcrumb text-right">
-                        <li><a href="#">Dashboard</a></li>
-                        <li class="active">UI-Blank</li>
-                    </ol-->
-                </div>
-            </div>
-        </div>
-        <!-- /# column -->
     </div>
-    <!-- /# row -->
-    <section id="main-content">
 
-        <div class="row">
+    <!-- 主体内容区 -->
+    <section id="main-content">
+        <div class="row apple-row">
             <div class="col-lg-12">
-                <div class="card alert">
-                    <div class="card-header">
-                        <h4>税率标签</h4>
+                <div class="apple-card">
+                    <div class="card-header apple-card-header">
+                        <span class="card-title-text">税率标签列表</span>
                         <div class="card-header-right-icon">
-                            <ul>
-                                <li class="doc-link">
-                                    <a class="btn btn-xs btn-info" data-toggle="modal" data-target="#myModal">添加</a>
-                                </li>
-                            </ul>
+                            <a class="btn btn-xs apple-header-add-btn" data-toggle="modal" data-target="#myModal">+ 添加标签</a>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table">
+                    <div class="card-body apple-card-body">
+                        <div class="table-responsive apple-table-wrapper">
+                            <table class="table table-hover apple-table">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>名称</th>
+                                        <th width="80">#序号</th>
+                                        <th>标签名称</th>
                                         <th>增值税普通发票</th>
                                         <th>增值税专用发票</th>
-                                        
-                                        <th width="20%">管理</th>
+                                        <th width="180" class="text-right">管理操作</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
-                                <volist name="list.list" id="v">
-                                    <tr>
-                                        <th scope="row">{$v.id}</th>
-                                        <td>{$v.name}</td>
-                                       <td>{$v.normal_tax}</td>
-                                        <td>{$v.special_tax}</td>
-                                        <td>
-                                           
-                                            <a ng-click="updateinfo('{$v.id}')" class="btn btn-info btn-xs">编辑</a>
-                                            <a class="btn btn-danger btn-xs" ng-click="dels('{$v.id}')">删除</a>
-                                        </td>
-                                    </tr>
-                                </volist>
-
+                                    <volist name="list.list" id="v">
+                                        <tr>
+                                            <td data-label="序号">
+                                                <span class="badge-number">{$v.id}</span>
+                                            </td>
+                                            <td data-label="标签名称">
+                                                <span class="text-bold-name">{$v.name}</span>
+                                            </td>
+                                            <td data-label="增值税普通发票">
+                                                <span class="tax-value-tag">{$v.normal_tax}</span>
+                                            </td>
+                                            <td data-label="增值税专用发票">
+                                                <span class="tax-value-tag special-tax">{$v.special_tax}</span>
+                                            </td>
+                                            <td data-label="管理操作" class="text-right">
+                                                <div class="table-action-group">
+                                                    <a ng-click="updateinfo('{$v.id}')" class="btn btn-info btn-xs apple-btn-edit">编辑</a>
+                                                    <a class="btn btn-danger btn-xs apple-btn-del" ng-click="dels('{$v.id}')">删除</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </volist>
                                 </tbody>
                             </table>
+                        </div>
 
+                        <!-- 分页区域 -->
+                        <div class="apple-pagination-box">
                             <nav aria-label="Page navigation">
                                 <ul class="pagination">{$list.show}</ul>
                             </nav>
-
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document" style="width:35%;">
-            <div class="modal-content">
+    <!-- 添加弹窗 -->
+    <div class="modal fade apple-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content apple-modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">添加</h4>
+                    <h4 class="modal-title" id="myModalLabel">添加税率标签</h4>
                 </div>
                 <div class="modal-body">
-
                     <form name="ador">
                         <div class="form-group">
                             <label>名称</label>
-                            <input type="text" name="name" class="form-control"/>
+                            <input type="text" name="name" class="form-control apple-input" placeholder="请输入标签名称" />
                         </div>
                         <div class="form-group">
                             <label>增值税普通发票</label>
-                            <input type="text" name="normal_tax" class="form-control"/>
+                            <input type="text" name="normal_tax" class="form-control apple-input" placeholder="例如：13%" />
                         </div>
                         <div class="form-group">
                             <label>增值税专用发票</label>
-                            <input type="text" name="special_tax" class="form-control"/>
+                            <input type="text" name="special_tax" class="form-control apple-input" placeholder="例如：13%" />
                         </div>
-                        <!--<div class="form-group">-->
-                        <!--    <label>状态</label>-->
-                        <!--    <select name="status" class="form-control">-->
-                        <!--        <option value="1">使用</option>-->
-                        <!--        <option value="0">暂停</option>-->
-                        <!--    </select>-->
-                        <!--</div>-->
                     </form>
-
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" onclick="addor()">添加</button>
+                    <button type="button" class="btn btn-default apple-btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary apple-btn-primary" onclick="addor()">确认添加</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="myEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document" style="width:35%;">
-            <div class="modal-content">
+    <!-- 更新弹窗 -->
+    <div class="modal fade apple-modal" id="myEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content apple-modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">更新</h4>
+                    <h4 class="modal-title" id="myModalLabel">更新税率标签</h4>
                 </div>
                 <div class="modal-body">
-
                     <form>
                         <div class="form-group">
                             <label>名称</label>
-                            <input type="text" name="name" class="form-control" ng-model="infos.name"/>
+                            <input type="text" name="name" class="form-control apple-input" ng-model="infos.name" />
                         </div>
                         <div class="form-group">
                             <label>增值税普通发票</label>
-                            <input type="text" name="normal_tax" ng-model="infos.normal_tax"  class="form-control"/>
+                            <input type="text" name="normal_tax" ng-model="infos.normal_tax" class="form-control apple-input" />
                         </div>
                         <div class="form-group">
                             <label>增值税专用发票</label>
-                            <input type="text" name="special_tax" ng-model="infos.special_tax" class="form-control"/>
+                            <input type="text" name="special_tax" ng-model="infos.special_tax" class="form-control apple-input" />
                         </div>
-                        <!--<div class="form-group">-->
-                        <!--    <label>状态</label>-->
-                        <!--    <select name="status" class="form-control" ng-model="infos.status">-->
-                        <!--        <option value="1">使用</option>-->
-                        <!--        <option value="0">暂停</option>-->
-                        <!--    </select>-->
-                        <!--</div>-->
                     </form>
-
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" ng-click="updateCats()">更新</button>
+                    <button type="button" class="btn btn-default apple-btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary apple-btn-primary" ng-click="updateCats()">确认更新</button>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
 
+<style>
+    /* ===== 苹果极简商务风：全局容器与排版样式 ===== */
+    .apple-backend-container {
+        background-color: #f5f5f7;
+        padding: 24px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        color: #1d1d1f;
+        min-height: 100vh;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .page-header {
+        margin-bottom: 20px;
+    }
+    
+    .page-title h1 {
+        font-size: 24px;
+        font-weight: 600;
+        color: #1d1d1f;
+        margin: 0 0 6px 0;
+        letter-spacing: -0.5px;
+    }
+    
+    .page-subtitle {
+        font-size: 13px;
+        color: #86868b;
+        margin: 0;
+    }
 
+    .apple-row {
+        margin-bottom: 16px;
+        width: 100%;
+    }
 
+    /* ===== 苹果高档质感卡片 ===== */
+    .apple-card {
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+        border: 1px solid rgba(0, 0, 0, 0.04);
+        margin-bottom: 0;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+
+    .apple-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #2c3e50;
+        color: #fff;
+        padding: 16px 20px;
+        border-bottom: none;
+    }
+
+    .card-title-text {
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+    }
+
+    .apple-header-add-btn {
+        font-size: 12px !important;
+        padding: 6px 14px !important;
+        height: auto !important;
+        border-radius: 6px !important;
+        border: 1px solid rgba(255, 255, 255, 0.4) !important;
+        background: rgba(255, 255, 255, 0.15) !important;
+        color: #fff !important;
+        transition: all 0.2s ease;
+    }
+    .apple-header-add-btn:hover {
+        background: rgba(255, 255, 255, 0.3) !important;
+    }
+
+    .apple-card-body {
+        padding: 20px;
+    }
+
+    /* ===== 表格样式优化 ===== */
+    .apple-table-wrapper {
+        border-radius: 12px;
+        border: 1px solid #e5e5ea;
+        overflow: hidden;
+    }
+
+    .apple-table {
+        margin-bottom: 0 !important;
+        background-color: #ffffff;
+        width: 100%;
+    }
+
+    .apple-table th {
+        background: #fafafc !important;
+        color: #1d1d1f !important;
+        font-weight: 600 !important;
+        border-bottom: 1px solid #e5e5ea !important;
+        padding: 14px 16px !important;
+    }
+
+    .apple-table td {
+        padding: 14px 16px !important;
+        vertical-align: middle !important;
+        border-color: #f0f0f2 !important;
+        color: #1d1d1f;
+    }
+
+    .apple-table tbody tr:nth-of-type(odd) {
+        background-color: #fbfbfd;
+    }
+
+    .apple-table tbody tr:hover {
+        background-color: #f5f5f7;
+    }
+
+    .badge-number {
+        font-weight: 600;
+        color: #86868b;
+        background: #f0f0f2;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 12px;
+    }
+
+    .text-bold-name {
+        font-weight: 600;
+        color: #1d1d1f;
+    }
+
+    .tax-value-tag {
+        background: #e8f2fc;
+        color: #0071e3;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 12px;
+    }
+
+    .special-tax {
+        background: #eef6ed;
+        color: #34c759;
+    }
+
+    .table-action-group {
+        display: flex;
+        gap: 6px;
+        justify-content: flex-end;
+    }
+
+    .apple-btn-edit {
+        background-color: #0071e3 !important;
+        border: none !important;
+        border-radius: 6px !important;
+        padding: 5px 12px !important;
+        font-weight: 500 !important;
+    }
+    .apple-btn-edit:hover {
+        background-color: #0077ed !important;
+    }
+
+    .apple-btn-del {
+        background-color: #ff3b30 !important;
+        border: none !important;
+        border-radius: 6px !important;
+        padding: 5px 12px !important;
+        font-weight: 500 !important;
+    }
+    .apple-btn-del:hover {
+        background-color: #e0342b !important;
+    }
+
+    .apple-pagination-box {
+        margin-top: 16px;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    /* ===== 弹窗精细化控制 ===== */
+    .apple-modal .modal-dialog {
+        max-width: 480px;
+        margin: 40px auto;
+    }
+
+    .apple-modal .modal-content {
+        border-radius: 16px;
+        border: none;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        background: #ffffff;
+        overflow: hidden;
+    }
+
+    .apple-modal .modal-header {
+        background: #fafafc;
+        border-bottom: 1px solid #e5e5ea;
+        padding: 16px 20px;
+    }
+
+    .apple-modal .modal-title {
+        font-weight: 600;
+        color: #1d1d1f;
+        font-size: 16px;
+    }
+
+    .apple-modal .modal-body {
+        padding: 24px 20px;
+    }
+
+    .apple-modal .form-group {
+        margin-bottom: 16px;
+    }
+
+    .apple-modal .form-group label {
+        font-weight: 600;
+        color: #1d1d1f;
+        font-size: 13px;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    .apple-input {
+        border-radius: 8px !important;
+        border: 1px solid #d2d2d7 !important;
+        height: 40px !important;
+        box-shadow: none !important;
+        transition: all 0.2s;
+    }
+    .apple-input:focus {
+        border-color: #0071e3 !important;
+        box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15) !important;
+    }
+
+    .apple-modal .modal-footer {
+        background: #fafafc;
+        border-top: 1px solid #e5e5ea;
+        padding: 12px 20px;
+        display: flex !important;
+        align-items: center;
+        justify-content: flex-end !important;
+        gap: 10px;
+    }
+
+    .apple-btn-primary {
+        background: #0071e3 !important;
+        border: none !important;
+        border-radius: 8px !important;
+        padding: 8px 18px !important;
+        font-weight: 500 !important;
+        color: #fff !important;
+        height: 38px;
+    }
+    .apple-btn-primary:hover {
+        background: #0077ed !important;
+    }
+
+    .apple-btn-default {
+        border-radius: 8px !important;
+        border: 1px solid #d2d2d7 !important;
+        background: #ffffff !important;
+        color: #1d1d1f !important;
+        padding: 8px 18px !important;
+        height: 38px;
+    }
+    .apple-btn-default:hover {
+        background: #f0f0f5 !important;
+        border-color: #c7c7cc !important;
+    }
+
+    /* ==========================================
+       移动端响应式降级：转为高档卡片式布局
+       ========================================== */
+    @media (max-width: 768px) {
+        .apple-backend-container {
+            padding: 12px;
+        }
+
+        .apple-card-body {
+            padding: 12px;
+        }
+
+        .apple-table, .apple-table thead, .apple-table tbody, .apple-table tr, .apple-table td {
+            display: block;
+            width: 100%;
+        }
+
+        .apple-table thead {
+            display: none;
+        }
+
+        .apple-table tbody tr {
+            background: #ffffff !important;
+            border: 1px solid #e5e5ea;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            padding: 14px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        .apple-table tbody td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0 !important;
+            border: none !important;
+            text-align: right;
+        }
+
+        .apple-table tbody td::before {
+            content: attr(data-label);
+            font-weight: 600;
+            color: #86868b;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        .table-action-group {
+            justify-content: flex-end;
+            width: 100%;
+            margin-top: 6px;
+            padding-top: 8px;
+            border-top: 1px solid #f0f0f2;
+        }
+
+        .apple-btn-edit, .apple-btn-del {
+            padding: 8px 16px !important;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .apple-modal .modal-dialog {
+            width: 90% !important;
+            margin: 20px auto !important;
+        }
+    }
+</style>
 
 <script>
-
     /**
      * 添加
      * @returns {undefined}
@@ -267,7 +576,4 @@
         }
 
     });
-
 </script>
-
-

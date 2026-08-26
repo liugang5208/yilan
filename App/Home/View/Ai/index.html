@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>易缆通商城 · AI电缆专家智能管理中心（全模态旗舰版）</title>
+    <script src="https://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <style>
+        :root {
+            --apple-bg: #f5f5f7;
+            --apple-card-bg: #ffffff;
+            --apple-text-main: #1d1d1f;
+            --apple-text-sub: #86868b;
+            --apple-border: rgba(0, 0, 0, 0.08);
+            --apple-border-focus: #0071e3;
+            --apple-primary: #0071e3;
+            --apple-primary-hover: #0077ed;
+            --apple-radius: 12px;
+            --apple-radius-sm: 8px;
+            --apple-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+            --apple-transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+        
+        body { 
+            background-color: var(--apple-bg); 
+            color: var(--apple-text-main); 
+            -webkit-font-smoothing: antialiased; 
+            padding: 12px; 
+        }
+
+        .container-fluid { width: 100%; max-width: 1600px; margin: 0 auto; }
+        .row { display: flex; flex-wrap: wrap; margin-right: -6px; margin-left: -6px; }
+        .col-lg-4 { position: relative; width: 100%; padding-right: 6px; padding-left: 6px; margin-bottom: 12px; }
+        .col-lg-6 { position: relative; width: 100%; padding-right: 6px; padding-left: 6px; margin-bottom: 12px; }
+        .col-lg-12 { position: relative; width: 100%; padding-right: 6px; padding-left: 6px; margin-bottom: 12px; }
+        @media (min-width: 992px) { 
+            .col-lg-4 { flex: 0 0 33.3333%; max-width: 33.3333%; }
+            .col-lg-6 { flex: 0 0 50%; max-width: 50%; } 
+            .col-lg-12 { flex: 0 0 100%; max-width: 100%; }
+        }
+
+        /* 顶部导航与页头设计：支持超宽屏自适应与子页面快速切换 */
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--apple-border); padding: 14px 18px; background: #fff; border-radius: var(--apple-radius); box-shadow: var(--apple-shadow); flex-wrap: wrap; gap: 10px; }
+        .page-title h1 { font-size: 18px; font-weight: 600; color: var(--apple-text-main); letter-spacing: -0.5px; }
+        .page-title p { font-size: 11px; color: var(--apple-text-sub); margin-top: 3px; }
+        
+        /* 子页面快速导航栏样式 */
+        .sub-nav-links { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+        .nav-chip { background: #f2f2f7; color: var(--apple-text-main); padding: 4px 10px; border-radius: 20px; font-size: 11px; text-decoration: none; font-weight: 500; transition: var(--apple-transition); border: 1px solid var(--apple-border); }
+        .nav-chip:hover, .nav-chip.active { background: var(--apple-primary); color: #fff; border-color: var(--apple-primary); }
+
+        .card { 
+            background-color: var(--apple-card-bg); 
+            border-radius: var(--apple-radius); 
+            box-shadow: var(--apple-shadow); 
+            border: 1px solid var(--apple-border); 
+            overflow: hidden; 
+            margin-bottom: 0;
+            transition: var(--apple-transition); 
+        }
+        .card:hover { box-shadow: 0 8px 32px rgba(0, 0, 0, 0.07); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--apple-border); background-color: rgba(255, 255, 255, 0.95); }
+        .card-header h4 { font-size: 12px; font-weight: 600; color: var(--apple-text-main); margin: 0; }
+        .card-body { padding: 14px; }
+
+        .form-group { margin-bottom: 10px; }
+        .form-group label { display: block; font-size: 11px; font-weight: 500; color: var(--apple-text-sub); margin-bottom: 4px; }
+        .form-control { display: block; width: 100%; padding: 7px 10px; font-size: 11px; line-height: 1.4; color: var(--apple-text-main); background-color: #fafafc; border: 1px solid var(--apple-border); border-radius: var(--apple-radius-sm); transition: var(--apple-transition); }
+        .form-control:focus { border-color: var(--apple-border-focus); outline: 0; background-color: #fff; box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.08); }
+        textarea.form-control { resize: none; }
+
+        .btn { display: inline-flex; align-items: center; justify-content: center; font-weight: 500; text-align: center; border: 1px solid transparent; padding: 4px 12px; font-size: 11px; border-radius: var(--apple-radius-sm); transition: var(--apple-transition); cursor: pointer; text-decoration: none; height: 30px; }
+        .btn:hover { transform: translateY(-1px); }
+        .btn-primary { background-color: var(--apple-primary); color: #fff; border-color: var(--apple-primary); }
+        .btn-primary:hover { background-color: var(--apple-primary-hover); box-shadow: 0 2px 8px rgba(0, 113, 227, 0.3); }
+        .btn-success { background-color: #34c759; color: #fff; border-color: #34c759; }
+        .btn-success:hover { background-color: #2db84c; box-shadow: 0 2px 8px rgba(52, 199, 89, 0.3); }
+        .btn-info { background-color: #5856d6; color: #fff; border-color: #5856d6; padding: 2px 8px; font-size: 10px; height: 22px; display: inline-block; vertical-align: middle; }
+        .btn-info:hover { background-color: #4c4abf; }
+        .btn-secondary { background-color: #e5e5ea; color: #1d1d1f; border-color: transparent; }
+        .btn-secondary:hover { background-color: #d1d1d6; }
+
+        .apple-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 11px; }
+        .apple-table th { 
+            position: sticky; 
+            top: 0; 
+            z-index: 10; 
+            background-color: #f2f2f7; 
+            color: var(--apple-text-sub); 
+            font-weight: 600; 
+            padding: 7px 10px; 
+            border-bottom: 1px solid var(--apple-border); 
+        }
+        .apple-table td { padding: 8px 10px; border-bottom: 1px solid var(--apple-border); color: var(--apple-text-main); vertical-align: middle; background-color: #ffffff; }
+        .apple-table tr:hover td { background-color: rgba(0, 113, 227, 0.02); }
+
+        .badge-multimodal { background: #e3f2fd; color: #1565c0; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 99999; }
+        .modal-card { background: #fff; width: 90%; max-width: 620px; border-radius: var(--apple-radius); box-shadow: 0 10px 40px rgba(0,0,0,0.2); overflow: hidden; }
+        .modal-header { padding: 12px 16px; border-bottom: 1px solid var(--apple-border); display: flex; justify-content: space-between; align-items: center; }
+        .modal-body { padding: 16px; max-height: 55vh; overflow-y: auto; font-size: 11px; line-height: 1.5; word-break: break-all; }
+        .modal-footer { padding: 10px 16px; border-top: 1px solid var(--apple-border); text-align: right; background: #f9f9fb; }
+        
+        /* 滑动条与微交互及卡片展示配置样式 */
+        .slider-with-value { display: flex; align-items: center; gap: 10px; }
+        .slider-with-value input[type="range"] { flex: 1; accent-color: var(--apple-primary); cursor: pointer; }
+        .input-group-with-icon { display: flex; position: relative; }
+        .input-group-with-icon input { padding-right: 36px; }
+        .input-group-with-icon .eye-btn { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); background: transparent; border: none; cursor: pointer; color: var(--apple-text-sub); font-size: 12px; padding: 4px 8px; }
+        
+        /* 商品卡片预览配置小组件预览区 */
+        .card-preview-box { border: 1px dashed var(--apple-border); padding: 10px; border-radius: var(--apple-radius-sm); background: #fafafc; margin-top: 6px; }
+        .preview-chip-group { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+        .preview-chip { background: #e5e5ea; color: #1d1d1f; font-size: 10px; padding: 2px 6px; border-radius: 4px; }
+        
+        /* AI 调用统计指标小卡片样式（与后端接口实时动态联动） */
+        .stat-metric-card { background: #fafafc; border: 1px solid var(--apple-border); border-radius: var(--apple-radius-sm); padding: 10px 14px; display: flex; flex-direction: column; justify-content: center; position: relative; }
+        .stat-metric-title { font-size: 10px; color: var(--apple-text-sub); font-weight: 500; }
+        .stat-metric-value { font-size: 18px; font-weight: 700; color: var(--apple-text-main); margin-top: 2px; }
+        .refresh-stats-btn { position: absolute; right: 10px; top: 10px; background: transparent; border: none; color: var(--apple-primary); cursor: pointer; font-size: 11px; font-weight: 500; }
+    </style>
+</head>
+<body ng-app="aiApp" ng-controller="aiCtrl">
+
+<div class="container-fluid">
+    <!-- 顶部主标题与子页面独立路由导航解耦区 -->
+    <div class="page-header">
+        <div class="page-title">
+            <h1>易缆通商城 · AI电缆专家智能管理中心（全模态旗舰版）</h1>
+            <p>深度集成千问 qwen-max 旗舰模型、多模态视觉与动态云端音色语音合成（严格执行 60天/365天全链条垃圾自动清理）。</p>
+        </div>
+        <div class="sub-nav-links">
+            <a href="index.html" class="nav-chip active">总控面板</a>
+            <a href="knowledge.html" class="nav-chip">专家规则</a>
+            <a href="historyList.html" class="nav-chip">历史报价</a>
+            <a href="searchWords.html" class="nav-chip">搜索母本</a>
+            <a href="print_quote.html" class="nav-chip">合同打印</a>
+            <a href="testConnect.html" class="nav-chip">测试专区</a>
+            <button type="button" class="btn btn-primary" ng-click="saveConfig()" style="height:28px; margin-left:4px;">💾 保存凭证</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- 模块一：API 底层凭证与全局设定 -->
+        <div class="col-lg-12">
+            <div class="card" style="margin-bottom: 12px;">
+                <div class="card-header">
+                    <h4>[ 一、 API 通道凭证与全局设定 ] <span class="badge-multimodal">千问 Qwen-Max 旗舰模式</span></h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>AI 助手名称</label>
+                                <input type="text" class="form-control" ng-model="config.ai_name">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>推理大模型</label>
+                                <select class="form-control" ng-model="config.ai_model">
+                                    <option value="qwen-max">qwen-max (深度旗舰多模态)</option>
+                                    <option value="qwen3.8-max">qwen3.8-max (复杂推理与编程)</option>
+                                    <option value="qwen3.7-plus">qwen3.7-plus (均衡)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>API 基础路径 (Base URL)</label>
+                                <input type="text" class="form-control" ng-model="config.base_url">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>千问百炼 API 密钥 (API Key)</label>
+                                <!-- 安全显隐切换交互按钮 -->
+                                <div class="input-group-with-icon">
+                                    <input type="{{showApiKey ? 'text' : 'password'}}" class="form-control" ng-model="config.api_key" placeholder="sk-xxx">
+                                    <button type="button" class="eye-btn" ng-click="showApiKey = !showApiKey" title="显示/隐藏密钥">{{showApiKey ? '🙈' : '👁️'}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>严谨度 (Temperature) — <span style="color:var(--apple-primary);">{{config.temperature}}</span></label>
+                                <!-- 滑动条与数字双向联动组件，适配超宽屏与手机触控 -->
+                                <div class="slider-with-value">
+                                    <input type="range" min="0" max="2" step="0.05" ng-model="config.temperature">
+                                    <input type="number" step="0.05" min="0" max="2" class="form-control" ng-model="config.temperature" style="width: 80px; text-align: center;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>最大 Token 限制</label>
+                                <input type="number" step="1" min="100" max="8192" class="form-control" ng-model="config.max_tokens" placeholder="Tokens">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 音色标识输入框与云端音色选择触发按钮 -->
+                    <div class="form-group">
+                        <label>语音合成音色标识 (Voice ID)</label>
+                        <div style="display: flex; gap: 6px;">
+                            <input type="text" class="form-control" ng-model="config.voice_type" placeholder="点击右侧按钮从云端获取并选择音色">
+                            <button type="button" class="btn btn-info" ng-click="openVoiceModal()" style="white-space: nowrap; height: 30px;">🔊 云端音色选择与试听</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label>全局业务底线铁律 (Prompt Rule)</label>
+                        <textarea class="form-control" ng-model="config.prompt_rule" style="height:65px;"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 模块二：电缆商品卡片多维展示与AI匹配设定 -->
+        <div class="col-lg-12">
+            <div class="card" style="margin-bottom: 12px;">
+                <div class="card-header">
+                    <h4>[ 二、 电缆商品卡片多维展示与 AI 匹配设定 ] <span class="badge-multimodal" style="background:#e8f5e9; color:#2e7d32;">电商前台卡片增强</span></h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>商品卡片技术指标标签展示策略</label>
+                                <select class="form-control" ng-model="config.card_badge_mode">
+                                    <option value="standard">标准模式 (仅显示材质与截面积)</option>
+                                    <option value="advanced">全规格专业模式 (显示无氧铜、阻燃等级、执行国标)</option>
+                                    <option value="minimal">极简商务模式 (隐藏多余标签)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>AI 智能合规对齐状态指示器</label>
+                                <div style="display: flex; align-items: center; gap: 10px; padding: 6px 0;">
+                                    <label style="margin:0; display:flex; align-items:center; gap:4px; font-weight:normal; cursor:pointer;">
+                                        <input type="checkbox" ng-model="config.enable_ai_status_light"> 开启卡片右上角 AI 实时合规与价格校准状态灯
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>卡片快捷操作按钮组自定义</label>
+                                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 6px;">
+                                    <label style="margin:0; font-weight:normal; font-size:11px;"><input type="checkbox" ng-model="config.btn_quick_quote" checked> 一键生成报价</label>
+                                    <label style="margin:0; font-weight:normal; font-size:11px;"><input type="checkbox" ng-model="config.btn_copy_specs" checked> 复制规格参数</label>
+                                    <label style="margin:0; font-weight:normal; font-size:11px;"><input type="checkbox" ng-model="config.btn_ai_rewrite" checked> AI 智能重写描述</label>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom:0;">
+                                <label>商品卡片前台微缩预览效果示意</label>
+                                <div class="card-preview-box">
+                                    <div style="font-weight:600; font-size:11px; color:var(--apple-text-main);">YJV 3*95+1*50 铜芯电力电缆 <span style="float:right; color:var(--apple-primary);" ng-if="config.enable_ai_status_light">🟢 AI已校准</span></div>
+                                    <div class="preview-chip-group" ng-if="config.card_badge_mode === 'advanced'">
+                                        <span class="preview-chip">无氧铜材质</span>
+                                        <span class="preview-chip">阻燃ZRA-YJV</span>
+                                        <span class="preview-chip">执行国标GB/T 12706</span>
+                                    </div>
+                                    <div class="preview-chip-group" ng-if="config.card_badge_mode === 'standard'">
+                                        <span class="preview-chip">铜芯</span>
+                                        <span class="preview-chip">3*95+1*50</span>
+                                    </div>
+                                    <div class="preview-chip-group" ng-if="config.card_badge_mode === 'minimal'">
+                                        <span class="preview-chip">高品质电缆</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 模块三：AI 运行健康度与调用实时统计看板（已增强后端接口对接与调试状态提示） -->
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>[ 三、 AI 运行健康度与调用实时统计看板 ] <span class="badge-multimodal" style="background:#fff3e0; color:#e65100;">数据库表监控联动</span></h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="stat-metric-card">
+                                <button type="button" class="refresh-stats-btn" ng-click="loadCallStats()" title="点击刷新实时数据">🔄 刷新</button>
+                                <span class="stat-metric-title">总调用次数 (Total Calls)</span>
+                                <div class="stat-metric-value" style="color:var(--apple-primary);">{{stats.total_calls || 0}} <span style="font-size:11px; font-weight:normal; color:var(--apple-text-sub);">次</span></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="stat-metric-card">
+                                <span class="stat-metric-title">成功率与失败监控 (Success / Fail)</span>
+                                <div class="stat-metric-value" style="color:#34c759;">{{stats.success_rate || '100%'}} <span style="font-size:11px; font-weight:normal; color:var(--apple-text-sub);">成功 (失败 {{stats.fail_count || 0}}次)</span></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="stat-metric-card">
+                                <span class="stat-metric-title">平均接口响应耗时 (Avg Latency)</span>
+                                <div class="stat-metric-value" style="color:#5856d6;">{{stats.avg_latency || 0}} <span style="font-size:11px; font-weight:normal; color:var(--apple-text-sub);">ms</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 弹窗预览 / 云端音色选择 Modal -->
+<div class="modal-overlay" ng-if="showModal" ng-cloak ng-click="closeModal()">
+    <div class="modal-card" ng-click="$event.stopPropagation()">
+        <div class="modal-header">
+            <h4>{{modalTitle}}</h4>
+            <button type="button" class="btn" style="background:transparent; border:none; font-size:16px; cursor:pointer;" ng-click="closeModal()">✕</button>
+        </div>
+        <div class="modal-body">
+            <!-- 云端音色动态列表与试听选择弹窗 -->
+            <div ng-if="modalType === 'voice_selector'">
+                <p style="font-weight:600; margin-bottom:8px; color:var(--apple-primary);">从云端实时拉取的可用音色列表（点击试听播放，确认后选择）：</p>
+                <div style="max-height: 280px; overflow-y: auto;">
+                    <table class="apple-table">
+                        <thead>
+                            <tr>
+                                <th>音色名称 / ID</th>
+                                <th>试听播放</th>
+                                <th style="text-align:right; width:80px;">选择</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="v in cloudVoices">
+                                <td>
+                                    <strong>{{v.name}}</strong><br>
+                                    <small style="color:var(--apple-primary);">{{v.voice_id}}</small>
+                                </td>
+                                <td>
+                                    <audio controls style="height:22px; width:160px;" ng-src="{{trustUrl(v.sample_url)}}" ng-if="v.sample_url"></audio>
+                                    <span style="font-size:10px; color:var(--apple-text-sub);" ng-if="!v.sample_url">暂无示例</span>
+                                </td>
+                                <td style="text-align:right;">
+                                    <button type="button" class="btn btn-success" ng-click="selectThisVoice(v.voice_id)" style="height:24px; font-size:10px;">确认选用</button>
+                                </td>
+                            </tr>
+                            <tr ng-if="cloudVoices.length === 0">
+                                <td colspan="3" style="text-align:center; color:var(--apple-text-sub); padding:20px;">正在从云端读取音色列表或列表为空...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer" ng-if="modalType !== 'voice_selector'">
+            <button type="button" class="btn btn-primary" ng-click="closeModal()" style="height:26px;">关闭窗口</button>
+        </div>
+    </div>
+</div>
+
+<script>
+var app = angular.module('aiApp', []);
+
+app.controller('aiCtrl', function($scope, $http, $sce) {
+    var rawConfig = <?php echo !empty($config_json) ? $config_json : '{"ai_name":"易缆通AI电缆专家","ai_model":"qwen-max","base_url":"https://dashscope.aliyuncs.com/compatible-mode/v1","api_key":"","temperature":0.20,"max_tokens":2048,"prompt_rule":"","voice_type":"vivi","card_badge_mode":"advanced","enable_ai_status_light":true}'; ?>;
+    
+    rawConfig.temperature = parseFloat(rawConfig.temperature) || 0.20;
+    rawConfig.max_tokens = parseInt(rawConfig.max_tokens) || 2048;
+    rawConfig.voice_type = rawConfig.voice_type || 'vivi';
+    rawConfig.card_badge_mode = rawConfig.card_badge_mode || 'advanced';
+    rawConfig.enable_ai_status_light = rawConfig.enable_ai_status_light !== false;
+    
+    $scope.config = rawConfig;
+    $scope.showApiKey = false; // 控制API密钥显隐状态
+
+    $scope.cloudVoices = [];
+    $scope.showModal = false;
+    $scope.modalTitle = '';
+    $scope.modalType = '';
+    $scope.modalData = {};
+    
+    // 初始化统计看板数据对象
+    $scope.stats = {
+        total_calls: 0,
+        success_rate: '100%',
+        fail_count: 0,
+        avg_latency: 0
+    };
+
+    // 动态从数据库后端拉取真实统计数据
+    $scope.loadCallStats = function() {
+        $http.get('{:U("Ai/getCallStats")}')
+        .success(function(res) {
+            if(res && res.code == 200 && res.data) {
+                $scope.stats = res.data;
+            } else {
+                console.log("AI统计接口返回数据格式提示:", res);
+            }
+        }).error(function(err) {
+            console.error("无法连接到后端的 {:U('Ai/getCallStats')} 接口，当前总调用次数显示为 0。请检查 PHP 控制器是否已创建该方法！", err);
+        });
+    };
+    
+    // 页面加载完成后自动请求真实调用统计
+    $scope.loadCallStats();
+
+    $scope.saveConfig = function() {
+        $scope.config.temperature = parseFloat($scope.config.temperature) || 0.20;
+        $scope.config.max_tokens = parseInt($scope.config.max_tokens) || 2048;
+
+        $http.post('{:U("Ai/saveConfig")}', $scope.config)
+        .success(function(res) {
+            alert(res.msg || "配置保存成功！");
+        });
+    };
+
+    $scope.openVoiceModal = function() {
+        $scope.modalTitle = '选择语音合成音色（云端实时加载）';
+        $scope.modalType = 'voice_selector';
+        $scope.cloudVoices = [];
+        $scope.showModal = true;
+
+        $http.get('{:U("Ai/getCloudVoices")}')
+        .success(function(res) {
+            if(res.code == 200) {
+                $scope.cloudVoices = res.data || [];
+            } else {
+                alert("获取云端音色列表失败: " + res.msg);
+            }
+        }).error(function() {
+            alert("请求云端音色接口网络异常");
+        });
+    };
+
+    $scope.selectThisVoice = function(voiceId) {
+        $scope.config.voice_type = voiceId;
+        $scope.closeModal();
+        alert("已成功选择音色: " + voiceId + "，请点击保存底层通道凭证生效！");
+    };
+
+    $scope.closeModal = function() {
+        $scope.showModal = false;
+        $scope.modalTitle = '';
+        $scope.modalType = '';
+        $scope.modalData = {};
+    };
+
+    $scope.trustUrl = function(url) {
+        return $sce.trustAsResourceUrl(url);
+    };
+});
+</script>
+
+</body>
+</html>

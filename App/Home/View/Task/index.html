@@ -1,161 +1,160 @@
-<div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
-    <div class="row">
-        <div class="col-lg-8 p-r-0 title-margin-right">
-            <div class="page-header">
-                <div class="page-title">
-                    <h1>材料分类价格执行更新</h1>
-                </div>
-            </div>
-        </div>
-        <!-- /# column -->
-        <div class="col-lg-4 p-l-0 title-margin-left">
-            <div class="page-header">
-                <div class="page-title">
-                    <!--ol class="breadcrumb text-right">
-                        <li><a href="#">Dashboard</a></li>
-                        <li class="active">UI-Blank</li>
-                    </ol-->
-                </div>
-            </div>
-        </div>
-        <!-- /# column -->
-    </div>
-    <!-- /# row -->
-    <section id="main-content">
-
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card alert">
-                    <div class="card-header">
-                        <h4>材料分类价格执行更新</h4>
-                        <div class="card-header-right-icon">
-                            <!--<ul>-->
-                            <!--    <li class="doc-link">-->
-                            <!--        <a class="btn btn-xs btn-info" data-toggle="modal" data-target="#myModal">添加</a>-->
-                            <!--    </li>-->
-                            <!--</ul>-->
-                        </div>
+<div class="container-fluid" style="width: 100% !important; max-width: 100% !important; margin: 0 !important; padding: 15px 24px !important; box-sizing: border-box;" ng-app="myApp" ng-controller="myCtrl">
+    
+    <!-- 主内容卡片区域：实现从方屏、常规屏到超宽带鱼屏的 100% 全屏无极铺开 -->
+    <section id="main-content" style="width: 100% !important; margin: 0 !important;">
+        <div class="row" style="margin-left: 0; margin-right: 0;">
+            <div class="col-lg-12" style="padding-left: 0; padding-right: 0;">
+                <div class="card alert" style="background: #ffffff; border-radius: 16px; border: 1px solid rgba(0, 0, 0, 0.04); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04); padding: 24px; margin-bottom: 30px; width: 100%; box-sizing: border-box;">
+                    
+                    <!-- 卡片头部标题 -->
+                    <div class="card-header" style="background: transparent; border-bottom: 1px solid #f3f4f6; padding: 0 0 16px 0; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+                        <h4 style="font-size: 18px; font-weight: 600; color: #1d1d1f; margin: 0;">材料分类价格执行列表</h4>
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table">
+
+                    <!-- 数据展示主体区域 -->
+                    <div class="card-body" style="padding: 0; width: 100%;">
+                        
+                        <!-- 电脑端标准高清表格视图：全屏无极展开、奇偶行交替色、无过宽空白 -->
+                        <div class="table-responsive desktop-table-view" style="border: none; overflow-x: visible; width: 100%;">
+                            <table class="table desktop-search-table" style="width: 100%; margin-bottom: 15px; border-collapse: collapse;">
                                 <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>名称</th>
-                                        <th>状态</th>
-                                        <th>进度(%)</th>
-                                        <th>创建时间</th>
-                                        
-                                        <!--<th width="20%">管理</th>-->
+                                    <tr style="background-color: #f8fafc; border-bottom: 2px solid #e5e7eb;">
+                                        <th style="padding: 12px 16px; font-weight: 600; color: #4b5563; font-size: 12px; text-transform: uppercase;">#</th>
+                                        <th style="padding: 12px 16px; font-weight: 600; color: #4b5563; font-size: 12px; text-transform: uppercase;">名称</th>
+                                        <th style="padding: 12px 16px; font-weight: 600; color: #4b5563; font-size: 12px; text-transform: uppercase;">状态</th>
+                                        <th style="padding: 12px 16px; font-weight: 600; color: #4b5563; font-size: 12px; text-transform: uppercase;">进度(%)</th>
+                                        <th width="20%" style="padding: 12px 16px; font-weight: 600; color: #4b5563; font-size: 12px; text-transform: uppercase;">创建时间</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                 <volist name="list.list" id="v">
-                                    <tr>
-                                        <th scope="row">{$v.id}</th>
-                                        <td>{$v.title}</td>
-                                         <td>{$v.status_title}</td>
-                                        <td>{$v.ratio}</td>
-                                        
-                                        <td>{$v.add_time|date='Y-m-d H:i:s',###}</td>
-                                       
+                                    <tr style="border-bottom: 1px solid #f3f4f6; transition: background-color 0.15s ease;">
+                                        <th scope="row" style="padding: 14px 16px; font-weight: 500; color: #6b7280; vertical-align: middle;">{$v.id}</th>
+                                        <td style="padding: 14px 16px; font-weight: 600; color: #0071e3; vertical-align: middle;">{$v.title}</td>
+                                        <td style="padding: 14px 16px; color: #4b5563; vertical-align: middle;">
+                                            <span style="background: #f1f5f9; padding: 3px 8px; border-radius: 4px; font-size: 12px; color: #334155;">{$v.status_title}</span>
+                                        </td>
+                                        <td style="padding: 14px 16px; color: #4b5563; vertical-align: middle;">
+                                            <span style="font-weight: 600; color: #111827;">{$v.ratio}</span>
+                                        </td>
+                                        <td style="padding: 14px 16px; color: #6b7280; vertical-align: middle; font-size: 12.5px;">{$v.add_time|date='Y-m-d H:i:s',###}</td>
                                     </tr>
                                 </volist>
-
                                 </tbody>
                             </table>
-
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination">{$list.show}</ul>
-                            </nav>
-
                         </div>
+
+                        <!-- 手机端专属卡片堆叠视图（严格左对齐、主标题高亮、零信息丢失） -->
+                        <div class="mobile-card-view">
+                            <volist name="list.list" id="v">
+                                <div class="search-record-card">
+                                    <!-- 卡片头部：精选科技蓝色高亮的名称与ID -->
+                                    <div class="card-line-primary">
+                                        <div class="user-phone">
+                                            <i class="ti-file" style="color: #0071e3;"></i> 
+                                            <span>{$v.title}</span>
+                                        </div>
+                                        <div class="record-id">ID: {$v.id}</div>
+                                    </div>
+
+                                    <!-- 卡片核心参数网格：左侧固定标题，右侧靠左内容对齐，杜绝错行 -->
+                                    <div class="card-line-grid">
+                                        <div class="grid-row">
+                                            <span class="grid-label">当前状态：</span>
+                                            <span class="grid-value">
+                                                <span style="background: #f1f5f9; padding: 2px 8px; border-radius: 4px; font-size: 12px; color: #334155;">{$v.status_title}</span>
+                                            </span>
+                                        </div>
+                                        <div class="grid-row">
+                                            <span class="grid-label">执行进度：</span>
+                                            <span class="grid-value" style="font-weight: 600; color: #0071e3;">{$v.ratio}%</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- 卡片底部：创建时间 -->
+                                    <div class="card-line-footer">
+                                        <div class="record-time">
+                                            <i class="ti-time"></i> {$v.add_time|date='Y-m-d H:i:s',###}
+                                        </div>
+                                    </div>
+                                </div>
+                            </volist>
+                        </div>
+
+                        <!-- 完美包裹在容器内部、支持平滑横向滑动的现代化分页导航 -->
+                        <div class="pagination-wrapper-box">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    {$list.show}
+                                </ul>
+                            </nav>
+                        </div>
+
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <!-- Modal -->
+    <!-- 弹窗: 添加 -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document" style="width:35%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">添加</h4>
+        <div class="modal-dialog" role="document" style="width: 35%; max-width: 500px; min-width: 300px; margin: 30px auto;">
+            <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <div class="modal-header" style="border-bottom: 1px solid #f3f4f6; padding: 20px;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: 2px;"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel" style="font-weight: 600; color: #1d1d1f;">添加材料分类价格</h4>
                 </div>
-                <div class="modal-body">
-
+                <div class="modal-body" style="padding: 20px;">
                     <form name="ador">
-                        <div class="form-group">
-                            <label>名称</label>
-                            <input type="text" name="name" class="form-control"/>
+                        <div class="form-group" style="margin-bottom: 16px;">
+                            <label style="font-weight: 500; color: #4b5563; margin-bottom: 6px; display: block;">名称</label>
+                            <input type="text" name="name" class="form-control" style="border-radius: 8px; border: 1px solid #d2d2d7; padding: 10px 12px; height: 42px; width: 100%;"/>
                         </div>
-                        <div class="form-group">
-                            <label>增值税普通发票</label>
-                            <input type="text" name="normal_tax" class="form-control"/>
+                        <div class="form-group" style="margin-bottom: 16px;">
+                            <label style="font-weight: 500; color: #4b5563; margin-bottom: 6px; display: block;">增值税普通发票</label>
+                            <input type="text" name="normal_tax" class="form-control" style="border-radius: 8px; border: 1px solid #d2d2d7; padding: 10px 12px; height: 42px; width: 100%;"/>
                         </div>
-                        <div class="form-group">
-                            <label>增值税专用发票</label>
-                            <input type="text" name="special_tax" class="form-control"/>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label style="font-weight: 500; color: #4b5563; margin-bottom: 6px; display: block;">增值税专用发票</label>
+                            <input type="text" name="special_tax" class="form-control" style="border-radius: 8px; border: 1px solid #d2d2d7; padding: 10px 12px; height: 42px; width: 100%;"/>
                         </div>
-                        <!--<div class="form-group">-->
-                        <!--    <label>状态</label>-->
-                        <!--    <select name="status" class="form-control">-->
-                        <!--        <option value="1">使用</option>-->
-                        <!--        <option value="0">暂停</option>-->
-                        <!--    </select>-->
-                        <!--</div>-->
                     </form>
-
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" onclick="addor()">添加</button>
+                <div class="modal-footer" style="border-top: 1px solid #f3f4f6; padding: 16px 20px;">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="border-radius: 8px; padding: 8px 16px; height: 40px;">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="addor()" style="border-radius: 8px; padding: 8px 20px; height: 40px; background-color: #0071e3; border: none;">添加</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- 弹窗: 更新 -->
     <div class="modal fade" id="myEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document" style="width:35%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">更新</h4>
+        <div class="modal-dialog" role="document" style="width: 35%; max-width: 500px; min-width: 300px; margin: 30px auto;">
+            <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <div class="modal-header" style="border-bottom: 1px solid #f3f4f6; padding: 20px;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: 2px;"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel" style="font-weight: 600; color: #1d1d1f;">更新材料分类价格</h4>
                 </div>
-                <div class="modal-body">
-
+                <div class="modal-body" style="padding: 20px;">
                     <form>
-                        <div class="form-group">
-                            <label>名称</label>
-                            <input type="text" name="name" class="form-control" ng-model="infos.name"/>
+                        <div class="form-group" style="margin-bottom: 16px;">
+                            <label style="font-weight: 500; color: #4b5563; margin-bottom: 6px; display: block;">名称</label>
+                            <input type="text" name="name" class="form-control" ng-model="infos.name" style="border-radius: 8px; border: 1px solid #d2d2d7; padding: 10px 12px; height: 42px; width: 100%;"/>
                         </div>
-                        <div class="form-group">
-                            <label>增值税普通发票</label>
-                            <input type="text" name="normal_tax" ng-model="infos.normal_tax"  class="form-control"/>
+                        <div class="form-group" style="margin-bottom: 16px;">
+                            <label style="font-weight: 500; color: #4b5563; margin-bottom: 6px; display: block;">增值税普通发票</label>
+                            <input type="text" name="normal_tax" ng-model="infos.normal_tax" class="form-control" style="border-radius: 8px; border: 1px solid #d2d2d7; padding: 10px 12px; height: 42px; width: 100%;"/>
                         </div>
-                        <div class="form-group">
-                            <label>增值税专用发票</label>
-                            <input type="text" name="special_tax" ng-model="infos.special_tax" class="form-control"/>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label style="font-weight: 500; color: #4b5563; margin-bottom: 6px; display: block;">增值税专用发票</label>
+                            <input type="text" name="special_tax" ng-model="infos.special_tax" class="form-control" style="border-radius: 8px; border: 1px solid #d2d2d7; padding: 10px 12px; height: 42px; width: 100%;"/>
                         </div>
-                        <!--<div class="form-group">-->
-                        <!--    <label>状态</label>-->
-                        <!--    <select name="status" class="form-control" ng-model="infos.status">-->
-                        <!--        <option value="1">使用</option>-->
-                        <!--        <option value="0">暂停</option>-->
-                        <!--    </select>-->
-                        <!--</div>-->
                     </form>
-
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" ng-click="updateCats()">更新</button>
+                <div class="modal-footer" style="border-top: 1px solid #f3f4f6; padding: 16px 20px;">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="border-radius: 8px; padding: 8px 16px; height: 40px;">取消</button>
+                    <button type="button" class="btn btn-primary" ng-click="updateCats()" style="border-radius: 8px; padding: 8px 20px; height: 40px; background-color: #0071e3; border: none;">更新</button>
                 </div>
             </div>
         </div>
@@ -163,11 +162,174 @@
 
 </div>
 
+<!-- 响应式与苹果极简商务风样式控制 -->
+<style>
+    /* 默认隐藏手机端卡片容器 */
+    .mobile-card-view {
+        display: none;
+    }
 
+    /* 输入框焦点状态 */
+    .form-control:focus {
+        border-color: #0071e3 !important;
+        box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.12) !important;
+        outline: none;
+    }
 
+    /* 电脑端奇偶行交叉底色与悬停反馈 */
+    .desktop-search-table tbody tr:nth-child(odd) {
+        background-color: #fafbfc;
+    }
+    .desktop-search-table tbody tr:hover {
+        background-color: #f1f5f9 !important;
+    }
+
+    /* 分页导航安全容器（居中且完美包裹在卡片内） */
+    .pagination-wrapper-box {
+        margin-top: 24px;
+        padding-top: 16px;
+        border-top: 1px solid #f1f5f9;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .pagination-wrapper-box .pagination {
+        display: flex;
+        gap: 4px;
+        padding-left: 0;
+        list-style: none;
+        margin: 0;
+        white-space: nowrap;
+    }
+    .pagination-wrapper-box .pagination li a, 
+    .pagination-wrapper-box .pagination li span {
+        padding: 6px 12px;
+        border-radius: 6px;
+        border: 1px solid #e2e8f0;
+        color: #475569;
+        font-size: 13px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+    .pagination-wrapper-box .pagination li.active span,
+    .pagination-wrapper-box .pagination li a:hover {
+        background-color: #0071e3 !important;
+        border-color: #0071e3 !important;
+        color: #ffffff !important;
+    }
+
+    /* 手机端响应式断点切换（屏幕宽度小于等于 992px 时触发） */
+    @media (max-width: 992px) {
+        .desktop-table-view {
+            display: none !important;
+        }
+        .mobile-card-view {
+            display: flex !important;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .container-fluid {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+        }
+
+        /* 手机端单张独立卡片外观（苹果风圆角、细腻微阴影） */
+        .search-record-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* 卡片头部：名称高亮与ID */
+        .card-line-primary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 8px;
+        }
+        .card-line-primary .user-phone {
+            font-size: 15px;
+            font-weight: 600;
+            color: #0071e3;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .card-line-primary .record-id {
+            font-size: 12px;
+            color: #64748b;
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* 核心修正：严格左右对齐的网格行，彻底消除错行和跑偏问题 */
+        .card-line-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 13px;
+            padding: 2px 0;
+        }
+        .grid-row {
+            display: flex;
+            align-items: flex-start;
+            width: 100%;
+        }
+        .grid-label {
+            width: 84px;
+            flex-shrink: 0;
+            color: #64748b;
+            font-size: 12.5px;
+            font-weight: 400;
+        }
+        .grid-value {
+            flex-grow: 1;
+            color: #1e293b;
+            font-weight: 500;
+            text-align: left;
+            word-break: break-all;
+        }
+
+        /* 卡片底部时间区域 */
+        .card-line-footer {
+            border-top: 1px solid #f1f5f9;
+            padding-top: 8px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        .record-time {
+            font-size: 12px;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* 手机端分页容器左对齐支持横向滚动 */
+        .pagination-wrapper-box {
+            justify-content: flex-start;
+            padding-bottom: 6px;
+        }
+
+        /* 弹窗宽度自适应手机屏幕 */
+        .modal-dialog {
+            width: 90% !important;
+            margin: 20px auto !important;
+        }
+    }
+</style>
 
 <script>
-
     /**
      * 添加
      * @returns {undefined}
@@ -176,7 +338,7 @@
         var temp = $("form[name='ador']").serializeArray();
         var data = objToArray(temp);
         var baseurl = "{:U('Core/addon','model=new_tax')}";
-        //////
+        
         $.ajax({
             url: baseurl,
             type: "post",
@@ -198,8 +360,6 @@
     app.controller('myCtrl', function ($scope, $http) {
 
         $scope.infos;
-
-        ////////////////////////////////////////////////////////////////////////
 
         /**
          * 通讯操作
@@ -225,8 +385,6 @@
             });
         };
 
-        ////////////////////////////////////////////////////////////////////////
-
         $scope.updateinfo = function (id) {
             $scope.commAjax("{:U('Core/infos','model=new_tax')}", {ids: id}, function (res) {
                 $scope.infos = res.data;
@@ -237,7 +395,7 @@
         $scope.updateCats = function () {
             var param = $scope.infos;
             param.ids = param.id;
-            /////////
+            
             $.ajax({
                 url: "{:U('newTax/edits')}",
                 type: "post",
@@ -266,7 +424,4 @@
         }
 
     });
-
 </script>
-
-

@@ -1,30 +1,31 @@
 <div class="container-fluid" ng-app="priceSyncApp" ng-controller="priceSyncCtrl">
 
-    <!-- 页头 -->
-    <div class="row">
-        <div class="col-lg-8 p-r-0 title-margin-right">
+    <!-- 页头：完全杜绝负边距溢出，严格贴合屏幕两侧 -->
+    <div class="ps-row ps-header-row">
+        <div class="ps-col-8">
             <div class="page-header">
                 <div class="page-title">
                     <h1>期货价格同步管理</h1>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 p-l-0 title-margin-left">
+        <div class="ps-col-4 text-right-md">
             <div class="page-header">
-                <div class="page-title" style="text-align:right;padding-right:20px;padding-top:18px;">
-                    <a href="/Home/NewLabel/index" class="btn btn-xs btn-default">← 返回分类管理</a>
+                <div class="page-title ps-return-box">
+                    <a href="/Home/NewLabel/index" class="btn btn-default ps-btn-back">← 返回分类管理</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row">
+    <!-- 主体双栏区域：全屏自适应，杜绝左右死白与溢出 -->
+    <div class="ps-row ps-main-row">
 
         <!-- 左栏：期货实时行情 -->
-        <div class="col-lg-5">
+        <div class="ps-col-left ps-col-item">
             <div class="card ps-card">
                 <div class="ps-card-header">
-                    <span class="ps-card-title">东方财富期货</span>
+                    <span class="ps-card-title">东方财富期货实时行情</span>
                     <div class="ps-card-actions">
                         <span class="ps-update-time">更新：{{quoteUpdateTime}}</span>
                         <button class="btn btn-xs ps-btn-refresh" ng-click="refreshQuote()" ng-disabled="quoteLoading">
@@ -41,41 +42,75 @@
                 </div>
                 <div class="ps-card-body">
                     <div class="ps-search-row">
-                        <input type="text" class="form-control ps-search-input" placeholder="搜索合约名称..." ng-model="quoteKeyword"/>
+                        <input type="text" class="form-control ps-search-input" placeholder="输入合约名称或代码进行搜索..." ng-model="quoteKeyword"/>
                     </div>
-                    <table class="table table-hover ps-table">
-                        <thead>
-                            <tr>
-                                <th>合约名称</th>
-                                <th>代码</th>
-                                <th class="text-right">最新价</th>
-                                <th class="text-right">涨跌幅</th>
-                                <th class="text-center">操作</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="q in quoteList | filter:quoteKeyword" ng-click="selectQuote(q)" ng-class="{active: selectedQuote && selectedQuote.dm === q.dm}">
-                                <td>{{q.name}}</td>
-                                <td><span class="ps-code">{{q.dm}}</span></td>
-                                <td class="text-right ps-price">{{q.p | number:2}}</td>
-                                <td class="text-right" ng-class="q.zdf > 0 ? 'ps-up' : (q.zdf < 0 ? 'ps-down' : '')">
-                                    <span ng-if="q.zdf > 0">+</span>{{q.zdf}}%
-                                </td>
-                                <td class="text-center">
-                                    <button class="btn btn-xs ps-btn-link" ng-click="openAddFromQuote(q); $event.stopPropagation()">+ 配置</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    
+                    <!-- 电脑端表格展示 -->
+                    <div class="table-responsive ps-desktop-table-view">
+                        <table class="table table-hover ps-table">
+                            <thead>
+                                <tr>
+                                    <th>合约名称</th>
+                                    <th>代码</th>
+                                    <th class="text-right">最新价</th>
+                                    <th class="text-right">涨跌幅</th>
+                                    <th class="text-center">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="q in quoteList | filter:quoteKeyword" ng-click="selectQuote(q)" ng-class="{active: selectedQuote && selectedQuote.dm === q.dm}">
+                                    <td>{{q.name}}</td>
+                                    <td><span class="ps-code">{{q.dm}}</span></td>
+                                    <td class="text-right ps-price">{{q.p | number:2}}</td>
+                                    <td class="text-right" ng-class="q.zdf > 0 ? 'ps-up' : (q.zdf < 0 ? 'ps-down' : '')">
+                                        <span ng-if="q.zdf > 0">+</span>{{q.zdf}}%
+                                    </td>
+                                    <td class="text-center">
+                                        <button class="btn btn-xs ps-btn-link" ng-click="openAddFromQuote(q); $event.stopPropagation()">+ 配置</button>
+                                    </td>
+                                </tr>
+                                <tr ng-if="(quoteList | filter:quoteKeyword).length === 0">
+                                    <td colspan="5" class="text-center ps-empty">暂无相关期货行情数据</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 手机端卡片式折叠视图：零丢失、大触控区、防挤压 -->
+                    <div class="ps-mobile-card-list">
+                        <div class="ps-m-card-item" ng-repeat="q in quoteList | filter:quoteKeyword" ng-click="selectQuote(q)">
+                            <div class="ps-m-card-header">
+                                <span class="ps-m-title">{{q.name}}</span>
+                                <span class="ps-code">{{q.dm}}</span>
+                            </div>
+                            <div class="ps-m-card-body">
+                                <div class="ps-m-info-group">
+                                    <span class="ps-m-label">最新价：</span>
+                                    <span class="ps-price">{{q.p | number:2}}</span>
+                                </div>
+                                <div class="ps-m-info-group">
+                                    <span class="ps-m-label">涨跌幅：</span>
+                                    <span ng-class="q.zdf > 0 ? 'ps-up' : (q.zdf < 0 ? 'ps-down' : '')">
+                                        <span ng-if="q.zdf > 0">+</span>{{q.zdf}}%
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="ps-m-card-footer">
+                                <button class="btn btn-primary btn-block ps-touch-btn" ng-click="openAddFromQuote(q); $event.stopPropagation()">+ 添加为此期货同步配置</button>
+                            </div>
+                        </div>
+                        <div class="text-center ps-empty" ng-if="(quoteList | filter:quoteKeyword).length === 0">暂无相关期货行情数据</div>
+                    </div>
+
                 </div>
             </div>
         </div>
 
         <!-- 右栏：同步配置管理 -->
-        <div class="col-lg-7">
+        <div class="ps-col-right ps-col-item">
             <div class="card ps-card">
                 <div class="ps-card-header">
-                    <span class="ps-card-title">同步配置</span>
+                    <span class="ps-card-title">同步配置管理中心</span>
                     <div class="ps-card-actions">
                         <button class="btn btn-xs ps-btn-batch" ng-click="batchSync()" ng-disabled="checkedConfigs().length === 0">
                             批量同步 <span ng-if="checkedConfigs().length > 0">({{checkedConfigs().length}})</span>
@@ -84,64 +119,119 @@
                     </div>
                 </div>
                 <div class="ps-card-body">
-                    <table class="table table-hover ps-table">
-                        <thead>
-                            <tr>
-                                <th style="width:32px;"><input type="checkbox" ng-click="toggleAll()" ng-model="allChecked"/></th>
-                                <th style="width:36px;">ID</th>
-                                <th>期货合约</th>
-                                <th>映射材料</th>
-                                <th class="text-right">换算比例</th>
-                                <th>最后同步时间</th>
-                                <th class="text-center">自动同步</th>
-                                <th class="text-center">操作</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="c in configList">
-                                <td><input type="checkbox" ng-model="c.checked"/></td>
-                                <td class="ps-code" style="text-align:center;" ng-bind="$index+1"></td>
-                                <td>
+                    
+                    <!-- 电脑端表格展示 -->
+                    <div class="table-responsive ps-desktop-table-view">
+                        <table class="table table-hover ps-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:32px;"><input type="checkbox" ng-click="toggleAll()" ng-model="allChecked"/></th>
+                                    <th style="width:36px;">ID</th>
+                                    <th>期货合约</th>
+                                    <th>映射材料</th>
+                                    <th class="text-right">换算比例</th>
+                                    <th>最后同步时间</th>
+                                    <th class="text-center">自动同步</th>
+                                    <th class="text-center">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="c in configList" ng-class-odd="'ps-odd-row'" ng-class-even="'ps-even-row'">
+                                    <td><input type="checkbox" ng-model="c.checked"/></td>
+                                    <td class="ps-code" style="text-align:center;" ng-bind="$index+1"></td>
+                                    <td>
+                                        <div class="ps-config-futures">{{c.futures_name}}</div>
+                                        <div class="ps-code">{{c.futures_code}}</div>
+                                    </td>
+                                    <td>
+                                        <div class="ps-config-label">{{c.label_name}}</div>
+                                        <div class="ps-price-preview">
+                                            当前：<span class="ps-price">{{c.current_price}}</span>
+                                            → 同步后：<span class="ps-price-new" ng-if="getQuotePrice(c.futures_code)">
+                                                {{calcSyncPrice(c) | number:4}}
+                                            </span>
+                                            <span ng-if="!getQuotePrice(c.futures_code)" class="ps-no-quote">-</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">
+                                        <span class="ps-ratio">{{c.ratio}}%</span>
+                                    </td>
+                                    <td class="ps-log-time">{{c.last_sync_at}}</td>
+                                    <td class="text-center">
+                                        <span class="ps-badge" ng-class="c.auto_sync ? 'ps-badge-on' : 'ps-badge-off'"
+                                              ng-click="toggleAutoSync(c)" style="cursor:pointer;">
+                                            {{c.auto_sync ? '启用' : '停用'}}
+                                        </span>
+                                    </td>
+                                    <td class="text-center ps-action-btns">
+                                        <button class="btn btn-xs btn-info" ng-click="syncOne(c)"
+                                                ng-disabled="c.syncing || !c.auto_sync"
+                                                title="{{!c.auto_sync ? '请先启用自动同步' : ''}}">
+                                            <span ng-if="c.syncing">同步中</span>
+                                            <span ng-if="!c.syncing">同步</span>
+                                        </button>
+                                        <button class="btn btn-xs btn-default" ng-click="openEditConfig(c)">编辑</button>
+                                        <button class="btn btn-xs btn-default" ng-click="openSyncLog(c)">日志</button>
+                                        <button class="btn btn-xs btn-danger" ng-click="delConfig(c)">删除</button>
+                                    </td>
+                                </tr>
+                                <tr ng-if="configList.length === 0">
+                                    <td colspan="8" class="text-center ps-empty">暂无配置，点击"新增配置"添加</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 手机端卡片式折叠视图：零丢失、完美防溢出 -->
+                    <div class="ps-mobile-card-list">
+                        <div class="ps-m-card-item" ng-repeat="c in configList">
+                            <div class="ps-m-card-header ps-flex-between">
+                                <label class="ps-m-checkbox-label">
+                                    <input type="checkbox" ng-model="c.checked"/> <span class="ps-m-id">序号 {{$index+1}}</span>
+                                </label>
+                                <span class="ps-badge" ng-class="c.auto_sync ? 'ps-badge-on' : 'ps-badge-off'" ng-click="toggleAutoSync(c)">
+                                    {{c.auto_sync ? '自动同步：启用' : '自动同步：停用'}}
+                                </span>
+                            </div>
+                            <div class="ps-m-card-body">
+                                <div class="ps-m-row-main">
                                     <div class="ps-config-futures">{{c.futures_name}}</div>
                                     <div class="ps-code">{{c.futures_code}}</div>
-                                </td>
-                                <td>
-                                    <div class="ps-config-label">{{c.label_name}}</div>
-                                    <div class="ps-price-preview">
-                                        当前：<span class="ps-price">{{c.current_price}}</span>
-                                        → 同步后：<span class="ps-price-new" ng-if="getQuotePrice(c.futures_code)">
-                                            {{calcSyncPrice(c) | number:4}}
-                                        </span>
-                                        <span ng-if="!getQuotePrice(c.futures_code)" class="ps-no-quote">-</span>
-                                    </div>
-                                </td>
-                                <td class="text-right">
+                                </div>
+                                <div class="ps-m-row-sub">
+                                    <span class="ps-m-label">映射材料：</span>
+                                    <span class="ps-config-label"><strong>{{c.label_name}}</strong></span>
+                                </div>
+                                <div class="ps-m-row-sub">
+                                    <span class="ps-m-label">换算比例：</span>
                                     <span class="ps-ratio">{{c.ratio}}%</span>
-                                </td>
-                                <td class="ps-log-time">{{c.last_sync_at}}</td>
-                                <td class="text-center">
-                                    <span class="ps-badge" ng-class="c.auto_sync ? 'ps-badge-on' : 'ps-badge-off'"
-                                          ng-click="toggleAutoSync(c)" style="cursor:pointer;">
-                                        {{c.auto_sync ? '启用' : '停用'}}
+                                </div>
+                                <div class="ps-m-row-sub">
+                                    <span class="ps-m-label">价格演算：</span>
+                                    <span class="ps-price-preview">
+                                        当前：<span class="ps-price">{{c.current_price}}</span> → 同步后：
+                                        <span class="ps-price-new" ng-if="getQuotePrice(c.futures_code)">{{calcSyncPrice(c) | number:4}}</span>
+                                        <span ng-if="!getQuotePrice(c.futures_code)" class="ps-no-quote">暂无行情</span>
                                     </span>
-                                </td>
-                                <td class="text-center ps-action-btns">
-                                    <button class="btn btn-xs btn-info" ng-click="syncOne(c)"
-                                            ng-disabled="c.syncing || !c.auto_sync"
-                                            title="{{!c.auto_sync ? '请先启用自动同步' : ''}}">
-                                        <span ng-if="c.syncing">同步中</span>
-                                        <span ng-if="!c.syncing">同步</span>
-                                    </button>
-                                    <button class="btn btn-xs btn-default" ng-click="openEditConfig(c)">编辑</button>
-                                    <button class="btn btn-xs btn-default" ng-click="openSyncLog(c)">日志</button>
-                                    <button class="btn btn-xs btn-danger" ng-click="delConfig(c)">删除</button>
-                                </td>
-                            </tr>
-                            <tr ng-if="configList.length === 0">
-                                <td colspan="8" class="text-center ps-empty">暂无配置，点击"新增配置"添加</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                </div>
+                                <div class="ps-m-row-sub">
+                                    <span class="ps-m-label">最后同步：</span>
+                                    <span class="ps-log-time">{{c.last_sync_at || '尚未同步'}}</span>
+                                </div>
+                            </div>
+                            <!-- 手机端大触控区操作按钮 -->
+                            <div class="ps-m-card-footer ps-mobile-actions">
+                                <button class="btn btn-info ps-touch-btn" ng-click="syncOne(c)" ng-disabled="c.syncing || !c.auto_sync">
+                                    {{c.syncing ? '同步中...' : '立即同步'}}
+                                </button>
+                                <button class="btn btn-default ps-touch-btn" ng-click="openEditConfig(c)">编辑</button>
+                                <button class="btn btn-default ps-touch-btn" ng-click="openSyncLog(c)">日志</button>
+                                <button class="btn btn-danger ps-touch-btn" ng-click="delConfig(c)">删除</button>
+                            </div>
+                        </div>
+                        <div class="text-center ps-empty" ng-if="configList.length === 0">暂无配置数据，点击上方"新增配置"开始添加</div>
+                    </div>
+
                 </div>
             </div>
 
@@ -150,31 +240,31 @@
 
     <!-- Modal：新增/编辑配置 -->
     <div class="modal fade" id="modalConfig" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document" style="width:480px;">
-            <div class="modal-content">
+        <div class="modal-dialog ps-modal-dialog" role="document">
+            <div class="modal-content ps-modal-content">
                 <div class="modal-header ps-modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">{{editMode ? '编辑配置' : '新增同步配置'}}</h4>
+                    <h4 class="modal-title">{{editMode ? '编辑同步配置' : '新增同步配置'}}</h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
                         <label class="ps-form-label">期货合约 <span class="ps-required">*</span></label>
-                        <select class="form-control" ng-model="form.futures_code" ng-change="onFormFuturesChange()">
+                        <select class="form-control ps-form-control" ng-model="form.futures_code" ng-change="onFormFuturesChange()">
                             <option value="">请选择期货合约</option>
                             <option value="{{q.dm}}" ng-repeat="q in allQuotesFlat">【{{q.exchange}}】{{q.name}}</option>
                         </select>
                         <div class="ps-form-hint" ng-if="form.futures_code">
-                            当前价格：<strong>{{getQuotePrice(form.futures_code) | number:2}}</strong>
+                            当前市场价格：<strong>{{getQuotePrice(form.futures_code) | number:2}}</strong>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="ps-form-label">映射基础材料 <span class="ps-required">*</span></label>
-                        <div style="display:flex;gap:8px;">
-                            <select class="form-control" style="flex:0 0 38%;" ng-model="form.mat_cat" ng-change="onFormMatCatChange()">
+                        <div class="ps-flex-inputs">
+                            <select class="form-control ps-form-control" ng-model="form.mat_cat" ng-change="onFormMatCatChange()">
                                 <option value="">请选择大类</option>
                                 <option value="{{g}}" ng-repeat="g in matCatGroups">{{g}}</option>
                             </select>
-                            <select class="form-control" style="flex:1;"
+                            <select class="form-control ps-form-control"
                                     ng-model="form.new_label_id"
                                     ng-disabled="!form.mat_cat"
                                     ng-options="m.id as (m.name + '（当前：' + m.price + '）') for m in form.matSubList">
@@ -183,28 +273,28 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="ps-form-label">换算比例 <span class="ps-required">*</span></label>
-                        <input type="number" class="form-control" ng-model="form.ratio" step="0.0001" placeholder="100 表示 100%，即同步期货全价"/>
+                        <label class="ps-form-label">换算比例 (%) <span class="ps-required">*</span></label>
+                        <input type="number" class="form-control ps-form-control" ng-model="form.ratio" step="0.0001" placeholder="例如 100 表示 100%，即完全同步期货价格"/>
                         <div class="ps-form-hint" ng-if="form.futures_code && form.ratio">
-                            预计同步价格：<strong>{{(getQuotePrice(form.futures_code) * form.ratio / 100) | number:4}}</strong>
-                            &nbsp;（期货现价 {{getQuotePrice(form.futures_code) | number:2}} × {{form.ratio}}%）
+                            预计同步后价格：<strong>{{(getQuotePrice(form.futures_code) * form.ratio / 100) | number:4}}</strong>
+                            &nbsp;（计算公式：现价 {{getQuotePrice(form.futures_code) | number:2}} × {{form.ratio}}%）
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="ps-form-label">自动同步</label>
-                        <div>
+                        <label class="ps-form-label">自动同步状态</label>
+                        <div class="ps-radio-group">
                             <label class="ps-radio-label">
-                                <input type="radio" ng-model="form.auto_sync" ng-value="1"/> 启用
+                                <input type="radio" ng-model="form.auto_sync" ng-value="1"/> 启用自动同步
                             </label>
-                            <label class="ps-radio-label" style="margin-left:16px;">
+                            <label class="ps-radio-label" style="margin-left:20px;">
                                 <input type="radio" ng-model="form.auto_sync" ng-value="0"/> 停用
                             </label>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" ng-click="saveConfig()">保存</button>
+                    <button type="button" class="btn btn-default ps-touch-btn" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary ps-touch-btn" ng-click="saveConfig()">保存配置</button>
                 </div>
             </div>
         </div>
@@ -212,204 +302,390 @@
 
     <!-- Modal：同步日志 -->
     <div class="modal fade" id="modalLog" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document" style="width:600px;">
-            <div class="modal-content">
+        <div class="modal-dialog ps-modal-dialog-lg" role="document">
+            <div class="modal-content ps-modal-content">
                 <div class="modal-header ps-modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">同步日志 — {{logTarget}}</h4>
+                    <h4 class="modal-title">同步历史日志 — {{logTarget}}</h4>
                 </div>
                 <div class="modal-body">
-                    <table class="table ps-table">
-                        <thead>
-                            <tr>
-                                <th>时间</th>
-                                <th class="text-right">期货价格</th>
-                                <th class="text-right">同步前价格</th>
-                                <th class="text-right">同步后价格</th>
-                                <th class="text-center">方式</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="l in logList">
-                                <td class="ps-log-time">{{l.time}}</td>
-                                <td class="text-right">{{l.futures_price | number:2}}</td>
-                                <td class="text-right ps-price">{{l.old_price | number:4}}</td>
-                                <td class="text-right ps-price-new">{{l.new_price | number:4}}</td>
-                                <td class="text-center">
-                                    <span class="ps-badge" ng-class="l.type === '手动' ? 'ps-badge-manual' : 'ps-badge-auto'">{{l.type}}</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table ps-table">
+                            <thead>
+                                <tr>
+                                    <th>时间</th>
+                                    <th class="text-right">期货价格</th>
+                                    <th class="text-right">同步前价格</th>
+                                    <th class="text-right">同步后价格</th>
+                                    <th class="text-center">同步方式</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="l in logList" ng-class-odd="'ps-odd-row'" ng-class-even="'ps-even-row'">
+                                    <td class="ps-log-time">{{l.time}}</td>
+                                    <td class="text-right">{{l.futures_price | number:2}}</td>
+                                    <td class="text-right ps-price">{{l.old_price | number:4}}</td>
+                                    <td class="text-right ps-price-new">{{l.new_price | number:4}}</td>
+                                    <td class="text-center">
+                                        <span class="ps-badge" ng-class="l.type === '手动' ? 'ps-badge-manual' : 'ps-badge-auto'">{{l.type}}</span>
+                                    </td>
+                                </tr>
+                                <tr ng-if="logList.length === 0">
+                                    <td colspan="5" class="text-center ps-empty">暂无同步日志记录</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Toast 提示 -->
+    <!-- Toast 提示框 -->
     <div class="ps-toast" ng-class="{show: toast.show, error: toast.error}">{{toast.msg}}</div>
 
 </div>
 
 
 <style>
-.ps-card {
-    border-radius: 4px;
-    margin-bottom: 16px;
-    border: 1px solid #e0e0e0;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-    overflow: hidden;
+/* ==========================================================================
+   苹果极简商务风 & 绝对防溢出自适应 CSS 样式重构
+   ========================================================================== */
+
+/* 全局盒模型锁死，彻底杜绝任何形式的页面横向滚动与溢出 */
+* {
+    box-sizing: border-box;
 }
+
+html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden !important;
+    margin: 0;
+    padding: 0;
+}
+
+.container-fluid {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    background-color: #f5f6f8;
+    min-height: 100vh;
+    overflow-x: hidden !important;
+}
+
+/* 自定义无负边距 Flex 响应式行与列，替代 Bootstrap row 负边距导致的溢出 */
+.ps-row {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.ps-header-row {
+    padding-top: 12px;
+    margin-bottom: 8px;
+    align-items: center;
+}
+
+.ps-main-row {
+    margin-bottom: 20px;
+}
+
+/* 电脑端及自适应列宽分配 */
+.ps-col-8 {
+    width: 66.666667%;
+    padding: 0 4px;
+}
+.ps-col-4 {
+    width: 33.333333%;
+    padding: 0 4px;
+}
+.ps-col-left {
+    width: 41.666667%;
+}
+.ps-col-right {
+    width: 58.333333%;
+}
+.ps-col-item {
+    padding: 0 6px !important;
+    margin-bottom: 16px;
+}
+
+/* 苹果风极简细腻卡片 */
+.card.ps-card {
+    background: #ffffff;
+    border-radius: 12px;
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+    transition: all 0.2s ease;
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+}
+
 .ps-card-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #2c2c2c;
-    color: #fff;
-    padding: 9px 14px;
+    background: #1e2229;
+    color: #ffffff;
+    padding: 14px 18px;
+    width: 100%;
 }
+
 .ps-card-title {
-    font-size: 13px;
-    font-weight: bold;
-    letter-spacing: 0.5px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
 .ps-card-actions {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    flex-shrink: 0;
 }
+
 .ps-card-body {
-    padding: 12px;
-    background: #fff;
+    padding: 16px;
+    background: #ffffff;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
 }
 
-/* 按钮 */
-.ps-btn-refresh  { background:#fff; color:#333; border:1px solid #ccc; }
-.ps-btn-add      { background:#1a6fc4; color:#fff; border-color:#1a6fc4; }
-.ps-btn-batch    { background:#555; color:#fff; border-color:#555; }
-.ps-btn-add-time { background:#27ae60; color:#fff; border-color:#27ae60; }
-.ps-btn-link     { background:transparent; color:#1a6fc4; border:1px solid #1a6fc4; padding:1px 6px !important; font-size:11px !important; }
+/* 按钮美化 */
+.ps-btn-refresh  { background:#ffffff; color:#333333; border:1px solid #dcdfe6; border-radius: 6px; padding: 3px 10px; font-size: 12px; transition: all 0.2s; }
+.ps-btn-refresh:hover { background: #f2f3f5; }
+.ps-btn-add      { background:#0071e3; color:#ffffff; border-color:#0071e3; border-radius: 6px; font-weight: 500; transition: all 0.2s; }
+.ps-btn-add:hover { background:#0077ed; }
+.ps-btn-batch    { background:#48484a; color:#ffffff; border-color:#48484a; border-radius: 6px; }
+.ps-btn-link     { background:transparent; color:#0071e3; border:1px solid #0071e3; border-radius: 4px; padding:2px 8px !important; font-size:11px !important; font-weight: 500; }
+.ps-btn-back     { border-radius: 6px; font-size: 12px; border-color: #dcdfe6; color: #333333; background: #fff; }
 
-/* 表格 */
-.ps-table { margin-bottom: 0; font-size: 12px; }
-.ps-table th { background: #f5f5f5; font-weight: 600; padding: 6px 8px !important; white-space: nowrap; }
-.ps-table td { padding: 6px 8px !important; vertical-align: middle; }
-.ps-table tbody tr:hover { background: #f0f7ff; cursor: pointer; }
-.ps-table tbody tr.active { background: #dbeeff; }
+/* 表格与斑马纹设计 */
+.ps-table { margin-bottom: 0; font-size: 13px; color: #1d1d1f; width: 100%; }
+.ps-table th { background: #fafafc; font-weight: 600; color: #6e6e73; border-bottom: 1px solid #e5e5ea; padding: 10px 12px !important; white-space: nowrap; }
+.ps-table td { padding: 10px 12px !important; vertical-align: middle; border-top: 1px solid #f2f2f7; }
+.ps-odd-row { background-color: #ffffff; }
+.ps-even-row { background-color: #fafafc; }
+.ps-table tbody tr:hover { background: #f0f7ff !important; cursor: pointer; }
+.ps-table tbody tr.active { background: #e5f2ff !important; }
 
-/* Tab */
+/* Tab 选项卡设计 */
 .ps-tab-bar {
     display: flex;
-    background: #3a3a3a;
-    padding: 0 14px;
+    background: #2c2c2e;
+    padding: 0 16px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
 }
 .ps-tab {
-    padding: 7px 14px;
+    padding: 10px 16px;
     font-size: 12px;
-    color: rgba(255,255,255,0.6);
+    color: rgba(255,255,255,0.65);
     cursor: pointer;
     border-bottom: 2px solid transparent;
-    transition: all 0.15s;
+    transition: all 0.2s;
     user-select: none;
+    white-space: nowrap;
 }
-.ps-tab:hover { color: #fff; }
-.ps-tab.active { color: #fff; border-bottom-color: #3498db; font-weight: 600; }
+.ps-tab:hover { color: #ffffff; }
+.ps-tab.active { color: #ffffff; border-bottom-color: #0a84ff; font-weight: 600; }
 
-/* 搜索 */
-.ps-search-row { margin-bottom: 8px; }
-.ps-search-input { height: 30px !important; font-size: 12px !important; }
+/* 搜索与输入框 */
+.ps-search-row { margin-bottom: 12px; width: 100%; }
+.ps-search-input { height: 36px !important; font-size: 13px !important; border-radius: 8px !important; border: 1px solid #dcdfe6; width: 100%; max-width: 100%; }
 
-/* 价格 */
-.ps-price     { color: #333; font-weight: 600; }
-.ps-price-new { color: #1a6fc4; font-weight: 600; }
-.ps-up        { color: #c0392b; }
-.ps-down      { color: #27ae60; }
-.ps-code      { color: #888; font-size: 11px; }
-.ps-no-quote  { color: #bbb; font-size: 11px; }
-.ps-no-time   { color: #bbb; font-size: 11px; }
-.ps-empty     { color: #aaa; padding: 24px !important; }
+/* 数据展示与状态文字 */
+.ps-price     { color: #1d1d1f; font-weight: 600; }
+.ps-price-new { color: #0071e3; font-weight: 600; }
+.ps-up        { color: #ff3b30; font-weight: 600; }
+.ps-down      { color: #34c759; font-weight: 600; }
+.ps-code      { color: #86868b; font-size: 11px; }
+.ps-no-quote  { color: #aeaeb2; font-size: 11px; }
+.ps-empty     { color: #86868b; padding: 32px !important; font-size: 13px; }
 
-/* 配置项 */
-.ps-config-futures { font-weight: 600; font-size: 12px; }
-.ps-config-label   { font-size: 12px; }
-.ps-price-preview  { font-size: 11px; color: #888; margin-top: 2px; }
-.ps-ratio          { font-weight: 600; color: #555; }
-.ps-update-time    { font-size: 11px; color: rgba(255,255,255,0.6); }
-
-/* 时间标签 */
-.ps-time-chip {
-    display: inline-block;
-    background: #e8f4fd;
-    color: #1a6fc4;
-    border: 1px solid #b8d9f5;
-    border-radius: 10px;
-    padding: 1px 8px;
-    font-size: 11px;
-    margin-right: 4px;
-    margin-bottom: 3px;
-}
-.ps-time-chip-rm .ps-chip-remove {
-    margin-left: 4px;
-    cursor: pointer;
-    color: #e74c3c;
-    font-weight: bold;
-}
+/* 配置细节样式 */
+.ps-config-futures { font-weight: 600; font-size: 13px; color: #1d1d1f; }
+.ps-config-label   { font-size: 13px; color: #1d1d1f; font-weight: 500; }
+.ps-price-preview  { font-size: 11px; color: #86868b; margin-top: 3px; }
+.ps-ratio          { font-weight: 600; color: #3a3a3c; }
+.ps-update-time    { font-size: 11px; color: rgba(255,255,255,0.65); white-space: nowrap; }
 
 /* 状态徽章 */
 .ps-badge {
     display: inline-block;
-    padding: 2px 8px;
-    border-radius: 10px;
+    padding: 3px 10px;
+    border-radius: 12px;
     font-size: 11px;
     font-weight: 600;
+    transition: all 0.2s;
 }
-.ps-badge-on     { background: #d5f5e3; color: #1e8449; }
-.ps-badge-off    { background: #f0f0f0; color: #888; }
-.ps-badge-manual { background: #fde8d8; color: #c0392b; }
-.ps-badge-auto   { background: #d5f5e3; color: #1e8449; }
+.ps-badge-on     { background: #e8f8f0; color: #10b981; }
+.ps-badge-off    { background: #f2f2f7; color: #8e8e93; }
+.ps-badge-manual { background: #fff1f0; color: #ff4d4f; }
+.ps-badge-auto   { background: #e8f8f0; color: #10b981; }
 
-/* 操作按钮 */
+/* 操作按钮区 */
 .ps-action-btns { white-space: nowrap; }
-.ps-action-btns .btn { margin-right: 2px; }
+.ps-action-btns .btn { margin-right: 4px; border-radius: 4px; }
 
-/* 表单 */
-.ps-form-label  { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
-.ps-required    { color: #e74c3c; }
-.ps-form-hint   { font-size: 11px; color: #888; margin-top: 4px; }
-.ps-radio-label { font-weight: normal; font-size: 12px; cursor: pointer; }
+/* 表单与弹窗控件 */
+.ps-form-label  { font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #1d1d1f; }
+.ps-required    { color: #ff3b30; }
+.ps-form-hint   { font-size: 12px; color: #86868b; margin-top: 6px; }
+.ps-radio-label { font-weight: normal; font-size: 13px; cursor: pointer; color: #333333; }
+.ps-form-control { height: 38px !important; border-radius: 8px !important; font-size: 13px !important; border: 1px solid #dcdfe6; width: 100%; max-width: 100%; }
+.ps-flex-inputs { display: flex; gap: 10px; width: 100%; }
 
-/* Modal */
-.ps-modal-header { background: #2c2c2c; }
-.ps-modal-header h4, .ps-modal-header .close { color: #fff !important; }
+/* Modal 弹窗 */
+.ps-modal-dialog { width: 500px; max-width: 92%; margin: 40px auto; }
+.ps-modal-dialog-lg { width: 680px; max-width: 92%; margin: 40px auto; }
+.ps-modal-content { border-radius: 14px; border: none; box-shadow: 0 20px 40px rgba(0,0,0,0.15); overflow: hidden; width: 100%; }
+.ps-modal-header { background: #1e2229; padding: 16px 20px; border-bottom: none; }
+.ps-modal-header h4, .ps-modal-header .close { color: #ffffff !important; opacity: 0.9; }
 
-/* Toast */
+/* Toast 提示框 */
 .ps-toast {
     position: fixed;
-    bottom: 30px;
+    bottom: 40px;
     left: 50%;
     transform: translateX(-50%) translateY(20px);
-    background: #333;
+    background: rgba(30, 34, 41, 0.9);
+    backdrop-filter: blur(10px);
     color: #fff;
-    padding: 10px 24px;
-    border-radius: 20px;
+    padding: 12px 28px;
+    border-radius: 24px;
     font-size: 13px;
     opacity: 0;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
     pointer-events: none;
-    z-index: 9999;
+    z-index: 99999;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 .ps-toast.show   { opacity: 1; transform: translateX(-50%) translateY(0); }
-.ps-toast.error  { background: #c0392b; }
+.ps-toast.error  { background: rgba(255, 59, 48, 0.95); }
 
-/* 日志 */
-.ps-log-time { font-size: 11px; color: #888; }
+/* 日志时间 */
+.ps-log-time { font-size: 11px; color: #86868b; }
+
+/* ==========================================================================
+   响应式多端断点适配策略：手机端卡片转换与绝对防溢出控制
+   ========================================================================== */
+
+.ps-mobile-card-list {
+    display: none;
+}
+.ps-desktop-table-view {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+}
+
+@media (max-width: 992px) {
+    .ps-col-8, .ps-col-4, .ps-col-left, .ps-col-right {
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .ps-desktop-table-view {
+        display: none !important;
+    }
+    .ps-mobile-card-list {
+        display: block !important;
+        width: 100%;
+    }
+    .container-fluid {
+        padding-left: 6px !important;
+        padding-right: 6px !important;
+    }
+    .ps-card-body {
+        padding: 8px !important;
+    }
+    
+    /* 手机卡片单元设计 */
+    .ps-m-card-item {
+        background: #fafafc;
+        border: 1px solid #e5e5ea;
+        border-radius: 10px;
+        padding: 12px;
+        margin-bottom: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        width: 100%;
+        max-width: 100%;
+    }
+    .ps-m-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #efeff4;
+        padding-bottom: 8px;
+        margin-bottom: 8px;
+        width: 100%;
+    }
+    .ps-m-title {
+        font-weight: 600;
+        font-size: 14px;
+        color: #1d1d1f;
+    }
+    .ps-m-card-body {
+        font-size: 12px;
+        color: #3a3a3c;
+        width: 100%;
+    }
+    .ps-m-row-main {
+        margin-bottom: 6px;
+    }
+    .ps-m-row-sub {
+        margin-bottom: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .ps-m-label {
+        color: #86868b;
+        font-weight: 500;
+    }
+    
+    /* 手机端大触控区操作按钮 (高度不低于 40px) */
+    .ps-m-card-footer {
+        margin-top: 10px;
+        padding-top: 8px;
+        border-top: 1px solid #efeff4;
+        display: flex;
+        gap: 6px;
+        width: 100%;
+    }
+    .ps-touch-btn {
+        min-height: 40px !important;
+        line-height: 26px !important;
+        font-size: 13px !important;
+        border-radius: 8px !important;
+        flex: 1;
+        font-weight: 500;
+    }
+    .text-right-md {
+        text-align: left !important;
+        margin-top: 6px;
+    }
+}
 </style>
 
 
 <script>
 var app = angular.module('priceSyncApp', []);
 app.controller('priceSyncCtrl', function($scope, $timeout, $http) {
-
 
     // ===================== 初始化 =====================
     $scope.exchangeTabs    = [
@@ -424,7 +700,6 @@ app.controller('priceSyncCtrl', function($scope, $timeout, $http) {
     $scope.currentExchange = 'shfe';
     $scope.quoteList       = [];
     $scope.allQuotesFlat   = [];
-    // 各交易所已加载的数据缓存
     var quotesCache = {};
     $scope.configList      = [];
     $scope.baseMaterials   = [];
@@ -438,10 +713,8 @@ app.controller('priceSyncCtrl', function($scope, $timeout, $http) {
     $scope.form            = {};
     $scope.logList         = [];
     $scope.logTarget       = '';
+    $scope.matCatGroups    = [];
 
-    $scope.matCatGroups = [];
-
-    // 页面加载
     loadQuotes('shfe');
     loadConfigList();
     loadMaterials();
@@ -467,7 +740,6 @@ app.controller('priceSyncCtrl', function($scope, $timeout, $http) {
                 c.auto_sync = Number(c.auto_sync);
                 return c;
             });
-            // 加载配置中涉及的所有交易所行情（未缓存的才请求）
             var exchanges = [];
             $scope.configList.forEach(function(c) {
                 if (c.exchange && exchanges.indexOf(c.exchange) === -1) {
@@ -499,7 +771,6 @@ app.controller('priceSyncCtrl', function($scope, $timeout, $http) {
         return q ? q.p : null;
     };
 
-    // 重建弹窗全量下拉列表
     var EXCHANGE_LABELS = { shfe:'上期所', dce:'大商所', czce:'郑商所', gfex:'广期所', ine:'上期能源', cffex:'中金所', global:'国际期货' };
     function rebuildAllQuotesFlat() {
         var flat = [];
@@ -511,7 +782,6 @@ app.controller('priceSyncCtrl', function($scope, $timeout, $http) {
         $scope.allQuotesFlat = flat;
     }
 
-    // 从后端加载指定交易所行情
     function loadQuotes(exchange, forceRefresh) {
         if (!forceRefresh && quotesCache[exchange]) {
             $scope.quoteList = quotesCache[exchange];
@@ -581,7 +851,6 @@ app.controller('priceSyncCtrl', function($scope, $timeout, $http) {
 
     $scope.onFormFuturesChange = function() {};
 
-    // 大类切换时过滤材料子列表
     $scope.onFormMatCatChange = function() {
         $scope.form.new_label_id = '';
         $scope.form.matSubList = $scope.baseMaterials.filter(function(m) {
@@ -592,7 +861,6 @@ app.controller('priceSyncCtrl', function($scope, $timeout, $http) {
     $scope.openEditConfig = function(c) {
         $scope.editMode = true;
         $scope.form = angular.copy(c);
-        // 回显大类和材料子列表
         var mat = $scope.baseMaterials.find(function(m){ return String(m.id) === String(c.new_label_id); });
         $scope.form.mat_cat    = mat ? mat.cat_name : '';
         $scope.form.matSubList = mat ? $scope.baseMaterials.filter(function(m){ return m.cat_name === mat.cat_name; }) : [];
@@ -606,7 +874,6 @@ app.controller('priceSyncCtrl', function($scope, $timeout, $http) {
         var mat = $scope.baseMaterials.find(function(m){ return String(m.id) === String($scope.form.new_label_id); });
         var q   = $scope.allQuotesFlat.find(function(x){ return x.dm === $scope.form.futures_code; });
 
-        console.log('[saveConfig] new_label_id=', $scope.form.new_label_id, 'type=', typeof $scope.form.new_label_id, 'baseMaterials.length=', $scope.baseMaterials.length, 'mat=', mat);
         if (!mat) return $scope.showToast('请选择映射材料', true);
 
         var postData = {
@@ -688,7 +955,6 @@ app.controller('priceSyncCtrl', function($scope, $timeout, $http) {
     };
 
     $scope.toggleAll = function() {
-        // 全选只选启用状态的配置
         $scope.configList.forEach(function(c){
             c.checked = $scope.allChecked ? !!c.auto_sync : false;
         });

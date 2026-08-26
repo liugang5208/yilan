@@ -1,313 +1,717 @@
-<div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
-    <div class="row">
-        <div class="col-lg-8 p-r-0 title-margin-right">
-            <div class="page-header">
-                <div class="page-title">
-                    <h1>用户等级</h1>
-                </div>
-            </div>
-        </div>
-        <!-- /# column -->
-        <div class="col-lg-4 p-l-0 title-margin-left">
-            <div class="page-header">
-                <div class="page-title">
-                    <!--ol class="breadcrumb text-right">
-                        <li><a href="#">Dashboard</a></li>
-                        <li class="active">UI-Blank</li>
-                    </ol-->
-                </div>
-            </div>
-        </div>
-        <!-- /# column -->
-    </div>
-    <!-- /# row -->
+<div class="container-fluid" style="max-width: 100%; margin: 0 auto; padding-top: 10px; padding-left: 0; padding-right: 0;" ng-app="myApp" ng-controller="myCtrl">
+    
+    <!-- 主内容卡片区域：左右彻底铺开，边缘零多余留白 -->
     <section id="main-content">
-
-        <div class="row">
-
-            <div class="col-lg-12">
-                <div class="card alert">
-                    <div class="card-header">
-                        <h4>用户等级</h4>
+        <div class="row" style="margin: 0;">
+            <div class="col-lg-12" style="padding: 0;">
+                <div class="card alert" style="background: #ffffff; border-radius: 12px; border: 1px solid rgba(0, 0, 0, 0.04); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04); padding: 20px; margin-bottom: 20px;">
+                    
+                    <!-- 卡片头部：页面大标题与添加按钮 -->
+                    <div class="card-header" style="background: transparent; border-bottom: 1px solid #f3f4f6; padding: 0 0 15px 0; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                        <h4 style="font-size: 16px; font-weight: 600; color: #111827; margin: 0; display: flex; align-items: center; gap: 8px;">
+                            <i class="ti-medall" style="color: #0066cc;"></i> 用户等级管理
+                        </h4>
                         <div class="card-header-right-icon">
-                            <ul>
-                                <li class="doc-link">
-                                    <a class="btn btn-xs btn-info" data-toggle="modal" data-target="#myModal">添加用户等级</a>
-                                </li>
-                            </ul>
+                            <a class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal" style="background-color: #0066cc; border-color: #0066cc; border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 500; color: #ffffff; display: flex; align-items: center; gap: 6px; text-decoration: none; cursor: pointer;">
+                                <i class="ti-plus"></i> 添加用户等级
+                            </a>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table">
+
+                    <!-- 数据展示主体区域 -->
+                    <div class="card-body" style="padding: 0;">
+                        
+                        <!-- 电脑端标准超宽表格视图 -->
+                        <div class="table-responsive desktop-table-view" style="border: none; overflow-x: auto; -webkit-overflow-scrolling: touch;">
+                            <table class="table desktop-search-table" style="width: 100%; min-width: 1450px; margin-bottom: 15px; border-collapse: collapse;">
                                 <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>名称</th>
-                                        <th>手动比率</th>
-                                        <th>沪铜主力</th>
-                                        <th>沪铝主力</th>
-                                        <th>是否包运费</th>
-                                        <th>标准1</th>
-                                        <th>标准2</th>
-                                        <th>标准3</th>
-                                        <th>状态</th>
-                                        <th width="15%">记录时间</th>
-                                        <th width="15%">管理</th>
+                                    <tr style="background-color: #f8fafc; border-bottom: 2px solid #e5e7eb;">
+                                        <th style="padding: 12px 12px; font-weight: 600; color: #4b5563; font-size: 12px; text-transform: uppercase; white-space: nowrap;">序号</th>
+                                        <th style="padding: 12px 12px; font-weight: 600; color: #4b5563; font-size: 12px; text-transform: uppercase; white-space: nowrap;">等级名称</th>
+                                        <th style="padding: 12px 12px; font-weight: 600; color: #4b5563; font-size: 12px; text-transform: uppercase; white-space: nowrap;">客服电话</th>
+                                        <th style="padding: 12px 10px; font-weight: 600; color: #4b5563; font-size: 12px; text-align: center; white-space: nowrap;">标准1</th>
+                                        <th style="padding: 12px 10px; font-weight: 600; color: #4b5563; font-size: 12px; text-align: center; white-space: nowrap;">标准2</th>
+                                        <th style="padding: 12px 10px; font-weight: 600; color: #4b5563; font-size: 12px; text-align: center; white-space: nowrap;">标准3</th>
+                                        <th style="padding: 12px 10px; font-weight: 600; color: #4b5563; font-size: 12px; text-align: center; white-space: nowrap;">标准4</th>
+                                        <th style="padding: 12px 10px; font-weight: 600; color: #4b5563; font-size: 12px; text-align: center; white-space: nowrap;">标准5</th>
+                                        <th style="padding: 12px 10px; font-weight: 600; color: #4b5563; font-size: 12px; text-align: center; white-space: nowrap;">标准6</th>
+                                        <th style="padding: 12px 10px; font-weight: 600; color: #4b5563; font-size: 12px; text-align: center; white-space: nowrap;">标准7</th>
+                                        <th style="padding: 12px 10px; font-weight: 600; color: #4b5563; font-size: 12px; text-align: center; white-space: nowrap;">标准8</th>
+                                        <th style="padding: 12px 10px; font-weight: 600; color: #4b5563; font-size: 12px; text-align: center; white-space: nowrap;">标准9</th>
+                                        <th style="padding: 12px 10px; font-weight: 600; color: #4b5563; font-size: 12px; text-align: center; white-space: nowrap;">标准10</th>
+                                        <th style="padding: 12px 12px; font-weight: 600; color: #4b5563; font-size: 12px; text-transform: uppercase; white-space: nowrap;">运费标识</th>
+                                        <th style="padding: 12px 12px; font-weight: 600; color: #4b5563; font-size: 12px; text-transform: uppercase; white-space: nowrap;">通调比例</th>
+                                        <th width="18%" style="padding: 12px 12px; font-weight: 600; color: #4b5563; font-size: 12px; text-transform: uppercase; white-space: nowrap;">操作管理</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                 <volist name="list.list" id="v">
-                                    <tr>
-                                        <th scope="row">{$v.id}</th>
-                                        <td>{$v.level}</td>
-                                        <td>{$v.up}%</td>
-                                        <td>{$v.up_a}%</td>
-                                        <td>{$v.up_b}%</td>
-                                        <td>{$v['trans']>0?'包运费':'不包运费'}</td>
-                                        <td>{$v['type_a']>0?'显示':'隐藏'}</td>
-                                        <td>{$v['type_b']>0?'显示':'隐藏'}</td>
-                                        <td>{$v['type_c']>0?'显示':'隐藏'}</td>
-                                        <td>{$v['status']>0?'正常':'暂停使用'}</td>
-                                        <td>{$v.times|date='Y/m/d H:i:s',###}</td>
-                                        <td>
-                                            <a class="btn btn-info btn-xs" href="{:U('Users/cats','id='.$v['id'])}">比例设定</a>
-                                            <a class="btn btn-info btn-xs" ng-click="updateInfo('{$v.id}')">更新</a>
-                                            <a class="btn btn-danger btn-xs" ng-click="dels('{$v.id}')">删除</a>
+                                    <tr style="border-bottom: 1px solid #f3f4f6; transition: background-color 0.15s ease;">
+                                        <th scope="row" style="padding: 14px 12px; font-weight: 500; color: #6b7280; vertical-align: middle;">{$v.id}</th>
+                                        <td style="padding: 14px 12px; font-weight: 600; color: #0066cc; vertical-align: middle; white-space: nowrap;">{$v.level}</td>
+                                        <!-- 新增客服电话展示列 -->
+                                        <td style="padding: 14px 12px; color: #374151; vertical-align: middle; white-space: nowrap; font-weight: 500;">{$v.tel}</td>
+                                        
+                                        <!-- 标准1至标准10 状态单元格 -->
+                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type_a']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_a']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type_a']>0?'展示':'隐藏'}</span></td>
+                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type_b']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_b']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type_b']>0?'展示':'隐藏'}</span></td>
+                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type_c']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_c']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type_c']>0?'展示':'隐藏'}</span></td>
+                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type_d']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_d']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type_d']>0?'展示':'隐藏'}</span></td>
+                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type_e']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_e']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type_e']>0?'展示':'隐藏'}</span></td>
+                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type_f']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_f']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type_f']>0?'展示':'隐藏'}</span></td>
+                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type_g']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_g']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type_g']>0?'展示':'隐藏'}</span></td>
+                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type_h']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_h']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type_h']>0?'展示':'隐藏'}</span></td>
+                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type_i']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_i']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type_i']>0?'展示':'隐藏'}</span></td>
+                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type_j']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_j']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type_j']>0?'展示':'隐藏'}</span></td>
+
+                                        <td style="padding: 14px 12px; color: #4b5563; vertical-align: middle; white-space: nowrap;">
+                                            <span style="background: {$v['trans']>0?'#ecfdf5':'#fef2f2'}; color: {$v['trans']>0?'#059669':'#dc2626'}; padding: 3px 8px; border-radius: 4px; font-size: 12px;">{$v['trans']>0?'包含运费':'不含运费'}</span>
+                                        </td>
+                                        <td style="padding: 14px 12px; font-weight: 600; color: #0284c7; vertical-align: middle; white-space: nowrap;">{$v.up}%</td>
+                                        <td style="padding: 14px 12px; vertical-align: middle; white-space: nowrap;">
+                                            <div style="display: flex; gap: 6px; align-items: center;">
+                                                <a class="btn btn-info btn-xs" href="{:U('Users/cats','id='.$v['id'])}" style="background-color: #0ea5e9; border-color: #0ea5e9; border-radius: 4px; padding: 4px 10px; color: #fff; font-size: 12px; text-decoration: none;">比例设定</a>
+                                                <!-- 更新按钮已按要求改为“等级设置” -->
+                                                <a class="btn btn-info btn-xs" ng-click="updateInfo('{$v.id}')" style="background-color: #3b82f6; border-color: #3b82f6; border-radius: 4px; padding: 4px 10px; color: #fff; font-size: 12px; cursor: pointer;">等级设置</a>
+                                                <a class="btn btn-danger btn-xs" ng-click="dels('{$v.id}')" style="background-color: #ef4444; border-color: #ef4444; border-radius: 4px; padding: 4px 10px; color: #fff; font-size: 12px; cursor: pointer;">删除等级</a>
+                                            </div>
                                         </td>
                                     </tr>
                                 </volist>
-
                                 </tbody>
                             </table>
-
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination">{$list.show}</ul>
-                            </nav>
-
                         </div>
+
+                        <!-- 手机端专属卡片堆叠视图 -->
+                        <div class="mobile-card-view">
+                            <volist name="list.list" id="v">
+                                <div class="search-record-card">
+                                    <!-- 卡片头部 -->
+                                    <div class="card-line-primary">
+                                        <div class="user-phone">
+                                            <i class="ti-medall" style="color: #0066cc;"></i> 
+                                            <span>{$v.level}</span>
+                                        </div>
+                                        <div class="record-id">序号: <span style="color: #0066cc; font-weight: 600;">{$v.id}</span></div>
+                                    </div>
+
+                                    <!-- 卡片核心参数 -->
+                                    <div class="card-line-grid">
+                                        <div class="grid-row">
+                                            <span class="grid-label">客服电话：</span>
+                                            <span class="grid-value" style="font-weight: 600; color: #1e293b;">{$v.tel}</span>
+                                        </div>
+                                        <div class="grid-row">
+                                            <span class="grid-label">通调比例：</span>
+                                            <span class="grid-value" style="font-weight: 600; color: #0284c7;">{$v.up}%</span>
+                                        </div>
+                                        <div class="grid-row">
+                                            <span class="grid-label">运费标识：</span>
+                                            <span class="grid-value">{$v['trans']>0?'包含运费':'不含运费'}</span>
+                                        </div>
+                                        
+                                        <!-- 标准状态概览 -->
+                                        <div class="grid-row" style="flex-direction: column; gap: 8px; margin-top: 4px;">
+                                            <span class="grid-label" style="width: 100%; font-weight: 600; color: #1e293b;">标准状态概览 (1-10)：</span>
+                                            
+                                            <!-- 第一排：标准1 到 标准5 -->
+                                            <div style="width: 100%;">
+                                                <div style="font-size: 11px; color: #64748b; margin-bottom: 4px; font-weight: 500;">第一排 (标准1 - 标准5)</div>
+                                                <div class="mobile-standards-row-grid">
+                                                    <div class="standard-item">
+                                                        <span class="std-name">标1</span>
+                                                        <span class="std-val" style="background: {$v['type_a']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_a']>0?'#15803d':'#64748b'};">{$v['type_a']>0?'展示':'隐藏'}</span>
+                                                    </div>
+                                                    <div class="standard-item">
+                                                        <span class="std-name">标2</span>
+                                                        <span class="std-val" style="background: {$v['type_b']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_b']>0?'#15803d':'#64748b'};">{$v['type_b']>0?'展示':'隐藏'}</span>
+                                                    </div>
+                                                    <div class="standard-item">
+                                                        <span class="std-name">标3</span>
+                                                        <span class="std-val" style="background: {$v['type_c']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_c']>0?'#15803d':'#64748b'};">{$v['type_c']>0?'展示':'隐藏'}</span>
+                                                    </div>
+                                                    <div class="standard-item">
+                                                        <span class="std-name">标4</span>
+                                                        <span class="std-val" style="background: {$v['type_d']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_d']>0?'#15803d':'#64748b'};">{$v['type_d']>0?'展示':'隐藏'}</span>
+                                                    </div>
+                                                    <div class="standard-item">
+                                                        <span class="std-name">标5</span>
+                                                        <span class="std-val" style="background: {$v['type_e']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_e']>0?'#15803d':'#64748b'};">{$v['type_e']>0?'展示':'隐藏'}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- 第二排：标准6 到 标准10 -->
+                                            <div style="width: 100%;">
+                                                <div style="font-size: 11px; color: #64748b; margin-bottom: 4px; font-weight: 500;">第二排 (标准6 - 标准10)</div>
+                                                <div class="mobile-standards-row-grid">
+                                                    <div class="standard-item">
+                                                        <span class="std-name">标6</span>
+                                                        <span class="std-val" style="background: {$v['type_f']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_f']>0?'#15803d':'#64748b'};">{$v['type_f']>0?'展示':'隐藏'}</span>
+                                                    </div>
+                                                    <div class="standard-item">
+                                                        <span class="std-name">标7</span>
+                                                        <span class="std-val" style="background: {$v['type_g']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_g']>0?'#15803d':'#64748b'};">{$v['type_g']>0?'展示':'隐藏'}</span>
+                                                    </div>
+                                                    <div class="standard-item">
+                                                        <span class="std-name">标8</span>
+                                                        <span class="std-val" style="background: {$v['type_h']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_h']>0?'#15803d':'#64748b'};">{$v['type_h']>0?'展示':'隐藏'}</span>
+                                                    </div>
+                                                    <div class="standard-item">
+                                                        <span class="std-name">标9</span>
+                                                        <span class="std-val" style="background: {$v['type_i']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_i']>0?'#15803d':'#64748b'};">{$v['type_i']>0?'展示':'隐藏'}</span>
+                                                    </div>
+                                                    <div class="standard-item">
+                                                        <span class="std-name">标10</span>
+                                                        <span class="std-val" style="background: {$v['type_j']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_j']>0?'#15803d':'#64748b'};">{$v['type_j']>0?'展示':'隐藏'}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <!-- 卡片底部操作按钮 -->
+                                    <div class="card-line-footer">
+                                        <div class="record-time" style="font-size: 11.5px; color: #94a3b8;">
+                                            <i class="ti-time"></i> 快捷操作
+                                        </div>
+                                        <div class="mobile-action-btns">
+                                            <a class="btn btn-info btn-xs" href="{:U('Users/cats','id='.$v['id'])}" style="background-color: #0ea5e9; border: none; border-radius: 6px; padding: 8px 12px; color: #fff; font-size: 12px; text-decoration: none;">比例设定</a>
+                                            <!-- 手机端操作按钮同步改为“等级设置” -->
+                                            <a class="btn btn-info btn-xs" ng-click="updateInfo('{$v.id}')" style="background-color: #3b82f6; border: none; border-radius: 6px; padding: 8px 14px; color: #fff; font-size: 12px; cursor: pointer;">等级设置</a>
+                                            <a class="btn btn-danger btn-xs" ng-click="dels('{$v.id}')" style="background-color: #ef4444; border: none; border-radius: 6px; padding: 8px 14px; color: #fff; font-size: 12px; cursor: pointer;">删除等级</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </volist>
+                        </div>
+
+                        <!-- 现代化分页导航 -->
+                        <div class="pagination-wrapper-box">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    {$list.show}
+                                </ul>
+                            </nav>
+                        </div>
+
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <!-- Modal -->
+    <!-- Modal: 添加等级（已加入客服电话输入项） -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document" style="width:35%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">添加等级</h4>
+        <div class="modal-dialog" role="document" style="max-width: 720px; width: 96%; margin: 20px auto;">
+            <div class="modal-content" style="border-radius: 12px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <div class="modal-header" style="border-bottom: 1px solid #f1f5f9; padding: 18px 24px;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size: 20px; font-weight: 300; opacity: 0.6;"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel" style="font-weight: 600; color: #1e293b; font-size: 16px;">添加用户等级</h4>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="padding: 20px 24px; max-height: 75vh; overflow-y: auto;">
+                    <form>
+                        <!-- 第一部分：基本信息 -->
+                        <div style="background: #f8fafc; padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; border: 1px solid #e2e8f0;">
+                            <div style="font-weight: 600; color: #334155; font-size: 13px; margin-bottom: 10px;">基本信息配置</div>
+                            <div class="row" style="display: flex; flex-wrap: wrap; margin: 0 -6px;">
+                                <div class="col-sm-3 col-xs-12" style="padding: 0 6px; margin-bottom: 10px;">
+                                    <label style="font-size: 12px; font-weight: 500; color: #475569; margin-bottom: 4px; display: block;">等级名称</label>
+                                    <input type="text" name="level" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 10px; font-size: 13px; width: 100%;"/>
+                                </div>
+                                <div class="col-sm-3 col-xs-12" style="padding: 0 6px; margin-bottom: 10px;">
+                                    <label style="font-size: 12px; font-weight: 500; color: #475569; margin-bottom: 4px; display: block;">客服电话</label>
+                                    <input type="text" name="tel" class="form-control" placeholder="请输入客服电话" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 10px; font-size: 13px; width: 100%;"/>
+                                </div>
+                                <div class="col-sm-3 col-xs-12" style="padding: 0 6px; margin-bottom: 10px;">
+                                    <label style="font-size: 12px; font-weight: 500; color: #475569; margin-bottom: 4px; display: block;">通调比率 (%)</label>
+                                    <input type="text" name="up" class="form-control" placeholder="留空或填数字" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 10px; font-size: 13px; width: 100%;"/>
+                                </div>
+                                <div class="col-sm-3 col-xs-12" style="padding: 0 6px; margin-bottom: 10px;">
+                                    <label style="font-size: 12px; font-weight: 500; color: #475569; margin-bottom: 4px; display: block;">运费与状态</label>
+                                    <div style="display: flex; gap: 6px;">
+                                        <select name="trans" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 8px; font-size: 12px; width: 50%;">
+                                            <option value="0">不含运费</option>
+                                            <option value="1">包含运费</option>
+                                        </select>
+                                        <select name="status" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 8px; font-size: 12px; width: 50%;">
+                                            <option value="1">使用</option>
+                                            <option value="0">暂停</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                    <form class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>名称</label>
-                                <input type="text" name="level" class="form-control"/>
+                        <!-- 第二部分：标准1 - 标准5（第一排，五列横排） -->
+                        <div style="background: #ffffff; padding: 12px 16px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #e2e8f0;">
+                            <div style="font-weight: 600; color: #15803d; font-size: 13px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;">
+                                <span>第一排：标准1 ~ 标准5 状态设定</span>
                             </div>
-                            <div class="form-group">
-                                <label>比率</label>
-                                <input type="text" name="up" class="form-control"/>
-                            </div>
-                            <div class="form-group">
-                                <label>沪铜主力</label>
-                                <input type="text" name="up_a" class="form-control"/>
-                            </div>
-                            <div class="form-group">
-                                <label>沪铝主力</label>
-                                <input type="text" name="up_b" class="form-control"/>
-                            </div>
-                            <div class="form-group">
-                                <label>是否包运费</label>
-                                <select name="trans" class="form-control">
-                                    <option value="0">不含运费</option>
-                                    <option value="1">含运费</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>标准1</label>
-                                <select name="type_a" class="form-control">
-                                    <option value="1">展现</option>
-                                    <option value="0">隐藏</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>标准2</label>
-                                <select name="type_b" class="form-control">
-                                    <option value="1">展现</option>
-                                    <option value="0">隐藏</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>标准3</label>
-                                <select name="type_c" class="form-control">
-                                    <option value="1">展现</option>
-                                    <option value="0">隐藏</option>
-                                </select>
+                            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;">
+                                <div>
+                                    <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准1</label>
+                                    <select name="type_a" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                        <option value="1">展示</option>
+                                        <option value="0">隐藏</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准2</label>
+                                    <select name="type_b" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                        <option value="1">展示</option>
+                                        <option value="0">隐藏</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准3</label>
+                                    <select name="type_c" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                        <option value="1">展示</option>
+                                        <option value="0">隐藏</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准4</label>
+                                    <select name="type_d" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                        <option value="1">展示</option>
+                                        <option value="0">隐藏</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准5</label>
+                                    <select name="type_e" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                        <option value="1">展示</option>
+                                        <option value="0">隐藏</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>状态</label>
-                                <select name="status" class="form-control">
-                                    <option value="1">使用</option>
-                                    <option value="0">暂停</option>
-                                </select>
+
+                        <!-- 第三部分：标准6 - 标准10（第二排，五列横排） -->
+                        <div style="background: #ffffff; padding: 12px 16px; border-radius: 8px; margin-bottom: 0; border: 1px solid #e2e8f0;">
+                            <div style="font-weight: 600; color: #15803d; font-size: 13px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;">
+                                <span>第二排：标准6 ~ 标准10 状态设定</span>
+                            </div>
+                            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;">
+                                <div>
+                                    <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准6</label>
+                                    <select name="type_f" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                        <option value="1">展示</option>
+                                        <option value="0">隐藏</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准7</label>
+                                    <select name="type_g" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                        <option value="1">展示</option>
+                                        <option value="0">隐藏</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准8</label>
+                                    <select name="type_h" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                        <option value="1">展示</option>
+                                        <option value="0">隐藏</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准9</label>
+                                    <select name="type_i" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                        <option value="1">展示</option>
+                                        <option value="0">隐藏</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准10</label>
+                                    <select name="type_j" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                        <option value="1">展示</option>
+                                        <option value="0">隐藏</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </form>
-
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" onclick="addor()">添加</button>
+                <div class="modal-footer" style="border-top: 1px solid #f1f5f9; padding: 16px 24px;">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="border-radius: 8px; padding: 8px 18px; font-size: 13px;">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="addor()" style="background-color: #0066cc; border-color: #0066cc; border-radius: 8px; padding: 8px 20px; font-size: 13px;">确认添加</button>
                 </div>
             </div>
         </div>
     </div>
 
-
-    <!-- Modal -->
+    <!-- Modal: 等级设置（原更新等级，增加客服电话绑定与文案优化） -->
     <div class="modal fade" id="myEdits" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document" style="width:35%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">更新等级</h4>
+        <div class="modal-dialog" role="document" style="max-width: 720px; width: 96%; margin: 20px auto;">
+            <div class="modal-content" style="border-radius: 12px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <div class="modal-header" style="border-bottom: 1px solid #f1f5f9; padding: 18px 24px;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size: 20px; font-weight: 300; opacity: 0.6;"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel" style="font-weight: 600; color: #1e293b; font-size: 16px;">等级设置</h4>
                 </div>
-                <div class="modal-body">
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>名称</label>
-                                <input type="text" name="level" class="form-control" ng-model="info.level"/>
-                            </div>
-                            <div class="form-group">
-                                <label>比率</label>
-                                <input type="text" name="up" class="form-control" ng-model="info.up"/>
-                            </div>
-                            <div class="form-group">
-                                <label>沪铜主力</label>
-                                <input type="text" name="up_a" class="form-control" ng-model="info.up_a"/>
-                            </div>
-                            <div class="form-group">
-                                <label>沪铝主力</label>
-                                <input type="text" name="up_b" class="form-control" ng-model="info.up_b"/>
-                            </div>
-                            <div class="form-group">
-                                <label>是否包运费</label>
-                                <select name="trans" class="form-control" ng-model="info.trans">
-                                    <option value="0">不含运费</option>
-                                    <option value="1">含运费</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>标准1</label>
-                                <select name="type_a" class="form-control" ng-model="info.type_a">
-                                    <option value="1">展现</option>
-                                    <option value="0">隐藏</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>标准2</label>
-                                <select name="type_b" class="form-control" ng-model="info.type_b">
-                                    <option value="1">展现</option>
-                                    <option value="0">隐藏</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>标准3</label>
-                                <select name="type_c" class="form-control" ng-model="info.type_c">
-                                    <option value="1">展现</option>
-                                    <option value="0">隐藏</option>
-                                </select>
+                <div class="modal-body" style="padding: 20px 24px; max-height: 75vh; overflow-y: auto;">
+                    <div>
+                        <!-- 第一部分：基本信息 -->
+                        <div style="background: #f8fafc; padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; border: 1px solid #e2e8f0;">
+                            <div style="font-weight: 600; color: #334155; font-size: 13px; margin-bottom: 10px;">基本信息配置</div>
+                            <div class="row" style="display: flex; flex-wrap: wrap; margin: 0 -6px;">
+                                <div class="col-sm-3 col-xs-12" style="padding: 0 6px; margin-bottom: 10px;">
+                                    <label style="font-size: 12px; font-weight: 500; color: #475569; margin-bottom: 4px; display: block;">等级名称</label>
+                                    <input type="text" name="level" class="form-control" ng-model="info.level" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 10px; font-size: 13px; width: 100%;"/>
+                                </div>
+                                <div class="col-sm-3 col-xs-12" style="padding: 0 6px; margin-bottom: 10px;">
+                                    <label style="font-size: 12px; font-weight: 500; color: #475569; margin-bottom: 4px; display: block;">客服电话</label>
+                                    <input type="text" name="tel" class="form-control" ng-model="info.tel" placeholder="请输入客服电话" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 10px; font-size: 13px; width: 100%;"/>
+                                </div>
+                                <div class="col-sm-3 col-xs-12" style="padding: 0 6px; margin-bottom: 10px;">
+                                    <label style="font-size: 12px; font-weight: 500; color: #475569; margin-bottom: 4px; display: block;">通调比率 (%)</label>
+                                    <input type="text" name="up" class="form-control" ng-model="info.up" placeholder="留空或填数字" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 10px; font-size: 13px; width: 100%;"/>
+                                </div>
+                                <div class="col-sm-3 col-xs-12" style="padding: 0 6px; margin-bottom: 10px;">
+                                    <label style="font-size: 12px; font-weight: 500; color: #475569; margin-bottom: 4px; display: block;">运费与状态</label>
+                                    <div style="display: flex; gap: 6px;">
+                                        <select name="trans" class="form-control" ng-model="info.trans" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 8px; font-size: 12px; width: 50%;">
+                                            <option value="0">不含运费</option>
+                                            <option value="1">包含运费</option>
+                                        </select>
+                                        <select name="status" class="form-control" ng-model="info.status" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 8px; font-size: 12px; width: 50%;">
+                                            <option value="1">使用</option>
+                                            <option value="0">暂停</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>状态</label>
-                                <select name="status" class="form-control" ng-model="info.status">
-                                    <option value="1">使用</option>
-                                    <option value="0">暂停</option>
-                                </select>
+                        <!-- 第二部分：标准1 - 标准5（第一排，五列横排） -->
+                        <div style="background: #ffffff; padding: 12px 16px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #e2e8f0;">
+                            <div style="font-weight: 600; color: #15803d; font-size: 13px; margin-bottom: 10px;">第一排：标准1 ~ 标准5 状态设定</div>
+                            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;">
+                                <div>
+                                    <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准1</label>
+                                    <select name="type_a" class="form-control" ng-model="info.type_a" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                        <option value="1">展示</option>
+                                        <option value="0">隐藏</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准2</label>
+                                    <select name="type_b" class="form-control" ng-model="info.type_b" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                        <option value="1">展示</option>
+                                        <option value="0">隐藏</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准3</label>
+                                    <select name="type_c" class="form-control" ng-model="info.type_c" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                        <option value="1">展示</option>
+                                        <option value="0">隐藏</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准4</label>
+                                    <select name="type_d" class="form-control" ng-model="info.type_d" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                        <option value="1">展示</option>
+                                        <option value="0">隐藏</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准5</label>
+                                    <select name="type_e" class="form-control" ng-model="info.type_e" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                        <option value="1">展示</option>
+                                        <option value="0">隐藏</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 第三部分：标准6 - 标准10（第二排，五列横排） -->
+                        <div style="background: #ffffff; padding: 12px 16px; border-radius: 8px; margin-bottom: 0; border: 1px solid #e2e8f0;">
+                            <div style="font-weight: 600; color: #15803d; font-size: 13px; margin-bottom: 10px;">第二排：标准6 ~ 标准10 状态设定</div>
+                            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;">
+                                <div>
+                                    <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准6</label>
+                                    <select name="type_f" class="form-control" ng-model="info.type_f" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                        <option value="1">展示</option>
+                                        <option value="0">隐藏</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准7</label>
+                                    <select name="type_g" class="form-control" ng-model="info.type_g" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                        <option value="1">展示</option>
+                                        <option value="0">隐藏</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准8</label>
+                                    <select name="type_h" class="form-control" ng-model="info.type_h" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                        <option value="1">展示</option>
+                                        <option value="0">隐藏</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准9</label>
+                                    <select name="type_i" class="form-control" ng-model="info.type_i" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                        <option value="1">展示</option>
+                                        <option value="0">隐藏</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准10</label>
+                                    <select name="type_j" class="form-control" ng-model="info.type_j" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                        <option value="1">展示</option>
+                                        <option value="0">隐藏</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" ng-click="updateOp()">更新</button>
+                <div class="modal-footer" style="border-top: 1px solid #f1f5f9; padding: 16px 24px;">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="border-radius: 8px; padding: 8px 18px; font-size: 13px;">取消</button>
+                    <button type="button" class="btn btn-primary" ng-click="updateOp()" style="background-color: #0066cc; border-color: #0066cc; border-radius: 8px; padding: 8px 20px; font-size: 13px;">确认更新</button>
                 </div>
             </div>
         </div>
     </div>
-    <!--cats Modal -->
+
+    <!-- Modal: 分类比例 -->
     <div class="modal fade" id="myEditsCats" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document" style="width:35%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">分类比例</h4>
+        <div class="modal-dialog" role="document" style="max-width: 500px; width: 92%; margin: 30px auto;">
+            <div class="modal-content" style="border-radius: 12px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <div class="modal-header" style="border-bottom: 1px solid #f1f5f9; padding: 18px 24px;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size: 20px; font-weight: 300; opacity: 0.6;"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel" style="font-weight: 600; color: #1e293b; font-size: 16px;">分类比例设定</h4>
                 </div>
-                <div class="modal-body">
-
-                   <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>id</th>
-                                        <th>名称</th>
-                                        <th>调整比率</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                <volist name="list" id="v">
-                                    <tr>
-                                        <th scope="row">{$v.id}</th>
-                                        <td>{$v.name}</td>
-                                        <td>{$v.up}%</td>
-                                   
-                                    </tr>
-                                </volist>
-
-                                </tbody>
-                            </table>
-
+                <div class="modal-body" style="padding: 24px; max-height: 70vh; overflow-y: auto;">
+                    <table class="table" style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background-color: #f8fafc; border-bottom: 2px solid #e5e7eb;">
+                                <th style="padding: 10px 12px; font-size: 12px; color: #4b5563;">ID</th>
+                                <th style="padding: 10px 12px; font-size: 12px; color: #4b5563;">名称</th>
+                                <th style="padding: 10px 12px; font-size: 12px; color: #4b5563;">调整比率</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="list" id="v">
+                            <tr style="border-bottom: 1px solid #f3f4f6;">
+                                <th scope="row" style="padding: 12px; color: #6b7280; font-weight: 500;">{$v.id}</th>
+                                <td style="padding: 12px; color: #1e293b; font-weight: 500;">{$v.name}</td>
+                                <td style="padding: 12px; color: #0284c7; font-weight: 600;">{$v.up}%</td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
                 </div>
-                
             </div>
         </div>
     </div>
-
-
 </div>
 
+<!-- 响应式与苹果极简商务风美化样式 -->
+<style>
+    /* 默认隐藏手机端卡片容器 */
+    .mobile-card-view {
+        display: none;
+    }
 
+    /* 电脑端表格斑马纹与平滑悬停效果 */
+    .desktop-search-table tbody tr:nth-child(odd) {
+        background-color: #fafbfc;
+    }
+    .desktop-search-table tbody tr:hover {
+        background-color: #f1f5f9 !important;
+    }
 
+    /* 分页导航容器包装 */
+    .pagination-wrapper-box {
+        margin-top: 24px;
+        padding-top: 16px;
+        border-top: 1px solid #f1f5f9;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .pagination-wrapper-box .pagination {
+        display: flex;
+        gap: 4px;
+        padding-left: 0;
+        list-style: none;
+        margin: 0;
+        white-space: nowrap;
+    }
+    .pagination-wrapper-box .pagination li a, 
+    .pagination-wrapper-box .pagination li span {
+        padding: 6px 12px;
+        border-radius: 6px;
+        border: 1px solid #e2e8f0;
+        color: #475569;
+        font-size: 13px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+    .pagination-wrapper-box .pagination li.active span,
+    .pagination-wrapper-box .pagination li a:hover {
+        background-color: #0066cc !important;
+        border-color: #0066cc !important;
+        color: #ffffff !important;
+    }
 
+    /* 手机端标准五列横排网格样式 */
+    .mobile-standards-row-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 4px;
+        background: #f8fafc;
+        padding: 6px;
+        border-radius: 6px;
+        border: 1px solid #e2e8f0;
+    }
+    .standard-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: #ffffff;
+        padding: 4px 2px;
+        border-radius: 4px;
+        border: 1px solid #f1f5f9;
+    }
+    .std-name {
+        font-size: 10px;
+        color: #64748b;
+        font-weight: 500;
+        margin-bottom: 2px;
+    }
+    .std-val {
+        font-size: 10px;
+        font-weight: 600;
+        padding: 1px 4px;
+        border-radius: 3px;
+    }
+
+    /* 响应式断点控制：当屏幕宽度小于等于 992px 时自动降级为手机卡片堆叠流式排版 */
+    @media (max-width: 992px) {
+        .desktop-table-view {
+            display: none !important;
+        }
+        .mobile-card-view {
+            display: flex !important;
+            flex-direction: column;
+            gap: 12px;
+        }
+        /* 手机端彻底铺开至左右两边，零边距 */
+        .container-fluid {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+        .card.alert {
+            padding: 12px 8px !important;
+            border-radius: 8px !important;
+        }
+
+        /* 手机端独立卡片造型 */
+        .search-record-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            margin: 0;
+        }
+
+        /* 卡片头部 */
+        .card-line-primary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 8px;
+        }
+        .card-line-primary .user-phone {
+            font-size: 15px;
+            font-weight: 600;
+            color: #0066cc;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .card-line-primary .record-id {
+            font-size: 12px;
+            color: #64748b;
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* 严格左对齐的网格布局 */
+        .card-line-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 13px;
+            padding: 2px 0;
+        }
+        .grid-row {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+        .grid-label {
+            width: 85px;
+            flex-shrink: 0;
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 400;
+        }
+        .grid-value {
+            flex-grow: 1;
+            color: #1e293b;
+            font-weight: 500;
+            text-align: left;
+            word-break: break-all;
+        }
+
+        /* 卡片底部操作按钮与时间区 */
+        .card-line-footer {
+            border-top: 1px solid #f1f5f9;
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .mobile-action-btns {
+            display: flex;
+            gap: 6px;
+        }
+
+        .pagination-wrapper-box {
+            justify-content: flex-start;
+            padding-bottom: 6px;
+        }
+    }
+</style>
+
+<!-- 数据处理与控制器脚本 -->
 <script>
-
     /**
-     * 添加
+     * 添加等级异步请求
      * @returns {undefined}
      */
     function addor() {
         var temp = $("form").serializeArray();
         var data = objToArray(temp);
         var baseurl = "{:U('Core/addon','model=users_level')}";
-        //////
+        
         $.ajax({
             url: baseurl,
             type: "post",
@@ -360,9 +764,6 @@
         $scope.updateInfoCats = function (id) {
             $scope.commAjax("{:U('Users/cats')}", {id: id}, function (res) {
                 $scope.info = res.data;
-                console.log(2333);
-                console.log(res.data);
-                //
                 $("#myEditsCats").modal("show");
             });
         }
@@ -370,7 +771,6 @@
         $scope.updateInfo = function (id) {
             $scope.commAjax("{:U('Core/infos','model=users_level')}", {ids: id}, function (res) {
                 $scope.info = res.data;
-                //
                 $("#myEdits").modal("show");
             });
         }
@@ -378,7 +778,7 @@
         $scope.updateOp = function () {
             var param = $scope.info;
             param.ids = param.id;
-            /////////
+            
             $.ajax({
                 url: "{:U('Core/edits','model=users_level')}",
                 type: "post",
@@ -407,7 +807,4 @@
         }
 
     });
-
 </script>
-
-

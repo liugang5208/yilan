@@ -1,12 +1,11 @@
 <?php
 
-$domin = array("x", "localhost", "192.168.2.4",);
-$status = array_search($_SERVER["SERVER_NAME"], $domin);
-#
-#$weburl = $status ? "http://localhost/yilan/" : "http://app.elccc.cn/";
-$weburl = $status ? "http://localhost:8088/" : "http://app.elccc.cn/";
-#$weburl = "http://app.elccc.cn/";
-$webimg = $weburl . "Public/uploads/";
+$serverName = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
+$httpHost = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $serverName;
+$localDomains = array('localhost', '127.0.0.1', '192.168.2.4', 'yilan.local');
+$isLocal = in_array($serverName, $localDomains, true) || in_array($httpHost, $localDomains, true);
+$weburl = $isLocal ? ('http://' . $httpHost . '/') : 'http://app.elccc.cn/';
+$webimg = $weburl . 'Public/uploads/';
 
 return array(
     'DB_TYPE' => 'mysql',
@@ -24,7 +23,7 @@ return array(
     'DB_PREFIX' => '',
     'URL_MODEL' => 2,
     'SESSION_OPTIONS' => array('save_path' => '/tmp'),
-    'APP_URL'   => $status ? 'http://localhost:8088' : '',
+    'APP_URL'   => $isLocal ? ('http://' . $httpHost) : '',
     'PAY_MODEL' => 0,
     "LAYOUT_ON" => true,
     "LAYOUT_NAME" => "layout",

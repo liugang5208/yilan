@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>易缆通商城 - 官方电子报价单详情</title>
+    <meta property="og:title" content="易缆通商城 - 官方电子报价单">
+    <meta property="og:description" content="专业电缆、光缆一站式直销与智能报价系统，点击查看完整报价明细。">
+    <meta property="og:type" content="website">
+
+    <!-- 引入 html2pdf.js 用于前端一键导出 PDF 存档 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        /* 苹果极简设计系统 (Apple HIG) 与高阶色彩定义 */
+        :root {
+            --apple-bg: #eef0f4;
+            --apple-card: #ffffff;
+            --apple-border: rgba(0, 0, 0, 0.08);
+            --apple-border-light: rgba(0, 0, 0, 0.04);
+            --apple-blue: #0071E3;
+            --apple-blue-hover: #0077ed;
+            --apple-gray: #86868b;
+            --text-main: #1d1d1f;
+            --accent-yellow: #fffad8;
+            --accent-yellow-border: #fceca4;
+            --danger-red: #d0021b;
+        }
+
+        /* 统一盒模型，杜绝一切由于 padding 导致的宽度溢出与裁断 */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 强制 html 始终显示垂直滚动条槽，彻底根除动态滚动条导致的左右微偏 */
+        html {
+            overflow-y: scroll;
+        }
+
+        body {
+            background-color: var(--apple-bg);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro SC", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 24px 12px;
+            overflow-x: hidden;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 794px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            margin: 0 auto;
+        }
+
+        /* A4 容器：严格限制最大宽度 794px，完美防止任何右侧裁断，左右绝对平均居中 */
+        .quote-sheet-container {
+            width: 100%;
+            max-width: 794px;
+            background: var(--apple-card);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--apple-border);
+            padding: 32px;
+            margin: 0 auto 24px auto;
+            position: relative;
+            word-wrap: break-word;
+            word-break: break-all;
+        }
+
+        /* 顶部品牌与单据编号黄金组合区（防断裂保护） */
+        .quote-header-brand {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--apple-border-light);
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .logo-box {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--apple-blue);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-box img {
+            max-height: 36px;
+            object-fit: contain;
+        }
+
+        .sheet-serial-meta {
+            text-align: right;
+            font-size: 11.5px;
+            color: var(--apple-gray);
+            line-height: 1.4;
+        }
+
+        .sheet-serial-meta span {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        /* 顶部质量标准与发票信息卡片（防断裂保护） */
+        .meta-header-card {
+            background: #fafafc;
+            border: 1px solid var(--apple-border-light);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12.5px;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .meta-header-card div {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .meta-header-card span {
+            color: var(--apple-blue);
+            font-weight: 500;
+        }
+
+        /* 核心商品网格表格区域（电脑端大表格，手机端自动切换为精美卡片流） */
+        .goods-table-wrapper {
+            border: 1px solid var(--apple-border);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background: #ffffff;
+            width: 100%;
+        }
+
+        .goods-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+            font-size: 12px;
+            table-layout: fixed;
+        }
+
+        thead {
+            display: table-header-group;
+        }
+
+        tr {
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .goods-table th {
+            background: #fafafc;
+            color: var(--apple-gray);
+            font-weight: 600;
+            padding: 10px 4px;
+            border-bottom: 1px solid var(--apple-border);
+            border-right: 1px solid var(--apple-border);
+            word-break: break-all;
+        }
+
+        .goods-table th:last-child {
+            border-right: none;
+        }
+
+        .goods-table td {
+            padding: 8px 4px;
+            border-bottom: 1px solid var(--apple-border);
+            border-right: 1px solid var(--apple-border);
+            color: var(--text-main);
+            vertical-align: middle;
+            word-break: break-all;
+        }
+
+        .goods-table td:last-child {
+            border-right: none;
+        }
+
+        .goods-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .goods-table tbody tr:nth-child(even) {
+            background-color: #fbfbfc;
+        }
+
+        .goods-table tbody tr:hover {
+            background-color: #f4f7fb;
+        }
+
+        /* 各列精确宽度控制 */
+        .col-no { width: 6%; }
+        .col-model { width: 30%; text-align: left; padding-left: 8px !important; }
+        .col-spec { width: 20%; font-weight: 600; }
+        .col-unit { width: 8%; }
+        .col-qty { width: 10%; font-weight: 500; }
+        .col-price { width: 12%; }
+        .col-total { width: 14%; font-weight: 600; color: var(--apple-blue); }
+
+        /* 手机端专属卡片容器（默认在电脑端隐藏，在手机端替代大表格，彻底消灭别扭感） */
+        .mobile-goods-cards {
+            display: none;
+        }
+
+        /* 报价备注标签栏（防断裂保护） */
+        .rep_tags {
+            background: var(--apple-blue);
+            border-radius: 8px;
+            color: white;
+            font-size: 13px;
+            font-weight: 500;
+            height: 38px;
+            line-height: 38px;
+            margin-top: 20px;
+            margin-bottom: 12px;
+            padding: 0 16px;
+            box-shadow: 0 2px 8px rgba(0, 113, 227, 0.2);
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        /* 苹果风格的表单明细列表 */
+        .ion-list {
+            background: #ffffff;
+            border: 1px solid var(--apple-border);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .ion-item {
+            border-bottom: 1px solid var(--apple-border);
+            display: flex;
+            min-height: 42px;
+            align-items: center;
+            font-size: 13px;
+            padding: 0 12px;
+            transition: background 0.15s;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .ion-item:hover {
+            background: #f9f9fb;
+        }
+
+        .ion-item:last-child {
+            border-bottom: none;
+        }
+
+        .ion-label {
+            flex: 2;
+            color: var(--apple-gray);
+            font-weight: 500;
+        }
+
+        .ion-input-val {
+            flex: 4;
+            text-align: right;
+            color: var(--apple-blue);
+            font-weight: 600;
+            word-break: break-all;
+        }
+
+        /* 底部合计结算框（防断裂保护） */
+        .totals {
+            background: var(--accent-yellow);
+            border: 1px solid var(--accent-yellow-border);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 24px;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .totals p {
+            font-size: 13px;
+            margin-bottom: 8px;
+            color: #4a4000;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .totals p:last-child {
+            margin-bottom: 0;
+        }
+
+        .totals p span {
+            color: var(--danger-red);
+            font-weight: 700;
+        }
+
+        /* 页面底部操作及版权栏（防断裂保护） */
+        .footer {
+            padding: 12px 0;
+            text-align: center;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .footer img {
+            width: 140px;
+            opacity: 0.7;
+            margin-bottom: 16px;
+        }
+
+        .action-buttons {
+            width: 100%;
+            max-width: 794px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            height: 48px;
+            border-radius: 10px;
+            border: none;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn-primary {
+            background: var(--apple-blue);
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 113, 227, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: var(--apple-blue-hover);
+        }
+
+        .btn-secondary {
+            background: white;
+            border: 1px solid var(--apple-border);
+            color: var(--text-main);
+        }
+
+        .btn-secondary:hover {
+            background: #f5f5f7;
+        }
+
+        /* 移动端完美自适应：彻底改造手机端商品展示，由挤压表格变为优雅现代的移动端微卡片流 */
+        @media (max-width: 820px) {
+            body { 
+                padding: 8px 4px; 
+                align-items: flex-start; 
+                display: block; /* 修复手机端居中偏左问题，确保100%全屏流式铺开 */
+            }
+            .page-wrapper { width: 100% !important; max-width: 100% !important; }
+            .quote-sheet-container { width: 100% !important; max-width: 100% !important; padding: 14px 10px; border-radius: 10px; }
+            .action-buttons { width: 100% !important; max-width: 100% !important; }
+            
+            /* 核心：手机端隐藏拥挤的PC大表格，开启现代移动端卡片流 */
+            .goods-table-wrapper {
+                display: none !important;
+            }
+            .mobile-goods-cards {
+                display: flex !important;
+                flex-direction: column;
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+            .m-goods-card {
+                background: #fafafc;
+                border: 1px solid var(--apple-border);
+                border-radius: 8px;
+                padding: 12px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            }
+            .m-card-top {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 6px;
+                padding-bottom: 6px;
+                border-bottom: 1px solid var(--apple-border-light);
+            }
+            .m-card-row {
+                display: flex;
+                justify-content: space-between;
+                font-size: 12.5px;
+                margin-bottom: 4px;
+            }
+            .m-card-row span.label {
+                color: var(--apple-gray);
+            }
+            .m-card-row span.val {
+                font-weight: 500;
+                color: var(--text-main);
+            }
+
+            .quote-header-brand { flex-direction: column; align-items: flex-start; gap: 8px; }
+            .sheet-serial-meta { text-align: left; }
+            .meta-header-card { flex-direction: column; align-items: flex-start; gap: 6px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <!-- A4 核心报价单页面容器（用于导出 PDF 与完美展示全部内容） -->
+        <div class="quote-sheet-container" id="pdf-container">
+            
+            <!-- 商城顶部品牌与单据编号区 -->
+            <div class="quote-header-brand">
+                <div class="logo-box">
+                    {$logo} <span>易缆通商城</span>
+                </div>
+                <div class="sheet-serial-meta">
+                    报价单号：<span>QT-20260816-8892</span><br/>
+                    生成日期：<span>2026-08-16 (3天有效)</span>
+                </div>
+            </div>
+
+            <!-- 质量与发票状态栏 -->
+            <div class="meta-header-card">
+                <div>质量标准：<span>{$infos.trans_bids}</span></div>
+                <div>
+                    发票要求：
+                    <span>
+                        {$ratio<1?'不含税票':''}
+                        {$ratio>0 && $ratio<7?'含普通发票':''}
+                        {$ratio>7?'含专用发票':''}
+                    </span>
+                </div>
+            </div>
+
+            <!-- 电脑端核心商品网格表格区域（PC端保持专业大表格） -->
+            <div class="goods-table-wrapper">
+                <table class="goods-table">
+                    <thead>
+                        <tr>
+                            <th class="col-no">序号</th>
+                            <th class="col-model">电压 / 型号 / 名称</th>
+                            <th class="col-spec">产品规格</th>
+                            <th class="col-unit">单位</th>
+                            <th class="col-qty">数量</th>
+                            <th class="col-price">单价(元)</th>
+                            <th class="col-total">合计(元)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 后端动态循环标签示例 (如 ThinkPHP 语法: <volist name="goods_list" id="vo" key="k"> ) -->
+                        <tr>
+                            <td class="col-no">1</td>
+                            <td class="col-model">
+                                <div style="font-weight: 600; color: var(--text-main);">8.7/15kV - ZC-YJV</div>
+                                <div style="font-size: 10px; color: var(--apple-gray); margin-top: 1px;">电力电缆</div>
+                            </td>
+                            <td class="col-spec">3*95+1*50</td>
+                            <td class="col-unit">米</td>
+                            <td class="col-qty">500</td>
+                            <td class="col-price">128.50</td>
+                            <td class="col-total">64,250.00</td>
+                        </tr>
+                        <tr>
+                            <td class="col-no">2</td>
+                            <td class="col-model">
+                                <div style="font-weight: 600; color: var(--text-main);">0.6/1kV - WDZ-YJY</div>
+                                <div style="font-size: 10px; color: var(--apple-gray); margin-top: 1px;">阻燃电力电缆</div>
+                            </td>
+                            <td class="col-spec">4*16+1*10</td>
+                            <td class="col-unit">米</td>
+                            <td class="col-qty">1,200</td>
+                            <td class="col-price">45.20</td>
+                            <td class="col-total">54,240.00</td>
+                        </tr>
+                        <tr>
+                            <td class="col-no">3</td>
+                            <td class="col-model">
+                                <div style="font-weight: 600; color: var(--text-main);">450/750V - KVV</div>
+                                <div style="font-size: 10px; color: var(--apple-gray); margin-top: 1px;">控制电缆</div>
+                            </td>
+                            <td class="col-spec">7*1.5</td>
+                            <td class="col-unit">米</td>
+                            <td class="col-qty">800</td>
+                            <td class="col-price">12.80</td>
+                            <td class="col-total">10,240.00</td>
+                        </tr>
+                        <tr>
+                            <td class="col-no">4</td>
+                            <td class="col-model">
+                                <div style="font-weight: 600; color: var(--text-main);">450/750V - BVR</div>
+                                <div style="font-size: 10px; color: var(--apple-gray); margin-top: 1px;">铜芯绝缘软线</div>
+                            </td>
+                            <td class="col-spec">4平方</td>
+                            <td class="col-unit">卷</td>
+                            <td class="col-qty">50</td>
+                            <td class="col-price">210.00</td>
+                            <td class="col-total">10,500.00</td>
+                        </tr>
+                        <tr>
+                            <td class="col-no">5</td>
+                            <td class="col-model">
+                                <div style="font-weight: 600; color: var(--text-main);">8.7/15kV - YJV22</div>
+                                <div style="font-size: 10px; color: var(--apple-gray); margin-top: 1px;">铠装电力电缆</div>
+                            </td>
+                            <td class="col-spec">3*150+2*70</td>
+                            <td class="col-unit">米</td>
+                            <td class="col-qty">300</td>
+                            <td class="col-price">285.00</td>
+                            <td class="col-total">85,500.00</td>
+                        </tr>
+                        <!-- 循环结束标签提示: </volist> -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 手机端专属卡片流视图（手机上完美自动展开，告别挤压变形与别扭感） -->
+            <div class="mobile-goods-cards">
+                <div class="m-goods-card">
+                    <div class="m-card-top">
+                        <span style="font-weight: 600; color: var(--apple-blue);">#1 8.7/15kV - ZC-YJV</span>
+                        <span style="font-size: 11px; color: var(--apple-gray);">电力电缆</span>
+                    </div>
+                    <div class="m-card-row"><span class="label">产品规格</span><span class="val">3*95+1*50</span></div>
+                    <div class="m-card-row"><span class="label">数量 / 单位</span><span class="val">500 米</span></div>
+                    <div class="m-card-row"><span class="label">单价</span><span class="val">￥128.50</span></div>
+                    <div class="m-card-row" style="margin-top: 4px; border-top: 1px dashed var(--apple-border); padding-top: 4px;">
+                        <span class="label" style="font-weight: 600; color: var(--text-main);">合计金额</span>
+                        <span class="val" style="color: var(--apple-blue); font-size: 14px; font-weight: 700;">￥64,250.00</span>
+                    </div>
+                </div>
+
+                <div class="m-goods-card">
+                    <div class="m-card-top">
+                        <span style="font-weight: 600; color: var(--apple-blue);">#2 0.6/1kV - WDZ-YJY</span>
+                        <span style="font-size: 11px; color: var(--apple-gray);">阻燃电力电缆</span>
+                    </div>
+                    <div class="m-card-row"><span class="label">产品规格</span><span class="val">4*16+1*10</span></div>
+                    <div class="m-card-row"><span class="label">数量 / 单位</span><span class="val">1,200 米</span></div>
+                    <div class="m-card-row"><span class="label">单价</span><span class="val">￥45.20</span></div>
+                    <div class="m-card-row" style="margin-top: 4px; border-top: 1px dashed var(--apple-border); padding-top: 4px;">
+                        <span class="label" style="font-weight: 600; color: var(--text-main);">合计金额</span>
+                        <span class="val" style="color: var(--apple-blue); font-size: 14px; font-weight: 700;">￥54,240.00</span>
+                    </div>
+                </div>
+
+                <div class="m-goods-card">
+                    <div class="m-card-top">
+                        <span style="font-weight: 600; color: var(--apple-blue);">#3 450/750V - KVV</span>
+                        <span style="font-size: 11px; color: var(--apple-gray);">控制电缆</span>
+                    </div>
+                    <div class="m-card-row"><span class="label">产品规格</span><span class="val">7*1.5</span></div>
+                    <div class="m-card-row"><span class="label">数量 / 单位</span><span class="val">800 米</span></div>
+                    <div class="m-card-row"><span class="label">单价</span><span class="val">￥12.80</span></div>
+                    <div class="m-card-row" style="margin-top: 4px; border-top: 1px dashed var(--apple-border); padding-top: 4px;">
+                        <span class="label" style="font-weight: 600; color: var(--text-main);">合计金额</span>
+                        <span class="val" style="color: var(--apple-blue); font-size: 14px; font-weight: 700;">￥10,240.00</span>
+                    </div>
+                </div>
+
+                <div class="m-goods-card">
+                    <div class="m-card-top">
+                        <span style="font-weight: 600; color: var(--apple-blue);">#4 450/750V - BVR</span>
+                        <span style="font-size: 11px; color: var(--apple-gray);">铜芯绝缘软线</span>
+                    </div>
+                    <div class="m-card-row"><span class="label">产品规格</span><span class="val">4平方</span></div>
+                    <div class="m-card-row"><span class="label">数量 / 单位</span><span class="val">50 卷</span></div>
+                    <div class="m-card-row"><span class="label">单价</span><span class="val">￥210.00</span></div>
+                    <div class="m-card-row" style="margin-top: 4px; border-top: 1px dashed var(--apple-border); padding-top: 4px;">
+                        <span class="label" style="font-weight: 600; color: var(--text-main);">合计金额</span>
+                        <span class="val" style="color: var(--apple-blue); font-size: 14px; font-weight: 700;">￥10,500.00</span>
+                    </div>
+                </div>
+
+                <div class="m-goods-card">
+                    <div class="m-card-top">
+                        <span style="font-weight: 600; color: var(--apple-blue);">#5 8.7/15kV - YJV22</span>
+                        <span style="font-size: 11px; color: var(--apple-gray);">铠装电力电缆</span>
+                    </div>
+                    <div class="m-card-row"><span class="label">产品规格</span><span class="val">3*150+2*70</span></div>
+                    <div class="m-card-row"><span class="label">数量 / 单位</span><span class="val">300 米</span></div>
+                    <div class="m-card-row"><span class="label">单价</span><span class="val">￥285.00</span></div>
+                    <div class="m-card-row" style="margin-top: 4px; border-top: 1px dashed var(--apple-border); padding-top: 4px;">
+                        <span class="label" style="font-weight: 600; color: var(--text-main);">合计金额</span>
+                        <span class="val" style="color: var(--apple-blue); font-size: 14px; font-weight: 700;">￥85,500.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 报价单备注信息标签 -->
+            <div class="rep_tags">报价单备注信息与交易条款</div>
+
+            <!-- 苹果风格设置项表单展示列表 -->
+            <div class="ion-list">
+                <div class="ion-item">
+                    <div class="ion-label">付款方式:</div>
+                    <div class="ion-input-val">{$infos.check_type} (先款后货 / 30%定金)</div>
+                </div>
+                <div class="ion-item">
+                    <div class="ion-label">运输方式:</div>
+                    <div class="ion-input-val">{$infos.trans_type} (专车直达工地)</div>
+                </div>
+                <div class="ion-item">
+                    <div class="ion-label">运输费用:</div>
+                    <div class="ion-input-val">{$infos.fees_out} (含运费至指定交货点)</div>
+                </div>
+                <div class="ion-item">
+                    <div class="ion-label">包装选项:</div>
+                    <div class="ion-input-val">{$infos.pack_recyle} (优质铁木盘包装)</div>
+                </div>
+                <div class="ion-item">
+                    <div class="ion-label">报价单位:</div>
+                    <div class="ion-input-val">{$infos.rep_comp} (易缆通商城直销中心)</div>
+                </div>
+                <div class="ion-item">
+                    <div class="ion-label">询价单位:</div>
+                    <div class="ion-input-val">{$infos.question_comp} (某某电力工程有限公司)</div>
+                </div>
+                <div class="ion-item">
+                    <div class="ion-label">项目名称:</div>
+                    <div class="ion-input-val">{$infos.project_comp} (某市智能输配电改造项目)</div>
+                </div>
+                <div class="ion-item">
+                    <div class="ion-label">报价人员:</div>
+                    <div class="ion-input-val">{$infos.rep_user} (AI电缆专家系统)</div>
+                </div>
+                <div class="ion-item">
+                    <div class="ion-label">联系方式:</div>
+                    <div class="ion-input-val">{$infos.rep_phone} (400-888-9999)</div>
+                </div>
+                <div class="ion-item" style="height: auto; min-height: 56px; padding: 10px 12px;">
+                    <div class="ion-label">报价备注:</div>
+                    <div class="ion-input-val" style="font-weight: 400; font-size: 12px; line-height: 1.4;">{$infos.tags} 本报价单自生成之日起3天内有效，铜价按当日长江现货铜价浮动结算。</div>
+                </div>
+            </div>
+
+            <!-- 底部汇总金额区块 -->
+            <div class="totals">
+                <p>商品总条数：动态统计    <span>合计数量：2,450 单位</span></p>
+                <p>订单合计金额：<span>￥224,490.00 元</span></p>
+                <p>订单合计大写金额：<span>人民币贰拾贰万肆仟肆佰玖拾元整</span></p>
+                <p>订单税率标识：<span>增值税专用发票 (13%税率)</span></p>
+            </div>
+
+            <!-- 底部认证/版权水印 -->
+            <div class="footer">
+                <img src="__PUBLIC__/assets/images/login_footer2.png" alt="Yilantong Footer" />
+            </div>
+        </div>
+
+        <!-- 外部操作按钮区（独立包装，客户通过专属纯净链接打开时会自动隐藏，绝对无导航遮挡） -->
+        <div class="action-buttons" id="action-buttons-box">
+            <button class="btn btn-primary" onclick="downloadPDF()">将当前报价单完整导出为 PDF 存档（防截断无空白）</button>
+            <button class="btn btn-secondary" onclick="copyPureShareLink()">一键复制专属客户纯净直达链接（点开直达报价单，绝无导航栏遮挡）</button>
+        </div>
+    </div>
+
+    <!-- 前端核心控制脚本：智能判断纯净分享模式并实现无遮挡、防截断 -->
+    <script>
+        // 架构师底层架构：页面加载瞬间自动检测URL是否带有 ?pure=1 纯净分享标识
+        window.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('pure') === '1' || urlParams.get('mode') === 'pure') {
+                // 如果是客户点开的纯净分享链接，瞬间自动隐藏下方的按钮区，确保整个屏幕只展示高档大气的报价单内容，零干扰、零遮挡！
+                const actionBox = document.getElementById('action-buttons-box');
+                if (actionBox) {
+                    actionBox.style.display = 'none';
+                }
+            }
+        });
+
+        function downloadPDF() {
+            const element = document.getElementById('pdf-container');
+            const options = {
+                margin:       [5, 5, 5, 5],
+                filename:     '易缆通商城正式报价单详情.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { 
+                    scale: 2, 
+                    useCORS: true, 
+                    logging: false, 
+                    letterRendering: true,
+                    scrollY: 0 
+                },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().from(element).set(options).save();
+        }
+
+        function copyPureShareLink() {
+            // 自动生成自带 ?pure=1 的纯净链接，把后台系统的侧边栏与顶部导航彻底隔离在外！
+            const baseUrl = window.location.href.split('?')[0];
+            const pureShareUrl = baseUrl + '?pure=1&quotation_id=QT-20260816-8892';
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(pureShareUrl).then(() => {
+                    alert('专属客户纯净直达链接已成功复制！\n链接地址：\n' + pureShareUrl + '\n提示：客户点开后满屏只看报价单核心内容，绝对没有任何商城后台导航栏遮挡！');
+                }).catch(err => {
+                    fallbackCopy(pureShareUrl);
+                });
+            } else {
+                fallbackCopy(pureShareUrl);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.opacity = "0";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    alert('纯净报价单链接已成功复制！\n链接地址：\n' + text);
+                } else {
+                    alert('复制失败，请手动长按复制链接：\n' + text);
+                }
+            } catch (err) {
+                alert('您的浏览器暂不支持自动复制，请手动复制链接：\n' + text);
+            }
+            document.body.removeChild(textArea);
+        }
+    </script>
+</body>
+</html>

@@ -1,30 +1,37 @@
+<style>
+/* 苹果极简商务风与响应式核心精简样式 */
+.container-fluid { max-width: 1560px; margin: 0 auto; padding: 20px; }
+.card.alert { background: #fff; border: none; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.04); margin-bottom: 24px; }
+.card-header { background: #fff; border-bottom: 1px solid #f0f0f2; padding: 20px; display: flex; align-items: center; justify-content: space-between; }
+.card-header h4 { font-size: 16px; font-weight: 600; color: #111; margin: 0; }
+.card-body { padding: 20px; }
+.table > thead > tr > th { background-color: #fafafc; color: #86868b; font-weight: 600; font-size: 12px; border-bottom: 1px solid #e5e5ea; padding: 12px 16px; }
+.table > tbody > tr > td { padding: 14px 16px; vertical-align: middle; border-top: 1px solid #f2f2f7; color: #1d1d1f; }
+.table > tbody > tr:nth-of-type(odd) { background-color: #fbfbfd; }
+.table > tbody > tr:hover { background-color: #f5f5f7; }
+.status-tag { display: inline-block; padding: 3px 8px; font-size: 12px; border-radius: 6px; font-weight: 500; }
+.status-normal { background: #e8f8f0; color: #10b981; }
+.status-paused { background: #fef2f2; color: #ef4444; }
+.btn-xs { border-radius: 6px; padding: 5px 10px; font-size: 12px; }
+.mobile-cards { display: none; }
+@media (max-width: 768px) {
+    .desktop-table { display: none; }
+    .mobile-cards { display: block; }
+    .m-card { background: #fff; border: 1px solid #f0f0f2; border-radius: 10px; padding: 16px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    .m-card-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f2f2f7; padding-bottom: 8px; margin-bottom: 10px; font-weight: 600; }
+    .m-card-body { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 13px; margin-bottom: 12px; }
+    .m-item label { color: #86868b; font-size: 11px; display: block; margin-bottom: 2px; }
+    .m-card-actions { display: flex; flex-wrap: wrap; gap: 6px; border-top: 1px solid #f2f2f7; padding-top: 10px; }
+    .m-card-actions .btn { flex: 1; min-width: 30%; height: 38px; display: flex; align-items: center; justify-content: center; }
+}
+.modal-content { border-radius: 14px; border: none; box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+.form-control { border-radius: 8px; height: 42px; border: 1px solid #d2d2d7; }
+.form-control:focus { border-color: #0071e3; box-shadow: 0 0 0 3px rgba(0,113,227,0.15); }
+</style>
+
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-8 p-r-0 title-margin-right">
-            <div class="page-header">
-                <div class="page-title">
-                    <h1>店铺管理</h1>
-                </div>
-            </div>
-        </div>
-        <!-- /# column -->
-        <div class="col-lg-4 p-l-0 title-margin-left">
-            <div class="page-header">
-                <div class="page-title">
-                    <!--ol class="breadcrumb text-right">
-                        <li><a href="#">Dashboard</a></li>
-                        <li class="active">UI-Blank</li>
-                    </ol-->
-                </div>
-            </div>
-        </div>
-        <!-- /# column -->
-    </div>
-    <!-- /# row -->
     <section id="main-content">
-
         <div class="row">
-
             <div class="col-lg-12">
                 <div class="card alert">
                     <div class="card-header">
@@ -32,13 +39,14 @@
                         <div class="card-header-right-icon">
                             <ul>
                                 <li class="doc-link">
-                                    <a class="btn btn-xs btn-info" data-toggle="modal" data-target="#myModal">添加店铺</a>
+                                    <a class="btn btn-xs btn-info" data-toggle="modal" data-target="#myModal" style="background:#0071e3; border:none; border-radius:6px; padding:6px 14px;">添加店铺</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
+                        <!-- 电脑端表格视图 -->
+                        <div class="table-responsive desktop-table">
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -52,14 +60,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                 <volist name="list.list" id="v">
                                     <tr>
                                         <th scope="row">{$v.id}</th>
-                                        <td>{$v.name}</td>
+                                        <td><strong>{$v.name}</strong></td>
                                         <td>{$v.qicq}</td>
                                         <td>{$v.phone}</td>
-                                        <td>{$v['status']>0?'正常':'暂停使用'}</td>
+                                        <td>
+                                            <if condition="$v['status'] gt 0">
+                                                <span class="status-tag status-normal">正常</span>
+                                            <else />
+                                                <span class="status-tag status-paused">暂停使用</span>
+                                            </if>
+                                        </td>
                                         <td>{$v.times|date='Y/m/d H:i:s',###}</td>
                                         <td>
                                             <a href="{:U('Shops/index_cats','id='.$v['id'])}" class="btn btn-info btn-xs">分类管理</a>
@@ -70,46 +83,78 @@
                                         </td>
                                     </tr>
                                 </volist>
-
                                 </tbody>
                             </table>
-
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination">{$list.show}</ul>
-                            </nav>
-
                         </div>
+
+                        <!-- 手机端卡片式折叠视图 -->
+                        <div class="mobile-cards">
+                            <volist name="list.list" id="v">
+                                <div class="m-card">
+                                    <div class="m-card-header">
+                                        <span>#{$v.id} - {$v.name}</span>
+                                        <if condition="$v['status'] gt 0">
+                                            <span class="status-tag status-normal">正常</span>
+                                        <else />
+                                            <span class="status-tag status-paused">暂停</span>
+                                        </if>
+                                    </div>
+                                    <div class="m-card-body">
+                                        <div class="m-item">
+                                            <label>QQ号码</label>
+                                            <span>{$v.qicq}</span>
+                                        </div>
+                                        <div class="m-item">
+                                            <label>联系电话</label>
+                                            <span>{$v.phone}</span>
+                                        </div>
+                                        <div class="m-item" style="grid-column: span 2;">
+                                            <label>记录时间</label>
+                                            <span>{$v.times|date='Y/m/d H:i:s',###}</span>
+                                        </div>
+                                    </div>
+                                    <div class="m-card-actions">
+                                        <a href="{:U('Shops/index_cats','id='.$v['id'])}" class="btn btn-info btn-xs">分类管理</a>
+                                        <a href="{:U('Shops/index_info','id='.$v['id'].'&tar=product')}" class="btn btn-info btn-xs">简介管理</a>
+                                        <a href="{:U('Shops/index_info','id='.$v['id'].'&tar=licence')}" class="btn btn-info btn-xs">资质管理</a>
+                                        <a href="{:U('Shops/index_info','id='.$v['id'].'&tar=tickets')}" class="btn btn-info btn-xs">发票管理</a>
+                                        <a href="javascript:dels('{$v.id}');" class="btn btn-danger btn-xs" style="flex-basis:100%;">删除店铺</a>
+                                    </div>
+                                </div>
+                            </volist>
+                        </div>
+
+                        <nav aria-label="Page navigation" style="text-align: center;">
+                            <ul class="pagination">{$list.show}</ul>
+                        </nav>
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 </div>
 
-
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document" style="width:35%;">
+    <div class="modal-dialog" role="document" style="width:90%; max-width:450px; margin:40px auto;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">添加店铺</h4>
             </div>
             <div class="modal-body">
-
                 <form>
                     <div class="form-group">
                         <label>店铺名称</label>
-                        <input type="text" name="name" class="form-control"/>
+                        <input type="text" name="name" class="form-control" placeholder="请输入店铺名称"/>
                     </div>
                     <div class="form-group">
                         <label>QQ</label>
-                        <input type="text" name="qicq" class="form-control"/>
+                        <input type="text" name="qicq" class="form-control" placeholder="请输入QQ"/>
                     </div>
                     <div class="form-group">
                         <label>电话</label>
-                        <input type="text" name="phone" class="form-control"/>
+                        <input type="text" name="phone" class="form-control" placeholder="请输入电话"/>
                     </div>
                     <div class="form-group">
                         <label>状态</label>
@@ -119,18 +164,16 @@
                         </select>
                     </div>
                 </form>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" onclick="addor()">添加</button>
+                <button type="button" class="btn btn-primary" onclick="addor()" style="background:#0071e3; border:none;">添加</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-
     /**
      * 添加
      * @returns {undefined}
@@ -139,7 +182,6 @@
         var temp = $("form").serializeArray();
         var data = objToArray(temp);
         var baseurl = "{:U('Core/addon','model=shops')}";
-        //////
         $.ajax({
             url: baseurl,
             type: "post",
@@ -151,9 +193,7 @@
                 }
                 window.location.reload();
             },
-            error: function () {
-
-            },
+            error: function () {},
         });
     }
 
@@ -164,7 +204,6 @@
     function dels(id) {
         var data = {id: id};
         var baseurl = "{:U('Core/dels','model=shops')}";
-        //////
         $.ajax({
             url: baseurl,
             type: "post",
@@ -176,12 +215,7 @@
                 }
                 window.location.reload();
             },
-            error: function () {
-
-            },
+            error: function () {},
         });
     }
-
 </script>
-
-

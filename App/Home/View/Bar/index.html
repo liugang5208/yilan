@@ -1,3 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tab栏信息管理</title>
+    <style>
+        /* 苹果极简商务风与全端自适应全局样式 */
+        :root {
+            --apple-bg: #f5f5f7;
+            --apple-card-bg: #ffffff;
+            --apple-text-main: #1d1d1f;
+            --apple-text-sub: #86868b;
+            --apple-border: #d2d2d7;
+            --apple-primary: #0071e3;
+            --apple-primary-hover: #0077ed;
+            --apple-radius: 12px;
+            --apple-radius-sm: 8px;
+            --apple-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+            --apple-transition: all 0.2s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--apple-bg);
+            color: var(--apple-text-main);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 电脑端超宽带鱼屏全屏无极铺开，边缘微缝，绝无横向滚动条 */
+        .container-fluid {
+            width: 100% !important;
+            max-width: 100% !important;
+            padding: 24px 32px !important;
+            margin: 0 !important;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -12px;
+            margin-left: -12px;
+        }
+
+        .col-lg-8, .col-lg-4, .col-lg-12 {
+            position: relative;
+            width: 100%;
+            padding-right: 12px;
+            padding-left: 12px;
+        }
+
+        @media (min-width: 992px) {
+            .col-lg-8 { flex: 0 0 66.66667%; max-width: 66.66667%; }
+            .col-lg-4 { flex: 0 0 33.33333%; max-width: 33.33333%; }
+            .col-lg-12 { flex: 0 0 100%; max-width: 100%; }
+        }
+
+        /* 顶部标题栏 */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            padding-bottom: 16px;
+        }
+
+        .page-title h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--apple-text-main);
+            letter-spacing: -0.5px;
+        }
+
+        /* 苹果高档质感卡片 */
+        .card {
+            background-color: var(--apple-card-bg);
+            border-radius: var(--apple-radius);
+            box-shadow: var(--apple-shadow);
+            border: 1px solid rgba(0, 0, 0, 0.02);
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .card-header h4 {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--apple-text-main);
+            margin: 0;
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        /* 按钮与交互规范 */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            user-select: none;
+            border: 1px solid transparent;
+            padding: 8px 18px;
+            font-size: 14px;
+            border-radius: var(--apple-radius-sm);
+            transition: var(--apple-transition);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-info {
+            background-color: var(--apple-primary);
+            color: #ffffff;
+            border-color: var(--apple-primary);
+        }
+
+        .btn-info:hover {
+            background-color: var(--apple-primary-hover);
+            color: #ffffff;
+        }
+
+        .btn-default {
+            background-color: #e5e5ea;
+            color: var(--apple-text-main);
+            border-color: #e5e5ea;
+        }
+
+        .btn-default:hover {
+            background-color: #d1d1d6;
+        }
+
+        .btn-primary {
+            background-color: var(--apple-primary);
+            color: #ffffff;
+            border-color: var(--apple-primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--apple-primary-hover);
+        }
+
+        .btn-xs {
+            padding: 6px 14px;
+            font-size: 13px;
+            border-radius: 6px;
+        }
+
+        /* 电脑端大表格样式 */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .table th, .table td {
+            padding: 16px 18px;
+            font-size: 14px;
+            color: var(--apple-text-main);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+            vertical-align: middle;
+        }
+
+        .table th {
+            font-weight: 600;
+            color: var(--apple-text-sub);
+            background-color: rgba(0, 0, 0, 0.01);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* 奇偶行交叉底色，提升辨识度 */
+        .table tbody tr:nth-child(odd) {
+            background-color: rgba(245, 245, 247, 0.5);
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(0, 113, 227, 0.02);
+        }
+
+        /* 表单控件优化 */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            font-size: 13px;
+            color: var(--apple-text-sub);
+        }
+
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--apple-text-main);
+            background-color: #ffffff;
+            border: 1px solid var(--apple-border);
+            border-radius: var(--apple-radius-sm);
+            transition: var(--apple-transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--apple-primary);
+            outline: 0;
+            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+        }
+
+        /* 手机端独立卡片流式容器（默认隐藏，小屏幕自动启用） */
+        .mobile-card-list {
+            display: none;
+        }
+
+        /* 弹窗升级 */
+        .modal-content {
+            border: none;
+            border-radius: var(--apple-radius);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            background-color: #ffffff;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background-color: rgba(245, 245, 247, 0.8);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-title {
+            font-weight: 600;
+            font-size: 17px;
+            color: var(--apple-text-main);
+            margin: 0;
+        }
+
+        .modal-header .close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--apple-text-sub);
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-footer {
+            background-color: rgba(245, 245, 247, 0.5);
+            border-top: 1px solid rgba(0, 0, 0, 0.06);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        /* 分页器样式 */
+        .pagination {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 24px 0 0 0;
+            gap: 6px;
+            justify-content: flex-end;
+        }
+
+        .pagination li a, .pagination li span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+            padding: 0 12px;
+            font-size: 14px;
+            border-radius: var(--apple-radius-sm);
+            background-color: #ffffff;
+            border: 1px solid var(--apple-border);
+            color: var(--apple-text-main);
+            text-decoration: none;
+            transition: var(--apple-transition);
+        }
+
+        .pagination li.active span {
+            background-color: var(--apple-primary);
+            border-color: var(--apple-primary);
+            color: #ffffff;
+        }
+
+        .pagination li a:hover {
+            background-color: rgba(0, 113, 227, 0.05);
+            border-color: var(--apple-primary);
+            color: var(--apple-primary);
+        }
+
+        /* ==================== 手机端响应式卡片折叠与触控适配 ==================== */
+        @media (max-width: 768px) {
+            .container-fluid {
+                padding: 12px 16px !important;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            /* 手机端隐藏电脑端大表格，防止挤压 */
+            .table-responsive {
+                display: none;
+            }
+
+            /* 启用手机端卡片流式布局 */
+            .mobile-card-list {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .m-card-item {
+                background: #ffffff;
+                border-radius: var(--apple-radius);
+                padding: 16px;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+                border: 1px solid rgba(0, 0, 0, 0.04);
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .m-card-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+                padding-bottom: 10px;
+            }
+
+            .m-card-title {
+                font-size: 16px;
+                font-weight: 600;
+                color: var(--apple-text-main);
+            }
+
+            .m-card-id {
+                font-size: 12px;
+                color: var(--apple-text-sub);
+                background: rgba(0, 0, 0, 0.04);
+                padding: 2px 8px;
+                border-radius: 4px;
+            }
+
+            .m-card-body {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                font-size: 14px;
+            }
+
+            .m-card-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .m-card-label {
+                color: var(--apple-text-sub);
+                font-size: 13px;
+            }
+
+            .m-card-value {
+                color: var(--apple-text-main);
+                font-weight: 500;
+            }
+
+            .m-card-footer {
+                display: flex;
+                gap: 12px;
+                padding-top: 10px;
+                border-top: 1px solid rgba(0, 0, 0, 0.04);
+            }
+
+            .m-card-footer .btn {
+                flex: 1;
+                height: 44px;
+                font-size: 14px;
+                border-radius: var(--apple-radius-sm);
+            }
+
+            .modal-dialog {
+                width: 95% !important;
+                margin: 10px auto !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
 <div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
     <div class="row">
         <div class="col-lg-8 p-r-0 title-margin-right">
@@ -11,10 +439,6 @@
         <div class="col-lg-4 p-l-0 title-margin-left">
             <div class="page-header">
                 <div class="page-title">
-                    <!--ol class="breadcrumb text-right">
-                        <li><a href="#">Dashboard</a></li>
-                        <li class="active">UI-Blank</li>
-                    </ol-->
                 </div>
             </div>
         </div>
@@ -28,15 +452,9 @@
                 <div class="card alert">
                     <div class="card-header">
                         <h4>信息</h4>
-                        <!--<div class="card-header-right-icon">-->
-                        <!--    <ul>-->
-                        <!--        <li class="doc-link">-->
-                        <!--            <a class="btn btn-xs btn-info" data-toggle="modal" data-target="#myModal">添加</a>-->
-                        <!--        </li>-->
-                        <!--    </ul>-->
-                        <!--</div>-->
                     </div>
                     <div class="card-body">
+                        <!-- 电脑端大表格 -->
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
@@ -44,7 +462,6 @@
                                         <th>#</th>
                                         <th>名称</th>
                                         <th>状态</th>
-                                        <!--<th width="15%">记录时间</th>-->
                                         <th width="10%">管理</th>
                                     </tr>
                                 </thead>
@@ -54,24 +471,50 @@
                                     <tr>
                                         <th scope="row">{$v.id}</th>
                                         <td>{$v.title}</td>
-                                        <td>{$v['status']>0?'正常':'暂停使用'}</td>
-                                        <!--<td>{$v.times|date='Y/m/d H:i:s',###}</td>-->
                                         <td>
-                                            <!--<a href="{:U('Know/helps_list','id='.$v['id'])}" class="btn btn-info btn-xs">文章列表</a>-->
+                                            <span style="display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 500; background-color: {$v.status gt 0 ? 'rgba(52, 199, 89, 0.1)' : 'rgba(255, 59, 48, 0.1)'}; color: {$v.status gt 0 ? '#34c759' : '#ff3b30'};">
+                                                {$v.status gt 0 ? '正常' : '暂停使用'}
+                                            </span>
+                                        </td>
+                                        <td>
                                             <a ng-click="updateinfo('{$v.id}')" class="btn btn-info btn-xs">编辑</a>
-                                            <!--<a class="btn btn-danger btn-xs" ng-click="dels('{$v.id}')">删除</a>-->
                                         </td>
                                     </tr>
                                 </volist>
 
                                 </tbody>
                             </table>
-
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination">{$list.show}</ul>
-                            </nav>
-
                         </div>
+
+                        <!-- 手机端独立卡片式折叠降级布局（确保信息零丢失、完美适配） -->
+                        <div class="mobile-card-list">
+                            <volist name="list.list" id="v">
+                                <div class="m-card-item">
+                                    <div class="m-card-header">
+                                        <span class="m-card-title">{$v.title}</span>
+                                        <span class="m-card-id">ID: {$v.id}</span>
+                                    </div>
+                                    <div class="m-card-body">
+                                        <div class="m-card-row">
+                                            <span class="m-card-label">状态</span>
+                                            <span class="m-card-value">
+                                                <span style="display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 500; background-color: {$v.status gt 0 ? 'rgba(52, 199, 89, 0.1)' : 'rgba(255, 59, 48, 0.1)'}; color: {$v.status gt 0 ? '#34c759' : '#ff3b30'};">
+                                                    {$v.status gt 0 ? '正常' : '暂停使用'}
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="m-card-footer">
+                                        <a class="btn btn-info" ng-click="updateinfo('{$v.id}')">编辑</a>
+                                    </div>
+                                </div>
+                            </volist>
+                        </div>
+
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">{$list.show}</ul>
+                        </nav>
+
                     </div>
                 </div>
             </div>
@@ -84,16 +527,12 @@
         <div class="modal-dialog" role="document" style="width:35%;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">添加信息</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
 
                     <form name="ador">
-                        <!--<div class="form-group">-->
-                        <!--    <label>名称</label>-->
-                        <!--    <input type="text" name="title" class="form-control"/>-->
-                        <!--</div>-->
                         <div class="form-group">
                             <label>状态</label>
                             <select name="status" class="form-control">
@@ -117,16 +556,12 @@
         <div class="modal-dialog" role="document" style="width:35%;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">更新信息</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
 
                     <form>
-                        <!--<div class="form-group">-->
-                        <!--    <label>帮助名称</label>-->
-                        <!--    <input type="text" name="title" class="form-control" ng-model="infos.title"/>-->
-                        <!--</div>-->
                         <div class="form-group">
                             <label>状态</label>
                             <select name="status" class="form-control" ng-model="infos.status">
@@ -147,20 +582,19 @@
 
 </div>
 
-
-
-
 <script>
+    function objToArray(arr) {
+        var obj = {};
+        for (var i = 0; i < arr.length; i++) {
+            obj[arr[i].name] = arr[i].value;
+        }
+        return obj;
+    }
 
-    /**
-     * 添加
-     * @returns {undefined}
-     */
     function addor() {
         var temp = $("form[name='ador']").serializeArray();
         var data = objToArray(temp);
         var baseurl = "{:U('Core/addon','model=bar')}";
-        //////
         $.ajax({
             url: baseurl,
             type: "post",
@@ -172,25 +606,14 @@
                 }
                 window.location.reload();
             },
-            error: function () {
-
-            },
+            error: function () {}
         });
     }
 
     var app = angular.module('myApp', []);
     app.controller('myCtrl', function ($scope, $http) {
-
         $scope.infos;
 
-        ////////////////////////////////////////////////////////////////////////
-
-        /**
-         * 通讯操作
-         * @param {type} url
-         * @param {type} data
-         * @returns {undefined}
-         */
         $scope.commAjax = function (url, data, success) {
             $http({
                 method: "POST",
@@ -209,8 +632,6 @@
             });
         };
 
-        ////////////////////////////////////////////////////////////////////////
-
         $scope.updateinfo = function (id) {
             $scope.commAjax("{:U('Core/infos','model=bar')}", {ids: id}, function (res) {
                 $scope.infos = res.data;
@@ -221,7 +642,6 @@
         $scope.updateCats = function () {
             var param = $scope.infos;
             param.ids = param.id;
-            /////////
             $.ajax({
                 url: "{:U('Core/edits','model=bar')}",
                 type: "post",
@@ -248,9 +668,8 @@
                 window.location.reload();
             });
         }
-
     });
-
 </script>
 
-
+</body>
+</html>

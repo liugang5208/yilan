@@ -1,82 +1,276 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-8 p-r-0 title-margin-right">
-            <div class="page-header">
-                <div class="page-title">
-                    <h1>搜索记录</h1>
-                </div>
-            </div>
-        </div>
-        <!-- /# column -->
-        <div class="col-lg-4 p-l-0 title-margin-left">
-            <div class="page-header">
-                <div class="page-title">
-                    <!--ol class="breadcrumb text-right">
-                        <li><a href="#">Dashboard</a></li>
-                        <li class="active">UI-Blank</li>
-                    </ol-->
-                </div>
-            </div>
-        </div>
-        <!-- /# column -->
-    </div>
-    <!-- /# row -->
-    <section id="main-content">
+<div class="container-fluid" style="background-color: #f5f5f7; min-height: 100vh; padding: 24px 20px; box-sizing: border-box;">
+    
+    <!-- 引入苹果风格的居中收敛容器：限制最大宽度为 1280px 并自动居中，避免超宽屏下铺满全屏导致视觉分散 -->
+    <div style="max-width: 1280px; margin: 0 auto; width: 100%;">
+        
+        <!-- 主内容卡片区域 -->
+        <section id="main-content" style="width: 100%; margin: 0;">
+            <div class="row" style="margin-left: 0; margin-right: 0;">
+                <div class="col-lg-12" style="padding-left: 0; padding-right: 0;">
+                    <div class="card alert" style="background: #ffffff; border-radius: 16px; border: 1px solid rgba(0, 0, 0, 0.04); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04); padding: 24px; margin-bottom: 30px; width: 100%; box-sizing: border-box;">
+                        
+                        <!-- 卡片头部标题 -->
+                        <div class="card-header" style="background: transparent; border-bottom: 1px solid #f2f2f7; padding: 0 0 16px 0; margin-bottom: 20px;">
+                            <h4 style="font-size: 18px; font-weight: 600; color: #1d1d1f; margin: 0; display: flex; align-items: center; gap: 8px; letter-spacing: -0.2px;">
+                                <i class="ti-search" style="color: #0071e3;"></i> 用户搜索行为日志
+                            </h4>
+                        </div>
 
-        <div class="row">
+                        <!-- 数据展示主体区域 -->
+                        <div class="card-body" style="padding: 0; width: 100%;">
+                            
+                            <!-- 电脑端标准高清表格视图：居中精致收敛、奇偶行交替色 -->
+                            <div class="table-responsive desktop-table-view" style="border: none; overflow-x: visible; width: 100%;">
+                                <table class="table desktop-search-table" style="width: 100%; margin-bottom: 15px; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background-color: #fbfbfd; border-bottom: 1px solid #e5e5ea;">
+                                            <th style="padding: 12px 16px; font-weight: 500; color: #86868b; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">#</th>
+                                            <th style="padding: 12px 16px; font-weight: 500; color: #86868b; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">登录账户</th>
+                                            <th style="padding: 12px 16px; font-weight: 500; color: #86868b; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">账号备注</th>
+                                            <th style="padding: 12px 16px; font-weight: 500; color: #86868b; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">搜索类别</th>
+                                            <th style="padding: 12px 16px; font-weight: 500; color: #86868b; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">关键词</th>
+                                            <th width="18%" style="padding: 12px 16px; font-weight: 500; color: #86868b; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">记录时间</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <volist name="list.list" id="v">
+                                        <tr style="border-bottom: 1px solid #f2f2f7; transition: background-color 0.15s ease;">
+                                            <th scope="row" style="padding: 14px 16px; font-weight: 400; color: #86868b; vertical-align: middle;">{$v.id}</th>
+                                            <td style="padding: 14px 16px; font-weight: 600; color: #0071e3; vertical-align: middle;">{$uid|getUsersName=$v['uid'],'phone',###}</td>
+                                            <td style="padding: 14px 16px; color: #515154; vertical-align: middle;">
+                                                <span style="background: #f1f5f9; padding: 3px 8px; border-radius: 6px; font-size: 12px; color: #334155;">{$uid|getUsersName=$v['uid'],'tags',###}</span>
+                                            </td>
+                                            <td style="padding: 14px 16px; color: #515154; vertical-align: middle;">
+                                                <span style="display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 500; background: {$v['types']=='1'?'#e0f2fe; color: #0284c7;':'#fef3c7; color: #d97706;'};">
+                                                    {$v['types']=='1'?'关键词':''}
+                                                    {$v['types']=='2'?'物流':''}
+                                                </span>
+                                            </td>
+                                            <td style="padding: 14px 16px; font-weight: 600; color: #1d1d1f; vertical-align: middle;">{$v.keyr}</td>
+                                            <td style="padding: 14px 16px; color: #86868b; vertical-align: middle; font-size: 12.5px;">{$v.times|date='Y/m/d H:i:s',###}</td>
+                                        </tr>
+                                    </volist>
+                                    </tbody>
+                                </table>
+                            </div>
 
-            <div class="col-lg-12">
-                <div class="card alert">
-                    <div class="card-header">
-                        <h4>搜索记录</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>登录账户</th>
-                                        <th>账号备注</th>
-                                        <th>搜索类别</th>
-                                        <th>关键词</th>
-                                        <th width="15%">记录时间</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
+                            <!-- 手机端专属卡片堆叠视图（严格左对齐、主账号高亮、零信息丢失） -->
+                            <div class="mobile-card-view">
                                 <volist name="list.list" id="v">
-                                    <tr>
-                                        <th scope="row">{$v.id}</th>
-                                        <td>{$uid|getUsersName=$v['uid'],'phone',###}</td>
-                                        <td>{$uid|getUsersName=$v['uid'],'tags',###}</td>
-                                        <td>
-                                            {$v['types']=='1'?'关键词':''}
-                                            {$v['types']=='2'?'物流':''}
-                                        </td>
-                                        <td>{$v.keyr}</td>
-                                        <td>{$v.times|date='Y/m/d H:i:s',###}</td>
-                                    </tr>
+                                    <div class="search-record-card">
+                                        <!-- 卡片头部：精选科技蓝色高亮的主账号与ID -->
+                                        <div class="card-line-primary">
+                                            <div class="user-phone">
+                                                <i class="ti-user" style="color: #0071e3;"></i> 
+                                                <span>{$uid|getUsersName=$v['uid'],'phone',###}</span>
+                                            </div>
+                                            <div class="record-id">ID: {$v.id}</div>
+                                        </div>
+
+                                        <!-- 卡片核心参数网格：左侧固定标题，右侧靠左内容对齐，杜绝错行 -->
+                                        <div class="card-line-grid">
+                                            <div class="grid-row">
+                                                <span class="grid-label">账号备注：</span>
+                                                <span class="grid-value">{$uid|getUsersName=$v['uid'],'tags',###}</span>
+                                            </div>
+                                            <div class="grid-row">
+                                                <span class="grid-label">搜索类别：</span>
+                                                <span class="grid-value">
+                                                    <span style="display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; background: {$v['types']=='1'?'#e0f2fe; color: #0284c7;':'#fef3c7; color: #d97706;'};">
+                                                        {$v['types']=='1'?'关键词':''}
+                                                        {$v['types']=='2'?'物流':''}
+                                                    </span>
+                                                </span>
+                                            </div>
+                                            <div class="grid-row">
+                                                <span class="grid-label">搜索关键词：</span>
+                                                <span class="grid-value" style="font-weight: 600; color: #0071e3;">{$v.keyr}</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- 卡片底部：记录时间 -->
+                                        <div class="card-line-footer">
+                                            <div class="record-time">
+                                                <i class="ti-time"></i> {$v.times|date='Y/m/d H:i:s',###}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </volist>
+                            </div>
 
-                                </tbody>
-                            </table>
-
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination">{$list.show}</ul>
-                            </nav>
+                            <!-- 完美包裹在容器内部、支持平滑横向滑动的现代化分页导航 -->
+                            <div class="pagination-wrapper-box">
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination">
+                                        {$list.show}
+                                    </ul>
+                                </nav>
+                            </div>
 
                         </div>
                     </div>
                 </div>
             </div>
-
-        </div>
-    </section>
+        </section>
+        
+    </div>
 </div>
 
-<script>
+<!-- 响应式与苹果极简商务风样式控制 -->
+<style>
+    /* 默认隐藏手机端卡片容器 */
+    .mobile-card-view {
+        display: none;
+    }
 
+    /* 电脑端奇偶行交叉底色与悬停反馈 */
+    .desktop-search-table tbody tr:nth-child(odd) {
+        background-color: #fbfbfd;
+    }
+    .desktop-search-table tbody tr:hover {
+        background-color: #f2f2f7 !important;
+    }
+
+    /* 分页导航安全容器（居中且完美包裹在卡片内） */
+    .pagination-wrapper-box {
+        margin-top: 24px;
+        padding-top: 16px;
+        border-top: 1px solid #f2f2f7;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .pagination-wrapper-box .pagination {
+        display: flex;
+        gap: 4px;
+        padding-left: 0;
+        list-style: none;
+        margin: 0;
+        white-space: nowrap;
+    }
+    .pagination-wrapper-box .pagination li a, 
+    .pagination-wrapper-box .pagination li span {
+        padding: 6px 12px;
+        border-radius: 8px;
+        border: 1px solid #d2d2d7;
+        color: #1d1d1f;
+        font-size: 13px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+    .pagination-wrapper-box .pagination li.active span,
+    .pagination-wrapper-box .pagination li a:hover {
+        background-color: #0071e3 !important;
+        border-color: #0071e3 !important;
+        color: #ffffff !important;
+    }
+
+    /* 手机端响应式断点切换（屏幕宽度小于等于 992px 时触发） */
+    @media (max-width: 992px) {
+        .desktop-table-view {
+            display: none !important;
+        }
+        .mobile-card-view {
+            display: flex !important;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .container-fluid {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+        }
+
+        /* 手机端单张独立卡片外观（苹果风圆角、细腻微阴影） */
+        .search-record-card {
+            background: #ffffff;
+            border: 1px solid #e5e5ea;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* 卡片头部：主账号高亮与ID */
+        .card-line-primary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f2f2f7;
+            padding-bottom: 8px;
+        }
+        .card-line-primary .user-phone {
+            font-size: 15px;
+            font-weight: 600;
+            color: #0071e3;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .card-line-primary .record-id {
+            font-size: 12px;
+            color: #86868b;
+            background: #f2f2f7;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* 核心修正：严格左右对齐的网格行，彻底消除错行和跑偏问题 */
+        .card-line-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 13px;
+            padding: 2px 0;
+        }
+        .grid-row {
+            display: flex;
+            align-items: flex-start;
+            width: 100%;
+        }
+        .grid-label {
+            width: 84px;
+            flex-shrink: 0;
+            color: #86868b;
+            font-size: 12.5px;
+            font-weight: 400;
+        }
+        .grid-value {
+            flex-grow: 1;
+            color: #1d1d1f;
+            font-weight: 500;
+            text-align: left;
+            word-break: break-all;
+        }
+
+        /* 卡片底部时间区域 */
+        .card-line-footer {
+            border-top: 1px solid #f2f2f7;
+            padding-top: 8px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        .record-time {
+            font-size: 12px;
+            color: #86868b;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* 手机端分页容器左对齐支持横向滚动 */
+        .pagination-wrapper-box {
+            justify-content: flex-start;
+            padding-bottom: 6px;
+        }
+    }
+</style>
+
+<script>
     /**
      * 添加
      * @returns {undefined}
@@ -85,7 +279,7 @@
         var temp = $("form").serializeArray();
         var data = objToArray(temp);
         var baseurl = "{:U('Core/addon','model=shops')}";
-        //////
+        
         $.ajax({
             url: baseurl,
             type: "post",
@@ -102,7 +296,4 @@
             },
         });
     }
-
 </script>
-
-

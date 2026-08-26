@@ -394,7 +394,7 @@ function I($name, $default = '', $filter = null, $datas = null) {
                     $data = (float) $data;
                     break;
                 case 'b': // 布尔
-                    $data = (boolean) $data;
+                    $data = (bool) $data;
                     break;
                 case 's':   // 字符串
                 default:

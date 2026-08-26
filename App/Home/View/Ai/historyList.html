@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>易缆通商城管理中心 - AI 历史报价单管理</title>
+    <style>
+        :root {
+            --apple-bg: #f5f5f7;
+            --card-bg: #ffffff;
+            --text-main: #1d1d1f;
+            --text-sub: #86868b;
+            --accent-blue: #0071e3;
+            --accent-blue-hover: #0077ed;
+            --danger-red: #ff3b30;
+            --border-color: rgba(0, 0, 0, 0.06);
+            --table-hover: rgba(0, 113, 227, 0.02);
+            --table-stripe: #fafafc;
+            --apple-radius: 12px;
+            --apple-radius-sm: 8px;
+            --apple-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+            --apple-transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro SC", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--apple-bg);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding: 16px;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* 极宽带鱼屏无缝自适应铺开容器 */
+        .admin-wrapper {
+            width: 100%;
+            max-width: 100%;
+            background: var(--card-bg);
+            border-radius: var(--apple-radius);
+            box-shadow: var(--apple-shadow);
+            border: 1px solid var(--border-color);
+            padding: 24px 32px;
+            margin: 0 auto;
+        }
+
+        /* 顶栏面包屑 */
+        .nav-breadcrumb {
+            font-size: 12px;
+            color: var(--text-sub);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-breadcrumb span {
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        /* 主标题与操作按钮区 */
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .title-info h1 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+            margin-bottom: 2px;
+        }
+
+        .title-info p {
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* 苹果极简风格按钮，带细腻悬停反馈 */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 16px;
+            height: 36px;
+            border-radius: var(--apple-radius-sm);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--apple-transition);
+            text-decoration: none;
+            border: 1px solid transparent;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn-primary {
+            background-color: var(--accent-blue);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 113, 227, 0.25);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-blue-hover);
+        }
+
+        .btn-secondary {
+            background-color: #f2f2f7;
+            color: var(--text-main);
+            border-color: var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #e5e5ea;
+        }
+
+        /* 数据库表格区域 */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--apple-radius-sm);
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .admin-table th {
+            background-color: #f2f2f7;
+            color: var(--text-sub);
+            font-weight: 600;
+            font-size: 12px;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .admin-table td {
+            padding: 12px 16px;
+            font-size: 13px;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--border-color);
+            background-color: #ffffff;
+        }
+
+        .admin-table tbody tr:nth-child(even) td {
+            background-color: var(--table-stripe);
+        }
+
+        .admin-table tbody tr:hover td {
+            background-color: var(--table-hover);
+            transition: var(--apple-transition);
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        /* 手机端响应式卡片区 */
+        .mobile-card-container {
+            display: none;
+        }
+
+        /* 响应式媒体查询：移动端自动转换为 iOS 风格卡片，彻底解决缩到左侧与布局错位问题 */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 8px;
+                display: block; /* 修复手机端居中导致偏左或挤压的Bug，确保100%流式铺开 */
+            }
+
+            .admin-wrapper {
+                width: 100% !important;
+                padding: 16px 12px;
+                border-radius: 10px;
+                margin: 0;
+            }
+
+            .admin-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .header-actions {
+                flex-direction: column;
+            }
+
+            .table-container {
+                display: none;
+            }
+
+            .mobile-card-container {
+                display: block;
+                margin-bottom: 16px;
+            }
+
+            .mobile-card {
+                background: var(--table-stripe);
+                border: 1px solid var(--border-color);
+                border-radius: var(--apple-radius-sm);
+                padding: 14px;
+                margin-bottom: 12px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            }
+
+            .mobile-card-row {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 8px;
+                font-size: 13px;
+            }
+
+            .mobile-card-row label {
+                color: var(--text-sub);
+            }
+
+            .mobile-card-row span {
+                font-weight: 600;
+                color: var(--text-main);
+            }
+        }
+
+        @media screen and (min-width: 769px) {
+            .mobile-card-container {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="admin-wrapper">
+    <!-- 面包屑导航 -->
+    <div class="nav-breadcrumb">
+        易缆通管理中心 / AI历史报价 / <span>AI 历史报价单管理中心</span>
+    </div>
+
+    <!-- 顶部标题栏与操作区 -->
+    <div class="admin-header">
+        <div class="title-info">
+            <h1>AI 历史报价单管理中心</h1>
+            <p>关联数据表：ai_quotes | 管理与回溯所有用户的智能电缆报价记录</p>
+        </div>
+        <div class="header-actions">
+            <button class="btn btn-secondary" onclick="location.reload()">
+                🔄 刷新列表
+            </button>
+        </div>
+    </div>
+
+    <!-- 电脑端数据管理大表格 -->
+    <div class="table-container">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>关联用户ID</th>
+                    <th>报价单号</th>
+                    <th>客户名称 / 抬头</th>
+                    <th class="text-right">报价总计金额 (含税)</th>
+                    <th>状态</th>
+                    <th>创建时间</th>
+                    <th class="text-right">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>10086</td>
+                    <td><strong>QT20260810001</strong></td>
+                    <td>某某电力工程有限公司</td>
+                    <td class="text-right"><strong style="color: var(--accent-blue);">¥162,821.70</strong></td>
+                    <td><span style="color: #34c759; font-weight: 500;">正常 (1)</span></td>
+                    <td>2026-08-10 19:02:00</td>
+                    <td class="text-right">
+                        <a href="print_quote.html?id=1" target="_blank" class="btn btn-secondary" style="height: 28px; font-size: 11px; padding: 0 10px;">预览详情</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>10088</td>
+                    <td><strong>QT20260810002</strong></td>
+                    <td>四川亚建线缆有限公司</td>
+                    <td class="text-right"><strong style="color: var(--accent-blue);">¥61,500.00</strong></td>
+                    <td><span style="color: #34c759; font-weight: 500;">正常 (1)</span></td>
+                    <td>2026-08-10 16:45:00</td>
+                    <td class="text-right">
+                        <a href="print_quote.html?id=2" target="_blank" class="btn btn-secondary" style="height: 28px; font-size: 11px; padding: 0 10px;">预览详情</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 手机端响应式卡片视图 -->
+    <div class="mobile-card-container">
+        <div class="mobile-card">
+            <div class="mobile-card-row"><label>报价单号</label><span>QT20260810001</span></div>
+            <div class="mobile-card-row"><label>客户名称</label><span>某某电力工程有限公司</span></div>
+            <div class="mobile-card-row"><label>报价总计</label><span style="color: var(--accent-blue);">¥162,821.70</span></div>
+            <div class="mobile-card-row"><label>创建时间</label><span>2026-08-10 19:02</span></div>
+            <div style="margin-top: 12px; display: flex; gap: 8px;">
+                <a href="print_quote.html?id=1" target="_blank" class="btn btn-secondary" style="width: 100%; height: 38px; font-size: 13px;">预览详情</a>
+            </div>
+        </div>
+        <div class="mobile-card">
+            <div class="mobile-card-row"><label>报价单号</label><span>QT20260810002</span></div>
+            <div class="mobile-card-row"><label>客户名称</label><span>四川亚建线缆有限公司</span></div>
+            <div class="mobile-card-row"><label>报价总计</label><span style="color: var(--accent-blue);">¥61,500.00</span></div>
+            <div class="mobile-card-row"><label>创建时间</label><span>2026-08-10 16:45</span></div>
+            <div style="margin-top: 12px; display: flex; gap: 8px;">
+                <a href="print_quote.html?id=2" target="_blank" class="btn btn-secondary" style="width: 100%; height: 38px; font-size: 13px;">预览详情</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

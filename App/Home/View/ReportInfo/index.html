@@ -1,142 +1,664 @@
 <style>
-    .form-group{ margin-bottom:10px;}
+    /* 苹果极简商务风全局变量与基础重构 */
+    :root {
+        --apple-bg: #f5f5f7;
+        --apple-card-bg: #ffffff;
+        --apple-text-main: #1d1d1f;
+        --apple-text-sub: #86868b;
+        --apple-border: #d2d2d7;
+        --apple-primary: #0066cc;
+        --apple-primary-hover: #0077ed;
+        --apple-danger: #ff3b30;
+        --apple-danger-hover: #d70015;
+        --apple-radius-card: 16px;
+        --apple-radius-btn: 10px;
+        --apple-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+        --apple-transition: all 0.25s ease;
+    }
+
+    body {
+        background-color: var(--apple-bg);
+        color: var(--apple-text-main);
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+
+    /* 容器全屏无极铺开，两侧留有微缝，拒绝死板留白与过度拥挤 */
+    .container-fluid {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+
+    /* 苹果质感卡片容器 */
+    .card.alert {
+        background-color: var(--apple-card-bg);
+        border: 1px solid rgba(0, 0, 0, 0.02);
+        border-radius: var(--apple-radius-card);
+        box-shadow: var(--apple-shadow);
+        margin-bottom: 24px;
+        padding: 0;
+        overflow: hidden;
+    }
+    
+    .card-header {
+        background-color: transparent;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        padding: 20px 24px;
+    }
+    
+    .card-header h4 {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--apple-text-main);
+        margin: 0;
+    }
+
+    .card-body {
+        padding: 24px;
+    }
+
+    /* 苹果精美扁平胶囊标签 */
+    .badge-capsule {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px 10px;
+        font-size: 12px;
+        font-weight: 600;
+        border-radius: 6px;
+        white-space: nowrap;
+        letter-spacing: 0.3px;
+    }
+    
+    /* 发票选项三种状态对应的扁平胶囊颜色 */
+    .badge-ticket-0 { background-color: #f2f2f7; color: #636366; } 
+    .badge-ticket-1 { background-color: #e8f4fd; color: #0066cc; } 
+    .badge-ticket-2 { background-color: #f5f0ff; color: #7b61ff; } 
+
+    /* 调整比例三种状态对应的扁平胶囊颜色（加深对比，提升辨识度） */
+    .badge-ratio-zero { background-color: #f2f2f7; color: #636366; font-weight: 600; } 
+    .badge-ratio-pos  { background-color: #fef2f2; color: #ef4444; font-weight: 600; border: 1px solid rgba(239, 68, 68, 0.2); } 
+    .badge-ratio-neg  { background-color: #f0fdf4; color: #16a34a; font-weight: 600; border: 1px solid rgba(22, 163, 74, 0.2); } 
+
+    /* 筛选状态胶囊按钮样式 */
+    .filter-capsule-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .filter-capsule {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 16px;
+        font-size: 13px;
+        font-weight: 500;
+        border-radius: 20px;
+        background-color: #ffffff;
+        color: var(--apple-text-sub);
+        text-decoration: none;
+        transition: var(--apple-transition);
+        border: 1px solid var(--apple-border);
+    }
+
+    .filter-capsule:hover {
+        background-color: #e5e5ea;
+        color: var(--apple-text-main);
+        text-decoration: none;
+    }
+
+    .filter-capsule.active {
+        background-color: var(--apple-primary);
+        color: #ffffff;
+        font-weight: 600;
+        border-color: var(--apple-primary);
+        box-shadow: 0 2px 8px rgba(0, 102, 204, 0.25);
+    }
+
+    /* 实时数据统计面板 */
+    .inline-filter-stat {
+        display: inline-flex;
+        align-items: center;
+        gap: 16px;
+        background: #ffffff;
+        border: 1px solid var(--apple-border);
+        padding: 6px 16px;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        vertical-align: middle;
+        height: 38px;
+    }
+
+    .stat-item-inline {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .stat-label-inline {
+        font-size: 12px;
+        color: var(--apple-text-sub);
+    }
+
+    .stat-value-inline {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--apple-text-main);
+    }
+
+    .stat-divider-inline {
+        width: 1px;
+        height: 16px;
+        background-color: var(--apple-border);
+    }
+
+    /* 电脑端大表格优化：奇偶行交叉底色，行高舒适，主次分明 */
+    .desktop-table-view {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .desktop-table-view .table {
+        width: 100%;
+        margin-bottom: 0;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .desktop-table-view .table thead th {
+        background-color: #fafafc;
+        color: var(--apple-text-sub);
+        font-weight: 600;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-bottom: 1px solid var(--apple-border);
+        padding: 14px 12px;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+
+    .desktop-table-view .table tbody tr {
+        transition: var(--apple-transition);
+    }
+
+    .desktop-table-view .table tbody tr:nth-child(odd) {
+        background-color: #ffffff;
+    }
+    .desktop-table-view .table tbody tr:nth-child(even) {
+        background-color: #fbfbfd;
+    }
+
+    .desktop-table-view .table tbody tr:hover {
+        background-color: #f2f2f7;
+    }
+
+    .desktop-table-view .table tbody td {
+        padding: 16px 12px;
+        vertical-align: middle;
+        font-size: 14px;
+        color: var(--apple-text-main);
+        border-top: 1px solid rgba(0, 0, 0, 0.04);
+        white-space: nowrap;
+    }
+
+    /* 桌面端高定按钮 */
+    .btn-xs {
+        padding: 6px 14px;
+        font-size: 13px;
+        font-weight: 500;
+        border-radius: var(--apple-radius-btn);
+        transition: var(--apple-transition);
+        margin-right: 4px;
+    }
+    
+    .btn-info {
+        background-color: var(--apple-primary);
+        border-color: var(--apple-primary);
+        color: #ffffff;
+    }
+    .btn-info:hover, .btn-info:focus {
+        background-color: var(--apple-primary-hover);
+        border-color: var(--apple-primary-hover);
+        color: #ffffff;
+        box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
+    }
+
+    .btn-danger-soft {
+        background-color: #fef2f2;
+        color: var(--apple-danger);
+        border: 1px solid rgba(255, 59, 48, 0.2);
+    }
+    .btn-danger-soft:hover, .btn-danger-soft:focus {
+        background-color: var(--apple-danger);
+        color: #ffffff;
+        box-shadow: 0 4px 12px rgba(255, 59, 48, 0.2);
+    }
+
+    /* 手机端卡片式折叠视图 */
+    .mobile-card-view {
+        display: none;
+    }
+
+    /* 底部纯净版分页条 */
+    .pagination-wrapper-box {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 24px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .pagination {
+        display: flex;
+        padding-left: 0;
+        list-style: none;
+        border-radius: 4px;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        margin: 0;
+    }
+    .pagination > li > a, .pagination > li > span,
+    .pagination div span, .pagination div a {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 14px;
+        margin: 0 2px;
+        border-radius: 8px !important;
+        color: var(--apple-primary);
+        background-color: #ffffff;
+        border: 1px solid var(--apple-border);
+        font-size: 13px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: var(--apple-transition);
+    }
+    .pagination > li > a:hover, .pagination > li > span:hover {
+        background-color: #f2f2f7;
+        color: var(--apple-text-main);
+    }
+    .pagination > .active > a, .pagination > .active > span,
+    .pagination .current {
+        z-index: 3;
+        color: #fff !important;
+        background-color: var(--apple-primary) !important;
+        border-color: var(--apple-primary) !important;
+        box-shadow: 0 2px 8px rgba(0, 102, 204, 0.25);
+    }
+
+    .form-control {
+        border-radius: var(--apple-radius-btn);
+        border: 1px solid var(--apple-border);
+        box-shadow: none;
+        height: 40px;
+        transition: var(--apple-transition);
+    }
+    .form-control:focus {
+        border-color: var(--apple-primary);
+        box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.15);
+    }
+
+    /* 响应式媒体查询：屏幕小于 992px 时自动适配移动端卡片 */
+    @media (max-width: 992px) {
+        .desktop-table-view {
+            display: none !important;
+        }
+        .mobile-card-view {
+            display: block !important;
+        }
+        .container-fluid {
+            padding-left: 12px !important;
+            padding-right: 12px !important;
+        }
+        .card-body {
+            padding: 16px;
+        }
+        .inline-filter-stat {
+            width: 100%;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+        .pagination-wrapper-box {
+            justify-content: center;
+        }
+    }
+
+    /* 移动端独立卡片样式 */
+    .mobile-order-card {
+        background: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+        transition: var(--apple-transition);
+    }
+
+    .m-card-header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #f2f2f7;
+    }
+    
+    .m-card-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--apple-text-main);
+    }
+    
+    .m-card-badge {
+        font-size: 12px;
+        padding: 4px 8px;
+        background-color: #f2f2f7;
+        color: var(--apple-text-sub);
+        border-radius: 6px;
+        font-weight: 500;
+    }
+
+    .m-card-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px 12px;
+        margin-bottom: 14px;
+    }
+
+    .m-grid-item {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .m-grid-label {
+        font-size: 11px;
+        color: var(--apple-text-sub);
+        margin-bottom: 2px;
+        text-transform: uppercase;
+    }
+
+    .m-grid-val {
+        font-size: 13px;
+        color: var(--apple-text-main);
+        font-weight: 500;
+        word-break: break-all;
+    }
+
+    .m-card-footer-row {
+        display: flex;
+        gap: 10px;
+        padding-top: 12px;
+        border-top: 1px solid #f2f2f7;
+    }
+
+    .m-card-footer-row .btn {
+        flex: 1;
+        height: 42px;
+        font-size: 14px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+    }
 </style>
 
+<?php 
+$current_ticket = isset($_GET['ticket']) ? $_GET['ticket'] : '';
+$current_sn = isset($_GET['sn']) ? $_GET['sn'] : '';
+$current_phone = isset($_GET['phone']) ? $_GET['phone'] : '';
+$current_proj = isset($_GET['project_comp']) ? $_GET['project_comp'] : '';
+$current_rep_comp = isset($_GET['rep_comp']) ? $_GET['rep_comp'] : '';
+$current_q_comp = isset($_GET['question_comp']) ? $_GET['question_comp'] : '';
+$current_rep_user = isset($_GET['rep_user']) ? $_GET['rep_user'] : '';
+?>
+
 <div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
-    <div class="row">
-        <div class="col-lg-8 p-r-0 title-margin-right">
-            <div class="page-header">
-                <div class="page-title">
-                    <h1>报价单管理</h1>
-                </div>
-            </div>
-        </div>
-        <!-- /# column -->
-        <div class="col-lg-4 p-l-0 title-margin-left">
-            <div class="page-header">
-                <div class="page-title">
-                    <!--ol class="breadcrumb text-right">
-                        <li><a href="#">Dashboard</a></li>
-                        <li class="active">UI-Blank</li>
-                    </ol-->
-                </div>
-            </div>
-        </div>
-        <!-- /# column -->
-    </div>
-    <!-- /# row -->
-    <section id="main-content">
-
+    <section id="main-content" style="padding-top: 10px;">
         <div class="row">
-
             <div class="col-lg-12">
                 <div class="card alert">
                     <div class="card-header">
                         <h4>报价单管理</h4>
-                        <!--div class="card-header-right-icon">
-                            <ul>
-                                <li class="doc-link">
-                                    <a class="btn btn-xs btn-info" data-toggle="modal" data-target="#myModal">添加注册用户</a>
-                                </li>
-                            </ul>
-                        </div-->
                     </div>
                     <div class="card-body">
 
-                        <!--<form action="{:U('Order/index')}" class="form-inline p-t-20 p-b-10">-->
-                        <!--    <div class="form-group">-->
-                        <!--        <label class="sr-only">订单编号</label>-->
-                        <!--        <input type="text" name="sn" class="form-control input-sm" placeholder="请输入订单编号">-->
-                        <!--    </div>-->
-                        <!--    <div class="form-group">-->
-                        <!--        <label class="sr-only">下单手机号码</label>-->
-                        <!--        <input type="text" name="phone" class="form-control input-sm" placeholder="请输入下单手机号码">-->
-                        <!--    </div>-->
-                        <!--    <div class="form-group">-->
-                        <!--        <label class="sr-only">订单状态</label>-->
-                        <!--        <select name="status" class="form-control input-sm">-->
-                        <!--            <option value="">请选择订单状态</option>-->
-                        <!--            <option value="0">待付款</option>-->
-                        <!--            <option value="1">待发货</option>-->
-                        <!--            <option value="2">待收货</option>-->
-                        <!--            <option value="3">已完成</option>-->
-                        <!--            <option value="-1">已取消</option>-->
-                        <!--        </select>-->
-                        <!--    </div>-->
-                        <!--    <button type="submit" class="btn btn-sm btn-info">搜索</button>-->
-                        <!--</form>-->
+                        <!-- 顶部综合筛选与多维度搜索栏 -->
+                        <div class="search-filter-bar" style="margin-bottom: 20px; background: #fafafc; padding: 18px 20px; border-radius: 14px; border: 1px solid rgba(0, 0, 0, 0.04);">
+                            
+                            <!-- 第一行：发票状态切换胶囊 -->
+                            <div class="filter-capsule-group" style="margin-bottom: 14px;">
+                                <span style="font-size: 13px; color: var(--apple-text-sub); margin-right: 4px; font-weight: 600;">发票状态：</span>
+                                <a href="{:U('ReportInfo/index', array('sn'=>$current_sn, 'phone'=>$current_phone, 'project_comp'=>$current_proj, 'rep_comp'=>$current_rep_comp, 'question_comp'=>$current_q_comp, 'rep_user'=>$current_rep_user))}" class="filter-capsule <?php echo $current_ticket === '' ? 'active' : ''; ?>">全部</a>
+                                <a href="{:U('ReportInfo/index', array('ticket'=>0, 'sn'=>$current_sn, 'phone'=>$current_phone, 'project_comp'=>$current_proj, 'rep_comp'=>$current_rep_comp, 'question_comp'=>$current_q_comp, 'rep_user'=>$current_rep_user))}" class="filter-capsule <?php echo $current_ticket === '0' ? 'active' : ''; ?>">不含税票</a>
+                                <a href="{:U('ReportInfo/index', array('ticket'=>1, 'sn'=>$current_sn, 'phone'=>$current_phone, 'project_comp'=>$current_proj, 'rep_comp'=>$current_rep_comp, 'question_comp'=>$current_q_comp, 'rep_user'=>$current_rep_user))}" class="filter-capsule <?php echo $current_ticket === '1' ? 'active' : ''; ?>">含普通发票</a>
+                                <a href="{:U('ReportInfo/index', array('ticket'=>2, 'sn'=>$current_sn, 'phone'=>$current_phone, 'rep_comp'=>$current_rep_comp, 'question_comp'=>$current_q_comp, 'rep_user'=>$current_rep_user))}" class="filter-capsule <?php echo $current_ticket === '2' ? 'active' : ''; ?>">含专用发票</a>
+                            </div>
 
-                        <div class="table-responsive">
+                            <!-- 第二行：多维精准搜索表单 + 严格放置在筛选/查询条件后方的实时数据统计面板 -->
+                            <form method="get" action="{:U('ReportInfo/index')}" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 0;">
+                                <?php if($current_ticket !== ''): ?>
+                                <input type="hidden" name="ticket" value="<?php echo $current_ticket; ?>">
+                                <?php endif; ?>
+                                
+                                <div style="width: 130px;">
+                                    <input type="text" name="sn" class="form-control" value="<?php echo htmlspecialchars($current_sn); ?>" placeholder="单号SN..." style="height: 38px; font-size: 13px;"/>
+                                </div>
+                                <div style="width: 130px;">
+                                    <input type="text" name="phone" class="form-control" value="<?php echo htmlspecialchars($current_phone); ?>" placeholder="登录手机号..." style="height: 38px; font-size: 13px;"/>
+                                </div>
+                                <div style="width: 140px;">
+                                    <input type="text" name="project_comp" class="form-control" value="<?php echo htmlspecialchars($current_proj); ?>" placeholder="项目名称..." style="height: 38px; font-size: 13px;"/>
+                                </div>
+                                <div style="width: 130px;">
+                                    <input type="text" name="rep_comp" class="form-control" value="<?php echo htmlspecialchars($current_rep_comp); ?>" placeholder="报价单位..." style="height: 38px; font-size: 13px;"/>
+                                </div>
+                                <div style="width: 130px;">
+                                    <input type="text" name="question_comp" class="form-control" value="<?php echo htmlspecialchars($current_q_comp); ?>" placeholder="询价单位..." style="height: 38px; font-size: 13px;"/>
+                                </div>
+                                <div style="width: 100px;">
+                                    <input type="text" name="rep_user" class="form-control" value="<?php echo htmlspecialchars($current_rep_user); ?>" placeholder="报价姓名..." style="height: 38px; font-size: 13px;"/>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-info" style="height: 38px; padding: 0 18px; border-radius: 8px; font-weight: 600; font-size: 13px;">查询</button>
+                                <!-- 重置按钮：采用flex居中对齐，保证文字上下左右完美居中 -->
+                                <a href="{:U('ReportInfo/index')}" class="btn btn-default" style="height: 38px; display: inline-flex; align-items: center; justify-content: center; padding: 0 14px; border-radius: 8px; border: 1px solid var(--apple-border); background: #fff; color: var(--apple-text-main); font-size: 13px; text-decoration: none;">重置</a>
+
+                                <!-- 精准放置在查询条件右侧的统计面板 -->
+                                <div class="inline-filter-stat">
+                                    <div class="stat-item-inline">
+                                        <span class="stat-label-inline">总金额:</span>
+                                        <span class="stat-value-inline" style="color: var(--apple-primary); font-size: 15px;">¥<?php 
+                                            if(isset($list['sum_money'])) { echo $list['sum_money']; } 
+                                            elseif(isset($sum_money)) { echo $sum_money; } 
+                                            else { echo '0.00'; } 
+                                        ?></span>
+                                    </div>
+                                    <div class="stat-divider-inline"></div>
+                                    <div class="stat-item-inline">
+                                        <span class="stat-label-inline">总数:</span>
+                                        <span class="stat-value-inline"><?php 
+                                            if(isset($list['count']) && $list['count'] > 0) { echo $list['count']; } 
+                                            elseif(isset($count) && $count > 0) { echo $count; } 
+                                            elseif(isset($total) && $total > 0) { echo $total; }
+                                            else { echo count($list['list']); } 
+                                        ?> 条</span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- 电脑端大表格视图：补齐单号SN列与全链条删除按钮 -->
+                        <div class="desktop-table-view">
                             <table class="table">
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>上调比例</th>
-                                        <th>质量标准</th>
-                                        <th>报价税率</th>
+                                        <th>单号SN</th>
+                                        <th>调整比例</th>
+                                        <th>发票选项</th>
                                         <th>序号数量</th>
                                         <th>订单金额</th>
                                         <th>登录帐号</th>
                                         <th>帐号备注</th>
-                                        <th width="100px">报价单位</th>
-                                        <th width="100px">询价单位</th>
-                                        <th width="100px">项目名称</th>
-                                        <th width="100px">付款方式</th>
+                                        <th>报价单位</th>
+                                        <th>询价单位</th>
+                                        <th>项目名称</th>
+                                        <th>付款方式</th>
                                         <th>报价姓名</th>
                                         <th>电话号码</th>
-                                        <th width="150px">创建时间</th>
-                                        <th width="100px">管理</th>
+                                        <th>创建时间</th>
+                                        <th>管理操作</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                 <volist name="list.list" id="v" key='k'>
                                     <tr>
                                         <th scope="row">{$k}</th>
-                                        <td>{$v.ratio}</td>
-                                        <td>{$v.trans_bids}</td>
+                                        <td><code style="background: #f1f1f3; padding: 3px 6px; border-radius: 4px; color: #333; font-size: 12px;">{$v.sn}</code></td>
                                         <td>
-                                            {$v['ticket']==0?'不含税票':''}
-                                            {$v['ticket']==1?'增值税普通税票':''}
-                                            {$v['ticket']==2?'增值税专用税票':''}
+                                            <?php if($v['ratio'] > 0) { ?>
+                                                <span class="badge-capsule badge-ratio-pos">+<?php echo $v['ratio']; ?>%</span>
+                                            <?php } elseif($v['ratio'] < 0) { ?>
+                                                <span class="badge-capsule badge-ratio-neg"><?php echo $v['ratio']; ?>%</span>
+                                            <?php } else { ?>
+                                                <span class="badge-capsule badge-ratio-zero">0%</span>
+                                            <?php } ?>
+                                        </td>
+                                        <td>
+                                            <?php if($v['ticket'] == 0) { ?>
+                                                <span class="badge-capsule badge-ticket-0">不含税票</span>
+                                            <?php } elseif($v['ticket'] == 1) { ?>
+                                                <span class="badge-capsule badge-ticket-1">含普通发票</span>
+                                            <?php } elseif($v['ticket'] == 2) { ?>
+                                                <span class="badge-capsule badge-ticket-2">含专用发票</span>
+                                            <?php } ?>
                                         </td>
                                         <td>{$v.count}</td>
-                                        <td>{$v.money}</td>
-                                        <td>{$v['_user']['phone']}</td>
-                                        <td>{$v['_user']['tags']}</td>
-                                        
+                                        <td><strong style="font-size: 15px; color: var(--apple-primary);">¥{$v.money}</strong></td>
+                                        <td>{$v._user.phone}</td>
+                                        <td>{$v._user.tags}</td>
                                         <td>{$v.rep_comp}</td>
                                         <td>{$v.question_comp}</td>
-                                        <td>{$v.project_comp}</td>
+                                        <td><strong>{$v.project_comp}</strong></td>
                                         <td>{$v.check_type}</td>
                                         <td>{$v.rep_user}</td>
                                         <td>{$v.rep_phone}</td>
-                                       <td>{$v.times|date='Y-m-d H:i:s',###}</td>
+                                        <td>{$v.times|date='Y-m-d H:i:s',###}</td>
                                         <td>
                                             <a href="{:U('ReportInfo/infos','id='.$v['id'])}" class="btn btn-info btn-xs">详情</a>
-                                            
-
-                                            
+                                            <!-- 全链条彻底删除按钮：同时清理前端用户记录、业务归属与数据库底层存储 -->
+                                            <button type="button" class="btn btn-danger-soft btn-xs" ng-click="fullChainDelete({$v.id}, '{$v.sn}')">删除</button>
                                         </td>
                                     </tr>
                                 </volist>
-
                                 </tbody>
                             </table>
+                        </div>
 
+                        <!-- 手机端独立卡片折叠视图：完整展示SN码、数据及安全触控删除按钮 -->
+                        <div class="mobile-card-view">
+                            <volist name="list.list" id="v" key='k'>
+                                <div class="mobile-order-card">
+                                    <div class="m-card-header-row">
+                                        <span class="m-card-title">项目: {$v.project_comp}</span>
+                                        <span class="m-card-badge">SN: {$v.sn}</span>
+                                    </div>
+                                    
+                                    <div class="m-card-grid">
+                                        <div class="m-grid-item">
+                                            <span class="m-grid-label">订单金额</span>
+                                            <span class="m-grid-val" style="color: var(--apple-primary); font-size: 15px; font-weight: 700;">¥{$v.money}</span>
+                                        </div>
+                                        <div class="m-grid-item">
+                                            <span class="m-grid-label">发票选项</span>
+                                            <span class="m-grid-val">
+                                                <?php if($v['ticket'] == 0) { ?>
+                                                    <span class="badge-capsule badge-ticket-0">不含税票</span>
+                                                <?php } elseif($v['ticket'] == 1) { ?>
+                                                    <span class="badge-capsule badge-ticket-1">含普通发票</span>
+                                                <?php } elseif($v['ticket'] == 2) { ?>
+                                                    <span class="badge-capsule badge-ticket-2">含专用发票</span>
+                                                <?php } ?>
+                                            </span>
+                                        </div>
+                                        <div class="m-grid-item">
+                                            <span class="m-grid-label">调整比例</span>
+                                            <span class="m-grid-val">
+                                                <?php if($v['ratio'] > 0) { ?>
+                                                    <span class="badge-capsule badge-ratio-pos">+<?php echo $v['ratio']; ?>%</span>
+                                                <?php } elseif($v['ratio'] < 0) { ?>
+                                                    <span class="badge-capsule badge-ratio-neg"><?php echo $v['ratio']; ?>%</span>
+                                                <?php } else { ?>
+                                                    <span class="badge-capsule badge-ratio-zero">0%</span>
+                                                <?php } ?>
+                                            </span>
+                                        </div>
+                                        <div class="m-grid-item">
+                                            <span class="m-grid-label">序号数量</span>
+                                            <span class="m-grid-val">{$v.count}</span>
+                                        </div>
+                                        <div class="m-grid-item">
+                                            <span class="m-grid-label">报价单位</span>
+                                            <span class="m-grid-val">{$v.rep_comp}</span>
+                                        </div>
+                                        <div class="m-grid-item">
+                                            <span class="m-grid-label">询价单位</span>
+                                            <span class="m-grid-val">{$v.question_comp}</span>
+                                        </div>
+                                        <div class="m-grid-item">
+                                            <span class="m-grid-label">付款方式</span>
+                                            <span class="m-grid-val">{$v.check_type}</span>
+                                        </div>
+                                        <div class="m-grid-item">
+                                            <span class="m-grid-label">登录帐号</span>
+                                            <span class="m-grid-val">{$v._user.phone}</span>
+                                        </div>
+                                        <div class="m-grid-item">
+                                            <span class="m-grid-label">联系人 / 电话</span>
+                                            <span class="m-grid-val">{$v.rep_user} ({$v.rep_phone})</span>
+                                        </div>
+                                        <div class="m-grid-item">
+                                            <span class="m-grid-label">创建时间</span>
+                                            <span class="m-grid-val">{$v.times|date='Y-m-d H:i',###}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="m-card-footer-row">
+                                        <a href="{:U('ReportInfo/infos','id='.$v['id'])}" class="btn btn-info">查看详情</a>
+                                        <button type="button" class="btn btn-danger-soft" ng-click="fullChainDelete({$v.id}, '{$v.sn}')">全链条删除</button>
+                                    </div>
+                                </div>
+                            </volist>
+                        </div>
+
+                        <!-- 底部纯净版分页导航容器 -->
+                        <div class="pagination-wrapper-box">
                             <nav aria-label="Page navigation">
                                 <ul class="pagination">{$list.show}</ul>
                             </nav>
-
                         </div>
+
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <!-- Modal -->
+    <!-- 物流信息更新弹窗 -->
     <div class="modal fade" id="myEdits" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document" style="width:50%;">
             <div class="modal-content">
@@ -145,13 +667,8 @@
                     <h4 class="modal-title" id="myModalLabel">更新物流信息</h4>
                 </div>
                 <div class="modal-body">
-
                     <div class="row">
                         <div class="col-md-6">
-                            <!--div class="form-group">
-                                <label>到货区域</label>
-                                <input type="text" name="label" class="form-control input-sm" ng-model="info.label"/>
-                            </div-->
                             <div class="form-group">
                                 <label>承运物流</label>
                                 <input type="text" name="trans" class="form-control input-sm" ng-model="info.trans"/>
@@ -164,14 +681,6 @@
                                 <label>货物编号</label>
                                 <input type="text" name="trade_sn" class="form-control input-sm" ng-model="info.trade_sn"/>
                             </div>
-                            <!--div class="form-group">
-                                <label>收货人员</label>
-                                <input type="text" name="save_name" class="form-control input-sm" ng-model="info.save_name"/>
-                            </div>
-                            <div class="form-group">
-                                <label>收货电话</label>
-                                <input type="text" name="save_phone" class="form-control input-sm" ng-model="info.save_phone"/>
-                            </div-->
                             <div class="form-group">
                                 <label>代收货款</label>
                                 <input type="text" name="agent_money" class="form-control input-sm" ng-model="info.agent_money"/>
@@ -190,65 +699,23 @@
                                 <label>取货地址</label>
                                 <input type="text" name="get_addr" class="form-control input-sm" ng-model="info.get_addr"/>
                             </div>
-                            <!--div class="form-group">
-                                <label>发货图片</label>
-                                <input type="file" name="trans_imgs" id="filedit" class="form-control input-sm"/>
-                            </div>
-                            <div class="help-block">
-                                <img src="__PUBLIC__/uploads/trans_tik/{{info.trans_imgs}}" height="150"/>
-                            </div-->
                         </div>
                     </div>
-
-
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" ng-click="uptransOp()">更新</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="border-radius: var(--apple-radius-btn); height: 40px; padding: 0 20px;">取消</button>
+                    <button type="button" class="btn btn-primary" ng-click="uptransOp()" style="border-radius: var(--apple-radius-btn); height: 40px; padding: 0 20px; background-color: var(--apple-primary);">更新</button>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
 
 <script>
-
-    /**
-     * 更新信息
-     * @returns {undefined}
-     */
-    function change(id, st) {
-        var data = {ids: id, status: st};
-        //////
-        $.ajax({
-            url: "{:U('Core/edits','model=orders')}",
-            type: "post",
-            data: data,
-            dataType: "json",
-            success: function (res) {
-                if (res.status != 1) {
-                    return swal('提示', res.msg, "error");
-                }
-                window.location.reload();
-            },
-            error: function () {
-
-            },
-        });
-    }
-
     var app = angular.module('myApp', []);
     app.controller('myCtrl', function ($scope, $http) {
+        $scope.info = {};
 
-        $scope.info;
-
-        /**
-         * 通讯操作
-         * @param {type} url
-         * @param {type} data
-         * @returns {undefined}
-         */
         $scope.commAjax = function (url, data, success) {
             $http({
                 method: "POST",
@@ -267,18 +734,63 @@
             });
         };
 
-        ////////////////////////////////////////////////////////////////////////
+        /* 全链条彻底删除核心函数：联动清理数据库底层存储、前端用户关联与管理端记录 */
+        $scope.fullChainDelete = function (id, snCode) {
+            if (typeof swal !== 'undefined') {
+                swal({
+                    title: "确定要彻底删除该报价单吗？",
+                    text: "单号 SN: " + snCode + "\n警告：此操作将全链条联动清理，包括前端用户端关联记录、关联详情及数据库底层存储，删除后无法恢复！",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#ff3b30",
+                    confirmButtonText: "确定彻底删除",
+                    cancelButtonText: "取消"
+                }, function (isConfirm) {
+                    if (isConfirm) {
+                        $scope.executeDeleteAjax(id);
+                    }
+                });
+            } else {
+                if (confirm("确定要全链条彻底删除单号为 " + snCode + " 的记录吗？该操作会同步清理数据库及用户端缓存！")) {
+                    $scope.executeDeleteAjax(id);
+                }
+            }
+        };
+
+        $scope.executeDeleteAjax = function (id) {
+            var param = {id: id, model: 'report_info'};
+            $scope.commAjax("{:U('Core/dels')}", param, function (res) {
+                if (res.status !== 1) {
+                    if (typeof swal !== 'undefined') {
+                        return swal("错误", res.msg || "删除失败", "error");
+                    } else {
+                        alert(res.msg || "删除失败");
+                        return;
+                    }
+                }
+                if (typeof swal !== 'undefined') {
+                    swal({
+                        title: "删除成功",
+                        text: "已完成全链条物理与逻辑清理",
+                        type: "success"
+                    }, function () {
+                        window.location.reload();
+                    });
+                } else {
+                    window.location.reload();
+                }
+            });
+        };
 
         $scope.uptransInfo = function (id) {
             $scope.commAjax("{:U('Order/trans_info')}", {ids: id}, function (res) {
                 $scope.info = res.data;
                 $("#myEdits").modal("show");
             });
-        }
+        };
 
         $scope.uptransOp = function () {
             var param = $scope.info;
-            /////////
             $.ajaxFileUpload({
                 url: "{:U('Order/trans_up')}",
                 secureuri: false,
@@ -295,20 +807,6 @@
                     console.log(data);
                 }
             });
-        }
-
-        $scope.dels = function (ids) {
-            var param = {id: ids};
-            $scope.commAjax("{:U('Core/dels','model=orders')}", param, function (res) {
-                if (res.status !== 1) {
-                    return swal("错误", res.msg, "error");
-                }
-                window.location.reload();
-            });
-        }
-
+        };
     });
-
 </script>
-
-

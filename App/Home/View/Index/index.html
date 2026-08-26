@@ -1,40 +1,186 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>易缆管理中心</title>
-        <!-- ================= Favicon ================== -->
+        <title>易缆管理中心 - 管理员登录</title>
+        <!-- 全局浏览器标签页 (Favicon) 图标 -->
+        <link rel="shortcut icon" href="__PUBLIC__/assets/images/app_logo.png" type="image/png">
         <!-- Styles -->
         <link href="__PUBLIC__/assets/css/lib/font-awesome.min.css" rel="stylesheet">
         <link href="__PUBLIC__/assets/css/lib/themify-icons.css" rel="stylesheet">
         <link href="__PUBLIC__/assets/css/lib/bootstrap.min.css" rel="stylesheet">
         <link href="__PUBLIC__/assets/css/lib/unix.css" rel="stylesheet">
         <link href="__PUBLIC__/assets/css/style.css" rel="stylesheet">
+        <style>
+            /* 现代商务风全局背景：采用极简高级渐变，兼顾超宽屏与移动端全屏铺满 */
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                background: linear-gradient(135deg, #007aff 0%, #00b050 100%) !important;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            }
+
+            .unix-login {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+                width: 100%;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+
+            /* 登录卡片容器：增加高级阴影、大圆角与最大宽度限制，防止超宽屏下拉伸过大 */
+            .login-content {
+                background: #ffffff;
+                border-radius: 24px;
+                padding: 45px 40px;
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+                width: 100%;
+                max-width: 440px;
+                box-sizing: border-box;
+                margin: 0 auto;
+            }
+
+            /* Logo 视觉区域：完美结合透明PNG，利用轮廓投影实现无白框的悬浮立体感 */
+            .login-logo {
+                text-align: center;
+                margin-bottom: 25px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 14px;
+            }
+
+            .login-logo img {
+                height: 56px;
+                width: auto;
+                object-fit: contain;
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                /* 核心修复：使用 drop-shadow 完美契合透明PNG轮廓，实现悬浮立体感，彻底消除方形白框 */
+                filter: drop-shadow(0 8px 16px rgba(0, 122, 255, 0.35));
+                transition: transform 0.3s ease;
+            }
+
+            .login-logo img:hover {
+                transform: translateY(-2px);
+                filter: drop-shadow(0 12px 20px rgba(0, 122, 255, 0.45));
+            }
+
+            .login-logo span {
+                font-size: 20px;
+                font-weight: 700;
+                color: #1d1d1f;
+                letter-spacing: 0.5px;
+            }
+
+            .login-form h4 {
+                font-size: 15px;
+                font-weight: 500;
+                color: #86868b;
+                margin-bottom: 24px;
+                text-align: center;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+            }
+
+            .form-group label {
+                font-size: 13px;
+                font-weight: 500;
+                color: #48484a;
+                margin-bottom: 8px;
+                display: block;
+            }
+
+            /* 输入框美化：增加苹果风聚焦微光与顺滑过渡 */
+            .form-control {
+                height: 48px;
+                border-radius: 12px;
+                border: 1px solid #d2d2d7;
+                padding: 10px 16px;
+                font-size: 15px;
+                color: #1d1d1f;
+                background-color: #fbfbfd;
+                transition: all 0.2s ease;
+                box-shadow: none !important;
+            }
+
+            .form-control:focus {
+                border-color: #007aff !important;
+                background-color: #ffffff;
+                box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15) !important;
+            }
+
+            /* 登录按钮美化：圆角、高触控热区与精致阴影 */
+            .btn.btn-primary.btn-flat {
+                height: 48px;
+                background: linear-gradient(135deg, #007aff 0%, #005ec4 100%);
+                border: none;
+                border-radius: 12px;
+                font-size: 16px;
+                font-weight: 600;
+                color: #ffffff;
+                width: 100%;
+                margin-top: 15px;
+                margin-bottom: 10px;
+                box-shadow: 0 6px 16px rgba(0, 122, 255, 0.3);
+                cursor: pointer;
+                transition: all 0.2s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-decoration: none;
+            }
+
+            .btn.btn-primary.btn-flat:hover {
+                opacity: 0.92;
+                box-shadow: 0 8px 20px rgba(0, 122, 255, 0.4);
+                color: #ffffff;
+                text-decoration: none;
+            }
+
+            /* 移动端与小屏完美适配 */
+            @media (max-width: 480px) {
+                .login-content {
+                    padding: 30px 20px;
+                    border-radius: 18px;
+                }
+                .unix-login {
+                    padding: 15px;
+                }
+            }
+        </style>
     </head>
 
     <body class="bg-primary">
 
         <div class="unix-login">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-lg-offset-3">
+            <div class="container" style="width: 100%; padding: 0;">
+                <div class="row" style="margin: 0;">
+                    <div class="col-lg-6 col-lg-offset-3" style="padding: 0; float: none; margin: 0 auto;">
                         <div class="login-content">
                             <div class="login-logo">
-                                <a><span>易缆管理中心</span></a>
+                                <img src="__PUBLIC__/assets/images/app_logo.png" alt="易缆Logo">
+                                <span>易缆通APP后台管理中心</span>
                             </div>
                             <div class="login-form">
-                                <h4>管理员登录</h4>
+                                <h4>系统管理员登录</h4>
                                 <form>
                                     <div class="form-group">
                                         <label>账号</label>
-                                        <input type="text" class="form-control" name="name" placeholder="请输入账号">
+                                        <input type="text" class="form-control" name="name" placeholder="请输入管理员账号">
                                     </div>
                                     <div class="form-group">
                                         <label>密码</label>
-                                        <input type="password" class="form-control" name="passwd" placeholder="请输入密码">
+                                        <input type="password" class="form-control" name="passwd" placeholder="请输入管理员密码">
                                     </div>
                                     <a href="javascript:onLogin();" class="btn btn-primary btn-flat m-b-30 m-t-30">登录</a>
                                 </form>
@@ -45,9 +191,8 @@
             </div>
         </div>
 
-        <!-- sweetalert -->
+        <!-- sweetalert & scripts -->
         <script src="__PUBLIC__/assets/js/lib/jquery.min.js"></script>
-
         <link href="__PUBLIC__/libs/sweet-alert2/sweetalert2.min.css" rel="stylesheet">
         <script src="__PUBLIC__/libs/sweet-alert2/sweetalert2.min.js"></script>
         <script src="__PUBLIC__/libs/common.js"></script>

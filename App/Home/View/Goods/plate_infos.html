@@ -1,75 +1,460 @@
-<div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
-    <div class="row">
-        <div class="col-lg-8 p-r-0 title-margin-right">
-            <div class="page-header">
-                <div class="page-title">
-                    <h1>板块分类条管理</h1>
-                </div>
-            </div>
-        </div>
-        <!-- /# column -->
-        <div class="col-lg-4 p-l-0 title-margin-left">
-            <div class="page-header">
-                <div class="page-title">
-                    <ol class="breadcrumb text-right">
-                        <eq name="info.types" value="1"><li><a href="{:U('Goods/liner')}">板块列表</a></li></eq>
-                        <eq name="info.types" value="2"><li><a href="{:U('Goods/peita')}">板块列表</a></li></eq>
-                        <eq name="info.types" value="3"><li><a href="{:U('Shops/index_cats','id='.$info['types_id'])}">板块列表</a></li></eq>
-                        <li class="active">板块分类条管理</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-        <!-- /# column -->
-    </div>
-    <!-- /# row -->
+<style>
+    /* ===== 苹果极简商务风：全局容器与排版样式 ===== */
+    .apple-backend-container {
+        background-color: #f5f5f7;
+        padding: 24px 32px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        color: #1d1d1f;
+        min-height: 100vh;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .apple-row {
+        margin-bottom: 0;
+        width: 100%;
+    }
+
+    /* ===== 苹果高档质感卡片 ===== */
+    .apple-card {
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+        border: 1px solid rgba(0, 0, 0, 0.04);
+        margin-bottom: 0;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+
+    .apple-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #2c3e50;
+        color: #fff;
+        padding: 18px 24px;
+        border-bottom: none;
+    }
+
+    .card-title-text {
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+    }
+
+    .apple-header-add-btn {
+        font-size: 13px !important;
+        padding: 7px 16px !important;
+        height: auto !important;
+        border-radius: 8px !important;
+        border: 1px solid rgba(255, 255, 255, 0.4) !important;
+        background: rgba(255, 255, 255, 0.15) !important;
+        color: #fff !important;
+        transition: all 0.2s ease;
+    }
+    .apple-header-add-btn:hover {
+        background: rgba(255, 255, 255, 0.3) !important;
+    }
+
+    .apple-card-body {
+        padding: 24px;
+    }
+
+    /* ===== 表格样式优化（全屏铺开，四周留出舒适微缝） ===== */
+    .apple-table-wrapper {
+        border-radius: 12px;
+        border: 1px solid #e5e5ea;
+        overflow: hidden;
+        background: #ffffff;
+        width: 100%;
+    }
+
+    .apple-table {
+        margin-bottom: 0 !important;
+        background-color: #ffffff;
+        width: 100%;
+        table-layout: fixed; /* 固定列宽，结构清晰严谨 */
+    }
+
+    .apple-table th {
+        background: #fafafc !important;
+        color: #1d1d1f !important;
+        font-weight: 600 !important;
+        border-bottom: 1px solid #e5e5ea !important;
+        padding: 16px 12px !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .apple-table td {
+        padding: 14px 12px !important;
+        vertical-align: middle !important;
+        border-color: #f0f0f2 !important;
+        color: #1d1d1f;
+        word-break: break-all;
+    }
+
+    /* 奇偶行交叉底色，辨识度高 */
+    .apple-table tbody tr:nth-of-type(odd) {
+        background-color: #fbfbfd;
+    }
+
+    .apple-table tbody tr:hover {
+        background-color: #f5f5f7;
+    }
+
+    .badge-number {
+        font-weight: 600;
+        color: #86868b;
+        background: #f0f0f2;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 13px;
+    }
+
+    .text-bold-name {
+        font-weight: 600;
+        color: #1d1d1f;
+        font-size: 14px;
+    }
+
+    .status-badge-normal {
+        background: #eef6ed;
+        color: #34c759;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 12px;
+    }
+
+    .status-badge-pause {
+        background: #fdf2f2;
+        color: #ff3b30;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 12px;
+    }
+
+    /* 广告图片展示框：拉长适配长条横幅 */
+    .table-ads-img {
+        height: 44px;
+        max-width: 150px;
+        width: 100%;
+        border-radius: 6px;
+        object-fit: contain;
+        background: #f8f8fa;
+        border: 1px solid #e5e5ea;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: block;
+    }
+    .table-ads-img:hover {
+        transform: scale(1.03);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border-color: #0071e3;
+    }
+
+    /* ==========================================
+       管理操作区：完美容纳所有功能按钮
+       ========================================== */
+    .table-action-group {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 6px; 
+        width: 100%;
+        padding: 0 4px;
+        box-sizing: border-box;
+        flex-wrap: nowrap;
+    }
+
+    .btn-action-base {
+        border: none !important;
+        border-radius: 6px !important;
+        padding: 5px 6px !important;
+        font-weight: 500 !important;
+        color: #fff !important;
+        height: 30px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .btn-action-goods { background-color: #0071E3 !important; }
+    .btn-action-up { background-color: #34C759 !important; }
+    .btn-action-down { background-color: #FF9500 !important; }
+    .btn-action-premium { background-color: #5856D6 !important; } /* 分类溢价专属功能按钮配色：苹果经典高级紫 */
+    .btn-action-detail { background-color: #5AC8FA !important; } 
+    .btn-action-edit { background-color: #8E8E93 !important; }
+    .btn-action-del { background-color: #FF3B30 !important; }
+
+    .btn-action-base:hover { opacity: 0.85; filter: brightness(1.05); }
+
+    .apple-pagination-box {
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    /* ===== 弹窗精细化控制 ===== */
+    .apple-modal .modal-dialog {
+        max-width: 480px;
+        margin: 40px auto;
+    }
+
+    .apple-modal-image .modal-dialog {
+        max-width: 650px;
+        margin: 40px auto;
+    }
+
+    .apple-modal .modal-content {
+        border-radius: 16px;
+        border: none;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        background: #ffffff;
+        overflow: hidden;
+    }
+
+    .apple-modal .modal-header {
+        background: #fafafc;
+        border-bottom: 1px solid #e5e5ea;
+        padding: 16px 20px;
+    }
+
+    .apple-modal .modal-title {
+        font-weight: 600;
+        color: #1d1d1f;
+        font-size: 16px;
+    }
+
+    .apple-modal .modal-body {
+        padding: 24px 20px;
+    }
+
+    .apple-modal .form-group {
+        margin-bottom: 16px;
+    }
+
+    .apple-modal .form-group label {
+        font-weight: 600;
+        color: #1d1d1f;
+        font-size: 13px;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    .apple-input {
+        border-radius: 8px !important;
+        border: 1px solid #d2d2d7 !important;
+        height: 40px !important;
+        box-shadow: none !important;
+        transition: all 0.2s;
+    }
+    .apple-input:focus {
+        border-color: #0071e3 !important;
+        box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15) !important;
+    }
+
+    .apple-modal .modal-footer {
+        background: #fafafc;
+        border-top: 1px solid #e5e5ea;
+        padding: 12px 20px;
+        display: flex !important;
+        align-items: center;
+        justify-content: flex-end !important;
+        gap: 10px;
+    }
+
+    .apple-btn-primary {
+        background: #0071e3 !important;
+        border: none !important;
+        border-radius: 8px !important;
+        padding: 8px 18px !important;
+        font-weight: 500 !important;
+        color: #fff !important;
+        height: 38px;
+    }
+    .apple-btn-primary:hover { background: #0077ed !important; }
+
+    .apple-btn-default {
+        border-radius: 8px !important;
+        border: 1px solid #d2d2d7 !important;
+        background: #ffffff !important;
+        color: #1d1d1f !important;
+        padding: 8px 18px !important;
+        height: 38px;
+    }
+    .apple-btn-default:hover {
+        background: #f0f0f5 !important;
+        border-color: #c7c7cc !important;
+    }
+
+    /* ==========================================
+       移动端响应式降级：卡片式折叠布局
+       ========================================== */
+    @media (max-width: 768px) {
+        .apple-backend-container {
+            padding: 12px;
+        }
+
+        .apple-card-body {
+            padding: 12px;
+        }
+
+        .apple-table, .apple-table thead, .apple-table tbody, .apple-table tr, .apple-table td {
+            display: block;
+            width: 100% !important;
+        }
+
+        .apple-table thead {
+            display: none;
+        }
+
+        .apple-table tbody tr {
+            background: #ffffff !important;
+            border: 1px solid #e5e5ea;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            padding: 14px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        .apple-table tbody td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0 !important;
+            border: none !important;
+            text-align: right;
+        }
+
+        .apple-table tbody td::before {
+            content: attr(data-label);
+            font-weight: 600;
+            color: #86868b;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        .table-ads-img {
+            max-width: 180px;
+            height: 40px;
+        }
+
+        .table-action-group {
+            justify-content: flex-end;
+            width: 100%;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #f0f0f2;
+            padding-left: 0;
+            padding-right: 0;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .btn-action-base {
+            padding: 6px 10px !important;
+            height: 36px !important;
+            flex: 1 1 30%;
+            font-size: 12px;
+        }
+
+        .apple-modal .modal-dialog {
+            width: 90% !important;
+            margin: 20px auto !important;
+        }
+        
+        .apple-modal-image .modal-dialog {
+            width: 95% !important;
+            margin: 20px auto !important;
+        }
+    }
+</style>
+
+<div class="container-fluid apple-backend-container" ng-app="myApp" ng-controller="myCtrl">
     <section id="main-content">
+        <!-- 已按您的要求彻底删除多余的快捷导航栏 -->
 
-
-        <div class="row">
-
+        <div class="row apple-row">
             <div class="col-lg-12">
-                <div class="card alert">
-                    <div class="card-header">
-                        <h4>板块分类条</h4>
+                <div class="apple-card">
+                    <div class="card-header apple-card-header">
+                        <span class="card-title-text">板块分类条管理</span>
                         <div class="card-header-right-icon">
-                            <ul>
-                                <li class="doc-link">
-                                    <a class="btn btn-xs btn-info" data-toggle="modal" data-target="#myModal">添加板块分类条</a>
-                                </li>
-                            </ul>
+                            <a class="btn btn-xs apple-header-add-btn" data-toggle="modal" data-target="#myModal">+ 添加板块分类条</a>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table">
+                    <div class="card-body apple-card-body">
+                        <div class="table-responsive apple-table-wrapper">
+                            <table class="table table-hover apple-table">
+                                <!-- 列宽精密分配，确保行内操作区各按钮完美呈现 -->
+                                <colgroup>
+                                    <col style="width: 70px;">
+                                    <col style="width: 15%;">
+                                    <col style="width: 20%;">
+                                    <col style="width: 70px;">
+                                    <col style="width: 80px;">
+                                    <col style="width: 150px;">
+                                    <col style="width: 500px;">
+                                </colgroup>
                                 <thead>
                                     <tr>
                                         <th>#</th>
                                         <th>广告名称</th>
-                                        <th width="25%">广告图片</th>
+                                        <th>广告图片</th>
                                         <th>排序</th>
                                         <th>状态</th>
-                                        <th width="15%">记录时间</th>
-                                        <th width="30%">管理</th>
+                                        <th>记录时间</th>
+                                        <th style="text-align: center;">管理操作区</th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
                                 <volist name="list.list" id="v">
                                     <tr>
-                                        <th scope="row">{$v.id}</th>
-                                        <td>{$v.name}</td>
-                                        <td><img src="__PUBLIC__/uploads/ads/{$v.source}" height="30"/></td>
-                                        <td>{$v.sorts}</td>
-                                        <td>{$v['status']>0?'正常':'暂停使用'}</td>
-                                        <td>{$v.times|date='Y/m/d H:i:s',###}</td>
-                                        <td>
-                                            <a href="{:U('Goods/plate_conts','id='.$v['id'])}" class="btn btn-info btn-xs">商品管理</a>
-                                            <a ng-click="changeid('{$v.id}', 1)" class="btn btn-info btn-xs">上调顺序</a>
-                                            <a ng-click="changeid('{$v.id}', 0)" class="btn btn-info btn-xs">下调顺序</a>
-                                            <a ng-click="updateInfo('{$v.id}')" class="btn btn-info btn-xs">编辑</a>
-                                            <a ng-click="dels('{$v.id}')" class="btn btn-danger btn-xs">删除</a>
+                                        <td data-label="序号">
+                                            <span class="badge-number">{$v.id}</span>
+                                        </td>
+                                        <td data-label="广告名称">
+                                            <span class="text-bold-name">{$v.name}</span>
+                                        </td>
+                                        <td data-label="广告图片">
+                                            <!-- 点击图片触发高清预览弹窗 -->
+                                            <img src="__PUBLIC__/uploads/ads/{$v.source}" class="table-ads-img" ng-click="previewImage('__PUBLIC__/uploads/ads/{$v.source}', '{$v.name}')" title="点击查看高清大图"/>
+                                        </td>
+                                        <td data-label="排序">
+                                            <span class="badge-number">{$v.sorts}</span>
+                                        </td>
+                                        <td data-label="状态">
+                                            <if condition="$v['status'] gt 0">
+                                                <span class="status-badge-normal">正常</span>
+                                            <else />
+                                                <span class="status-badge-pause">暂停使用</span>
+                                            </if>
+                                        </td>
+                                        <td data-label="记录时间">
+                                            <span style="color: #86868b; font-size: 13px;">{$v.times|date='Y/m/d H:i:s',###}</span>
+                                        </td>
+                                        <td data-label="管理操作" style="text-align: center; padding: 14px 0;">
+                                            <!-- 每一条独立内嵌：商品管理 -> 上调顺序 -> 下调顺序 -> 分类溢价 -> 商品详情 -> 修改名称 -> 删除 -->
+                                            <div class="table-action-group">
+                                                <a href="{:U('Goods/plate_conts','id='.$v['id'])}" class="btn btn-xs btn-action-base btn-action-goods">商品管理</a>
+                                                <a ng-click="changeid('{$v.id}', 1)" class="btn btn-xs btn-action-base btn-action-up">上调顺序</a>
+                                                <a ng-click="changeid('{$v.id}', 0)" class="btn btn-xs btn-action-base btn-action-down">下调顺序</a>
+                                                <!-- 已按您的最新要求将字符改为“分类溢价” -->
+                                                <a href="{:U('Goods/premium_template','id='.$v['id'])}" class="btn btn-xs btn-action-base btn-action-premium">分类溢价</a>
+                                                <a href="{:U('Goods/plate_conts_info','id='.$v['id'].'&tar=g_desc')}" class="btn btn-xs btn-action-base btn-action-detail">商品详情</a>
+                                                <a ng-click="updateInfo('{$v.id}')" class="btn btn-xs btn-action-base btn-action-edit">修改名称</a>
+                                                <a ng-click="dels('{$v.id}')" class="btn btn-xs btn-action-base btn-action-del">删除</a>
+                                            </div>
                                         </td>
                                     </tr>
                                 </volist>
@@ -77,9 +462,11 @@
                                 </tbody>
                             </table>
 
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination">{$list.show}</ul>
-                            </nav>
+                            <div class="apple-pagination-box">
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination">{$list.show}</ul>
+                                </nav>
+                            </div>
 
                         </div>
                     </div>
@@ -90,9 +477,9 @@
 
     </section>
 
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document" style="width:35%;">
+    <!-- Modal：添加板块分类条 -->
+    <div class="modal fade apple-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -105,19 +492,19 @@
 
                         <div class="form-group">
                             <label>名称</label>
-                            <input type="text" name="name" class="form-control"/>
+                            <input type="text" name="name" class="form-control apple-input" placeholder="请输入分类条名称"/>
                         </div>
                         <div class="form-group">
                             <label>广告图片</label>
-                            <input type="file" name="file" id="file" class="form-control"/>
+                            <input type="file" name="file" id="file" class="form-control apple-input" style="padding-top: 6px;"/>
                         </div>
                         <div class="form-group">
                             <label>排序</label>
-                            <input type="number" name="sorts" class="form-control" value="0"/>
+                            <input type="number" name="sorts" class="form-control apple-input" value="0"/>
                         </div>
                         <div class="form-group">
                             <label>状态</label>
-                            <select name="status" class="form-control">
+                            <select name="status" class="form-control apple-input">
                                 <option value="1">使用</option>
                                 <option value="0">暂停</option>
                             </select>
@@ -126,16 +513,16 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" onclick="addor()">添加</button>
+                    <button type="button" class="btn btn-default apple-btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary apple-btn-primary" onclick="addor()">添加</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="myEdits" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document" style="width:35%;">
+    <!-- Modal：修改板块分类条 -->
+    <div class="modal fade apple-modal" id="myEdits" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -146,22 +533,22 @@
                     <form>
                         <div class="form-group">
                             <label>名称</label>
-                            <input type="text" name="name" class="form-control" ng-model="lininfo.name"/>
+                            <input type="text" name="name" class="form-control apple-input" ng-model="lininfo.name"/>
                         </div>
                         <div class="form-group">
                             <label>广告图片</label>
-                            <input type="file" name="file" id="filedit" class="form-control"/>
-                            <p class="m-t-10">
-                                <img ng-src="__PUBLIC__/uploads/ads/{{lininfo.source}}" width='400'/>
+                            <input type="file" name="file" id="filedit" class="form-control apple-input" style="padding-top: 6px;"/>
+                            <p class="m-t-10" style="margin-top: 10px;">
+                                <img ng-src="__PUBLIC__/uploads/ads/{{lininfo.source}}" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #e5e5ea; cursor: pointer;" ng-click="previewImage('__PUBLIC__/uploads/ads/' + lininfo.source, lininfo.name)" title="点击查看高清大图"/>
                             </p>
                         </div>
                         <div class="form-group">
                             <label>排序</label>
-                            <input type="text" name="sorts" class="form-control" ng-model="lininfo.sorts"/>
+                            <input type="text" name="sorts" class="form-control apple-input" ng-model="lininfo.sorts"/>
                         </div>
                         <div class="form-group">
                             <label>状态</label>
-                            <select name="status" class="form-control" ng-model="lininfo.status">
+                            <select name="status" class="form-control apple-input" ng-model="lininfo.status">
                                 <option value="1">使用</option>
                                 <option value="0">暂停</option>
                             </select>
@@ -170,8 +557,26 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" ng-click="updateOp()">更新</button>
+                    <button type="button" class="btn btn-default apple-btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary apple-btn-primary" ng-click="updateOp()">更新</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal：点击图片放大预览弹窗 -->
+    <div class="modal fade apple-modal apple-modal-image" id="myImageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="imageModalLabel">广告图片高清预览：{{previewImgTitle}}</h4>
+                </div>
+                <div class="modal-body" style="text-align: center; background: #fbfbfd; padding: 20px;">
+                    <img ng-src="{{previewImgUrl}}" style="max-width: 100%; max-height: 70vh; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); object-fit: contain;" alt="高清预览图"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default apple-btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>
         </div>
@@ -209,8 +614,19 @@
     app.controller('myCtrl', function ($scope, $http) {
 
         $scope.lininfo;
+        $scope.previewImgUrl = '';
+        $scope.previewImgTitle = '';
 
         ////////////////////////////////////////////////////////////////////////
+
+        /**
+         * 点击图片弹出高清预览大图
+         */
+        $scope.previewImage = function (url, title) {
+            $scope.previewImgUrl = url;
+            $scope.previewImgTitle = title || '未命名广告';
+            $("#myImageModal").modal("show");
+        };
 
         /**
          * 通讯操作

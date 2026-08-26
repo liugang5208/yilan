@@ -1,181 +1,213 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-8 p-r-0 title-margin-right">
-            <div class="page-header">
-                <div class="page-title">
-                    <h1>概览</h1>
-                </div>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>易缆管理中心 - 现代AI电缆商城后台</title>
+    <!-- 引入主流现代 UI 样式与图标库 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --primary-gradient: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --text-muted: #6c757d;
+            --border-color: #e3e6f0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 顶部唯一的全局导航容器：已按您的要求彻底剔除下方所有多余的按钮工具栏，只保留最干净的头部栏 */
+        .admin-header-container {
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 24px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-area {
+            font-weight: 700;
+            font-size: 18px;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-area img {
+            height: 28px;
+            margin-right: 10px;
+        }
+
+        /* 主体内容区：超宽屏与常规屏自适应流式容器 */
+        .main-content {
+            padding: 40px 24px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* 极致清爽、高级的欢迎大屏：视觉对齐，完美适配各种屏幕宽度 */
+        .welcome-hero-card {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            border-radius: 16px;
+            color: #ffffff;
+            padding: 50px 45px;
+            box-shadow: 0 10px 30px rgba(30, 60, 114, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-hero-card::before {
+            content: '';
+            position: absolute;
+            right: -50px;
+            bottom: -50px;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero-left {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .hero-logo-box {
+            width: 80px;
+            height: 80px;
+            background: #ffffff;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+            flex-shrink: 0;
+        }
+
+        .hero-logo-box img {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+        }
+
+        .hero-text h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-text p {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.92);
+            font-size: 16px;
+            line-height: 1.6;
+            max-width: 750px;
+            font-weight: 400;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .hero-actions .btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #fff;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 10px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .hero-actions .btn:hover {
+            background: #fff;
+            color: #1e3c72;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px 15px;
+            }
+            .welcome-hero-card {
+                padding: 30px 20px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .hero-left {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .hero-text h1 {
+                font-size: 22px;
+            }
+            .hero-text p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 顶部唯一标准导航：已彻底删除您红框中的全部冗余工具栏按钮区块 -->
+    <div class="admin-header-container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="logo-area">
+                <img src="__PUBLIC__/assets/images/logo.png" alt="logo" onerror="this.src='https://via.placeholder.com/28'">
+                易缆管理中心
+            </div>
+            <div class="user-info text-muted small">
+                <i class="fas fa-user-shield mr-1"></i> 管理员欢迎您
             </div>
         </div>
-        <!-- /# column -->
-        <div class="col-lg-4 p-l-0 title-margin-left">
-            <div class="page-header">
-                <div class="page-title">
-                    <!--ol class="breadcrumb text-right">
-                        <li><a href="#">Dashboard</a></li>
-                        <li class="active">UI-Blank</li>
-                    </ol-->
-                </div>
-            </div>
-        </div>
-        <!-- /# column -->
     </div>
-    <!-- /# row -->
-    <section id="main-content">
 
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="card alert">
-                    <div class="card-body">
-                        <div class="stat-widget-seven">
-                            <div class="stat-icon">
-                                <i class="ti-reload pull-left"></i>
-                                <div class="card-option drop-menu pull-right"><i class="ti-settings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" role="link"></i>
-                                    <ul class="card-option-dropdown dropdown-menu">
-                                        <li><a href="#"><i class="ti-loop"></i> Update data</a></li>
-                                        <li><a href="#"><i class="ti-menu-alt"></i> Detail log</a></li>
-                                        <li><a href="#"><i class="ti-pulse"></i> Statistics</a></li>
-                                        <li><a href="#"><i class="ti-power-off"></i> Clear ist</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="stat-content">
-                                <div class="stat-heading">
-                                    <div class="count-header">总计流量</div>
-                                    <div class="stat-count">6,45,840</div>
-                                </div>
-                                <div class="gradient-circle" id="visitor-circle">
-                                    <i class="ti-cup"></i>
-                                </div>
-                                <div class="stat-footer">
-                                    <div class="row m-0">
-                                        <div class="col-lg-6 p-0 text-left">
-                                            <div class="analytic-arrow">
-                                                <i class="ti-arrow-up"></i>
-                                                <i class="ti-arrow-down"></i>
-                                            </div>
-                                            <div class="stat-count">3,25,840</div>
-                                            <div class="count-header">平均流量</div>
-                                        </div>
-                                        <div class="col-lg-6 p-0 text-right">
-                                            <div class="analytic-arrow">
-                                                <i class="ti-arrow-up"></i>
-                                                <i class="ti-arrow-down"></i>
-                                            </div>
-                                            <div class="stat-count">1,65,210</div>
-                                            <div class="count-header">独立流量</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <!-- 主体内容区域 -->
+    <div class="main-content">
+        <div class="welcome-hero-card">
+            <div class="hero-left">
+                <div class="hero-logo-box">
+                    <!-- 对应宝塔中您的真实 Logo: app_logo.png -->
+                    <img src="__PUBLIC__/assets/images/app_logo.png" alt="App Logo" onerror="this.src='https://via.placeholder.com/55'">
+                </div>
+                <div class="hero-text">
+                    <h1>易缆智能电缆报价与管理中心</h1>
+                    <p>“以科技赋能电缆智造，用数据驱动行业未来。” 核心 AI 视觉识别、多维公式计算与全端响应式架构已全面平稳高效运行，祝您工作愉快，业绩长虹！</p>
                 </div>
             </div>
-            <div class="col-lg-4">
-                <div class="card alert">
-                    <div class="card-body">
-                        <div class="stat-widget-seven">
-                            <div class="stat-icon">
-                                <i class="ti-reload pull-left"></i>
-                                <div class="card-option drop-menu pull-right"><i class="ti-settings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" role="link"></i>
-                                    <ul class="card-option-dropdown dropdown-menu">
-                                        <li><a href="#"><i class="ti-loop"></i> Update data</a></li>
-                                        <li><a href="#"><i class="ti-menu-alt"></i> Detail log</a></li>
-                                        <li><a href="#"><i class="ti-pulse"></i> Statistics</a></li>
-                                        <li><a href="#"><i class="ti-power-off"></i> Clear ist</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="stat-content">
-                                <div class="stat-heading">
-                                    <div class="count-header">消费率</div>
-                                    <div class="stat-count">46%</div>
-                                </div>
-                                <div class="gradient-circle" id="bounce-circle">
-                                    <i class="ti-wallet"></i>
-                                </div>
-                                <div class="stat-footer">
-                                    <div class="row m-0">
-                                        <div class="col-lg-6 p-0 text-left">
-                                            <div class="analytic-arrow">
-                                                <i class="ti-arrow-up"></i>
-                                                <i class="ti-arrow-down"></i>
-                                            </div>
-                                            <div class="stat-count">30%</div>
-                                            <div class="count-header">平均消费率</div>
-                                        </div>
-                                        <div class="col-lg-6 p-0 text-right">
-                                            <div class="analytic-arrow">
-                                                <i class="ti-arrow-up"></i>
-                                                <i class="ti-arrow-down"></i>
-                                            </div>
-                                            <div class="stat-count">4%</div>
-                                            <div class="count-header">今日消费率</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4">
-                <div class="card alert">
-                    <div class="card-body">
-                        <div class="stat-widget-seven">
-                            <div class="stat-icon">
-                                <i class="ti-reload pull-left"></i>
-                                <div class="card-option drop-menu pull-right"><i class="ti-settings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" role="link"></i>
-                                    <ul class="card-option-dropdown dropdown-menu">
-                                        <li><a href="#"><i class="ti-loop"></i> Update data</a></li>
-                                        <li><a href="#"><i class="ti-menu-alt"></i> Detail log</a></li>
-                                        <li><a href="#"><i class="ti-pulse"></i> Statistics</a></li>
-                                        <li><a href="#"><i class="ti-power-off"></i> Clear ist</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="stat-content">
-                                <div class="stat-heading">
-                                    <div class="count-header">查看页面</div>
-                                    <div class="stat-count">9,47,570</div>
-                                </div>
-                                <div class="gradient-circle" id="pageviews-circle">
-                                    <i class="ti-wallet"></i>
-                                </div>
-                                <div class="stat-footer">
-                                    <div class="row m-0">
-                                        <div class="col-lg-6 p-0 text-left">
-                                            <div class="analytic-arrow">
-                                                <i class="ti-arrow-up"></i>
-                                                <i class="ti-arrow-down"></i>
-                                            </div>
-                                            <div class="stat-count">3,48,420</div>
-                                            <div class="count-header">平均访问次数</div>
-                                        </div>
-                                        <div class="col-lg-6 p-0 text-right">
-                                            <div class="analytic-arrow">
-                                                <i class="ti-arrow-up"></i>
-                                                <i class="ti-arrow-down"></i>
-                                            </div>
-                                            <div class="stat-count">1,92,035</div>
-                                            <div class="count-header">今日访问次数</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="hero-actions">
+                <a href="{:U('Ai/index')}" class="btn"><i class="fas fa-robot mr-2"></i> 进入 AI 智能中心</a>
             </div>
         </div>
+    </div>
 
-    </section>
-
-
-</div>
-
-<script src="__PUBLIC__/assets/js/lib/circle-progress/circle-progress.min.js"></script>
-<script src="__PUBLIC__/assets/js/lib/circle-progress/circle-progress-init.js"></script>
-
+</body>
+</html>

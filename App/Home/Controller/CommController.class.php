@@ -44,8 +44,8 @@ class CommController extends Controller {
         ];
         return get_op_put(1, "地址读取成功", $reback);
     }
-    
-     public function upload() {
+
+    public function upload() {
         $post = I("post.");
         #
         $file = uploadFile("group");
@@ -56,5 +56,4 @@ class CommController extends Controller {
         $data['path_url'] = C("WEBIMG") . "group/" .$file['file']['savename'];
         return get_op_put(1, "成功", $data);
     }
-
 }

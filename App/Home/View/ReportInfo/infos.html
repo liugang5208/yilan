@@ -1,199 +1,637 @@
-<style>
-    .contact-information h4, .basic-information h4{ margin-bottom:0px; font-weight:bold;}
-    .contact-title{ font-size:12px; padding-bottom:5px;}
-    .mail-address{ font-size:12px;}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, safe-area-inset-top, safe-area-inset-bottom">
+    <title>报价单详情管理 - 易缆通商城后台</title>
+    <style>
+        /* ==========================================
+         * 苹果极简商务风全局变量与基础重构
+         * ========================================== */
+        :root {
+            --apple-bg: #f5f5f7;
+            --apple-card-bg: #ffffff;
+            --apple-text-main: #1d1d1f;
+            --apple-text-sub: #86868b;
+            --apple-border: #d2d2d7;
+            --apple-primary: #0066cc;
+            --apple-danger: #ef4444;
+            --apple-radius-card: 16px;
+            --apple-radius-btn: 10px;
+            --apple-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+            --apple-transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+        }
 
-    .recent-comment .media-left img{ border-radius:0px; vertical-align:middle; width:100%;}
-    .media-left{ overflow:hidden; width:30%;}
-    .media-body{ font-size:12px;}
-    .list-goods{ font-size:12px;}
-</style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-<div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
-    <div class="row">
-        <div class="col-lg-8 p-r-0 title-margin-right">
-            <div class="page-header">
-                <div class="page-title">
-                    <h1>详情</h1>
-                </div>
-            </div>
+        body {
+            background-color: var(--apple-bg);
+            color: var(--apple-text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* 容器全屏无极铺开，两侧留微缝，拒绝死板大留白和左右滑框 */
+        .container-fluid {
+            width: 100% !important;
+            max-width: 100% !important;
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+            padding-top: 20px;
+            padding-bottom: 40px;
+        }
+
+        /* 苹果质感悬浮卡片容器 */
+        .apple-card {
+            background-color: var(--apple-card-bg);
+            border: 1px solid rgba(0, 0, 0, 0.02);
+            border-radius: var(--apple-radius-card);
+            box-shadow: var(--apple-shadow);
+            margin-bottom: 20px;
+            padding: 24px;
+            transition: var(--apple-transition);
+            width: 100%;
+        }
+        .apple-card:hover {
+            box-shadow: 0 6px 28px rgba(0, 0, 0, 0.06);
+        }
+
+        /* 模块化小标题样式 */
+        .apple-module-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--apple-text-main);
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f2f2f7;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* 信息键值对左对齐排版 */
+        .info-row-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 8px;
+            border-radius: 8px;
+            border-bottom: 1px solid #fafafc;
+            font-size: 14px;
+            transition: var(--apple-transition);
+        }
+        .info-row-item:hover {
+            background-color: #f8f8fa;
+        }
+        .info-row-item:last-child {
+            border-bottom: none;
+        }
+        
+        .info-row-label {
+            color: var(--apple-text-sub);
+            font-weight: 500;
+            text-align: left;
+            flex-shrink: 0;
+            width: 110px;
+        }
+
+        .info-row-value {
+            color: var(--apple-text-main);
+            font-weight: 600;
+            text-align: right;
+            flex-grow: 1;
+            word-break: break-all;
+        }
+
+        /* 苹果精美扁平胶囊标签 */
+        .badge-capsule {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+        .badge-ticket-0 { background-color: #f2f2f7; color: #636366; } 
+        .badge-ticket-1 { background-color: #e8f4fd; color: #0066cc; } 
+        .badge-ticket-2 { background-color: #f5f0ff; color: #7b61ff; } 
+
+        /* 商品明细卡片 */
+        .goods-item-card {
+            background: #ffffff;
+            border: 1px solid var(--apple-border);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.015);
+            transition: var(--apple-transition);
+        }
+        .goods-item-card:hover {
+            border-color: var(--apple-primary);
+            box-shadow: 0 8px 24px rgba(0,102,204,0.08);
+            transform: translateY(-2px);
+        }
+
+        /* 产品属性水平横向舒展铺开（动态读取配置标题与内容） */
+        .goods-attr-horizontal {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 24px;
+            background: #f8f8fa;
+            border: 1px solid rgba(0,0,0,0.03);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            align-items: center;
+        }
+        .goods-attr-horizontal .attr-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        /* 属性标题采用苹果高级灰 */
+        .goods-attr-horizontal .attr-label {
+            color: var(--apple-text-sub);
+            font-weight: 500;
+        }
+        /* 属性具体内容采用深碳灰色加粗 */
+        .goods-attr-horizontal .attr-val {
+            color: #1d1d1f;
+            font-weight: 600;
+        }
+
+        /* 商品表格容器 */
+        .goods-table-container {
+            margin-top: 8px;
+            background: #ffffff;
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .goods-th-row, .goods-td-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            text-align: center;
+            font-size: 13.5px;
+            padding: 12px;
+            align-items: center;
+        }
+
+        .goods-th-row-multi, .goods-td-row-multi {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr 1.2fr 0.8fr 1fr 1fr;
+            gap: 8px;
+            text-align: center;
+            font-size: 13.5px;
+            padding: 12px;
+            align-items: center;
+        }
+
+        /* 表头部分（高级灰） */
+        .goods-th-row, .goods-th-row-multi {
+            background-color: #f2f2f7;
+            color: var(--apple-text-sub);
+            font-weight: 600;
+            border-bottom: 1px solid var(--apple-border);
+        }
+
+        /* 明细数据奇偶行交替底色 */
+        .goods-td-row, .goods-td-row-multi {
+            border-bottom: 1px solid rgba(0,0,0,0.03);
+            color: #3a3a3c;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+        }
+        .goods-td-row:nth-child(even), .goods-td-row-multi:nth-child(even) {
+            background-color: #fafafc;
+        }
+        .goods-td-row:hover, .goods-td-row-multi:hover {
+            background-color: #f5f5f7;
+        }
+        .goods-td-row:last-child, .goods-td-row-multi:last-child {
+            border-bottom: none;
+        }
+
+        /* 底部汇总统计栏样式 */
+        .goods-summary-bar {
+            background: #f2f2f7;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--apple-text-main);
+            border: 1px solid var(--apple-border);
+        }
+        .goods-summary-bar span {
+            color: var(--apple-danger);
+        }
+
+        /* 顶部标题与面包屑 */
+        .page-header-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 0 4px;
+        }
+
+        .page-title-main h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--apple-text-main);
+            margin: 0;
+        }
+
+        .breadcrumb-custom {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            list-style: none;
+            display: flex;
+            gap: 8px;
+            font-size: 13px;
+        }
+        .breadcrumb-custom > li > a {
+            color: var(--apple-primary);
+            text-decoration: none;
+        }
+        .breadcrumb-custom > li.active {
+            color: var(--apple-text-sub);
+        }
+        .breadcrumb-custom > li + li:before {
+            content: "/";
+            padding-right: 8px;
+            color: var(--apple-text-sub);
+        }
+
+        /* 电脑端响应式网格布局分栏 */
+        .content-grid-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            margin-left: -10px;
+            margin-right: -10px;
+        }
+        .content-col-left, .content-col-right {
+            flex: 0 0 50%;
+            max-width: 50%;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        /* ==========================================
+         * 手机端自适应与卡片式折叠降级
+         * ========================================== */
+        @media (max-width: 768px) {
+            .container-fluid {
+                padding-left: 8px !important;
+                padding-right: 8px !important;
+            }
+            .content-col-left, .content-col-right {
+                flex: 0 0 100%;
+                max-width: 100%;
+                padding-left: 0;
+                padding-right: 0;
+            }
+            .info-row-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+                padding: 10px 4px;
+            }
+            .info-row-value {
+                text-align: left;
+                width: 100%;
+            }
+            .goods-attr-horizontal {
+                flex-direction: column;
+                gap: 6px;
+                align-items: flex-start !important;
+            }
+            .goods-th-row, .goods-th-row-multi {
+                display: none;
+            }
+            .goods-table-container {
+                background: transparent;
+                border: none;
+            }
+            .goods-td-row, .goods-td-row-multi {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+                background: #f8f8fa;
+                border: 1px solid var(--apple-border);
+                border-radius: 10px;
+                margin-bottom: 10px;
+                padding: 12px;
+            }
+            .goods-td-row > div, .goods-td-row-multi > div {
+                width: 100%;
+                text-align: left !important;
+                display: flex;
+                justify-content: space-between;
+            }
+            .goods-td-row > div:nth-child(1):before { content: "计量单位："; color: var(--apple-text-sub); }
+            .goods-td-row > div:nth-child(2):before { content: "订单数量："; color: var(--apple-text-sub); }
+            .goods-td-row > div:nth-child(3):before { content: "单品价格："; color: var(--apple-text-sub); }
+            .goods-td-row > div:nth-child(4):before { content: "小计金额："; color: var(--apple-text-sub); }
+
+            .goods-td-row-multi > div:nth-child(1):before { content: "标准名称："; color: var(--apple-text-sub); }
+            .goods-td-row-multi > div:nth-child(2):before { content: "规格名称："; color: var(--apple-text-sub); }
+            .goods-td-row-multi > div:nth-child(3):before { content: "计量单位："; color: var(--apple-text-sub); }
+            .goods-td-row-multi > div:nth-child(4):before { content: "订单数量："; color: var(--apple-text-sub); }
+            .goods-td-row-multi > div:nth-child(5):before { content: "单品价格："; color: var(--apple-text-sub); }
+            .goods-td-row-multi > div:nth-child(6):before { content: "小计金额："; color: var(--apple-text-sub); }
+
+            .goods-summary-bar {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    
+    <!-- 顶部标题与面包屑导航 -->
+    <div class="page-header-box">
+        <div class="page-title-main">
+            <h1>报价单详情管理</h1>
         </div>
-        <!-- /# column -->
-        <div class="col-lg-4 p-l-0 title-margin-left">
-            <div class="page-header">
-                <div class="page-title">
-                    <ol class="breadcrumb text-right">
-                        <li><a href="{:U('ReportInfo/index')}">列表</a></li>
-                        <li class="active">详情</li>
-                    </ol>
-                </div>
-            </div>
+        <div>
+            <ul class="breadcrumb-custom">
+                <li><a href="{:U('ReportInfo/index')}">返回列表</a></li>
+                <li class="active">详情信息</li>
+            </ul>
         </div>
-        <!-- /# column -->
     </div>
-    <!-- /# row -->
+
     <section id="main-content">
-
-        <div class="card alert">
-            <div class="card-body">
-                <div class="row">
-
-                    <div class="col-md-5">
-                        <div class="basic-information">
-                            <h4>基本信息</h4>
-                            <div class="birthday-content">
-                                <span class="contact-title">logo:</span>
-                                
-                                <span class="mail-address">
-                                    <if condition="$info.logo">
-                                         <img class="media-object" src="{$info.logo}" >
-                                    </if>
-                                </span>
-                            </div>
-                            <div class="gender-content">
-                                <span class="contact-title">用户:</span>
-                                <span class="mail-address">{$user|getUsersName=$info['uid'],'nickname',###}({$user|getUsersName=$info['uid'],'phone',###})</span>
-                            </div>
-                            <div class="birthday-content">
-                                <span class="contact-title">报价单(价格)调整比例:</span>
-                                <span class="mail-address">{$info.ratio}</span>
-                            </div>
-                            <div class="gender-content">
-                                <span class="contact-title">是否含票:</span>
-                                <span class="mail-address">
-                                    {$info['ticket']==0?'不含税票':''}
-                                    {$info['ticket']==1?'增值税普通税票':''}
-                                    {$info['ticket']==2?'增值税专用税票':''}
-                                </span>
-                            </div>
-                            <div class="gender-content">
-                                <span class="contact-title">总金额:</span>
-                                <span class="mail-address">{$info.money}</span>
-                            </div>
-
-
-                        </div>
-                        <div class="basic-information">
-                            <h4>报价单备注信息</h4>
-                            <div class="birthday-content">
-                                <span class="contact-title">结算方式:</span>
-                                <span class="mail-address">{$info.check_type}</span>
-                            </div>
-                            <div class="birthday-content">
-                                <span class="contact-title">运输方式:</span>
-                                <span class="mail-address">{$info.trans_type}</span>
-                            </div>
-                            <div class="birthday-content">
-                                <span class="contact-title">运输费用:</span>
-                                <span class="mail-address">{$info.fees_out}</span>
-                            </div>
-                            <div class="birthday-content">
-                                <span class="contact-title">包装选项:</span>
-                                <span class="mail-address">{$info.pack_recyle}</span>
-                            </div>
-                            <div class="birthday-content">
-                                <span class="contact-title">询价单位:</span>
-                                <span class="mail-address">{$info.question_comp}</span>
-                            </div>
-                            <div class="birthday-content">
-                                <span class="contact-title">项目名称:</span>
-                                <span class="mail-address">{$info.project_comp}</span>
-                            </div>
-                            <div class="birthday-content">
-                                <span class="contact-title">报价单位:</span>
-                                <span class="mail-address">{$info.rep_comp}</span>
-                            </div>
-                            <div class="birthday-content">
-                                <span class="contact-title">使用单位:</span>
-                                <span class="mail-address">{$info.use_comp}</span>
-                            </div>
-                            <div class="birthday-content">
-                                <span class="contact-title">生产周期:</span>
-                                <span class="mail-address">{$info.pro_time}</span>
-                            </div>
-                            <div class="birthday-content">
-                                <span class="contact-title">报价人员:</span>
-                                <span class="mail-address">{$info.rep_user}</span>
-                            </div>
-                            <div class="birthday-content">
-                                <span class="contact-title">报价日期:</span>
-                                <span class="mail-address">{$info.rep_date}</span>
-                            </div>
-                           
-                            
-                            <div class="gender-content">
-                                <span class="contact-title">备注:</span>
-                                <span class="mail-address">{$info.tags}</span>
-                            </div>
-                            
-                            
-                        </div>
-
-                        
-
-
-                    </div>
-                    <div class="col-md-6">
-                        <div class="basic-information">
-                            <h4>商品</h4>
-
-                            <div class="recent-comment m-t-15">
-                                <volist name="goods.list" id="v">
-                                    <div class="media">
-                                        <!--<h4 class="media-heading color-primary">{$v.name}</h4>-->
-                                       
-                                        <if condition="$v.types eq 0">
-                                            <div class="media-body">
-                                                <p>{$v.attr1}</p>
-                                                <p>{$v.attr2}</p>
-                                                <p>{$v.attr3}</p>
-                                                <p>计量单位：{$v.unit}</p>
-                                                <p>标准名称：{$v.catname}</p>
-                                            </div>
-                                            <br/>
-                                            <div class="row text-center list-goods">
-                                                <div class="col-md-6">购买数量</div>
-                                                <div class="col-md-6">单品价格</div>
-                                            </div>
-                                            <div class="row text-center list-goods">
-                                                <div class="col-md-6">{$v.nums}</div>
-                                                <div class="col-md-6">{$v.market}</div>
-                                            </div>
-                                        </if>
-                                        <if condition="$v.types eq 1">
-                                            <div class="media-body">
-                                                <p>{$v.attr1}</p>
-                                                <p>{$v.attr2}</p>
-                                                <p>{$v.attr3}</p>
-                                                <p>计量单位：{$v.unit}</p>
-                                            </div>
-                                            <br/>
-                                            <div class="row text-center list-goods">
-                                                <div class="col-md-3">标准名称</div>
-                                                <div class="col-md-3">规格名称</div>
-                                                <div class="col-md-3">购买数量</div>
-                                                <div class="col-md-3">单品价格</div>
-                                            </div>
-                                            <volist name="v.child" id="s">
-                                                <div class="row text-center list-goods">
-                                                    <div class="col-md-3">{$s.catname}</div>
-                                                    <div class="col-md-3">{$s.info.name}</div>
-                                                    <div class="col-md-3">{$s.nums}</div>
-                                                    <div class="col-md-3">{$s.info.market}</div>
-                                                </div>
-                                            </volist>
-                                        </if>
-                                    </div>
-                                </volist>
-                            </div>
-
-                        </div>
+        <div class="content-grid-wrapper">
+            
+            <!-- 左侧列：基本信息与商务条款 -->
+            <div class="content-col-left">
+                
+                <!-- 模块一：基本信息 -->
+                <div class="apple-card">
+                    <div class="apple-module-title">基本信息</div>
+                    
+                    <div class="info-row-item">
+                        <span class="info-row-label">登录用户：</span>
+                        <span class="info-row-value">{$user|getUsersName=$info['uid'],'nickname',###} ({$user|getUsersName=$info['uid'],'phone',###})</span>
                     </div>
                     
+                    <div class="info-row-item">
+                        <span class="info-row-label">调整比例：</span>
+                        <span class="info-row-value">
+                            <?php if($info['ratio'] > 0) { ?>
+                                <span style="color: var(--apple-danger); font-weight: 700;">+<?php echo $info['ratio']; ?>%</span>
+                            <?php } elseif($info['ratio'] < 0) { ?>
+                                <span style="color: #16a34a; font-weight: 700;"><?php echo $info['ratio']; ?>%</span>
+                            <?php } else { ?>
+                                <span>0%</span>
+                            <?php } ?>
+                        </span>
+                    </div>
+                    
+                    <div class="info-row-item">
+                        <span class="info-row-label">发票选项：</span>
+                        <span class="info-row-value">
+                            <if condition="$info['ticket'] eq 0">
+                                <span class="badge-capsule badge-ticket-0">不含税票</span>
+                            <elseif condition="$info['ticket'] eq 1" />
+                                <span class="badge-capsule badge-ticket-1">含普通发票</span>
+                            <elseif condition="$info['ticket'] eq 2" />
+                                <span class="badge-capsule badge-ticket-2">含专用发票</span>
+                            </if>
+                        </span>
+                    </div>
+                    
+                    <div class="info-row-item">
+                        <span class="info-row-label">订单总金额：</span>
+                        <span class="info-row-value" style="color: var(--apple-danger); font-size: 16px;">¥{$info.money}</span>
+                    </div>
+                </div>
 
+                <!-- 模块二：报价单备注与商务条款 -->
+                <div class="apple-card">
+                    <div class="apple-module-title">报价单备注与商务条款</div>
+                    
+                    <notempty name="info.check_type">
+                    <div class="info-row-item">
+                        <span class="info-row-label">结算方式：</span>
+                        <span class="info-row-value">{$info.check_type}</span>
+                    </div>
+                    </notempty>
+                    
+                    <notempty name="info.trans_type">
+                    <div class="info-row-item">
+                        <span class="info-row-label">运输方式：</span>
+                        <span class="info-row-value">{$info.trans_type}</span>
+                    </div>
+                    </notempty>
+                    
+                    <notempty name="info.fees_out">
+                    <div class="info-row-item">
+                        <span class="info-row-label">运输费用：</span>
+                        <span class="info-row-value">{$info.fees_out}</span>
+                    </div>
+                    </notempty>
+                    
+                    <notempty name="info.pack_recyle">
+                    <div class="info-row-item">
+                        <span class="info-row-label">包装选项：</span>
+                        <span class="info-row-value">{$info.pack_recyle}</span>
+                    </div>
+                    </notempty>
+                    
+                    <notempty name="info.question_comp">
+                    <div class="info-row-item">
+                        <span class="info-row-label">询价单位：</span>
+                        <span class="info-row-value">{$info.question_comp}</span>
+                    </div>
+                    </notempty>
+                    
+                    <notempty name="info.project_comp">
+                    <div class="info-row-item">
+                        <span class="info-row-label">项目名称：</span>
+                        <span class="info-row-value">{$info.project_comp}</span>
+                    </div>
+                    </notempty>
+                    
+                    <notempty name="info.rep_comp">
+                    <div class="info-row-item">
+                        <span class="info-row-label">报价单位：</span>
+                        <span class="info-row-value">{$info.rep_comp}</span>
+                    </div>
+                    </notempty>
+                    
+                    <notempty name="info.use_comp">
+                    <div class="info-row-item">
+                        <span class="info-row-label">使用单位：</span>
+                        <span class="info-row-value">{$info.use_comp}</span>
+                    </div>
+                    </notempty>
+                    
+                    <notempty name="info.pro_time">
+                    <div class="info-row-item">
+                        <span class="info-row-label">生产周期：</span>
+                        <span class="info-row-value">{$info.pro_time}</span>
+                    </div>
+                    </notempty>
+                    
+                    <notempty name="info.rep_user">
+                    <div class="info-row-item">
+                        <span class="info-row-label">报价人员：</span>
+                        <span class="info-row-value">{$info.rep_user}</span>
+                    </div>
+                    </notempty>
+                    
+                    <notempty name="info.rep_date">
+                    <div class="info-row-item">
+                        <span class="info-row-label">报价日期：</span>
+                        <span class="info-row-value">{$info.rep_date}</span>
+                    </div>
+                    </notempty>
+                    
+                    <notempty name="info.tags">
+                    <div class="info-row-item">
+                        <span class="info-row-label">备注说明：</span>
+                        <span class="info-row-value">{$info.tags}</span>
+                    </div>
+                    </notempty>
+                </div>
+
+            </div>
+
+            <!-- 右侧列：关联商品明细 -->
+            <div class="content-col-right">
+                <div class="apple-card">
+                    <div class="apple-module-title">
+                        <span>关联商品明细</span>
+                        <span style="font-size: 13px; color: var(--apple-text-sub); font-weight: normal;">共计商品项：<?php echo count($goods['list']); ?> 种</span>
+                    </div>
+
+                    <div style="margin-top: 6px;">
+                        <php>$total_nums = 0; $total_amount = 0;</php>
+                        <volist name="goods.list" id="v" key="k">
+                            <div class="goods-item-card">
+                                <!-- 商品顶部名称与序号 -->
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed var(--apple-border);">
+                                    <span style="font-weight: 700; color: var(--apple-primary); font-size: 14px;">
+                                        序号 #{$k} &nbsp;|&nbsp; {$v.catname}
+                                    </span>
+                                </div>
+
+                                <!-- 类型 0：单品展示 (严格遵循：动态读取后台标题，读不到时自动降级显示默认词) -->
+                                <if condition="$v.types eq 0">
+                                    <div class="goods-attr-horizontal">
+                                        <notempty name="v.attr1">
+                                            <div class="attr-item"><span class="attr-label">{$v.title1|default="电压等级"}：</span><span class="attr-val">{$v.attr1}</span></div>
+                                        </notempty>
+                                        <notempty name="v.attr2">
+                                            <div class="attr-item"><span class="attr-label">{$v.title2|default="产品型号"}：</span><span class="attr-val">{$v.attr2}</span></div>
+                                        </notempty>
+                                        <notempty name="v.attr3">
+                                            <div class="attr-item"><span class="attr-label">{$v.title3|default="产品规格"}：</span><span class="attr-val">{$v.attr3}</span></div>
+                                        </notempty>
+                                    </div>
+                                    
+                                    <div class="goods-table-container">
+                                        <div class="goods-th-row">
+                                            <div>计量单位</div>
+                                            <div>订单数量</div>
+                                            <div>单品价格</div>
+                                            <div>小计金额</div>
+                                        </div>
+                                        <div class="goods-td-row">
+                                            <div>{$v.unit}</div>
+                                            <div>{$v.nums}</div>
+                                            <div>¥{$v.market}</div>
+                                            <php>
+                                                $subtotal = $v['nums'] * $v['market'];
+                                                $total_nums += $v['nums'];
+                                                $total_amount += $subtotal;
+                                            </php>
+                                            <div style="font-weight: 700; color: var(--apple-primary);">¥<?php echo number_format($subtotal, 2); ?></div>
+                                        </div>
+                                    </div>
+                                </if>
+
+                                <!-- 类型 1：多规格组合商品展示 (严格遵循：动态读取后台标题，读不到时自动降级显示默认词) -->
+                                <if condition="$v.types eq 1">
+                                    <div class="goods-attr-horizontal">
+                                        <notempty name="v.attr1">
+                                            <div class="attr-item"><span class="attr-label">{$v.title1|default="电压等级"}：</span><span class="attr-val">{$v.attr1}</span></div>
+                                        </notempty>
+                                        <notempty name="v.attr2">
+                                            <div class="attr-item"><span class="attr-label">{$v.title2|default="产品型号"}：</span><span class="attr-val">{$v.attr2}</span></div>
+                                        </notempty>
+                                        <notempty name="v.attr3">
+                                            <div class="attr-item"><span class="attr-label">{$v.title3|default="产品规格"}：</span><span class="attr-val">{$v.attr3}</span></div>
+                                        </notempty>
+                                    </div>
+                                    
+                                    <div class="goods-table-container">
+                                        <div class="goods-th-row-multi">
+                                            <div>标准名称</div>
+                                            <div>规格名称</div>
+                                            <div>计量单位</div>
+                                            <div>订单数量</div>
+                                            <div>单品价格</div>
+                                            <div>小计金额</div>
+                                        </div>
+                                        <volist name="v.child" id="s">
+                                            <div class="goods-td-row-multi">
+                                                <div>{$s.catname}</div>
+                                                <div style="font-weight: 700; color: #1d1d1f;">{$s.info.name}</div>
+                                                <div>{$v.unit}</div>
+                                                <div>{$s.nums}</div>
+                                                <div>¥{$s.info.market}</div>
+                                                <php>
+                                                    $child_subtotal = $s['nums'] * $s['info']['market'];
+                                                    $total_nums += $s['nums'];
+                                                    $total_amount += $child_subtotal;
+                                                </php>
+                                                <div style="font-weight: 700; color: var(--apple-primary);">¥<?php echo number_format($child_subtotal, 2); ?></div>
+                                            </div>
+                                        </volist>
+                                    </div>
+                                </if>
+                            </div>
+                        </volist>
+
+                        <!-- 底部整单汇总统计模块 -->
+                        <div class="goods-summary-bar">
+                            <div>汇总统计：共 <span><?php echo count($goods['list']); ?></span> 组商品</div>
+                            <div>总数量：<span><?php echo $total_nums; ?></span></div>
+                            <div>总计金额：<span style="font-size: 16px;">¥<?php echo number_format($total_amount, 2); ?></span></div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-        </div>
 
+        </div>
     </section>
 </div>
+
+</body>
+</html>

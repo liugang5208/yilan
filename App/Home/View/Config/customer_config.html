@@ -1,8 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>客服配置管理</title>
+    <style>
+        /* 苹果极简商务风与全端自适应全局样式 */
+        :root {
+            --apple-bg: #f5f5f7;
+            --apple-card-bg: #ffffff;
+            --apple-text-main: #1d1d1f;
+            --apple-text-sub: #86868b;
+            --apple-border: #d2d2d7;
+            --apple-primary: #0071e3;
+            --apple-primary-hover: #0077ed;
+            --apple-radius: 12px;
+            --apple-radius-sm: 8px;
+            --apple-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+            --apple-transition: all 0.2s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--apple-bg);
+            color: var(--apple-text-main);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 电脑端超宽带鱼屏全屏无极铺开，边缘微缝，绝无横向滚动条 */
+        .container-fluid {
+            width: 100% !important;
+            max-width: 100% !important;
+            padding: 24px 32px !important;
+            margin: 0 !important;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -12px;
+            margin-left: -12px;
+        }
+
+        .col-lg-12 {
+            position: relative;
+            width: 100%;
+            padding-right: 12px;
+            padding-left: 12px;
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+
+        /* 顶部标题栏 */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            padding-bottom: 16px;
+        }
+
+        .page-title h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--apple-text-main);
+            letter-spacing: -0.5px;
+        }
+
+        /* 苹果高档质感卡片 */
+        .card {
+            background-color: var(--apple-card-bg);
+            border-radius: var(--apple-radius);
+            box-shadow: var(--apple-shadow);
+            border: 1px solid rgba(0, 0, 0, 0.02);
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .card-header h4 {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--apple-text-main);
+            margin: 0;
+        }
+
+        .card-body {
+            padding: 32px 24px;
+        }
+
+        /* 表单网格与布局优化 */
+        .form-horizontal .form-group {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+            align-items: flex-start;
+        }
+
+        .control-label {
+            text-align: right;
+            padding-top: 10px;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--apple-text-sub);
+        }
+
+        @media (min-width: 768px) {
+            .control-label {
+                flex: 0 0 16.66667%;
+                max-width: 16.66667%;
+                padding-right: 16px;
+            }
+            .form-field-wrapper {
+                flex: 0 0 66.66667%;
+                max-width: 66.66667%;
+            }
+            .form-actions-wrapper {
+                margin-left: 16.66667%;
+                flex: 0 0 66.66667%;
+                max-width: 66.66667%;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .control-label {
+                text-align: left;
+                flex: 0 0 100%;
+                max-width: 100%;
+                margin-bottom: 8px;
+                padding-top: 0;
+            }
+            .form-field-wrapper {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+            .form-actions-wrapper {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+        }
+
+        /* 表单控件美化 */
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--apple-text-main);
+            background-color: #ffffff;
+            border: 1px solid var(--apple-border);
+            border-radius: var(--apple-radius-sm);
+            transition: var(--apple-transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--apple-primary);
+            outline: 0;
+            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* 图片预览与上传区 */
+        .config-image-container {
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .config-preview-img {
+            max-width: 120px;
+            max-height: 120px;
+            border-radius: var(--apple-radius-sm);
+            border: 1px solid var(--apple-border);
+            cursor: pointer;
+            object-fit: cover;
+            transition: var(--apple-transition);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .config-preview-img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            border-color: var(--apple-primary);
+        }
+
+        /* 按钮与交互规范 */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            user-select: none;
+            border: 1px solid transparent;
+            padding: 12px 28px;
+            font-size: 15px;
+            border-radius: var(--apple-radius-sm);
+            transition: var(--apple-transition);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--apple-primary);
+            color: #ffffff;
+            border-color: var(--apple-primary);
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .btn-primary {
+                width: auto;
+                min-width: 160px;
+            }
+        }
+
+        .btn-primary:hover {
+            background-color: var(--apple-primary-hover);
+        }
+
+        /* 点击看大图全局模态框弹窗样式 */
+        .image-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .image-modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: var(--apple-radius);
+            overflow: hidden;
+            background: #ffffff;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            animation: modalZoomIn 0.25s ease;
+        }
+
+        .image-modal-content img {
+            display: block;
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            margin: 0 auto;
+        }
+
+        .image-modal-close {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--apple-transition);
+        }
+
+        .image-modal-close:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        @keyframes modalZoomIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* 手机端深度触控适配 */
+        @media (max-width: 768px) {
+            .container-fluid {
+                padding: 12px 16px !important;
+            }
+            .card-body {
+                padding: 20px 16px;
+            }
+            .form-control {
+                height: 44px;
+                font-size: 16px; /* 防止 iOS 自动放大 */
+            }
+            textarea.form-control {
+                height: auto;
+            }
+            .btn {
+                height: 46px;
+                width: 100%;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
 <div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
 
     <!-- 标题 -->
     <div class="row">
-        <div class="col-lg-8 p-r-0 title-margin-right">
+        <div class="col-lg-12">
             <div class="page-header">
                 <div class="page-title">
                     <h1>客服配置管理</h1>
@@ -32,11 +363,11 @@
                             <!-- 动态表单 -->
                             <div class="form-group" ng-repeat="item in configList">
 
-                                <label class="col-sm-2 control-label">
+                                <label class="control-label">
                                     {{item.title}}
                                 </label>
 
-                                <div class="col-sm-6">
+                                <div class="form-field-wrapper">
 
                                     <!-- 输入框 -->
                                     <input 
@@ -46,24 +377,26 @@
                                         ng-model="formData[item.name]"
                                     />
 
-                                    <!-- 图片地址 -->
-                                    
-                                   <div ng-if="item.type == 2">
-
+                                    <!-- 图片地址与上传/弹窗看大图 -->
+                                    <div ng-if="item.type == 2">
                                         <input 
                                             type="file"
                                             class="form-control"
                                             onchange="angular.element(this).scope().uploadFile(this, this.getAttribute('data-name'))"
                                             data-name="{{item.name}}"
+                                            style="padding: 8px;"
                                         />
                                     
-                                        <!-- 有值才显示图片 -->
-                                        <img 
-                                            ng-if="formData[item.name]" 
-                                            ng-src="{{formData[item.name]}}" 
-                                            style="max-width:100px;margin-top:10px;"
-                                        >
-                                    
+                                        <!-- 有值才显示图片，支持点击弹窗查看大图 -->
+                                        <div class="config-image-container" ng-if="formData[item.name]">
+                                            <img 
+                                                ng-src="{{formData[item.name]}}" 
+                                                class="config-preview-img"
+                                                ng-click="showBigImage(formData[item.name])"
+                                                title="点击查看大图"
+                                            >
+                                            <span style="font-size: 12px; color: var(--apple-text-sub);">点击图片可预览大图</span>
+                                        </div>
                                     </div>
 
                                     <!-- 多行文本 -->
@@ -79,8 +412,8 @@
                             </div>
 
                             <!-- 提交按钮 -->
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-6">
+                            <div class="form-group" style="margin-top: 32px; margin-bottom: 0;">
+                                <div class="form-actions-wrapper">
                                     <button type="button" class="btn btn-primary" ng-click="saveConfig()">
                                         保存配置
                                     </button>
@@ -98,8 +431,15 @@
 
     </section>
 
-</div>
+    <!-- 全局点击看大图模态框 -->
+    <div class="image-modal-overlay" id="bigImageModal" ng-click="closeBigImage()">
+        <div class="image-modal-content" ng-click="$event.stopPropagation()">
+            <button class="image-modal-close" ng-click="closeBigImage()">&times;</button>
+            <img ng-src="{{modalImageUrl}}" alt="大图预览">
+        </div>
+    </div>
 
+</div>
 
 <script>
 
@@ -109,6 +449,24 @@ app.controller('myCtrl', function ($scope, $http) {
 
     $scope.configList = [];
     $scope.formData = {};
+    $scope.modalImageUrl = '';
+
+    /**
+     * 打开大图弹窗
+     */
+    $scope.showBigImage = function(imgUrl) {
+        if(!imgUrl) return;
+        $scope.modalImageUrl = imgUrl;
+        document.getElementById('bigImageModal').style.display = 'flex';
+    };
+
+    /**
+     * 关闭大图弹窗
+     */
+    $scope.closeBigImage = function() {
+        document.getElementById('bigImageModal').style.display = 'none';
+        $scope.modalImageUrl = '';
+    };
 
     /**
      * 通用POST
@@ -179,34 +537,31 @@ app.controller('myCtrl', function ($scope, $http) {
     $scope.getConfig();
     
     $scope.uploadFile = function (obj, fieldName) {
-    var file = obj.files[0];
-    if (!file) return;
+        var file = obj.files[0];
+        if (!file) return;
 
-    var formData = new FormData();
-    formData.append("file", file);
+        var formData = new FormData();
+        formData.append("file", file);
 
-    $.ajax({
-        url: "{:U('config/upload')}",
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: "json",   // ⭐ 关键！！
-        success: function (res) {
-            console.log(33333333);
-            console.log(res);
-            if (res.status != 1) {
-                alert(res.msg);
-                return;
+        $.ajax({
+            url: "{:U('config/upload')}",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            success: function (res) {
+                if (res.status != 1) {
+                    alert(res.msg);
+                    return;
+                }
+
+                $scope.$apply(function () {
+                    $scope.formData[fieldName] = res.data.path_url;
+                });
             }
-
-            $scope.$apply(function () {
-                $scope.formData[fieldName] = res.data.path_url;
-            });
-
-        }
-    });
-};
+        });
+    };
 
 });
 
