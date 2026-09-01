@@ -637,7 +637,11 @@
                         <!-- ===== 商品设置 ===== -->
                         <div class="section-header" style="background:#8e8e93;">
                             <span class="section-title">商品设置</span>
-                            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                            <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+                                <div style="display:flex;border-radius:4px;overflow:hidden;border:1px solid rgba(255,255,255,0.4);margin-right:4px;">
+                                    <a class="btn btn-xs" ng-click="setDratioMode(0)" ng-style="{'background': dratioMode==0 ? '#fff' : 'transparent', 'color': dratioMode==0 ? '#1d1d1f' : '#fff'}" style="border:none;border-radius:0;margin:0;">自定义溢价率</a>
+                                    <a class="btn btn-xs" ng-click="setDratioMode(1)" ng-style="{'background': dratioMode==1 ? '#fff' : 'transparent', 'color': dratioMode==1 ? '#1d1d1f' : '#fff'}" style="border:none;border-radius:0;margin:0;">公共模板溢价率</a>
+                                </div>
                                 <a class="btn btn-xs section-add-btn" ng-click="upGoodsAll()">更新商品</a>
                                 <a class="btn btn-xs section-add-btn" data-toggle="modal" data-target="#myImport">导入商品数据</a>
                                 <a class="btn btn-xs section-add-btn" style="background:rgba(255,59,48,0.8)!important;border-color:rgba(255,59,48,0.9)!important;" ng-click="clearLogsOnly()">清空商品数据</a>
@@ -679,7 +683,7 @@
                                             <td><input type="text" class="form-control input-sm" ng-model="x.value_6"/></td>
                                             <td><input type="text" class="form-control input-sm" ng-model="x.value_7"/></td>
                                             <td><input type="text" class="form-control input-sm" ng-model="x.price" disabled style="background:#f2f2f7;"/></td>
-                                            <td><input type="text" class="form-control input-sm" ng-model="x.dratio"/></td>
+                                            <td><input type="text" class="form-control input-sm" ng-model="x.dratio" ng-disabled="x.dratio_mode==1" ng-style="x.dratio_mode==1 && {'background':'#f2f2f7'}" title="{{x.dratio_mode==1 ? '公共模板溢价率，只读' : ''}}"/></td>
                                             <td><input type="text" class="form-control input-sm" value="{{x.market}}" disabled style="background:#f2f2f7;font-weight:600;color:var(--apple-blue);"/></td>
                                             <td><input type="text" class="form-control input-sm" ng-model="x.value_8" placeholder="{{x.trans}}"/></td>
                                         </tr>
@@ -736,8 +740,8 @@
                                             <input type="text" class="form-control" ng-model="x.price" disabled style="background:#f2f2f7;"/>
                                         </div>
                                         <div class="m-card-field">
-                                            <span class="m-card-field-label">溢价率</span>
-                                            <input type="text" class="form-control" ng-model="x.dratio"/>
+                                            <span class="m-card-field-label">溢价率{{x.dratio_mode==1 ? '(公共模板)' : ''}}</span>
+                                            <input type="text" class="form-control" ng-model="x.dratio" ng-disabled="x.dratio_mode==1"/>
                                         </div>
                                         <div class="m-card-field">
                                             <span class="m-card-field-label">{{keys.keyi || '备注/发货'}}</span>
@@ -1030,6 +1034,7 @@
             up_d: 0, down_d: 0, up_e: 0, down_e: 0, up_f: 0, down_f: 0
         };
         $scope.list = [];
+        $scope.dratioMode = 0; // 0=自定义溢价率 1=公共模板溢价率
         $scope.infos;
         $scope.keys;
         $scope.tax_list = [];
@@ -1204,6 +1209,8 @@
                     $scope.blank = res.data.info;
                     $scope.list  = res.data.list;
                     $scope.keys  = res.data.key;
+                    // 用列表第一行的来源模式代表当前显示状态（切换按钮会把整批行统一设成同一个模式）
+                    $scope.dratioMode = ($scope.list.length && $scope.list[0].dratio_mode == 1) ? 1 : 0;
                 } else {
                     $scope.blank = {catname:"",source:"",up_a:0,up_b:0,up_c:0,up_d:0,up_e:0,up_f:0,down_a:0,down_b:0,down_c:0,down_d:0,down_e:0,down_f:0};
                     $scope.list  = [];
@@ -1451,6 +1458,15 @@
                 }
             });
         }
+
+        /**
+         * 切换当前商品规格表整批的溢价率来源：0=自定义(可编辑) 1=公共模板(只读，跟随分类溢价)
+         * 只是改前端展示状态，真正落库要点“更新商品”才会保存
+         */
+        $scope.setDratioMode = function (mode) {
+            $scope.dratioMode = mode;
+            ($scope.list || []).forEach(function (x) { x.dratio_mode = mode; });
+        };
 
         $scope.upGoodsAll = function () {
             layer.load(2);

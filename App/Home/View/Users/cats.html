@@ -9,9 +9,13 @@
                     <!-- 卡片头部标题与操作区 -->
                     <div class="card-header" style="background: #ffffff; border-bottom: 1px solid #f2f2f7; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center;">
                         <h4 style="font-size: 18px; font-weight: 600; color: #1d1d1f; margin: 0; display: flex; align-items: center; gap: 8px;">
-                            <i class="ti-settings" style="color: #00b050;"></i> 分类比例设置
+                            <i class="ti-settings" style="color: #00b050;"></i>
+                            <if condition="$is_public">公共比例设置<else />分类比例设置</if>
                         </h4>
-                        <button type="button" class="btn btn-primary" onclick="addor()" style="background-color: #00b050; border: none; border-radius: 10px; font-weight: 500; padding: 8px 22px; color: #fff; box-shadow: 0 4px 12px rgba(0, 176, 80, 0.2); cursor: pointer; height: 40px; font-size: 14px; transition: all 0.2s ease;">立即保存</button>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <a href="{:U('Users/levels')}" style="background-color: #ffffff; border: 1px solid #d2d2d7; border-radius: 10px; font-weight: 500; padding: 8px 18px; color: #1d1d1f; height: 40px; font-size: 14px; display: inline-flex; align-items: center; text-decoration: none; box-sizing: border-box;">&larr; 返回等级列表</a>
+                            <button type="button" class="btn btn-primary" onclick="addor()" style="background-color: #00b050; border: none; border-radius: 10px; font-weight: 500; padding: 8px 22px; color: #fff; box-shadow: 0 4px 12px rgba(0, 176, 80, 0.2); cursor: pointer; height: 40px; font-size: 14px; transition: all 0.2s ease;">立即保存</button>
+                        </div>
                     </div>
 
                     <!-- 数据展示主体区域 -->
@@ -37,7 +41,7 @@
                                             <td style="padding: 14px 12px; color: #86868b; font-weight: 500; font-size: 14px; text-align: center; vertical-align: middle;">{$k}</td>
                                             <td style="padding: 14px 16px; color: #1d1d1f; font-weight: 600; font-size: 14px; word-break: break-all; line-height: 1.4; vertical-align: middle;">{$v.name}</td>
                                             <td style="padding: 14px 16px; text-align: right; vertical-align: middle;">
-                                                <input name="form_data[{$k}][cats_up]" type="number" class="form-control" onkeydown="handleBlur(event,this,{$ac_level},{$v.id},{$v.users_cats_up})" value="{$v.users_cats_up}" style="width: 100%; max-width: 110px; display: inline-block; text-align: center; border-radius: 8px; border: 1px solid #d2d2d7; padding: 6px 8px; font-size: 15px; height: 38px; background-color: #fff;" />
+                                                <input id="cats_up_d_{$k}" name="form_data[{$k}][cats_up]" type="number" class="form-control" oninput="syncCatsUp('{$k}', this.value)" onkeydown="handleBlur(event,this,{$ac_level},{$v.id},{$v.users_cats_up})" value="{$v.users_cats_up}" style="width: 100%; max-width: 110px; display: inline-block; text-align: center; border-radius: 8px; border: 1px solid #d2d2d7; padding: 6px 8px; font-size: 15px; height: 38px; background-color: #fff;" />
                                             </td>
                                         </tr>
                                     </volist>
@@ -60,7 +64,7 @@
                                         <!-- 卡片数值调整区：严格左右对齐 -->
                                         <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 4px;">
                                             <span style="color: #64748b; font-size: 13px; font-weight: 400;">比例数值设置：</span>
-                                            <input name="form_data[{$k}][cats_up]" type="number" class="form-control" onkeydown="handleBlur(event,this,{$ac_level},{$v.id},{$v.users_cats_up})" value="{$v.users_cats_up}" style="width: 130px; text-align: center; border-radius: 8px; border: 1px solid #d2d2d7; padding: 8px 10px; font-size: 16px; height: 42px; background-color: #fff;" />
+                                            <input id="cats_up_m_{$k}" type="number" class="form-control" oninput="syncCatsUp('{$k}', this.value)" onkeydown="handleBlur(event,this,{$ac_level},{$v.id},{$v.users_cats_up})" value="{$v.users_cats_up}" style="width: 130px; text-align: center; border-radius: 8px; border: 1px solid #d2d2d7; padding: 8px 10px; font-size: 16px; height: 42px; background-color: #fff;" />
                                         </div>
                                     </div>
                                 </volist>
@@ -137,6 +141,18 @@
             error: function () {
             },
         });
+    }
+
+    /**
+     * 桌面表格视图和手机卡片视图各有一份同一行的比例输入框（同时存在于DOM，只是靠媒体查询切换显示）。
+     * 手机端那份不带 name 属性、不会被提交，这里让两边输入实时同步，保证不管在哪个视图下修改，
+     * 提交时表单里唯一带 name 的桌面端输入框都是最新值。
+     */
+    function syncCatsUp(k, val) {
+        var d = document.getElementById('cats_up_d_' + k);
+        var m = document.getElementById('cats_up_m_' + k);
+        if (d && d.value !== val) d.value = val;
+        if (m && m.value !== val) m.value = val;
     }
 
     /**

@@ -787,7 +787,8 @@
                                             </eq>
                                             <lt name="v.price_type" value="3">
                                             <a href="{:U('Goods/plate_conts_info','id='.$v['id'].'&tar=g_attr')}" class="btn btn-info btn-xs">商品参数</a>
-                                            <a href="{:U('Goods/plate_conts_info','id='.$v['id'].'&tar=g_desc')}" class="btn btn-info btn-xs">商品详情</a>
+                                            <!-- 商品详情入口暂时下线，如需恢复取消本行注释即可 -->
+                                            <!-- <a href="{:U('Goods/plate_conts_info','id='.$v['id'].'&tar=g_desc')}" class="btn btn-info btn-xs">商品详情</a> -->
                                             </lt>
                                             <a href="javascript:addShowImg('{$v.id}');" class="btn btn-info btn-xs">占位图片</a>
                                             <a ng-click="updateInfo('{$v.id}')" class="btn btn-info btn-xs">编辑信息</a>

@@ -78,14 +78,23 @@
                         <span class="section-title">三级材料管理
                             <span ng-if="selectedL2Name" class="sub-title-tag">— {{selectedL2Name}}</span>
                         </span>
-                        <a ng-click="addForm(selectedL2, 2)" class="btn btn-xs section-add-btn">+ 添加分类</a>
+                        <div class="temp-header-actions">
+                            <span class="temp-chip" ng-repeat="t in cate_temp_list">
+                                <span class="temp-chip-name" title="{{t.name}}">{{t.name}}</span>
+                                <a ng-click="openEditTemp(t.id)" title="编辑模版">编辑</a>
+                                <a ng-click="delTemp(t)" title="删除模版">删除</a>
+                            </span>
+                            <a ng-click="openAddTemp()" class="btn btn-xs section-add-btn" ng-if="selectedL2 > 0 && cate_temp_list.length < 3">+ 添加模版</a>
+                            <a ng-click="addForm(selectedL2, 2)" class="btn btn-xs section-add-btn">+ 添加分类</a>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="apple-grid">
                             <div ng-repeat="v in cate_list_pp" id="row-{{v.id}}"
-                                 ng-class="{'cate-level3-active': cate_form.id == v.id}"
+                                 ng-class="{'cate-level3-active': cate_form.id == v.id, 'cate-form-temp': v.form_mode == 1, 'cate-form-custom': v.form_mode != 1}"
                                  ng-click="changeShow(v.id)"
-                                 class="apple-cate-item">
+                                 class="apple-cate-item"
+                                 title="{{v.form_mode == 1 ? '使用公共模版' : '自定义'}}">
                                 <span class="cate-index" ng-bind="$index+1"></span>
                                 <span class="cate-name" title="{{v.name}}">{{v.name}}</span>
                                 <div class="cate-actions">
@@ -135,6 +144,12 @@
                             </div>
                             
                             <div class="toolbar-actions">
+                                <span class="selector-item" style="display:inline-block;">
+                                    <select ng-change="onSelectTemp()" class="form-control" ng-model="cate_form.infos.temp_id" style="display:inline-block;width:auto;">
+                                        <option value="0">自定义（不使用模版）</option>
+                                        <option value="{{t.id}}" ng-repeat="t in cate_temp_list">使用模版：{{t.name}}</option>
+                                    </select>
+                                </span>
                                 <a class="btn btn-info btn-xs m-l-6" data-toggle="modal" data-target="#myImport">导入数据</a>
                                 <a ng-click="cateFormUpdate()" class="m-l-6 btn btn-info btn-xs">更新数据</a>
                                 <a ng-click="cateFormDel()" class="btn btn-danger btn-xs m-l-10">清空表格</a>
@@ -160,11 +175,11 @@
                                     <tr ng-repeat="x in cate_form.list">
                                         <td data-label="序号"><span class="badge-number">{{x.number}}</span></td>
                                         <td data-label="材料名称"><input type="text" class="form-control input-sm" value="{{cate_form.cateFormName}}" disabled/></td>
-                                        <td data-label="规格"><input type="text" class="form-control input-sm" ng-model="x.name"/></td>
-                                        <td data-label="重量(kg)"><input type="text" class="form-control input-sm" ng-model="x.weight"/></td>
+                                        <td data-label="规格"><input type="text" class="form-control input-sm" ng-model="x.name" ng-disabled="cate_form.infos.form_mode==1"/></td>
+                                        <td data-label="重量(kg)"><input type="text" class="form-control input-sm" ng-model="x.weight" ng-disabled="cate_form.infos.form_mode==1"/></td>
                                         <td data-label="单价"><input type="text" class="form-control input-sm" ng-model="x.price" disabled/></td>
                                         <td data-label="基础价"><input type="text" class="form-control input-sm" ng-model="x.calc_base_price" disabled/></td>
-                                        <td data-label="工费电费补偿值"><input type="text" class="form-control input-sm highlight-input" ng-model="x.extra_ratio"/></td>
+                                        <td data-label="工费电费补偿值"><input type="text" class="form-control input-sm highlight-input" ng-model="x.extra_ratio" ng-disabled="cate_form.infos.form_mode==1"/></td>
                                         <td data-label="执行价"><input type="text" class="form-control input-sm text-bold-price" value="{{x.end_price}}" disabled/></td>
                                     </tr>
                                 </tbody>
@@ -198,6 +213,30 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default apple-btn-default" data-dismiss="modal">取消</button>
                     <button type="button" class="btn btn-primary apple-btn-primary" ng-click="addor()">确认添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加模版弹窗（只填名称，添加成功后跳转到模版编辑页上传数据） -->
+    <div class="modal fade apple-modal" id="myModalTemp" tabindex="-1" role="dialog" aria-labelledby="myModalTempLabel">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content apple-modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalTempLabel">添加模版</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="adorTemp">
+                        <div class="form-group">
+                            <label>模版名称</label>
+                            <input type="text" name="name" class="form-control apple-input" placeholder="请输入模版名称，例如：常规规格模版"/>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default apple-btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary apple-btn-primary" ng-click="addTempOr()">下一步：上传数据</button>
                 </div>
             </div>
         </div>
@@ -425,6 +464,37 @@
     }
     .section-add-btn:hover { background: rgba(255,255,255,0.3) !important; }
 
+    .temp-header-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    .temp-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255,255,255,0.15);
+        border: 1px solid rgba(255,255,255,0.35);
+        border-radius: 6px;
+        padding: 4px 6px 4px 10px;
+        font-size: 12px;
+        font-weight: normal;
+    }
+    .temp-chip-name {
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .temp-chip a {
+        color: #fff;
+        opacity: 0.85;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+    .temp-chip a:hover { opacity: 1; }
+
     .card-body {
         padding: 16px 20px;
     }
@@ -504,6 +574,23 @@
         background: #e1f5fe !important;
         border-color: #0288d1 !important;
         box-shadow: 0 0 0 2px rgba(2,136,209,0.15);
+    }
+
+    /* 三级材料底色区分：使用公共模版 vs 自定义（选中态 cate-level3-active 优先级更高，会覆盖这里） */
+    .cate-form-temp {
+        background: #f3f0fd;
+        border-color: #b8aef0;
+    }
+    .cate-form-temp .cate-name::after {
+        content: "公共模版";
+        margin-left: 6px;
+        font-size: 10px;
+        font-weight: 600;
+        color: #5856d6;
+        background: rgba(88,86,214,0.12);
+        border-radius: 4px;
+        padding: 1px 5px;
+        white-space: nowrap;
     }
 
     .table-toolbar {
@@ -904,7 +991,62 @@
                 if (res.data.cate_list != null) {
                     $scope.cate_list_pp = res.data.cate_list;
                     $scope.cate_form_visible = false;
-                } 
+                }
+                $scope.cate_temp_list = res.data.temp_list || [];
+            });
+        };
+
+        /**
+         * 公共模版：添加/编辑/删除（依附于当前选中的二级材料 selectedL2）
+         */
+        $scope.cate_temp_list = [];
+
+        $scope.openAddTemp = function () {
+            if (!$scope.selectedL2) return swal('提示', '请先选择一个二级材料', 'warning');
+            $("form[name='adorTemp']")[0].reset();
+            $("#myModalTemp").modal("show");
+        };
+
+        $scope.addTempOr = function () {
+            var temp = $("form[name='adorTemp']").serializeArray();
+            var data = objToArray(temp);
+            data.new_cate_id = $scope.selectedL2;
+            $.ajax({
+                url: "{:U('NewCate/temp_add')}",
+                type: "post",
+                data: data,
+                dataType: "json",
+                success: function (res) {
+                    if (res.status != 1) {
+                        return swal('提示', res.msg, "error");
+                    }
+                    $("#myModalTemp").modal("hide");
+                    window.location.href = "/Home/NewCate/temp_form/id/" + res.data.id + ".html";
+                },
+                error: function () {}
+            });
+        };
+
+        $scope.openEditTemp = function (id) {
+            window.location.href = "/Home/NewCate/temp_form/id/" + id + ".html";
+        };
+
+        $scope.delTemp = function (t) {
+            swal({
+                title: '确认删除',
+                text: '将删除模版「' + t.name + '」及其全部规格数据，操作不可恢复',
+                icon: 'warning',
+                buttons: true,
+                dangerMode: true
+            }).then(function (ok) {
+                if (!ok) return;
+                $scope.commAjax("{:U('NewCate/temp_del')}", {id: t.id}, function (res) {
+                    if (res.status !== 1) {
+                        return swal("错误", res.msg, "error");
+                    }
+                    $scope.changeCateFirst2($scope.selectedL2);
+                    $scope.$apply();
+                });
             });
         };
          
@@ -1053,6 +1195,23 @@
                     return swal("错误", res.msg, "error");
                 }
                 $scope.init();
+            });
+        };
+
+        /**
+         * 切换“选择模版”下拉：选中某个模版=应用该模版（表格整体镜像模版数据）；
+         * 选“自定义”=解除关联（保留当前表格数据，不清空）
+         */
+        $scope.onSelectTemp = function () {
+            var param = {id: $scope.cate_form.id, temp_id: $scope.cate_form.infos.temp_id};
+            layer.load(2);
+            $scope.commAjax("{:U('NewCate/cate_form_use_temp')}", param, function (res) {
+                layer.closeAll('loading');
+                if (res.status !== 1) {
+                    return swal("错误", res.msg, "error");
+                }
+                $scope.init();
+                $scope.changeCateFirst2($scope.selectedL2);
             });
         };
         

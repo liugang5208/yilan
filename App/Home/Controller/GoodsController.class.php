@@ -176,6 +176,131 @@ class GoodsController extends CommController {
         $this->display();
     }
 
+    /**
+     * 板块分类条-商品详情（独立于下一级 plate_conts 的商品详情）
+     * @param type $id 关联 plate.id
+     * @param type $tar 编辑字段名
+     */
+    public function plate_desc($id, $tar = 'g_desc') {
+        $plate = M("plate");
+        #
+        $info = $plate->find($id);
+        #
+        $this->assign("id", $id);
+        $this->assign("pid", $info["pid"]);
+        $this->assign("tar", $tar);
+        $this->assign("context", $info[$tar]);
+        $this->display();
+    }
+
+    /**
+     * 分类溢价（公共溢价率）管理
+     * @param type $id 关联 plate.id
+     */
+    public function premium_template($id) {
+        $plate = M("plate");
+        $plate_premium = M("plate_premium");
+        #
+        $info = $plate->find($id);
+        $list = $plate_premium->where(["plate_id" => $id])->order("sorts asc,id asc")->select();
+        #
+        $this->assign("id", $id);
+        $this->assign("info", $info);
+        $this->assign("list", $list);
+        $this->display();
+    }
+
+    /**
+     * 分类溢价-表格导入（本地Excel，覆盖当前分类的溢价数据）
+     */
+    public function premium_import() {
+        ini_set('memory_limit', '512M');
+        vendor("PHPExcel.PHPExcel");
+        $plate_premium = M("plate_premium");
+        $post = I("post.");
+        #
+        if (empty($post["pid"])) return get_op_put(0, "缺少分类ID");
+        $file = uploadFile("tmps", isset($_FILES['file']) ? array('file' => $_FILES['file']) : null);
+        if (!$file) return get_op_put(0, "文件上传失败");
+        $filePath = "./././Public/uploads/tmps/" . $file["file"]["savename"];
+        $objPHPExcel = \PHPExcel_IOFactory::load($filePath);
+        $objPHPExcel->setActiveSheetIndex(0);
+        $rowCount = $objPHPExcel->getActiveSheet()->getHighestRow();
+        $colCount = $objPHPExcel->getActiveSheet()->getHighestColumn();
+        $dataArr = array();
+        for ($row = 1; $row <= $rowCount; $row++) {
+            $rowData = array();
+            for ($column = 'A'; $column <= $colCount; $column++) {
+                $cell = $objPHPExcel->getActiveSheet()->getCell($column . $row)->getValue();
+                if (is_object($cell)) $cell = $cell->__toString();
+                $rowData[] = preg_replace("/(\s|\&nbsp\;|　|\xc2\xa0)/", "", $cell);
+            }
+            // 跳过表头（第1行：产品规格 / 溢价率）及全空行
+            if ($row > 1 && strlen(implode('', $rowData)) > 0) {
+                $dataArr[] = $rowData;
+            }
+        }
+        unlink($filePath);
+        if (count($dataArr) < 1) return get_op_put(0, "没有导入数据");
+        #
+        $insert = array();
+        foreach ($dataArr as $k => $v) {
+            $spec = isset($v[0]) ? trim($v[0]) : '';
+            if ($spec === '') continue;
+            $insert[] = array(
+                "plate_id" => $post["pid"],
+                "spec" => $spec,
+                "ratio" => round((float) (isset($v[1]) ? $v[1] : 0), 3),
+                "sorts" => $k,
+                "uptimes" => time(),
+                "times" => time(),
+            );
+        }
+        if (count($insert) < 1) return get_op_put(0, "没有导入数据");
+        #
+        $plate_premium->where(["plate_id" => $post["pid"]])->delete();
+        $plate_premium->addAll($insert);
+        #
+        // 导入是整批覆盖，不好精确判断哪些规格值变了，直接把该分类下所有公共模板模式的规格行都重新同步一遍
+        $premiumSync = D("Home/PremiumSync", "Opera");
+        $premiumSync->runs(array("plate_id" => $post["pid"]));
+        #
+        return get_op_put(1, "导入成功，共导入" . count($insert) . "条");
+    }
+
+    /**
+     * 分类溢价-保存（单条修改 / 批量通调后统一保存）
+     */
+    public function premium_save() {
+        $plate_premium = M("plate_premium");
+        $post = I("post.");
+        #
+        if (empty($post["ratio"]) || !is_array($post["ratio"])) return get_op_put(0, "没有可保存的数据");
+        $rows = $plate_premium->where(["id" => array("in", array_keys($post["ratio"]))])->field("id,plate_id,spec")->select();
+        $rowMap = array();
+        foreach ($rows as $r) $rowMap[$r["id"]] = $r;
+        #
+        $plateId = 0;
+        $specs = array();
+        foreach ($post["ratio"] as $id => $ratio) {
+            $plate_premium->where(["id" => $id])->save(array(
+                "ratio" => round((float) $ratio, 3),
+                "uptimes" => time(),
+            ));
+            if (isset($rowMap[$id])) {
+                $plateId = $rowMap[$id]["plate_id"];
+                $specs[] = $rowMap[$id]["spec"];
+            }
+        }
+        // 把这次改动涉及到的规格，级联同步到商品设置里处于公共模板模式的规格行
+        if ($plateId && $specs) {
+            $premiumSync = D("Home/PremiumSync", "Opera");
+            $premiumSync->runs(array("plate_id" => $plateId, "specs" => $specs));
+        }
+        #
+        return get_op_put(1, "保存成功");
+    }
+
     ////////////////////////////////////////////////////////////////////////////
 
     /**

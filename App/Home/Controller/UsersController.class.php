@@ -216,11 +216,14 @@ class UsersController extends CommController {
     public function cats() {
         $users_cats = M("users_cats");
         $get = I("get.");
+        $ac_level = $get['id'];
+        // 约定 ac_level=0 表示“公共比例”（真实等级id从1开始自增，不会与0冲突）
+        $is_public = ($ac_level !== null && (int)$ac_level === 0);
         #
-        if ($get["id"] != null) {
-            $where["ac_level"] = $get['id'];
+        $where = ['type' => $is_public ? 0 : 1];
+        if (!$is_public && $ac_level !== null) {
+            $where["ac_level"] = $ac_level;
         }
-        
         // $where["prov"] = array("=", null);
         $cats = $users_cats->where($where)->select();
         $cats_end = [];
@@ -236,7 +239,8 @@ class UsersController extends CommController {
         }
         // return get_op_put(1, "操作成功",['list'=>$list]);
         $this->assign("list", $list);
-        $this->assign("ac_level", $get['id']);
+        $this->assign("ac_level", $ac_level);
+        $this->assign("is_public", $is_public);
         $this->display();
     }
     public function cats_op() {
@@ -252,20 +256,22 @@ class UsersController extends CommController {
         if ($post["cats_up"] == null) {
             return get_op_put(0, "比例不能为空");
         }
-        if(is_float($post['cats_up'])){
-             return get_op_put(0, "比例必须是整数");
-        }
-        $cats_up = filter_var($post["cats_up"], FILTER_VALIDATE_INT);
-
-        if ($cats_up === false) {
+        // filter_var(...,FILTER_VALIDATE_INT) 会把 "05" 这种带前导0的合法整数字符串误判为非法，
+        // 改用正则宽松校验（允许前导0、正负号、首尾空格），只拒绝真正的小数/非数字
+        if (!preg_match('/^[-+]?\d+$/', trim($post['cats_up']))) {
             return get_op_put(0, "比例必须是整数!");
         }
-                
-        $info = $users_cats->where(['ac_level'=>$post['ac_level'],'plate_cats_id'=>$post['plate_cats_id']])->find();
+        $cats_up = (int) $post['cats_up'];
+        $ac_level = (int) $post['ac_level'];
+        $type = $ac_level === 0 ? 0 : 1; // ac_level=0 约定为“公共比例”
+
+        $find = ['plate_cats_id'=>$post['plate_cats_id'], 'type'=>$type];
+        if ($type === 1) $find['ac_level'] = $ac_level;
+        $info = $users_cats->where($find)->find();
         if($info){
-            $result = $users_cats->where(['id'=>$info['id']])->save(['cats_up'=>$post['cats_up']]);
+            $result = $users_cats->where(['id'=>$info['id']])->save(['cats_up'=>$cats_up]);
         }else{
-            $result = $users_cats->add(['ac_level'=>$post['ac_level'],'plate_cats_id'=>$post['plate_cats_id'],'cats_up'=>$post['cats_up']]);
+            $result = $users_cats->add(['ac_level'=>$ac_level,'plate_cats_id'=>$post['plate_cats_id'],'cats_up'=>$cats_up,'type'=>$type]);
         }
         #
         if ($result === false) {
@@ -273,41 +279,45 @@ class UsersController extends CommController {
         }
         return get_op_put(1, "操作成功");
     }
-    
+
      public function cats_op_form() {
         $users_cats = M("users_cats");
         $post = I("post.");
         $form = $post['form_data'];
-        $ac_level = $post['ac_level'];
         // return get_op_put(1, "操作成功",$form);
-        if ($ac_level == null) {
+        if ($post['ac_level'] == null) {
             return get_op_put(0, "参数错误");
         }
+        $ac_level = (int) $post['ac_level'];
+        $type = $ac_level === 0 ? 0 : 1; // ac_level=0 约定为“公共比例”
         foreach ($form as $k=>$v){
-        
+
             if ($v["plate_cats_id"] == null) {
                 return get_op_put(0, "plate_cats_id");
             }
             if ($v["cats_up"] == null) {
                 return get_op_put(0, "比例不能为空");
             }
-            if(is_float($v['cats_up'])){
-                 return get_op_put(0, "比例必须是整数");
+            // 防御：前端理论上只应提交标量字符串，若因表单结构问题混入数组，这里直接判非法而不是让 trim() 崩掉
+            if (is_array($v['cats_up'])) {
+                return get_op_put(0, "第" . ($k + 1) . "行：比例数据格式异常");
             }
-            $cats_up = filter_var($v["cats_up"], FILTER_VALIDATE_INT);
-    
-            if ($cats_up === false) {
-                return get_op_put(0, "比例必须是整数!");
+            // 同 cats_op()：改用正则宽松校验，避免 "05" 这种带前导0的合法整数被误判
+            if (!preg_match('/^[-+]?\d+$/', trim($v['cats_up']))) {
+                return get_op_put(0, "第" . ($k + 1) . "行：比例必须是整数!");
             }
-                    
-            $info = $users_cats->where(['ac_level'=>$ac_level,'plate_cats_id'=>$v['plate_cats_id']])->find();
+            $cats_up = (int) $v['cats_up'];
+
+            $find = ['plate_cats_id'=>$v['plate_cats_id'], 'type'=>$type];
+            if ($type === 1) $find['ac_level'] = $ac_level;
+            $info = $users_cats->where($find)->find();
             if($info){
-                $result = $users_cats->where(['id'=>$info['id']])->save(['cats_up'=>$v['cats_up']]);
+                $result = $users_cats->where(['id'=>$info['id']])->save(['cats_up'=>$cats_up]);
             }else{
-                $result = $users_cats->add(['ac_level'=>$ac_level,'plate_cats_id'=>$v['plate_cats_id'],'cats_up'=>$v['cats_up']]);
+                $result = $users_cats->add(['ac_level'=>$ac_level,'plate_cats_id'=>$v['plate_cats_id'],'cats_up'=>$cats_up,'type'=>$type]);
             }
             if ($result === false) {
-                return get_op_put(0, "'第'. $k+1. '个比例设置操作失败'");
+                return get_op_put(0, "第" . ($k + 1) . "个比例设置操作失败");
             }
         }
         #

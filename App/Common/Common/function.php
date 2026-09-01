@@ -694,5 +694,23 @@ function to_tree($data, $parent_id = 0, $pid = 'parent_id', $id = 'id')
         return $result;
     }    
 
+/**
+ * 从 plate_conts_logs 一行数据里取出“产品规格”的值
+ * key_0~key_7 是可自定义的列标签，不同商品/不同批次导入的顺序可能不一样，
+ * “产品规格”不一定固定在 value_7，这里按标签文本找到实际所在列再取值
+ * @param array $row plate_conts_logs 的一行（需包含 key_0..key_7 / value_0..value_7）
+ * @return string|null 找不到对应标签时返回 null
+ */
+function plateContsLogSpec($row) {
+    for ($i = 0; $i <= 7; $i++) {
+        $keyField = 'key_' . $i;
+        if (isset($row[$keyField]) && trim($row[$keyField]) === '产品规格') {
+            $valField = 'value_' . $i;
+            return isset($row[$valField]) ? trim($row[$valField]) : '';
+        }
+    }
+    return null;
+}
+
 require "local.php";
 require "trans.php";

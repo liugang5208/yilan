@@ -8,6 +8,7 @@ class BlwaresOpera {
     private $blank;
     private $cats;
     private $lists;
+    private $plateId; // 关联 plate.id，用于公共模板模式(dratio_mode=1)现查 plate_premium
 
     public function runs($param) {
         $this->param = $param;
@@ -30,8 +31,9 @@ class BlwaresOpera {
         $pid = $this->blank ? $this->blank['pid'] : (isset($this->param['pid']) ? $this->param['pid'] : 0);
 
         if ($pid) {
-            $conts       = $plate_conts->find($pid);
-            $this->cats  = $conts ? $plate_cats->find($conts["catid"]) : null;
+            $conts         = $plate_conts->find($pid);
+            $this->cats    = $conts ? $plate_cats->find($conts["catid"]) : null;
+            $this->plateId = $conts ? (int) $conts["pid"] : 0; // plate_conts.pid = plate.id
         }
 
         // 查 logs：优先 blank_id，兼容 pid+cat_index
@@ -65,10 +67,23 @@ class BlwaresOpera {
 
     private function updateListMarket() {
         $plate_conts_logs = M("plate_conts_logs");
+        $plate_premium    = M("plate_premium");
         foreach ($this->lists as $v) {
             $where = array("id" => $v["id"]);
             unset($v["id"]);
             $v["uptimes"] = time();
+
+            // 公共模板模式：忽略提交的 dratio，现查一次公共溢价率覆盖
+            // （主要处理刚从“自定义”切到“公共模板”、还没被 PremiumSyncOpera 级联同步过的行）
+            // 产品规格列位置不固定（key_0~key_7 可自定义标签），用 plateContsLogSpec() 动态定位
+            if (!empty($v['dratio_mode']) && (int)$v['dratio_mode'] === 1 && $this->plateId) {
+                $spec = plateContsLogSpec($v);
+                if ($spec !== null && $spec !== '') {
+                    $premium = $plate_premium->where(array('plate_id' => $this->plateId, 'spec' => $spec))->find();
+                    if ($premium) $v['dratio'] = $premium['ratio'];
+                }
+            }
+
             $save           = $v;
             $save["market"] = round($this->getMarket($v), 2);
             if (isset($this->param["type"]) && $this->param["type"] < 1) {

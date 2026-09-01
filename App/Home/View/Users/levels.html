@@ -11,7 +11,10 @@
                         <h4 style="font-size: 16px; font-weight: 600; color: #111827; margin: 0; display: flex; align-items: center; gap: 8px;">
                             <i class="ti-medall" style="color: #0066cc;"></i> 用户等级管理
                         </h4>
-                        <div class="card-header-right-icon">
+                        <div class="card-header-right-icon" style="display: flex; gap: 8px;">
+                            <a class="btn btn-xs" href="{:U('Users/cats','id=0')}" style="background-color: #ffffff; border: 1px solid #d2d2d7; border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 500; color: #1d1d1f; display: flex; align-items: center; gap: 6px; text-decoration: none; cursor: pointer;">
+                                <i class="ti-settings"></i> 公共比例设置
+                            </a>
                             <a class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal" style="background-color: #0066cc; border-color: #0066cc; border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 500; color: #ffffff; display: flex; align-items: center; gap: 6px; text-decoration: none; cursor: pointer;">
                                 <i class="ti-plus"></i> 添加用户等级
                             </a>
@@ -53,16 +56,16 @@
                                         <td style="padding: 14px 12px; color: #374151; vertical-align: middle; white-space: nowrap; font-weight: 500;">{$v.tel}</td>
                                         
                                         <!-- 标准1至标准10 状态单元格 -->
-                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type_a']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_a']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type_a']>0?'展示':'隐藏'}</span></td>
-                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type_b']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_b']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type_b']>0?'展示':'隐藏'}</span></td>
-                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type_c']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_c']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type_c']>0?'展示':'隐藏'}</span></td>
-                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type_d']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_d']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type_d']>0?'展示':'隐藏'}</span></td>
-                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type_e']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_e']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type_e']>0?'展示':'隐藏'}</span></td>
-                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type_f']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_f']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type_f']>0?'展示':'隐藏'}</span></td>
-                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type_g']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_g']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type_g']>0?'展示':'隐藏'}</span></td>
-                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type_h']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_h']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type_h']>0?'展示':'隐藏'}</span></td>
-                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type_i']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_i']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type_i']>0?'展示':'隐藏'}</span></td>
-                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type_j']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_j']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type_j']>0?'展示':'隐藏'}</span></td>
+                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type1']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type1']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type1']>0?'展示':'隐藏'}</span></td>
+                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type2']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type2']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type2']>0?'展示':'隐藏'}</span></td>
+                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type3']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type3']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type3']>0?'展示':'隐藏'}</span></td>
+                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type4']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type4']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type4']>0?'展示':'隐藏'}</span></td>
+                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type5']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type5']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type5']>0?'展示':'隐藏'}</span></td>
+                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type6']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type6']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type6']>0?'展示':'隐藏'}</span></td>
+                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type7']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type7']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type7']>0?'展示':'隐藏'}</span></td>
+                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type8']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type8']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type8']>0?'展示':'隐藏'}</span></td>
+                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type9']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type9']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type9']>0?'展示':'隐藏'}</span></td>
+                                        <td style="padding: 14px 10px; text-align: center; vertical-align: middle;"><span style="background: {$v['type10']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type10']>0?'#15803d':'#64748b'}; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{$v['type10']>0?'展示':'隐藏'}</span></td>
 
                                         <td style="padding: 14px 12px; color: #4b5563; vertical-align: middle; white-space: nowrap;">
                                             <span style="background: {$v['trans']>0?'#ecfdf5':'#fef2f2'}; color: {$v['trans']>0?'#059669':'#dc2626'}; padding: 3px 8px; border-radius: 4px; font-size: 12px;">{$v['trans']>0?'包含运费':'不含运费'}</span>
@@ -120,23 +123,23 @@
                                                 <div class="mobile-standards-row-grid">
                                                     <div class="standard-item">
                                                         <span class="std-name">标1</span>
-                                                        <span class="std-val" style="background: {$v['type_a']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_a']>0?'#15803d':'#64748b'};">{$v['type_a']>0?'展示':'隐藏'}</span>
+                                                        <span class="std-val" style="background: {$v['type1']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type1']>0?'#15803d':'#64748b'};">{$v['type1']>0?'展示':'隐藏'}</span>
                                                     </div>
                                                     <div class="standard-item">
                                                         <span class="std-name">标2</span>
-                                                        <span class="std-val" style="background: {$v['type_b']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_b']>0?'#15803d':'#64748b'};">{$v['type_b']>0?'展示':'隐藏'}</span>
+                                                        <span class="std-val" style="background: {$v['type2']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type2']>0?'#15803d':'#64748b'};">{$v['type2']>0?'展示':'隐藏'}</span>
                                                     </div>
                                                     <div class="standard-item">
                                                         <span class="std-name">标3</span>
-                                                        <span class="std-val" style="background: {$v['type_c']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_c']>0?'#15803d':'#64748b'};">{$v['type_c']>0?'展示':'隐藏'}</span>
+                                                        <span class="std-val" style="background: {$v['type3']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type3']>0?'#15803d':'#64748b'};">{$v['type3']>0?'展示':'隐藏'}</span>
                                                     </div>
                                                     <div class="standard-item">
                                                         <span class="std-name">标4</span>
-                                                        <span class="std-val" style="background: {$v['type_d']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_d']>0?'#15803d':'#64748b'};">{$v['type_d']>0?'展示':'隐藏'}</span>
+                                                        <span class="std-val" style="background: {$v['type4']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type4']>0?'#15803d':'#64748b'};">{$v['type4']>0?'展示':'隐藏'}</span>
                                                     </div>
                                                     <div class="standard-item">
                                                         <span class="std-name">标5</span>
-                                                        <span class="std-val" style="background: {$v['type_e']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_e']>0?'#15803d':'#64748b'};">{$v['type_e']>0?'展示':'隐藏'}</span>
+                                                        <span class="std-val" style="background: {$v['type5']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type5']>0?'#15803d':'#64748b'};">{$v['type5']>0?'展示':'隐藏'}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -147,23 +150,23 @@
                                                 <div class="mobile-standards-row-grid">
                                                     <div class="standard-item">
                                                         <span class="std-name">标6</span>
-                                                        <span class="std-val" style="background: {$v['type_f']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_f']>0?'#15803d':'#64748b'};">{$v['type_f']>0?'展示':'隐藏'}</span>
+                                                        <span class="std-val" style="background: {$v['type6']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type6']>0?'#15803d':'#64748b'};">{$v['type6']>0?'展示':'隐藏'}</span>
                                                     </div>
                                                     <div class="standard-item">
                                                         <span class="std-name">标7</span>
-                                                        <span class="std-val" style="background: {$v['type_g']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_g']>0?'#15803d':'#64748b'};">{$v['type_g']>0?'展示':'隐藏'}</span>
+                                                        <span class="std-val" style="background: {$v['type7']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type7']>0?'#15803d':'#64748b'};">{$v['type7']>0?'展示':'隐藏'}</span>
                                                     </div>
                                                     <div class="standard-item">
                                                         <span class="std-name">标8</span>
-                                                        <span class="std-val" style="background: {$v['type_h']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_h']>0?'#15803d':'#64748b'};">{$v['type_h']>0?'展示':'隐藏'}</span>
+                                                        <span class="std-val" style="background: {$v['type8']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type8']>0?'#15803d':'#64748b'};">{$v['type8']>0?'展示':'隐藏'}</span>
                                                     </div>
                                                     <div class="standard-item">
                                                         <span class="std-name">标9</span>
-                                                        <span class="std-val" style="background: {$v['type_i']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_i']>0?'#15803d':'#64748b'};">{$v['type_i']>0?'展示':'隐藏'}</span>
+                                                        <span class="std-val" style="background: {$v['type9']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type9']>0?'#15803d':'#64748b'};">{$v['type9']>0?'展示':'隐藏'}</span>
                                                     </div>
                                                     <div class="standard-item">
                                                         <span class="std-name">标10</span>
-                                                        <span class="std-val" style="background: {$v['type_j']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type_j']>0?'#15803d':'#64748b'};">{$v['type_j']>0?'展示':'隐藏'}</span>
+                                                        <span class="std-val" style="background: {$v['type10']>0?'#dcfce7':'#f1f5f9'}; color: {$v['type10']>0?'#15803d':'#64748b'};">{$v['type10']>0?'展示':'隐藏'}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -252,35 +255,35 @@
                             <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;">
                                 <div>
                                     <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准1</label>
-                                    <select name="type_a" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                    <select name="type1" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
                                         <option value="1">展示</option>
                                         <option value="0">隐藏</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准2</label>
-                                    <select name="type_b" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                    <select name="type2" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
                                         <option value="1">展示</option>
                                         <option value="0">隐藏</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准3</label>
-                                    <select name="type_c" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                    <select name="type3" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
                                         <option value="1">展示</option>
                                         <option value="0">隐藏</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准4</label>
-                                    <select name="type_d" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                    <select name="type4" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
                                         <option value="1">展示</option>
                                         <option value="0">隐藏</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准5</label>
-                                    <select name="type_e" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                    <select name="type5" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
                                         <option value="1">展示</option>
                                         <option value="0">隐藏</option>
                                     </select>
@@ -296,35 +299,35 @@
                             <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;">
                                 <div>
                                     <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准6</label>
-                                    <select name="type_f" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                    <select name="type6" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
                                         <option value="1">展示</option>
                                         <option value="0">隐藏</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准7</label>
-                                    <select name="type_g" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                    <select name="type7" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
                                         <option value="1">展示</option>
                                         <option value="0">隐藏</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准8</label>
-                                    <select name="type_h" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                    <select name="type8" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
                                         <option value="1">展示</option>
                                         <option value="0">隐藏</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准9</label>
-                                    <select name="type_i" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                    <select name="type9" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
                                         <option value="1">展示</option>
                                         <option value="0">隐藏</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准10</label>
-                                    <select name="type_j" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                    <select name="type10" class="form-control" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
                                         <option value="1">展示</option>
                                         <option value="0">隐藏</option>
                                     </select>
@@ -389,35 +392,35 @@
                             <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;">
                                 <div>
                                     <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准1</label>
-                                    <select name="type_a" class="form-control" ng-model="info.type_a" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                    <select name="type1" class="form-control" ng-model="info.type1" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
                                         <option value="1">展示</option>
                                         <option value="0">隐藏</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准2</label>
-                                    <select name="type_b" class="form-control" ng-model="info.type_b" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                    <select name="type2" class="form-control" ng-model="info.type2" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
                                         <option value="1">展示</option>
                                         <option value="0">隐藏</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准3</label>
-                                    <select name="type_c" class="form-control" ng-model="info.type_c" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                    <select name="type3" class="form-control" ng-model="info.type3" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
                                         <option value="1">展示</option>
                                         <option value="0">隐藏</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准4</label>
-                                    <select name="type_d" class="form-control" ng-model="info.type_d" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                    <select name="type4" class="form-control" ng-model="info.type4" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
                                         <option value="1">展示</option>
                                         <option value="0">隐藏</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准5</label>
-                                    <select name="type_e" class="form-control" ng-model="info.type_e" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                    <select name="type5" class="form-control" ng-model="info.type5" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
                                         <option value="1">展示</option>
                                         <option value="0">隐藏</option>
                                     </select>
@@ -431,35 +434,35 @@
                             <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;">
                                 <div>
                                     <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准6</label>
-                                    <select name="type_f" class="form-control" ng-model="info.type_f" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                    <select name="type6" class="form-control" ng-model="info.type6" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
                                         <option value="1">展示</option>
                                         <option value="0">隐藏</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准7</label>
-                                    <select name="type_g" class="form-control" ng-model="info.type_g" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                    <select name="type7" class="form-control" ng-model="info.type7" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
                                         <option value="1">展示</option>
                                         <option value="0">隐藏</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准8</label>
-                                    <select name="type_h" class="form-control" ng-model="info.type_h" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                    <select name="type8" class="form-control" ng-model="info.type8" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
                                         <option value="1">展示</option>
                                         <option value="0">隐藏</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准9</label>
-                                    <select name="type_i" class="form-control" ng-model="info.type_i" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                    <select name="type9" class="form-control" ng-model="info.type9" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
                                         <option value="1">展示</option>
                                         <option value="0">隐藏</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label style="font-size: 11px; color: #64748b; margin-bottom: 2px; display: block;">标准10</label>
-                                    <select name="type_j" class="form-control" ng-model="info.type_j" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
+                                    <select name="type10" class="form-control" ng-model="info.type10" style="border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px 4px; font-size: 12px; width: 100%;">
                                         <option value="1">展示</option>
                                         <option value="0">隐藏</option>
                                     </select>
@@ -476,37 +479,6 @@
         </div>
     </div>
 
-    <!-- Modal: 分类比例 -->
-    <div class="modal fade" id="myEditsCats" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document" style="max-width: 500px; width: 92%; margin: 30px auto;">
-            <div class="modal-content" style="border-radius: 12px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-                <div class="modal-header" style="border-bottom: 1px solid #f1f5f9; padding: 18px 24px;">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size: 20px; font-weight: 300; opacity: 0.6;"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel" style="font-weight: 600; color: #1e293b; font-size: 16px;">分类比例设定</h4>
-                </div>
-                <div class="modal-body" style="padding: 24px; max-height: 70vh; overflow-y: auto;">
-                    <table class="table" style="width: 100%; border-collapse: collapse;">
-                        <thead>
-                            <tr style="background-color: #f8fafc; border-bottom: 2px solid #e5e7eb;">
-                                <th style="padding: 10px 12px; font-size: 12px; color: #4b5563;">ID</th>
-                                <th style="padding: 10px 12px; font-size: 12px; color: #4b5563;">名称</th>
-                                <th style="padding: 10px 12px; font-size: 12px; color: #4b5563;">调整比率</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <volist name="list" id="v">
-                            <tr style="border-bottom: 1px solid #f3f4f6;">
-                                <th scope="row" style="padding: 12px; color: #6b7280; font-weight: 500;">{$v.id}</th>
-                                <td style="padding: 12px; color: #1e293b; font-weight: 500;">{$v.name}</td>
-                                <td style="padding: 12px; color: #0284c7; font-weight: 600;">{$v.up}%</td>
-                            </tr>
-                        </volist>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <!-- 响应式与苹果极简商务风美化样式 -->
@@ -761,12 +733,6 @@
         };
 
         ////////////////////////////////////////////////////////////////////////
-        $scope.updateInfoCats = function (id) {
-            $scope.commAjax("{:U('Users/cats')}", {id: id}, function (res) {
-                $scope.info = res.data;
-                $("#myEditsCats").modal("show");
-            });
-        }
 
         $scope.updateInfo = function (id) {
             $scope.commAjax("{:U('Core/infos','model=users_level')}", {ids: id}, function (res) {

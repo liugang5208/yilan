@@ -185,8 +185,13 @@ class CoreController extends CommController {
      */
     public function edits($model) {
         $db = D($model);
+        $post = I("post.");
+        // 编辑弹窗通常整条记录（含 uptimes/times）从 Core/infos 取回后原样回传
+        // 若字段已存在于提交数据中，_auto 的 function 规则会把它当参数传给 time()，
+        // PHP8 下 time() 不接受参数会直接报错，这里统一剔除交给 _auto 自动生成
+        unset($post['uptimes'], $post['times']);
         #
-        if (!$db->create(I("post."), 2)) {
+        if (!$db->create($post, 2)) {
             return get_op_put(0, $db->getError());
         }
         if (!$db->where("id='" . I("post.ids") . "'")->save()) {

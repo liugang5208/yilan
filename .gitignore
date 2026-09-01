@@ -27,3 +27,6 @@ target/*
 .flattened-pom.xml
 .vscode/*
 auto_protobuf/
+
+# ThinkPHP 运行时缓存/日志目录，不需要纳入版本管理
+App/Runtime/

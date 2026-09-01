@@ -1,0 +1,84 @@
+<script charset="utf-8" src="__PUBLIC__/libs/kindeditor/kindeditor-all.js"></script>
+<script charset="utf-8" src="__PUBLIC__/libs/kindeditor/lang/zh-CN.js"></script>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-8 p-r-0 title-margin-right">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>商品详情</h1>
+                </div>
+            </div>
+        </div>
+        <!-- /# column -->
+        <div class="col-lg-4 p-l-0 title-margin-left">
+            <div class="page-header">
+                <div class="page-title">
+                    <ol class="breadcrumb text-right">
+                        <li><a href="{:U('Goods/plate_infos','id='.$pid)}">板块分类条</a></li>
+                        <li class="active">商品详情</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /# column -->
+    </div>
+    <!-- /# row -->
+    <section id="main-content">
+
+        <div class="card alert">
+            <div class="card-header">
+                <h4>商品详情</h4>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-lg-6">
+
+                        <form name="addon">
+                            <input type="hidden" name="ids" value="{$id}"/>
+                            <div class="form-group">
+                                <label>内容</label>
+                                <textarea name="{$tar}" class="form-control" id="editor_id" rows="20">{$context}</textarea>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="addor()">更新</button>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+</div>
+
+<script>
+
+    KindEditor.ready(function (K) {
+        window.editor = K.create('#editor_id');
+    });
+
+    function addor() {
+        editor.sync();
+        var temp = $("form[name='addon']").serializeArray();
+        var data = objToArray(temp);
+        /////////
+        $.ajax({
+            url: "{:U('Core/change','model=plate')}",
+            type: "post",
+            dataType: 'json',
+            data: data,
+            success: function (data) {
+                if (data.status !== 1) {
+                    return swal("错误", data.msg, "error");
+                }
+                window.location.reload();
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+</script>
